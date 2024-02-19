@@ -63,8 +63,8 @@ public class PatreonApiClient
 
         // get data from api
         var response = await GetManyApiResponse<Member>("/campaigns/6634236/members", queryParams);
-        var patrons = new List<ulong>();
-        var patronizer = new List<ulong>();
+        var patrons = new List<long>();
+        var patronizer = new List<long>();
         
         // find currently active patrons
         foreach(var member in response)
@@ -74,8 +74,8 @@ public class PatreonApiClient
             {
                 foreach (var tier in member.currently_entitled_tiers)
                 {
-                    if(tier.id == _patronizerTierId) patronizer.Add(Convert.ToUInt64(id));
-                    else if(tier.id == _patronTierId) patrons.Add(Convert.ToUInt64(id));
+                    if(tier.id == _patronizerTierId) patronizer.Add(Convert.ToInt64(id));
+                    else if(tier.id == _patronTierId) patrons.Add(Convert.ToInt64(id));
                 }
             }
         }

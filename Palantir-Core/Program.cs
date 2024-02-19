@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Palantir_Core.Grpc;
 using Palantir_Core.Patreon;
 using Palantir_Core.Quartz;
 using Palantir_Core.Quartz.PatronUpdater;
 using Quartz;
+using Valmar;
 
 namespace Palantir_Core;
 
@@ -35,15 +38,14 @@ class Program
             .AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true)
             .Build();
         
-        var serviceProvider = new ServiceCollection()
+        return new ServiceCollection()
+            .AddGrpcClients(Assembly.GetExecutingAssembly(), configuration.GetValue<string>("Grpc:Address"))
             .AddSingleton<PatreonApiClient>()
-            .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
-            .AddLogging(builder => builder
-                .AddConfiguration(configuration.GetSection("Logging"))
-                .AddConsole())
-            .AddQuartz(PatronUpdaterConfiguration.Configure)
-            .BuildServiceProvider();
-
-        return serviceProvider;
+                .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
+                .AddLogging(builder => builder
+                    .AddConfiguration(configuration.GetSection("Logging"))
+                    .AddConsole())
+                .AddQuartz(PatronUpdaterConfiguration.Configure)
+                .BuildServiceProvider();
     }
 }
