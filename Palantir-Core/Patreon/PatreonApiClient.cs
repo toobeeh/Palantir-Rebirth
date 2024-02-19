@@ -1,35 +1,36 @@
 using Hypermedia.Json;
 using Hypermedia.JsonApi;
 using Hypermedia.JsonApi.Client;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Palantir_Core.Patreon.Models;
 
 namespace Palantir_Core.Patreon;
 
-
 public class PatreonApiClient
-{
-    
+{ 
     private readonly HttpClient client;
     private readonly String baseUrl = "https://www.patreon.com/api/oauth2/v2";
+    private readonly String patronTierId, patronizerTierId;
     private readonly JsonApiSerializerOptions serializerOptions = new ()
     {
         ContractResolver = PatreonApiResolver.CreateResolver(),
         FieldNamingStrategy = DasherizedFieldNamingStrategy.Instance,
         JsonConverters = [new SocialConnectionsConverter()]
     };
-    private readonly String patronTierId, patronizerTierId;
     
-    public PatreonApiClient(String createorAccessToken, String patronTierId, String patronizerTierId)
+    public PatreonApiClient(IOptions<PatreonApiClientOptions> options)
     {
+        patronizerTierId = options.Value.PatronizerTierId;
+        patronTierId = options.Value.PatronTierId;
+        
         client = new HttpClient();
         client.DefaultRequestHeaders.Accept.Clear();
 
-        this.patronizerTierId = patronizerTierId;
-        this.patronTierId = patronTierId;
-
         // add default headers
         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/vnd.api+json"));
-        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {createorAccessToken}");
+        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {options.Value.CreatorAccessToken}");
     }
     
     private async Task<List<TResult>> GetManyApiResponse<TResult>(String url, Dictionary<String, String> queryParams)

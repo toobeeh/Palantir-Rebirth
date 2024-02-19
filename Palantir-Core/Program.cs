@@ -15,7 +15,7 @@ class Program
         var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
         logger.LogDebug("Initialized service providers");
 
-        var subs = await new PatreonApiClient("Yl0GOvXGugpx7R8N86Pc83rmPIP9HowA0NsAgOFGDTk", "7069838", "7385169").GetCurrentSubscriptions();
+        var subs = await serviceProvider.GetRequiredService<PatreonApiClient>().GetCurrentSubscriptions();
         
         await Task.Delay(-1);
     }
@@ -29,6 +29,8 @@ class Program
             .Build();
         
         var serviceProvider = new ServiceCollection()
+            .AddSingleton<PatreonApiClient>()
+            .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
             .AddLogging(builder => builder
                 .AddConfiguration(configuration.GetSection("Logging"))
                 .AddConsole())
