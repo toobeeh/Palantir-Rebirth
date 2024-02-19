@@ -2,7 +2,7 @@ namespace Palantir_Core.Patreon;
 
 public class PatreonApiClientOptions
 {
-    public string CreatorAccessToken { get; set; }
-    public string PatronTierId { get; set; }
-    public string PatronizerTierId { get; set; }
+    public required string CreatorAccessToken { get; set; }
+    public required string PatronTierId { get; set; }
+    public required string PatronizerTierId { get; set; }
 }
