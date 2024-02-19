@@ -4,17 +4,21 @@
 ### Very WIP 
 Palantir-Rebirth will be a refactor of the current Palantir Bot.  
 It will consist of multiple components that can be deployed individually for scalability and maintainability (blah blah).  
-Palantir-Rebirth follows the new separation of business/service layer and uses Valmar as backend.
+Palantir-Rebirth follows the new separation of business+persistance from application layer and uses Valmar as backend.
 
-The components will be most likely one split to Core, Commands and Lobbies
+The components will be most likely one split to Core, Commands and Lobbies.
 
 ## Core
 Core will contain features that are vital for the complete typo ecosystem, like dispatching drops, cleaning database, fetching patreons, and everything that happens on a scheduled basis.
 
+Tasks to be integrated:
+- [ ] Update patrons and write to user flags
+- [ ] Dispatch drops (get online count, get active event, send drop request and calculate next timeout)
+- [ ] Clear volatile data (split into multiple grpc calls)
+
 ## Commands
-Commands will use a DSharpplus Bot to bring the functionality of the current Palantir Bot to Discord, using the gRPC backend.
+Commands will use a DSharpPlus Bot to bring the functionality of the current Palantir Bot to Discord, using the gRPC backend.
 
 ## Lobbies
-Mmost likely there will be a separate Discord bot for lobbies to prevent ratelimit issues.  
+Most likely there will be a separate Discord bot for lobbies to prevent ratelimit issues.  
 This might be deployed on-premise and per server, or at least in some way.
-
