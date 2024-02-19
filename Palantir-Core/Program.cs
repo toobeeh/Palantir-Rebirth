@@ -2,6 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Palantir_Core.Patreon;
+using Palantir_Core.Quartz;
+using Palantir_Core.Quartz.PatronUpdater;
+using Quartz;
 
 namespace Palantir_Core;
 
@@ -11,11 +14,15 @@ class Program
     {
         Console.WriteLine("Starting Palantir Core Service");
         
+        // register services
         var serviceProvider = CreateServices();
         var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
         logger.LogDebug("Initialized service providers");
-
-        var subs = await serviceProvider.GetRequiredService<PatreonApiClient>().GetCurrentSubscriptions();
+        
+        // start scheduled jobs via DI
+        var schedulerFactory = serviceProvider.GetRequiredService<ISchedulerFactory>();
+        var scheduler = await schedulerFactory.GetScheduler();
+        await scheduler.Start();
         
         await Task.Delay(-1);
     }
@@ -34,6 +41,7 @@ class Program
             .AddLogging(builder => builder
                 .AddConfiguration(configuration.GetSection("Logging"))
                 .AddConsole())
+            .AddQuartz(PatronUpdaterConfiguration.Configure)
             .BuildServiceProvider();
 
         return serviceProvider;

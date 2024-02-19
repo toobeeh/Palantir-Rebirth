@@ -17,6 +17,9 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.1.24080.9" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0-preview.1.24080.9" />
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0-preview.1.24080.9" />
+      <PackageReference Include="Quartz" Version="3.8.1" />
+      <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.8.1" />
+      <PackageReference Include="Quartz.Extensions.Hosting" Version="3.8.1" />
       <PackageReference Include="System.Net.Http" Version="4.3.4" />
     </ItemGroup>
 

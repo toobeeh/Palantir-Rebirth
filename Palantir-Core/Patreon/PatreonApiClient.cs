@@ -1,15 +1,18 @@
 using Hypermedia.Json;
 using Hypermedia.JsonApi;
 using Hypermedia.JsonApi.Client;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Palantir_Core.Patreon.Models;
 
 namespace Palantir_Core.Patreon;
 
 public class PatreonApiClient
-{ 
+{
+    private const string BaseUrl = "https://www.patreon.com/api/oauth2/v2";
+    
+    private readonly ILogger<PatreonApiClient> _logger;
     private readonly HttpClient _client;
-    private const string _baseUrl = "https://www.patreon.com/api/oauth2/v2";
     private readonly string _patronTierId, _patronizerTierId;
     private readonly JsonApiSerializerOptions _serializerOptions = new ()
     {
@@ -18,10 +21,11 @@ public class PatreonApiClient
         JsonConverters = [new SocialConnectionsConverter()] // add support for nested parsing of discord connection
     };
     
-    public PatreonApiClient(IOptions<PatreonApiClientOptions> options)
+    public PatreonApiClient(IOptions<PatreonApiClientOptions> options, ILogger<PatreonApiClient> logger)
     {
         _patronizerTierId = options.Value.PatronizerTierId;
         _patronTierId = options.Value.PatronTierId;
+        _logger = logger;
         
         _client = new HttpClient();
         _client.DefaultRequestHeaders.Accept.Clear();
@@ -33,8 +37,10 @@ public class PatreonApiClient
     
     private async Task<List<TResult>> GetManyApiResponse<TResult>(String url, Dictionary<String, String> queryParams)
     {
+        _logger.LogTrace("GetManyApiResponse<{type}>({url}, {queryParams})", typeof(TResult).Name, url, queryParams);
+        
         var query = await new FormUrlEncodedContent(queryParams).ReadAsStringAsync();
-        var response = await _client.GetAsync($"{_baseUrl}{url}?{query}");
+        var response = await _client.GetAsync($"{BaseUrl}{url}?{query}");
         response.EnsureSuccessStatusCode();
 
         var resource = await response.Content.ReadAsJsonApiManyAsync<TResult>(_serializerOptions);
@@ -43,6 +49,7 @@ public class PatreonApiClient
     
     public async Task<PatreonSubscriptions> GetCurrentSubscriptions()
     {
+        _logger.LogTrace("GetCurrentSubscriptions()");
         
         // build required queryparams since patreon api by default omits all fields
         var queryParams = new Dictionary<string, string>()
@@ -72,7 +79,7 @@ public class PatreonApiClient
                 }
             }
         }
-
+        
         return new PatreonSubscriptions(patronizer, patrons);
     }
 }
