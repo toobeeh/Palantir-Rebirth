@@ -1,0 +1,11 @@
+version: "3.0"
+
+services:
+  valmar:
+    container_name: palantir-core
+    image: "ghcr.io/toobeeh/palantir/palantir-core:latest"
+    restart: unless-stopped
+    environment:
+      - GRPC_URL=http://localhost:1234
+      - DISCORD_TOKEN=abcd1234
+      - PATREON_TOKEN=abcd1234
