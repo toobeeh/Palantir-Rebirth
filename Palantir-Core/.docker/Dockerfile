@@ -32,6 +32,7 @@ COPY --from=publish /app/publish .
 # Copy the entrypoint script
 COPY .docker/entrypoint.sh .
 USER root
+RUN chown -R $APP_UID /app/Configuration
 RUN chmod +x entrypoint.sh
 USER $APP_UID
 
