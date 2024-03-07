@@ -3,7 +3,7 @@ version: "3.0"
 services:
   valmar:
     container_name: palantir-core
-    image: "ghcr.io/toobeeh/palantir/palantir-core:latest"
+    image: "ghcr.io/toobeeh/palantir-rebirth/palantir-core:latest"
     restart: unless-stopped
     environment:
       - GRPC_URL=http://localhost:1234
