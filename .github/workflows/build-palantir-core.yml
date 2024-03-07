@@ -26,4 +26,4 @@ jobs:
           context: ./Palantir-Core/
           file: ./Palantir-Core/.docker/Dockerfile
           push: true
-          tags: ghcr.io/toobeeh/palantir/palantir-core:latest
+          tags: ghcr.io/toobeeh/palantir-rebirth/palantir-core:latest
