@@ -47,9 +47,13 @@
             <Access>Public</Access>
             <ProtoCompile>True</ProtoCompile>
             <CompileOutputs>True</CompileOutputs>
-            <OutputDir>obj\Debug\net8.0\</OutputDir>
+            <OutputDir>Grpc\Client\</OutputDir>
             <Generator>MSBuild:Compile</Generator>
         </Protobuf>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Grpc\Client\" />
     </ItemGroup>
 
 </Project>

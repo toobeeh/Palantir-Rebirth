@@ -12,9 +12,10 @@ The components will be most likely one split to Core, Commands and Lobbies.
 Core will contain features that are vital for the complete typo ecosystem, like dispatching drops, cleaning database, fetching patrons, and everything that happens on a scheduled basis.
 
 Tasks to be integrated:
-- [ ] Update patrons & boosters and write to user flags (grpc: setFlag(flag: number, exclusive: bool, ids: long[]))
+- [x] Update patrons & boosters and write to user flags (grpc: setFlag(flag: number, exclusive: bool, ids: long[]))
 - [ ] Dispatch drops (get online count, get active event, send drop request and calculate next timeout)
 - [ ] Clear volatile data (split into multiple grpc calls)
+- [ ] Initiate bubble traces
 
 ## Commands
 Commands will use a DSharpPlus Bot to bring the functionality of the current Palantir Bot to Discord, using the gRPC backend.
