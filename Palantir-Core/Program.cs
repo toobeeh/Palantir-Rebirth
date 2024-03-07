@@ -2,10 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Palantir_Core.Discord;
 using Palantir_Core.Grpc;
 using Palantir_Core.Patreon;
 using Palantir_Core.Quartz;
-using Palantir_Core.Quartz.PatronUpdater;
+using Palantir_Core.Quartz.FlagUpdater;
 using Quartz;
 using Valmar;
 
@@ -41,11 +42,13 @@ class Program
         return new ServiceCollection()
             .AddGrpcClients(Assembly.GetExecutingAssembly(), configuration.GetValue<string>("Grpc:Address"))
             .AddSingleton<PatreonApiClient>()
-                .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
-                .AddLogging(builder => builder
-                    .AddConfiguration(configuration.GetSection("Logging"))
-                    .AddConsole())
-                .AddQuartz(PatronUpdaterConfiguration.Configure)
-                .BuildServiceProvider();
+            .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
+            .AddSingleton<DiscordApiClient>()
+            .Configure<DiscordApiClientOptions>(configuration.GetRequiredSection("Discord"))
+            .AddLogging(builder => builder
+                .AddConfiguration(configuration.GetSection("Logging"))
+                .AddConsole())
+            .AddQuartz(FlagUpdaterConfiguration.Configure)
+            .BuildServiceProvider();
     }
 }

@@ -4,15 +4,15 @@
 ### Very WIP 
 Palantir-Rebirth will be a refactor of the current Palantir Bot.  
 It will consist of multiple components that can be deployed individually for scalability and maintainability (blah blah).  
-Palantir-Rebirth follows the new separation of business+persistance from application layer and uses Valmar as backend.
+Palantir-Rebirth follows the new separation of business+persistence from application layer and uses Valmar as backend.
 
 The components will be most likely one split to Core, Commands and Lobbies.
 
 ## Core
-Core will contain features that are vital for the complete typo ecosystem, like dispatching drops, cleaning database, fetching patreons, and everything that happens on a scheduled basis.
+Core will contain features that are vital for the complete typo ecosystem, like dispatching drops, cleaning database, fetching patrons, and everything that happens on a scheduled basis.
 
 Tasks to be integrated:
-- [ ] Update patrons and write to user flags
+- [ ] Update patrons & boosters and write to user flags (grpc: setFlag(flag: number, exclusive: bool, ids: long[]))
 - [ ] Dispatch drops (get online count, get active event, send drop request and calculate next timeout)
 - [ ] Clear volatile data (split into multiple grpc calls)
 
