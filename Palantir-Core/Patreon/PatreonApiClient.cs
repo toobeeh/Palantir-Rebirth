@@ -33,7 +33,6 @@ public class PatreonApiClient
         // add default headers
         _client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/vnd.api+json"));
         _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {options.Value.CreatorAccessToken}");
-        logger.LogInformation($"Bearer {options.Value.CreatorAccessToken}");
     }
     
     private async Task<List<TResult>> GetManyApiResponse<TResult>(String url, Dictionary<String, String> queryParams)

@@ -63,8 +63,8 @@ public class DropSchedulerJob(ILogger<DropSchedulerJob> logger, Events.EventsCli
         // schedule drop
         logger.LogInformation("Current drop params: playerCount={playerCount}, boostFactor={boostFactor}, eventDropId={eventDropId}", playerCount, boostFactor.Boost, eventDropId);
         logger.LogInformation("Scheduling drop with bounds {bounds.Item1} and {bounds.Item2} => {randomDelay} seconds delay.", bounds.MinDelaySeconds, bounds.MaxDelaySeconds, randomDelay);
-        // await dropsClient.ScheduleDropAsync(new ScheduleDropRequest
-        //    { DelaySeconds = randomDelay, EventDropId = eventDropId });
+        await dropsClient.ScheduleDropAsync(new ScheduleDropRequest
+            { DelaySeconds = randomDelay, EventDropId = eventDropId });
 
         var nextJobDelay = randomDelay + 5; // add 2s between each drop (max claim time)
         var newTrigger = TriggerBuilder.Create()
