@@ -13,6 +13,7 @@ public class PatreonApiClient
     
     private readonly ILogger<PatreonApiClient> _logger;
     private readonly HttpClient _client;
+    private readonly PatreonApiClientOptions _options;
     private readonly string _patronTierId, _patronizerTierId;
     private readonly JsonApiSerializerOptions _serializerOptions = new ()
     {
@@ -26,6 +27,7 @@ public class PatreonApiClient
         _patronizerTierId = options.Value.PatronizerTierId;
         _patronTierId = options.Value.PatronTierId;
         _logger = logger;
+        _options = options.Value;
         
         _client = new HttpClient();
         _client.DefaultRequestHeaders.Accept.Clear();
@@ -63,8 +65,8 @@ public class PatreonApiClient
 
         // get data from api
         var response = await GetManyApiResponse<Member>("/campaigns/6634236/members", queryParams);
-        var patrons = new List<long>();
-        var patronizer = new List<long>();
+        var patrons = new List<long>(_options.AdditionalPatronDiscordIds);
+        var patronizer = new List<long>(_options.AdditionalPatronizerDiscordIds);
         
         // find currently active patrons
         foreach(var member in response)
