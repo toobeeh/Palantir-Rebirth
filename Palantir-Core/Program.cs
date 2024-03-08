@@ -34,11 +34,14 @@ class Program
 
     static ServiceProvider CreateServices()
     {
-        var configuration = new ConfigurationBuilder()
+        var builder = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "Configuration"))
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true)
-            .Build();
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+        {
+            builder.AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true);
+        }
+        var configuration = builder.Build();
         
         return new ServiceCollection()
             .AddGrpcClients(Assembly.GetExecutingAssembly(), configuration.GetValue<string>("Grpc:Address"))
