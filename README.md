@@ -13,9 +13,11 @@ Core will contain features that are vital for the complete typo ecosystem, like 
 
 Tasks to be integrated:
 - [x] Update patrons & boosters and write to user flags (grpc: setFlag(flag: number, exclusive: bool, ids: long[]))
-- [ ] Dispatch drops (get online count, get active event, send drop request and calculate next timeout)
+- [x] Dispatch drops (get online count, get active event, send drop request and calculate next timeout)
 - [ ] Clear volatile data (split into multiple grpc calls)
 - [ ] Initiate bubble traces
+
+The tasks that are selected as done are already deployed and live.
 
 ## Commands
 Commands will use a DSharpPlus Bot to bring the functionality of the current Palantir Bot to Discord, using the gRPC backend.

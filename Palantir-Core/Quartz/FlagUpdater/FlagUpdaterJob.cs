@@ -39,7 +39,7 @@ public class FlagUpdaterJob(ILogger<FlagUpdaterJob> logger, PatreonApiClient pat
         await adminClient.UpdateMemberFlagsAsync(new()
         {
             FlagId = 4, // patron
-            MemberIds = { subs.Patrons, patronizedMembers },
+            MemberIds = { subs.Patrons, patronizedMembers, subs.Patronizer },
             InvertOthers = true,
             State = true
         });
