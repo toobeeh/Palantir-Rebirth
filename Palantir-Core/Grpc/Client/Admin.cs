@@ -28,10 +28,12 @@ namespace Valmar {
             "cm90bxoeZ29vZ2xlL3Byb3RvYnVmL3dyYXBwZXJzLnByb3RvImIKGFVwZGF0",
             "ZU1lbWJlckZsYWdzUmVxdWVzdBIRCgltZW1iZXJJZHMYASADKAMSFAoMaW52",
             "ZXJ0T3RoZXJzGAIgASgIEg0KBXN0YXRlGAMgASgIEg4KBmZsYWdJZBgEIAEo",
-            "BTKdAQoFQWRtaW4SRgoUUmVldmFsdWF0ZURyb3BDaHVua3MSFi5nb29nbGUu",
+            "BTLjAQoFQWRtaW4SRgoUUmVldmFsdWF0ZURyb3BDaHVua3MSFi5nb29nbGUu",
             "cHJvdG9idWYuRW1wdHkaFi5nb29nbGUucHJvdG9idWYuRW1wdHkSTAoRVXBk",
             "YXRlTWVtYmVyRmxhZ3MSHy5hZG1pbi5VcGRhdGVNZW1iZXJGbGFnc1JlcXVl",
-            "c3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHlCCaoCBlZhbG1hcmIGcHJvdG8z"));
+            "c3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkSRAoSQ3JlYXRlQnViYmxlVHJh",
+            "Y2VzEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5GhYuZ29vZ2xlLnByb3RvYnVm",
+            "LkVtcHR5QgmqAgZWYWxtYXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
