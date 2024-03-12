@@ -14,8 +14,10 @@ Core will contain features that are vital for the complete typo ecosystem, like 
 Tasks to be integrated:
 - [x] Update patrons & boosters and write to user flags (grpc: setFlag(flag: number, exclusive: bool, ids: long[]))
 - [x] Dispatch drops (get online count, get active event, send drop request and calculate next timeout)
-- [ ] Clear volatile data (split into multiple grpc calls)
-- [ ] Initiate bubble traces
+- [x] Clear volatile data (split into multiple grpc calls)
+- [x] Initiate bubble traces
+- [x] Increment user bubbles in 10s interval
+- [ ] Set online items
 
 The tasks that are selected as done are already deployed and live.
 

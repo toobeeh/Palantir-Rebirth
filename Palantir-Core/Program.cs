@@ -10,6 +10,7 @@ using Palantir_Core.Quartz.BubbleAdder;
 using Palantir_Core.Quartz.BubbleTracer;
 using Palantir_Core.Quartz.DropScheduler;
 using Palantir_Core.Quartz.FlagUpdater;
+using Palantir_Core.Quartz.VolatileDataClearer;
 using Quartz;
 using Valmar;
 
@@ -57,6 +58,7 @@ class Program
             .AddQuartz(FlagUpdaterConfiguration.Configure)
             .AddQuartz(BubbleTracerConfiguration.Configure)
             .AddQuartz(BubbleAdderConfiguration.Configure)
+            .AddQuartz(VolatileDataClearerConfiguration.Configure)
             .AddQuartz(DropSchedulerConfiguration.Configure)
             .BuildServiceProvider();
     }
