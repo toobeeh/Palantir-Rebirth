@@ -6,6 +6,7 @@ using Palantir_Core.Discord;
 using Palantir_Core.Grpc;
 using Palantir_Core.Patreon;
 using Palantir_Core.Quartz;
+using Palantir_Core.Quartz.BubbleAdder;
 using Palantir_Core.Quartz.BubbleTracer;
 using Palantir_Core.Quartz.DropScheduler;
 using Palantir_Core.Quartz.FlagUpdater;
@@ -55,6 +56,7 @@ class Program
                 .AddConsole())
             .AddQuartz(FlagUpdaterConfiguration.Configure)
             .AddQuartz(BubbleTracerConfiguration.Configure)
+            .AddQuartz(BubbleAdderConfiguration.Configure)
             .AddQuartz(DropSchedulerConfiguration.Configure)
             .BuildServiceProvider();
     }

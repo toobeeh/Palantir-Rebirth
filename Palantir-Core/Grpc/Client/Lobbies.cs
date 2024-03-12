@@ -43,15 +43,16 @@ namespace Valmar {
             "EAoIbG9iYnlLZXkYAiABKAkSFgoOY2xhaW1EaXNjb3JkSWQYAyABKAMSEQoJ",
             "dmFsaWRGcm9tGAQgASgJEjAKC2V2ZW50RHJvcElkGAUgASgLMhsuZ29vZ2xl",
             "LnByb3RvYnVmLkludDMyVmFsdWUSLwoKbGVhZ3VlVGltZRgGIAEoCzIbLmdv",
-            "b2dsZS5wcm90b2J1Zi5JbnQzMlZhbHVlImYKEU9ubGluZU1lbWJlclJlcGx5",
-            "Eg0KBWxvZ2luGAEgASgFEg8KB2J1YmJsZXMYAiABKAUSMQoLcGF0cm9uRW1v",
-            "amkYAyABKAsyHC5nb29nbGUucHJvdG9idWYuU3RyaW5nVmFsdWUy6gEKB0xv",
-            "YmJpZXMSQgoRR2V0Q3VycmVudExvYmJpZXMSFi5nb29nbGUucHJvdG9idWYu",
-            "RW1wdHkaEy5sb2JiaWVzLkxvYmJ5UmVwbHkwARJRChJHZXRMb2JieURyb3BD",
-            "bGFpbXMSIi5sb2JiaWVzLkdldExvYmJ5RHJvcENsYWltc1JlcXVlc3QaFS5s",
-            "b2JiaWVzLkRyb3BMb2dSZXBseTABEkgKEEdldE9ubGluZVBsYXllcnMSFi5n",
-            "b29nbGUucHJvdG9idWYuRW1wdHkaGi5sb2JiaWVzLk9ubGluZU1lbWJlclJl",
-            "cGx5MAFCCaoCBlZhbG1hcmIGcHJvdG8z"));
+            "b2dsZS5wcm90b2J1Zi5JbnQzMlZhbHVlIpwBChFPbmxpbmVNZW1iZXJSZXBs",
+            "eRINCgVsb2dpbhgBIAEoBRIPCgdidWJibGVzGAIgASgFEjEKC3BhdHJvbkVt",
+            "b2ppGAMgASgLMhwuZ29vZ2xlLnByb3RvYnVmLlN0cmluZ1ZhbHVlEjQKDWpv",
+            "aW5lZExvYmJpZXMYBCADKAsyHS5sb2JiaWVzLlBhbGFudGlyTG9iYnlEZXRh",
+            "aWxzMuoBCgdMb2JiaWVzEkIKEUdldEN1cnJlbnRMb2JiaWVzEhYuZ29vZ2xl",
+            "LnByb3RvYnVmLkVtcHR5GhMubG9iYmllcy5Mb2JieVJlcGx5MAESUQoSR2V0",
+            "TG9iYnlEcm9wQ2xhaW1zEiIubG9iYmllcy5HZXRMb2JieURyb3BDbGFpbXNS",
+            "ZXF1ZXN0GhUubG9iYmllcy5Ecm9wTG9nUmVwbHkwARJIChBHZXRPbmxpbmVQ",
+            "bGF5ZXJzEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5GhoubG9iYmllcy5Pbmxp",
+            "bmVNZW1iZXJSZXBseTABQgmqAgZWYWxtYXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -62,7 +63,7 @@ namespace Valmar {
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetLobbyDropClaimsRequest), global::Valmar.GetLobbyDropClaimsRequest.Parser, new[]{ "LobbyKey" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LobbyReply), global::Valmar.LobbyReply.Parser, new[]{ "SkribblDetails", "PalantirDetails", "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.DropLogReply), global::Valmar.DropLogReply.Parser, new[]{ "Id", "LobbyKey", "ClaimDiscordId", "ValidFrom", "EventDropId", "LeagueTime" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.OnlineMemberReply), global::Valmar.OnlineMemberReply.Parser, new[]{ "Login", "Bubbles", "PatronEmoji" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.OnlineMemberReply), global::Valmar.OnlineMemberReply.Parser, new[]{ "Login", "Bubbles", "PatronEmoji", "JoinedLobbies" }, null, null, null, null)
           }));
     }
     #endregion
@@ -2170,6 +2171,7 @@ namespace Valmar {
       login_ = other.login_;
       bubbles_ = other.bubbles_;
       PatronEmoji = other.PatronEmoji;
+      joinedLobbies_ = other.joinedLobbies_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2217,6 +2219,17 @@ namespace Valmar {
     }
 
 
+    /// <summary>Field number for the "joinedLobbies" field.</summary>
+    public const int JoinedLobbiesFieldNumber = 4;
+    private static readonly pb::FieldCodec<global::Valmar.PalantirLobbyDetails> _repeated_joinedLobbies_codec
+        = pb::FieldCodec.ForMessage(34, global::Valmar.PalantirLobbyDetails.Parser);
+    private readonly pbc::RepeatedField<global::Valmar.PalantirLobbyDetails> joinedLobbies_ = new pbc::RepeatedField<global::Valmar.PalantirLobbyDetails>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::Valmar.PalantirLobbyDetails> JoinedLobbies {
+      get { return joinedLobbies_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -2235,6 +2248,7 @@ namespace Valmar {
       if (Login != other.Login) return false;
       if (Bubbles != other.Bubbles) return false;
       if (PatronEmoji != other.PatronEmoji) return false;
+      if(!joinedLobbies_.Equals(other.joinedLobbies_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2245,6 +2259,7 @@ namespace Valmar {
       if (Login != 0) hash ^= Login.GetHashCode();
       if (Bubbles != 0) hash ^= Bubbles.GetHashCode();
       if (patronEmoji_ != null) hash ^= PatronEmoji.GetHashCode();
+      hash ^= joinedLobbies_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2274,6 +2289,7 @@ namespace Valmar {
       if (patronEmoji_ != null) {
         _single_patronEmoji_codec.WriteTagAndValue(output, PatronEmoji);
       }
+      joinedLobbies_.WriteTo(output, _repeated_joinedLobbies_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2295,6 +2311,7 @@ namespace Valmar {
       if (patronEmoji_ != null) {
         _single_patronEmoji_codec.WriteTagAndValue(ref output, PatronEmoji);
       }
+      joinedLobbies_.WriteTo(ref output, _repeated_joinedLobbies_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2314,6 +2331,7 @@ namespace Valmar {
       if (patronEmoji_ != null) {
         size += _single_patronEmoji_codec.CalculateSizeWithTag(PatronEmoji);
       }
+      size += joinedLobbies_.CalculateSize(_repeated_joinedLobbies_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -2337,6 +2355,7 @@ namespace Valmar {
           PatronEmoji = other.PatronEmoji;
         }
       }
+      joinedLobbies_.Add(other.joinedLobbies_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -2367,6 +2386,10 @@ namespace Valmar {
             }
             break;
           }
+          case 34: {
+            joinedLobbies_.AddEntriesFrom(input, _repeated_joinedLobbies_codec);
+            break;
+          }
         }
       }
     #endif
@@ -2395,6 +2418,10 @@ namespace Valmar {
             if (patronEmoji_ == null || value != "") {
               PatronEmoji = value;
             }
+            break;
+          }
+          case 34: {
+            joinedLobbies_.AddEntriesFrom(ref input, _repeated_joinedLobbies_codec);
             break;
           }
         }
