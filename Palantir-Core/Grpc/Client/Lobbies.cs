@@ -43,16 +43,23 @@ namespace Valmar {
             "EAoIbG9iYnlLZXkYAiABKAkSFgoOY2xhaW1EaXNjb3JkSWQYAyABKAMSEQoJ",
             "dmFsaWRGcm9tGAQgASgJEjAKC2V2ZW50RHJvcElkGAUgASgLMhsuZ29vZ2xl",
             "LnByb3RvYnVmLkludDMyVmFsdWUSLwoKbGVhZ3VlVGltZRgGIAEoCzIbLmdv",
-            "b2dsZS5wcm90b2J1Zi5JbnQzMlZhbHVlIpwBChFPbmxpbmVNZW1iZXJSZXBs",
-            "eRINCgVsb2dpbhgBIAEoBRIPCgdidWJibGVzGAIgASgFEjEKC3BhdHJvbkVt",
-            "b2ppGAMgASgLMhwuZ29vZ2xlLnByb3RvYnVmLlN0cmluZ1ZhbHVlEjQKDWpv",
-            "aW5lZExvYmJpZXMYBCADKAsyHS5sb2JiaWVzLlBhbGFudGlyTG9iYnlEZXRh",
-            "aWxzMuoBCgdMb2JiaWVzEkIKEUdldEN1cnJlbnRMb2JiaWVzEhYuZ29vZ2xl",
-            "LnByb3RvYnVmLkVtcHR5GhMubG9iYmllcy5Mb2JieVJlcGx5MAESUQoSR2V0",
-            "TG9iYnlEcm9wQ2xhaW1zEiIubG9iYmllcy5HZXRMb2JieURyb3BDbGFpbXNS",
-            "ZXF1ZXN0GhUubG9iYmllcy5Ecm9wTG9nUmVwbHkwARJIChBHZXRPbmxpbmVQ",
-            "bGF5ZXJzEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5GhoubG9iYmllcy5Pbmxp",
-            "bmVNZW1iZXJSZXBseTABQgmqAgZWYWxtYXJiBnByb3RvMw=="));
+            "b2dsZS5wcm90b2J1Zi5JbnQzMlZhbHVlIlkKEkpvaW5lZExvYmJ5TWVzc2Fn",
+            "ZRIVCg1sb2JieVBsYXllcklkGAEgASgFEiwKBWxvYmJ5GAIgASgLMh0ubG9i",
+            "Ymllcy5QYWxhbnRpckxvYmJ5RGV0YWlscyL/AQoRT25saW5lTWVtYmVyUmVw",
+            "bHkSDQoFbG9naW4YASABKAUSDwoHYnViYmxlcxgCIAEoBRIxCgtwYXRyb25F",
+            "bW9qaRgDIAEoCzIcLmdvb2dsZS5wcm90b2J1Zi5TdHJpbmdWYWx1ZRIyCg1q",
+            "b2luZWRMb2JiaWVzGAQgAygLMhsubG9iYmllcy5Kb2luZWRMb2JieU1lc3Nh",
+            "Z2USNQoLc3ByaXRlU2xvdHMYBSADKAsyIC5sb2JiaWVzLk1lbWJlclNwcml0",
+            "ZVNsb3RNZXNzYWdlEiwKB3NjZW5lSWQYBiABKAsyGy5nb29nbGUucHJvdG9i",
+            "dWYuSW50MzJWYWx1ZSJsChdNZW1iZXJTcHJpdGVTbG90TWVzc2FnZRIMCgRz",
+            "bG90GAEgASgFEhAKCHNwcml0ZUlkGAIgASgFEjEKDHJhaW5ib3dTaGlmdBgD",
+            "IAEoCzIbLmdvb2dsZS5wcm90b2J1Zi5JbnQzMlZhbHVlMuoBCgdMb2JiaWVz",
+            "EkIKEUdldEN1cnJlbnRMb2JiaWVzEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5",
+            "GhMubG9iYmllcy5Mb2JieVJlcGx5MAESUQoSR2V0TG9iYnlEcm9wQ2xhaW1z",
+            "EiIubG9iYmllcy5HZXRMb2JieURyb3BDbGFpbXNSZXF1ZXN0GhUubG9iYmll",
+            "cy5Ecm9wTG9nUmVwbHkwARJIChBHZXRPbmxpbmVQbGF5ZXJzEhYuZ29vZ2xl",
+            "LnByb3RvYnVmLkVtcHR5GhoubG9iYmllcy5PbmxpbmVNZW1iZXJSZXBseTAB",
+            "QgmqAgZWYWxtYXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -63,7 +70,9 @@ namespace Valmar {
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetLobbyDropClaimsRequest), global::Valmar.GetLobbyDropClaimsRequest.Parser, new[]{ "LobbyKey" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LobbyReply), global::Valmar.LobbyReply.Parser, new[]{ "SkribblDetails", "PalantirDetails", "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.DropLogReply), global::Valmar.DropLogReply.Parser, new[]{ "Id", "LobbyKey", "ClaimDiscordId", "ValidFrom", "EventDropId", "LeagueTime" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.OnlineMemberReply), global::Valmar.OnlineMemberReply.Parser, new[]{ "Login", "Bubbles", "PatronEmoji", "JoinedLobbies" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.JoinedLobbyMessage), global::Valmar.JoinedLobbyMessage.Parser, new[]{ "LobbyPlayerId", "Lobby" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.OnlineMemberReply), global::Valmar.OnlineMemberReply.Parser, new[]{ "Login", "Bubbles", "PatronEmoji", "JoinedLobbies", "SpriteSlots", "SceneId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.MemberSpriteSlotMessage), global::Valmar.MemberSpriteSlotMessage.Parser, new[]{ "Slot", "SpriteId", "RainbowShift" }, null, null, null, null)
           }));
     }
     #endregion
@@ -2134,6 +2143,242 @@ namespace Valmar {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class JoinedLobbyMessage : pb::IMessage<JoinedLobbyMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<JoinedLobbyMessage> _parser = new pb::MessageParser<JoinedLobbyMessage>(() => new JoinedLobbyMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<JoinedLobbyMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.LobbiesReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public JoinedLobbyMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public JoinedLobbyMessage(JoinedLobbyMessage other) : this() {
+      lobbyPlayerId_ = other.lobbyPlayerId_;
+      lobby_ = other.lobby_ != null ? other.lobby_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public JoinedLobbyMessage Clone() {
+      return new JoinedLobbyMessage(this);
+    }
+
+    /// <summary>Field number for the "lobbyPlayerId" field.</summary>
+    public const int LobbyPlayerIdFieldNumber = 1;
+    private int lobbyPlayerId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int LobbyPlayerId {
+      get { return lobbyPlayerId_; }
+      set {
+        lobbyPlayerId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "lobby" field.</summary>
+    public const int LobbyFieldNumber = 2;
+    private global::Valmar.PalantirLobbyDetails lobby_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Valmar.PalantirLobbyDetails Lobby {
+      get { return lobby_; }
+      set {
+        lobby_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as JoinedLobbyMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(JoinedLobbyMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (LobbyPlayerId != other.LobbyPlayerId) return false;
+      if (!object.Equals(Lobby, other.Lobby)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (LobbyPlayerId != 0) hash ^= LobbyPlayerId.GetHashCode();
+      if (lobby_ != null) hash ^= Lobby.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (LobbyPlayerId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(LobbyPlayerId);
+      }
+      if (lobby_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Lobby);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (LobbyPlayerId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(LobbyPlayerId);
+      }
+      if (lobby_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Lobby);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (LobbyPlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(LobbyPlayerId);
+      }
+      if (lobby_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Lobby);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(JoinedLobbyMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.LobbyPlayerId != 0) {
+        LobbyPlayerId = other.LobbyPlayerId;
+      }
+      if (other.lobby_ != null) {
+        if (lobby_ == null) {
+          Lobby = new global::Valmar.PalantirLobbyDetails();
+        }
+        Lobby.MergeFrom(other.Lobby);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            LobbyPlayerId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            if (lobby_ == null) {
+              Lobby = new global::Valmar.PalantirLobbyDetails();
+            }
+            input.ReadMessage(Lobby);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            LobbyPlayerId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            if (lobby_ == null) {
+              Lobby = new global::Valmar.PalantirLobbyDetails();
+            }
+            input.ReadMessage(Lobby);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class OnlineMemberReply : pb::IMessage<OnlineMemberReply>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -2148,7 +2393,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.LobbiesReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Valmar.LobbiesReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2172,6 +2417,8 @@ namespace Valmar {
       bubbles_ = other.bubbles_;
       PatronEmoji = other.PatronEmoji;
       joinedLobbies_ = other.joinedLobbies_.Clone();
+      spriteSlots_ = other.spriteSlots_.Clone();
+      SceneId = other.SceneId;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2221,14 +2468,39 @@ namespace Valmar {
 
     /// <summary>Field number for the "joinedLobbies" field.</summary>
     public const int JoinedLobbiesFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::Valmar.PalantirLobbyDetails> _repeated_joinedLobbies_codec
-        = pb::FieldCodec.ForMessage(34, global::Valmar.PalantirLobbyDetails.Parser);
-    private readonly pbc::RepeatedField<global::Valmar.PalantirLobbyDetails> joinedLobbies_ = new pbc::RepeatedField<global::Valmar.PalantirLobbyDetails>();
+    private static readonly pb::FieldCodec<global::Valmar.JoinedLobbyMessage> _repeated_joinedLobbies_codec
+        = pb::FieldCodec.ForMessage(34, global::Valmar.JoinedLobbyMessage.Parser);
+    private readonly pbc::RepeatedField<global::Valmar.JoinedLobbyMessage> joinedLobbies_ = new pbc::RepeatedField<global::Valmar.JoinedLobbyMessage>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Valmar.PalantirLobbyDetails> JoinedLobbies {
+    public pbc::RepeatedField<global::Valmar.JoinedLobbyMessage> JoinedLobbies {
       get { return joinedLobbies_; }
     }
+
+    /// <summary>Field number for the "spriteSlots" field.</summary>
+    public const int SpriteSlotsFieldNumber = 5;
+    private static readonly pb::FieldCodec<global::Valmar.MemberSpriteSlotMessage> _repeated_spriteSlots_codec
+        = pb::FieldCodec.ForMessage(42, global::Valmar.MemberSpriteSlotMessage.Parser);
+    private readonly pbc::RepeatedField<global::Valmar.MemberSpriteSlotMessage> spriteSlots_ = new pbc::RepeatedField<global::Valmar.MemberSpriteSlotMessage>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::Valmar.MemberSpriteSlotMessage> SpriteSlots {
+      get { return spriteSlots_; }
+    }
+
+    /// <summary>Field number for the "sceneId" field.</summary>
+    public const int SceneIdFieldNumber = 6;
+    private static readonly pb::FieldCodec<int?> _single_sceneId_codec = pb::FieldCodec.ForStructWrapper<int>(50);
+    private int? sceneId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int? SceneId {
+      get { return sceneId_; }
+      set {
+        sceneId_ = value;
+      }
+    }
+
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2249,6 +2521,8 @@ namespace Valmar {
       if (Bubbles != other.Bubbles) return false;
       if (PatronEmoji != other.PatronEmoji) return false;
       if(!joinedLobbies_.Equals(other.joinedLobbies_)) return false;
+      if(!spriteSlots_.Equals(other.spriteSlots_)) return false;
+      if (SceneId != other.SceneId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2260,6 +2534,8 @@ namespace Valmar {
       if (Bubbles != 0) hash ^= Bubbles.GetHashCode();
       if (patronEmoji_ != null) hash ^= PatronEmoji.GetHashCode();
       hash ^= joinedLobbies_.GetHashCode();
+      hash ^= spriteSlots_.GetHashCode();
+      if (sceneId_ != null) hash ^= SceneId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2290,6 +2566,10 @@ namespace Valmar {
         _single_patronEmoji_codec.WriteTagAndValue(output, PatronEmoji);
       }
       joinedLobbies_.WriteTo(output, _repeated_joinedLobbies_codec);
+      spriteSlots_.WriteTo(output, _repeated_spriteSlots_codec);
+      if (sceneId_ != null) {
+        _single_sceneId_codec.WriteTagAndValue(output, SceneId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2312,6 +2592,10 @@ namespace Valmar {
         _single_patronEmoji_codec.WriteTagAndValue(ref output, PatronEmoji);
       }
       joinedLobbies_.WriteTo(ref output, _repeated_joinedLobbies_codec);
+      spriteSlots_.WriteTo(ref output, _repeated_spriteSlots_codec);
+      if (sceneId_ != null) {
+        _single_sceneId_codec.WriteTagAndValue(ref output, SceneId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2332,6 +2616,10 @@ namespace Valmar {
         size += _single_patronEmoji_codec.CalculateSizeWithTag(PatronEmoji);
       }
       size += joinedLobbies_.CalculateSize(_repeated_joinedLobbies_codec);
+      size += spriteSlots_.CalculateSize(_repeated_spriteSlots_codec);
+      if (sceneId_ != null) {
+        size += _single_sceneId_codec.CalculateSizeWithTag(SceneId);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -2356,6 +2644,12 @@ namespace Valmar {
         }
       }
       joinedLobbies_.Add(other.joinedLobbies_);
+      spriteSlots_.Add(other.spriteSlots_);
+      if (other.sceneId_ != null) {
+        if (sceneId_ == null || other.SceneId != 0) {
+          SceneId = other.SceneId;
+        }
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -2390,6 +2684,17 @@ namespace Valmar {
             joinedLobbies_.AddEntriesFrom(input, _repeated_joinedLobbies_codec);
             break;
           }
+          case 42: {
+            spriteSlots_.AddEntriesFrom(input, _repeated_spriteSlots_codec);
+            break;
+          }
+          case 50: {
+            int? value = _single_sceneId_codec.Read(input);
+            if (sceneId_ == null || value != 0) {
+              SceneId = value;
+            }
+            break;
+          }
         }
       }
     #endif
@@ -2422,6 +2727,289 @@ namespace Valmar {
           }
           case 34: {
             joinedLobbies_.AddEntriesFrom(ref input, _repeated_joinedLobbies_codec);
+            break;
+          }
+          case 42: {
+            spriteSlots_.AddEntriesFrom(ref input, _repeated_spriteSlots_codec);
+            break;
+          }
+          case 50: {
+            int? value = _single_sceneId_codec.Read(ref input);
+            if (sceneId_ == null || value != 0) {
+              SceneId = value;
+            }
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class MemberSpriteSlotMessage : pb::IMessage<MemberSpriteSlotMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<MemberSpriteSlotMessage> _parser = new pb::MessageParser<MemberSpriteSlotMessage>(() => new MemberSpriteSlotMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<MemberSpriteSlotMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.LobbiesReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MemberSpriteSlotMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MemberSpriteSlotMessage(MemberSpriteSlotMessage other) : this() {
+      slot_ = other.slot_;
+      spriteId_ = other.spriteId_;
+      RainbowShift = other.RainbowShift;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MemberSpriteSlotMessage Clone() {
+      return new MemberSpriteSlotMessage(this);
+    }
+
+    /// <summary>Field number for the "slot" field.</summary>
+    public const int SlotFieldNumber = 1;
+    private int slot_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Slot {
+      get { return slot_; }
+      set {
+        slot_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "spriteId" field.</summary>
+    public const int SpriteIdFieldNumber = 2;
+    private int spriteId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int SpriteId {
+      get { return spriteId_; }
+      set {
+        spriteId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "rainbowShift" field.</summary>
+    public const int RainbowShiftFieldNumber = 3;
+    private static readonly pb::FieldCodec<int?> _single_rainbowShift_codec = pb::FieldCodec.ForStructWrapper<int>(26);
+    private int? rainbowShift_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int? RainbowShift {
+      get { return rainbowShift_; }
+      set {
+        rainbowShift_ = value;
+      }
+    }
+
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as MemberSpriteSlotMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(MemberSpriteSlotMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Slot != other.Slot) return false;
+      if (SpriteId != other.SpriteId) return false;
+      if (RainbowShift != other.RainbowShift) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Slot != 0) hash ^= Slot.GetHashCode();
+      if (SpriteId != 0) hash ^= SpriteId.GetHashCode();
+      if (rainbowShift_ != null) hash ^= RainbowShift.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Slot != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Slot);
+      }
+      if (SpriteId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SpriteId);
+      }
+      if (rainbowShift_ != null) {
+        _single_rainbowShift_codec.WriteTagAndValue(output, RainbowShift);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Slot != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Slot);
+      }
+      if (SpriteId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SpriteId);
+      }
+      if (rainbowShift_ != null) {
+        _single_rainbowShift_codec.WriteTagAndValue(ref output, RainbowShift);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Slot != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Slot);
+      }
+      if (SpriteId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SpriteId);
+      }
+      if (rainbowShift_ != null) {
+        size += _single_rainbowShift_codec.CalculateSizeWithTag(RainbowShift);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(MemberSpriteSlotMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Slot != 0) {
+        Slot = other.Slot;
+      }
+      if (other.SpriteId != 0) {
+        SpriteId = other.SpriteId;
+      }
+      if (other.rainbowShift_ != null) {
+        if (rainbowShift_ == null || other.RainbowShift != 0) {
+          RainbowShift = other.RainbowShift;
+        }
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Slot = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SpriteId = input.ReadInt32();
+            break;
+          }
+          case 26: {
+            int? value = _single_rainbowShift_codec.Read(input);
+            if (rainbowShift_ == null || value != 0) {
+              RainbowShift = value;
+            }
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Slot = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SpriteId = input.ReadInt32();
+            break;
+          }
+          case 26: {
+            int? value = _single_rainbowShift_codec.Read(ref input);
+            if (rainbowShift_ == null || value != 0) {
+              RainbowShift = value;
+            }
             break;
           }
         }

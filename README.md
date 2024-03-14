@@ -17,7 +17,7 @@ Tasks to be integrated:
 - [x] Clear volatile data (split into multiple grpc calls)
 - [x] Initiate bubble traces
 - [x] Increment user bubbles in 10s interval
-- [ ] Set online items
+- [x] Set online items
 
 The tasks that are selected as done are already deployed and live.
 

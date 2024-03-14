@@ -1,14 +1,13 @@
 using System.Diagnostics;
 using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Palantir_Core.Grpc;
 using Quartz;
 using Valmar;
 
-namespace Palantir_Core.Quartz.BubbleAdder;
+namespace Palantir_Core.Quartz.BubbleUpdater;
 
-public class BubbleAdderJob(ILogger<BubbleAdderJob> logger, Admin.AdminClient adminClient, Lobbies.LobbiesClient lobbiesClient) : IJob
+public class BubbleUpdaterJob(ILogger<BubbleUpdaterJob> logger, Admin.AdminClient adminClient, Lobbies.LobbiesClient lobbiesClient) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
     {

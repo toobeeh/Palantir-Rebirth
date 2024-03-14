@@ -1,14 +1,14 @@
 using Quartz;
 
-namespace Palantir_Core.Quartz.BubbleAdder;
+namespace Palantir_Core.Quartz.BubbleUpdater;
 
-public static class BubbleAdderConfiguration
+public static class BubbleUpdaterConfiguration
 {
     public static void Configure(IServiceCollectionQuartzConfigurator configurator)
     {
-        var jobId = new JobKey($"Bubble Adder");
+        var jobId = new JobKey($"Bubble Updater");
 
-        configurator.AddJob<BubbleAdderJob>(job => job
+        configurator.AddJob<BubbleUpdaterJob>(job => job
             .WithIdentity(jobId));
 
         configurator.AddTrigger(trigger => trigger
