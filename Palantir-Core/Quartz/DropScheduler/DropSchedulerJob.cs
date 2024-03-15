@@ -15,10 +15,10 @@ public class DropSchedulerJob(ILogger<DropSchedulerJob> logger, Events.EventsCli
     {
         logger.LogTrace("Execute({context})", context);
 
-        int delay = 0;
+        int delay;
         try
         {
-            await ScheduleNextDrop();
+            delay = await ScheduleNextDrop();
         }
         catch
         {
