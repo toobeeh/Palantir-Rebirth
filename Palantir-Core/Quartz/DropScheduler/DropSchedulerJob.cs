@@ -15,6 +15,28 @@ public class DropSchedulerJob(ILogger<DropSchedulerJob> logger, Events.EventsCli
     {
         logger.LogTrace("Execute({context})", context);
 
+        int delay = 0;
+        try
+        {
+            await ScheduleNextDrop();
+        }
+        catch
+        {
+            delay = 30; // fallback to 30s for next job trigger if calculations failed (grpc error or something)
+        }
+
+        var nextJobDelay = delay + 5; // add 2s between each drop (max claim time)
+        var newTrigger = TriggerBuilder.Create()
+            .StartAt(DateTimeOffset.Now.AddSeconds(nextJobDelay))
+            .Build();
+
+        await context.Scheduler.RescheduleJob(context.Trigger.Key, newTrigger);
+    }
+
+    private async Task<int> ScheduleNextDrop()
+    {
+        logger.LogTrace("ScheduleNextDrop()");
+        
         // get current player count
         var playerCount = 0;
         var onlinePlayersStream = lobbiesClient.GetOnlinePlayers(new Empty()).ResponseStream;
@@ -66,11 +88,6 @@ public class DropSchedulerJob(ILogger<DropSchedulerJob> logger, Events.EventsCli
         await dropsClient.ScheduleDropAsync(new ScheduleDropRequest
             { DelaySeconds = randomDelay, EventDropId = eventDropId });
 
-        var nextJobDelay = randomDelay + 5; // add 2s between each drop (max claim time)
-        var newTrigger = TriggerBuilder.Create()
-            .StartAt(DateTimeOffset.Now.AddSeconds(nextJobDelay))
-            .Build();
-
-        await context.Scheduler.RescheduleJob(context.Trigger.Key, newTrigger);
+        return randomDelay;
     }
 }
