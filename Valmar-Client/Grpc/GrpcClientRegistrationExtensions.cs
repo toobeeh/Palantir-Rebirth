@@ -1,12 +1,9 @@
+using System.Reflection;
 using Grpc.Core;
 using Grpc.Net.ClientFactory;
-
-namespace Palantir_Core.Grpc;
-
-using System;
-using System.Linq;
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+
+namespace Valmar_Client.Grpc;
 
 public static class GrpcClientRegistrationExtensions
 {

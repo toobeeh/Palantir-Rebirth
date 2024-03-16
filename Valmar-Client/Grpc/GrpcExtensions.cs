@@ -1,6 +1,6 @@
 using Grpc.Core;
 
-namespace Palantir_Core.Grpc;
+namespace Valmar_Client.Grpc;
 
 public static class GrpcExtensions
 {

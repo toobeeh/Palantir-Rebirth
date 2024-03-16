@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>Palantir_Commands</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Update="Configuration\appsettings.dev.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="Configuration\appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02169" />
+      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02169" />
+      <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02169" />
+      <PackageReference Include="Google.Protobuf" Version="3.26.0" />
+      <PackageReference Include="Grpc.AspNetCore" Version="2.62.0-pre1" />
+      <PackageReference Include="Grpc.Net.Client" Version="2.62.0-pre1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.2.24128.5" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0-preview.2.24128.5" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.2.24128.5" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0-preview.2.24128.5" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0-preview.2.24128.5" />
+      <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.8.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Valmar-Client\Valmar-Client.csproj" />
+    </ItemGroup>
+
+</Project>

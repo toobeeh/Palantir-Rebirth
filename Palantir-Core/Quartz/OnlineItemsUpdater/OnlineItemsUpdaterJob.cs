@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
-using Palantir_Core.Grpc;
 using Quartz;
 using Valmar;
+using Valmar_Client.Grpc;
 
 namespace Palantir_Core.Quartz.OnlineItemsUpdater;
 

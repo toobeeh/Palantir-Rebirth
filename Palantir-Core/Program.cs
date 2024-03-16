@@ -3,9 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Palantir_Core.Discord;
-using Palantir_Core.Grpc;
 using Palantir_Core.Patreon;
-using Palantir_Core.Quartz;
 using Palantir_Core.Quartz.BubbleTracer;
 using Palantir_Core.Quartz.BubbleUpdater;
 using Palantir_Core.Quartz.DropScheduler;
@@ -13,7 +11,7 @@ using Palantir_Core.Quartz.FlagUpdater;
 using Palantir_Core.Quartz.OnlineItemsUpdater;
 using Palantir_Core.Quartz.VolatileDataClearer;
 using Quartz;
-using Valmar;
+using Valmar_Client.Grpc;
 
 namespace Palantir_Core;
 
