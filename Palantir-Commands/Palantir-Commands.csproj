@@ -9,15 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Update="Configuration\appsettings.dev.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Update="Configuration\appsettings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02169" />
       <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02169" />
       <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02169" />
@@ -34,6 +25,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Valmar-Client\Valmar-Client.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Configuration\*.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
