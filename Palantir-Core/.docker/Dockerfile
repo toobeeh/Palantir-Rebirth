@@ -14,10 +14,20 @@ ENV PATREON_TOKEN "${PATREON_TOKEN}"
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
+
+# build grpc lib
 WORKDIR /src
-COPY ["Palantir-Core.csproj", "Palantir-Core/"]
+COPY ["Valmar-Client/Valmar-Client.csproj", "Valmar-Client/"]
+RUN dotnet restore "Valmar-Client/Valmar-Client.csproj"
+COPY ./Valmar-Client ./Valmar-Client
+WORKDIR "/src/Valmar-Client"
+RUN dotnet build "Valmar-Client.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# build core
+WORKDIR /src
+COPY ["Palantir-Core/Palantir-Core.csproj", "Palantir-Core/"]
 RUN dotnet restore "Palantir-Core/Palantir-Core.csproj"
-COPY . ./Palantir-Core
+COPY ./Palantir-Core ./Palantir-Core
 WORKDIR "/src/Palantir-Core"
 RUN dotnet build "Palantir-Core.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
@@ -30,7 +40,7 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Copy the entrypoint script
-COPY .docker/entrypoint.sh .
+COPY Palantir-Core/.docker/entrypoint.sh .
 USER root
 RUN chown -R $APP_UID /app/Configuration
 RUN chmod +x entrypoint.sh
