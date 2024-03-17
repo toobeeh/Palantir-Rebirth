@@ -28,6 +28,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Content Include=".docker\docker-compose.yml" />
+        <Content Include=".docker\Dockerfile" />
+        <Content Include=".docker\entrypoint.sh" />
         <Content Include="Configuration\*.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>

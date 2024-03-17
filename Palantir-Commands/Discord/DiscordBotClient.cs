@@ -38,13 +38,13 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         {
             Configuration = new TextCommandConfiguration
             {
-                PrefixResolver = new DefaultPrefixResolver("-").ResolvePrefixAsync
+                PrefixResolver = new DefaultPrefixResolver(".").ResolvePrefixAsync
             }
         });
         
         // add command modules
         commands.AddCommands(typeof(DevelopmentCommands).Assembly);
-
+        
         await _client.ConnectAsync();
     }
 

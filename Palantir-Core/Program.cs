@@ -46,7 +46,7 @@ class Program
         var configuration = builder.Build();
         
         return new ServiceCollection()
-            .AddGrpcClients(Assembly.GetExecutingAssembly(), configuration.GetValue<string>("Grpc:Address"))
+            .AddGrpcClients(Assembly.Load("Palantir-Client"), configuration.GetValue<string>("Grpc:Address"))
             .AddSingleton<PatreonApiClient>()
             .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
             .AddSingleton<DiscordApiClient>()

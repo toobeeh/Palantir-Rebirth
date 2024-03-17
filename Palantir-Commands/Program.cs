@@ -36,7 +36,7 @@ class Program
         var configuration = configBuilder.Build();
         
         builder.Services
-            .AddGrpcClients(Assembly.GetExecutingAssembly(), configuration.GetValue<string>("Grpc:Address"))
+            .AddGrpcClients(Assembly.Load("Valmar-Client"), configuration.GetValue<string>("Grpc:Address"))
             .AddLogging(builder => builder
                 .AddConfiguration(configuration.GetSection("Logging"))
                 .AddConsole())
