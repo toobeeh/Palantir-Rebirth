@@ -24,8 +24,8 @@ RUN dotnet build "Valmar-Client.csproj" -c $BUILD_CONFIGURATION -o /app/build
 WORKDIR /src
 COPY ["Palantir-Commands/Palantir-Commands.csproj", "Palantir-Commands/"]
 RUN dotnet restore "Palantir-Commands/Palantir-Commands.csproj"
-COPY ./Palantir-Core ./Palantir-Core
-WORKDIR "/src/Palantir-Core"
+COPY ./Palantir-Commands ./Palantir-Commands
+WORKDIR "/src/Palantir-Commands"
 RUN dotnet build "Palantir-Commands.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
