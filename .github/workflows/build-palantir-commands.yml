@@ -1,4 +1,4 @@
-name: docker-build-palantir-core
+name: docker-build-palantir-commands
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./Palantir-Commands/
+          context: ./
           file: ./Palantir-Commands/.docker/Dockerfile
           push: true
           tags: ghcr.io/toobeeh/palantir-rebirth/palantir-commands:latest
