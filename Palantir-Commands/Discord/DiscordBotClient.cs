@@ -29,7 +29,6 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         // use commands extension
         var commands = _client.UseCommands(new CommandsConfiguration
         {
-            DebugGuildId = 779435254225698827,
             ServiceProvider = serviceProvider
         });
 
@@ -41,9 +40,11 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
                 PrefixResolver = new DefaultPrefixResolver(".").ResolvePrefixAsync
             }
         });
+        await commands.AddProcessorAsync(new SlashCommandProcessor());
         
         // add command modules
-        commands.AddCommands(typeof(DevelopmentCommands).Assembly);
+        commands.AddCommands(typeof(DevelopmentCommands));
+        commands.AddCommands(typeof(SpriteCommands));
         
         await _client.ConnectAsync();
     }

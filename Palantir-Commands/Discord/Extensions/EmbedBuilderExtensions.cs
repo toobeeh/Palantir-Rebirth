@@ -15,4 +15,17 @@ public static class EmbedBuilderExtensions
         builder.WithTimestamp(DateTimeOffset.Now);
         return builder;
     }
+    
+    public static DiscordEmbedBuilder WithPalantirErrorPresets(this DiscordEmbedBuilder builder, CommandContext context, string? errorTitle = null, string? errorDescription = null)
+    {
+        var name = context.Member?.DisplayName ?? context.User.Username;
+
+        if (errorTitle is not null) builder.WithTitle(errorTitle);
+        if (errorDescription is not null) builder.WithDescription(errorDescription);
+        builder.WithColor(DiscordColor.IndianRed);
+        builder.WithAuthor("Command Error");
+        builder.WithFooter($"{name}", "https://i.imgur.com/Smt9vsr.png");
+        builder.WithTimestamp(DateTimeOffset.Now);
+        return builder;
+    }
 }

@@ -54,6 +54,8 @@ namespace Valmar {
     static readonly grpc::Marshaller<global::Valmar.SpriteReply> __Marshaller_sprites_SpriteReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.SpriteReply.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.GetSpriteRequest> __Marshaller_sprites_GetSpriteRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetSpriteRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.SpriteRankingReply> __Marshaller_sprites_SpriteRankingReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.SpriteRankingReply.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Google.Protobuf.WellKnownTypes.Empty, global::Valmar.SpriteReply> __Method_GetAllSprites = new grpc::Method<global::Google.Protobuf.WellKnownTypes.Empty, global::Valmar.SpriteReply>(
@@ -70,6 +72,14 @@ namespace Valmar {
         "GetSpriteById",
         __Marshaller_sprites_GetSpriteRequest,
         __Marshaller_sprites_SpriteReply);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Google.Protobuf.WellKnownTypes.Empty, global::Valmar.SpriteRankingReply> __Method_GetSpriteRanking = new grpc::Method<global::Google.Protobuf.WellKnownTypes.Empty, global::Valmar.SpriteRankingReply>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "GetSpriteRanking",
+        __Marshaller_google_protobuf_Empty,
+        __Marshaller_sprites_SpriteRankingReply);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -175,6 +185,30 @@ namespace Valmar {
       public virtual grpc::AsyncUnaryCall<global::Valmar.SpriteReply> GetSpriteByIdAsync(global::Valmar.GetSpriteRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetSpriteById, null, options, request);
+      }
+      /// <summary>
+      /// Gets the ranking of all sprites
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::Valmar.SpriteRankingReply> GetSpriteRanking(global::Google.Protobuf.WellKnownTypes.Empty request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetSpriteRanking(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Gets the ranking of all sprites
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::Valmar.SpriteRankingReply> GetSpriteRanking(global::Google.Protobuf.WellKnownTypes.Empty request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_GetSpriteRanking, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

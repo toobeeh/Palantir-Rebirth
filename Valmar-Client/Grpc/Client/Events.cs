@@ -25,25 +25,26 @@ namespace Valmar {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CgxldmVudHMucHJvdG8SBmV2ZW50cxobZ29vZ2xlL3Byb3RvYnVmL2VtcHR5",
-            "LnByb3RvIloKCkV2ZW50UmVwbHkSDAoEbmFtZRgBIAEoCRIKCgJpZBgCIAEo",
+            "LnByb3RvIm8KCkV2ZW50UmVwbHkSDAoEbmFtZRgBIAEoCRIKCgJpZBgCIAEo",
             "BRINCgVzdGFydBgDIAEoCRITCgtkZXNjcmlwdGlvbhgEIAEoCRIOCgZsZW5n",
-            "dGgYBSABKAUiSAoORXZlbnREcm9wUmVwbHkSDAoEbmFtZRgBIAEoCRIKCgJp",
-            "ZBgCIAEoBRILCgN1cmwYAyABKAkSDwoHZXZlbnRJZBgEIAEoBSIdCg9HZXRF",
-            "dmVudFJlcXVlc3QSCgoCaWQYASABKAUiIQoTR2V0RXZlbnREcm9wUmVxdWVz",
-            "dBIKCgJpZBgBIAEoBTKcAwoGRXZlbnRzEjwKDEdldEFsbEV2ZW50cxIWLmdv",
-            "b2dsZS5wcm90b2J1Zi5FbXB0eRoSLmV2ZW50cy5FdmVudFJlcGx5MAESPQoP",
-            "R2V0Q3VycmVudEV2ZW50EhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5GhIuZXZl",
-            "bnRzLkV2ZW50UmVwbHkSOwoMR2V0RXZlbnRCeUlkEhcuZXZlbnRzLkdldEV2",
-            "ZW50UmVxdWVzdBoSLmV2ZW50cy5FdmVudFJlcGx5EkQKEEdldEFsbEV2ZW50",
-            "RHJvcHMSFi5nb29nbGUucHJvdG9idWYuRW1wdHkaFi5ldmVudHMuRXZlbnRE",
-            "cm9wUmVwbHkwARJHChBHZXRFdmVudERyb3BCeUlkEhsuZXZlbnRzLkdldEV2",
-            "ZW50RHJvcFJlcXVlc3QaFi5ldmVudHMuRXZlbnREcm9wUmVwbHkSSQoUR2V0",
-            "RXZlbnREcm9wc09mRXZlbnQSFy5ldmVudHMuR2V0RXZlbnRSZXF1ZXN0GhYu",
-            "ZXZlbnRzLkV2ZW50RHJvcFJlcGx5MAFCCaoCBlZhbG1hcmIGcHJvdG8z"));
+            "dGgYBSABKAUSEwoLcHJvZ3Jlc3NpdmUYBiABKAgiSAoORXZlbnREcm9wUmVw",
+            "bHkSDAoEbmFtZRgBIAEoCRIKCgJpZBgCIAEoBRILCgN1cmwYAyABKAkSDwoH",
+            "ZXZlbnRJZBgEIAEoBSIdCg9HZXRFdmVudFJlcXVlc3QSCgoCaWQYASABKAUi",
+            "IQoTR2V0RXZlbnREcm9wUmVxdWVzdBIKCgJpZBgBIAEoBTKcAwoGRXZlbnRz",
+            "EjwKDEdldEFsbEV2ZW50cxIWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRoSLmV2",
+            "ZW50cy5FdmVudFJlcGx5MAESPQoPR2V0Q3VycmVudEV2ZW50EhYuZ29vZ2xl",
+            "LnByb3RvYnVmLkVtcHR5GhIuZXZlbnRzLkV2ZW50UmVwbHkSOwoMR2V0RXZl",
+            "bnRCeUlkEhcuZXZlbnRzLkdldEV2ZW50UmVxdWVzdBoSLmV2ZW50cy5FdmVu",
+            "dFJlcGx5EkQKEEdldEFsbEV2ZW50RHJvcHMSFi5nb29nbGUucHJvdG9idWYu",
+            "RW1wdHkaFi5ldmVudHMuRXZlbnREcm9wUmVwbHkwARJHChBHZXRFdmVudERy",
+            "b3BCeUlkEhsuZXZlbnRzLkdldEV2ZW50RHJvcFJlcXVlc3QaFi5ldmVudHMu",
+            "RXZlbnREcm9wUmVwbHkSSQoUR2V0RXZlbnREcm9wc09mRXZlbnQSFy5ldmVu",
+            "dHMuR2V0RXZlbnRSZXF1ZXN0GhYuZXZlbnRzLkV2ZW50RHJvcFJlcGx5MAFC",
+            "CaoCBlZhbG1hcmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventReply), global::Valmar.EventReply.Parser, new[]{ "Name", "Id", "Start", "Description", "Length" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventReply), global::Valmar.EventReply.Parser, new[]{ "Name", "Id", "Start", "Description", "Length", "Progressive" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventDropReply), global::Valmar.EventDropReply.Parser, new[]{ "Name", "Id", "Url", "EventId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetEventRequest), global::Valmar.GetEventRequest.Parser, new[]{ "Id" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetEventDropRequest), global::Valmar.GetEventDropRequest.Parser, new[]{ "Id" }, null, null, null, null)
@@ -96,6 +97,7 @@ namespace Valmar {
       start_ = other.start_;
       description_ = other.description_;
       length_ = other.length_;
+      progressive_ = other.progressive_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -165,6 +167,18 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "progressive" field.</summary>
+    public const int ProgressiveFieldNumber = 6;
+    private bool progressive_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Progressive {
+      get { return progressive_; }
+      set {
+        progressive_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -185,6 +199,7 @@ namespace Valmar {
       if (Start != other.Start) return false;
       if (Description != other.Description) return false;
       if (Length != other.Length) return false;
+      if (Progressive != other.Progressive) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -197,6 +212,7 @@ namespace Valmar {
       if (Start.Length != 0) hash ^= Start.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
       if (Length != 0) hash ^= Length.GetHashCode();
+      if (Progressive != false) hash ^= Progressive.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -235,6 +251,10 @@ namespace Valmar {
         output.WriteRawTag(40);
         output.WriteInt32(Length);
       }
+      if (Progressive != false) {
+        output.WriteRawTag(48);
+        output.WriteBool(Progressive);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -265,6 +285,10 @@ namespace Valmar {
         output.WriteRawTag(40);
         output.WriteInt32(Length);
       }
+      if (Progressive != false) {
+        output.WriteRawTag(48);
+        output.WriteBool(Progressive);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -289,6 +313,9 @@ namespace Valmar {
       }
       if (Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Length);
+      }
+      if (Progressive != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -316,6 +343,9 @@ namespace Valmar {
       }
       if (other.Length != 0) {
         Length = other.Length;
+      }
+      if (other.Progressive != false) {
+        Progressive = other.Progressive;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -352,6 +382,10 @@ namespace Valmar {
             Length = input.ReadInt32();
             break;
           }
+          case 48: {
+            Progressive = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -385,6 +419,10 @@ namespace Valmar {
           }
           case 40: {
             Length = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            Progressive = input.ReadBool();
             break;
           }
         }

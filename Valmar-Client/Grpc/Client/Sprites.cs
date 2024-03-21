@@ -25,21 +25,26 @@ namespace Valmar {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg1zcHJpdGVzLnByb3RvEgdzcHJpdGVzGh5nb29nbGUvcHJvdG9idWYvd3Jh",
-            "cHBlcnMucHJvdG8aG2dvb2dsZS9wcm90b2J1Zi9lbXB0eS5wcm90byLIAQoL",
+            "cHBlcnMucHJvdG8aG2dvb2dsZS9wcm90b2J1Zi9lbXB0eS5wcm90byLcAQoL",
             "U3ByaXRlUmVwbHkSDAoEbmFtZRgBIAEoCRILCgN1cmwYAiABKAkSCgoCaWQY",
             "AyABKAUSDAoEY29zdBgEIAEoBRIRCglpc1JhaW5ib3cYBSABKAgSEQoJaXNT",
             "cGVjaWFsGAYgASgIEjAKC2V2ZW50RHJvcElkGAcgASgLMhsuZ29vZ2xlLnBy",
             "b3RvYnVmLkludDMyVmFsdWUSLAoGYXJ0aXN0GAggASgLMhwuZ29vZ2xlLnBy",
-            "b3RvYnVmLlN0cmluZ1ZhbHVlIh4KEEdldFNwcml0ZVJlcXVlc3QSCgoCaWQY",
-            "ASABKAUyjAEKB1Nwcml0ZXMSPwoNR2V0QWxsU3ByaXRlcxIWLmdvb2dsZS5w",
-            "cm90b2J1Zi5FbXB0eRoULnNwcml0ZXMuU3ByaXRlUmVwbHkwARJACg1HZXRT",
-            "cHJpdGVCeUlkEhkuc3ByaXRlcy5HZXRTcHJpdGVSZXF1ZXN0GhQuc3ByaXRl",
-            "cy5TcHJpdGVSZXBseUIJqgIGVmFsbWFyYgZwcm90bzM="));
+            "b3RvYnVmLlN0cmluZ1ZhbHVlEhIKCmlzUmVsZWFzZWQYCSABKAgiHgoQR2V0",
+            "U3ByaXRlUmVxdWVzdBIKCgJpZBgBIAEoBSJYChJTcHJpdGVSYW5raW5nUmVw",
+            "bHkSCgoCaWQYASABKAUSEwoLYWN0aXZlVXNlcnMYAiABKAUSEwoLdG90YWxC",
+            "b3VnaHQYAyABKAUSDAoEcmFuaxgEIAEoBTLXAQoHU3ByaXRlcxI/Cg1HZXRB",
+            "bGxTcHJpdGVzEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5GhQuc3ByaXRlcy5T",
+            "cHJpdGVSZXBseTABEkAKDUdldFNwcml0ZUJ5SWQSGS5zcHJpdGVzLkdldFNw",
+            "cml0ZVJlcXVlc3QaFC5zcHJpdGVzLlNwcml0ZVJlcGx5EkkKEEdldFNwcml0",
+            "ZVJhbmtpbmcSFi5nb29nbGUucHJvdG9idWYuRW1wdHkaGy5zcHJpdGVzLlNw",
+            "cml0ZVJhbmtpbmdSZXBseTABQgmqAgZWYWxtYXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SpriteReply), global::Valmar.SpriteReply.Parser, new[]{ "Name", "Url", "Id", "Cost", "IsRainbow", "IsSpecial", "EventDropId", "Artist" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetSpriteRequest), global::Valmar.GetSpriteRequest.Parser, new[]{ "Id" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SpriteReply), global::Valmar.SpriteReply.Parser, new[]{ "Name", "Url", "Id", "Cost", "IsRainbow", "IsSpecial", "EventDropId", "Artist", "IsReleased" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetSpriteRequest), global::Valmar.GetSpriteRequest.Parser, new[]{ "Id" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SpriteRankingReply), global::Valmar.SpriteRankingReply.Parser, new[]{ "Id", "ActiveUsers", "TotalBought", "Rank" }, null, null, null, null)
           }));
     }
     #endregion
@@ -92,6 +97,7 @@ namespace Valmar {
       isSpecial_ = other.isSpecial_;
       EventDropId = other.EventDropId;
       Artist = other.Artist;
+      isReleased_ = other.isReleased_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -201,6 +207,18 @@ namespace Valmar {
     }
 
 
+    /// <summary>Field number for the "isReleased" field.</summary>
+    public const int IsReleasedFieldNumber = 9;
+    private bool isReleased_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool IsReleased {
+      get { return isReleased_; }
+      set {
+        isReleased_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -224,6 +242,7 @@ namespace Valmar {
       if (IsSpecial != other.IsSpecial) return false;
       if (EventDropId != other.EventDropId) return false;
       if (Artist != other.Artist) return false;
+      if (IsReleased != other.IsReleased) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -239,6 +258,7 @@ namespace Valmar {
       if (IsSpecial != false) hash ^= IsSpecial.GetHashCode();
       if (eventDropId_ != null) hash ^= EventDropId.GetHashCode();
       if (artist_ != null) hash ^= Artist.GetHashCode();
+      if (IsReleased != false) hash ^= IsReleased.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -287,6 +307,10 @@ namespace Valmar {
       if (artist_ != null) {
         _single_artist_codec.WriteTagAndValue(output, Artist);
       }
+      if (IsReleased != false) {
+        output.WriteRawTag(72);
+        output.WriteBool(IsReleased);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -327,6 +351,10 @@ namespace Valmar {
       if (artist_ != null) {
         _single_artist_codec.WriteTagAndValue(ref output, Artist);
       }
+      if (IsReleased != false) {
+        output.WriteRawTag(72);
+        output.WriteBool(IsReleased);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -360,6 +388,9 @@ namespace Valmar {
       }
       if (artist_ != null) {
         size += _single_artist_codec.CalculateSizeWithTag(Artist);
+      }
+      if (IsReleased != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -400,6 +431,9 @@ namespace Valmar {
         if (artist_ == null || other.Artist != "") {
           Artist = other.Artist;
         }
+      }
+      if (other.IsReleased != false) {
+        IsReleased = other.IsReleased;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -454,6 +488,10 @@ namespace Valmar {
             }
             break;
           }
+          case 72: {
+            IsReleased = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -505,6 +543,10 @@ namespace Valmar {
             if (artist_ == null || value != "") {
               Artist = value;
             }
+            break;
+          }
+          case 72: {
+            IsReleased = input.ReadBool();
             break;
           }
         }
@@ -698,6 +740,310 @@ namespace Valmar {
             break;
           case 8: {
             Id = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// Response containing the ranking of a sprite
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class SpriteRankingReply : pb::IMessage<SpriteRankingReply>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<SpriteRankingReply> _parser = new pb::MessageParser<SpriteRankingReply>(() => new SpriteRankingReply());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<SpriteRankingReply> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.SpritesReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SpriteRankingReply() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SpriteRankingReply(SpriteRankingReply other) : this() {
+      id_ = other.id_;
+      activeUsers_ = other.activeUsers_;
+      totalBought_ = other.totalBought_;
+      rank_ = other.rank_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SpriteRankingReply Clone() {
+      return new SpriteRankingReply(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "activeUsers" field.</summary>
+    public const int ActiveUsersFieldNumber = 2;
+    private int activeUsers_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int ActiveUsers {
+      get { return activeUsers_; }
+      set {
+        activeUsers_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "totalBought" field.</summary>
+    public const int TotalBoughtFieldNumber = 3;
+    private int totalBought_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int TotalBought {
+      get { return totalBought_; }
+      set {
+        totalBought_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "rank" field.</summary>
+    public const int RankFieldNumber = 4;
+    private int rank_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Rank {
+      get { return rank_; }
+      set {
+        rank_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as SpriteRankingReply);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(SpriteRankingReply other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      if (ActiveUsers != other.ActiveUsers) return false;
+      if (TotalBought != other.TotalBought) return false;
+      if (Rank != other.Rank) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id != 0) hash ^= Id.GetHashCode();
+      if (ActiveUsers != 0) hash ^= ActiveUsers.GetHashCode();
+      if (TotalBought != 0) hash ^= TotalBought.GetHashCode();
+      if (Rank != 0) hash ^= Rank.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
+      if (ActiveUsers != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(ActiveUsers);
+      }
+      if (TotalBought != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(TotalBought);
+      }
+      if (Rank != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Rank);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
+      if (ActiveUsers != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(ActiveUsers);
+      }
+      if (TotalBought != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(TotalBought);
+      }
+      if (Rank != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Rank);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
+      if (ActiveUsers != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ActiveUsers);
+      }
+      if (TotalBought != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TotalBought);
+      }
+      if (Rank != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Rank);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(SpriteRankingReply other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id != 0) {
+        Id = other.Id;
+      }
+      if (other.ActiveUsers != 0) {
+        ActiveUsers = other.ActiveUsers;
+      }
+      if (other.TotalBought != 0) {
+        TotalBought = other.TotalBought;
+      }
+      if (other.Rank != 0) {
+        Rank = other.Rank;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Id = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            ActiveUsers = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            TotalBought = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            Rank = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Id = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            ActiveUsers = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            TotalBought = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            Rank = input.ReadInt32();
             break;
           }
         }

@@ -38,12 +38,12 @@ public class OnlineItemsUpdaterJob(ILogger<OnlineItemsUpdaterJob> logger, Admin.
                 
                 // add sprite shifts
                 items.AddRange(member.SpriteSlots
-                    .Where(slot => slot.RainbowShift is not null)
+                    .Where(slot => slot.ColorShift is not null)
                     .Select(slot => new OnlineItemMessage
                     {
                         ItemType = OnlineItemType.ColorShift,
                         Slot = slot.Slot,
-                        ItemId = (int)slot.RainbowShift!,
+                        ItemId = (int)slot.ColorShift!,
                         LobbyKey = lobby.Lobby.Key,
                         LobbyPlayerId = lobby.LobbyPlayerId
                     }));
