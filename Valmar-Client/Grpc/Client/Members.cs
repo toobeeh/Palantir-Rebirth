@@ -25,52 +25,57 @@ namespace Valmar {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg1tZW1iZXJzLnByb3RvEgdtZW1iZXJzGhtnb29nbGUvcHJvdG9idWYvZW1w",
-            "dHkucHJvdG8ixAEKC01lbWJlclJlcGx5Eg8KB2J1YmJsZXMYASABKAUSDQoF",
+            "dHkucHJvdG8i9QEKC01lbWJlclJlcGx5Eg8KB2J1YmJsZXMYASABKAUSDQoF",
             "ZHJvcHMYAiABKAUSDwoHc3ByaXRlcxgDIAEoCRIOCgZzY2VuZXMYBCABKAkS",
             "DQoFZmxhZ3MYBSABKAUSFgoOcmFpbmJvd1Nwcml0ZXMYBiABKAkSEQoJZGlz",
             "Y29yZElkGAcgASgDEhAKCHVzZXJuYW1lGAggASgJEg0KBWxvZ2luGAkgASgF",
-            "EhkKEXNlcnZlckNvbm5lY3Rpb25zGAogAygFIicKEEFjY2Vzc1Rva2VuUmVw",
-            "bHkSEwoLYWNjZXNzVG9rZW4YASABKAkiJAoOUmF3TWVtYmVyUmVwbHkSEgoK",
-            "bWVtYmVySnNvbhgBIAEoCSJaChFNZW1iZXJTZWFyY2hSZXBseRIQCgh1c2Vy",
-            "bmFtZRgBIAEoCRINCgVsb2dpbhgCIAEoBRIkCgNyYXcYAyABKAsyFy5tZW1i",
-            "ZXJzLlJhd01lbWJlclJlcGx5Ii0KHElkZW50aWZ5TWVtYmVyQnlMb2dpblJl",
-            "cXVlc3QSDQoFbG9naW4YASABKAUiOQoiSWRlbnRpZnlNZW1iZXJCeUFjY2Vz",
-            "c1Rva2VuUmVxdWVzdBITCgthY2Nlc3NUb2tlbhgBIAEoCSIuCiBJZGVudGlm",
-            "eU1lbWJlckJ5RGlzY29yZElkUmVxdWVzdBIKCgJpZBgBIAEoAyIkChNTZWFy",
-            "Y2hNZW1iZXJSZXF1ZXN0Eg0KBXF1ZXJ5GAEgASgJIkMKHU1vZGlmeVNlcnZl",
-            "ckNvbm5lY3Rpb25SZXF1ZXN0Eg0KBWxvZ2luGAEgASgFEhMKC3NlcnZlclRv",
-            "a2VuGAIgASgFIjoKFlVwZGF0ZURpc2NvcmRJZFJlcXVlc3QSDQoFbG9naW4Y",
-            "ASABKAUSEQoJZGlzY29yZElkGAIgASgDIloKFkNyZWF0ZU5ld01lbWJlclJl",
-            "cXVlc3QSEQoJZGlzY29yZElkGAEgASgDEhAKCHVzZXJuYW1lGAIgASgJEhsK",
-            "E2Nvbm5lY3RUb1R5cG9TZXJ2ZXIYAyABKAgylggKB01lbWJlcnMSSAoPQ3Jl",
-            "YXRlTmV3TWVtYmVyEh8ubWVtYmVycy5DcmVhdGVOZXdNZW1iZXJSZXF1ZXN0",
-            "GhQubWVtYmVycy5NZW1iZXJSZXBseRJPChBHZXRNZW1iZXJCeUxvZ2luEiUu",
-            "bWVtYmVycy5JZGVudGlmeU1lbWJlckJ5TG9naW5SZXF1ZXN0GhQubWVtYmVy",
-            "cy5NZW1iZXJSZXBseRJbChZHZXRNZW1iZXJCeUFjY2Vzc1Rva2VuEisubWVt",
-            "YmVycy5JZGVudGlmeU1lbWJlckJ5QWNjZXNzVG9rZW5SZXF1ZXN0GhQubWVt",
-            "YmVycy5NZW1iZXJSZXBseRJXChRHZXRNZW1iZXJCeURpc2NvcmRJZBIpLm1l",
-            "bWJlcnMuSWRlbnRpZnlNZW1iZXJCeURpc2NvcmRJZFJlcXVlc3QaFC5tZW1i",
-            "ZXJzLk1lbWJlclJlcGx5ElgKFUdldFBhdHJvbml6ZWRPZk1lbWJlchIpLm1l",
-            "bWJlcnMuSWRlbnRpZnlNZW1iZXJCeURpc2NvcmRJZFJlcXVlc3QaFC5tZW1i",
-            "ZXJzLk1lbWJlclJlcGx5EkoKDFNlYXJjaE1lbWJlchIcLm1lbWJlcnMuU2Vh",
-            "cmNoTWVtYmVyUmVxdWVzdBoaLm1lbWJlcnMuTWVtYmVyU2VhcmNoUmVwbHkw",
-            "ARJVChNHZXRSYXdNZW1iZXJCeUxvZ2luEiUubWVtYmVycy5JZGVudGlmeU1l",
-            "bWJlckJ5TG9naW5SZXF1ZXN0GhcubWVtYmVycy5SYXdNZW1iZXJSZXBseRJZ",
-            "ChVHZXRBY2Nlc3NUb2tlbkJ5TG9naW4SJS5tZW1iZXJzLklkZW50aWZ5TWVt",
-            "YmVyQnlMb2dpblJlcXVlc3QaGS5tZW1iZXJzLkFjY2Vzc1Rva2VuUmVwbHkS",
-            "TgoVVXBkYXRlTWVtYmVyRGlzY29yZElkEh8ubWVtYmVycy5VcGRhdGVEaXNj",
-            "b3JkSWRSZXF1ZXN0GhQubWVtYmVycy5NZW1iZXJSZXBseRJVChRDbGVhck1l",
-            "bWJlckRyb3Bib29zdBIlLm1lbWJlcnMuSWRlbnRpZnlNZW1iZXJCeUxvZ2lu",
-            "UmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRJbChlBZGRNZW1iZXJT",
-            "ZXJ2ZXJDb25uZWN0aW9uEiYubWVtYmVycy5Nb2RpZnlTZXJ2ZXJDb25uZWN0",
-            "aW9uUmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRJeChxSZW1vdmVN",
-            "ZW1iZXJTZXJ2ZXJDb25uZWN0aW9uEiYubWVtYmVycy5Nb2RpZnlTZXJ2ZXJD",
-            "b25uZWN0aW9uUmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eUIJqgIG",
-            "VmFsbWFyYgZwcm90bzM="));
+            "EhkKEXNlcnZlckNvbm5lY3Rpb25zGAogAygFEi8KC21hcHBlZEZsYWdzGAsg",
+            "AygOMhoubWVtYmVycy5NZW1iZXJGbGFnTWVzc2FnZSInChBBY2Nlc3NUb2tl",
+            "blJlcGx5EhMKC2FjY2Vzc1Rva2VuGAEgASgJIiQKDlJhd01lbWJlclJlcGx5",
+            "EhIKCm1lbWJlckpzb24YASABKAkiWgoRTWVtYmVyU2VhcmNoUmVwbHkSEAoI",
+            "dXNlcm5hbWUYASABKAkSDQoFbG9naW4YAiABKAUSJAoDcmF3GAMgASgLMhcu",
+            "bWVtYmVycy5SYXdNZW1iZXJSZXBseSItChxJZGVudGlmeU1lbWJlckJ5TG9n",
+            "aW5SZXF1ZXN0Eg0KBWxvZ2luGAEgASgFIjkKIklkZW50aWZ5TWVtYmVyQnlB",
+            "Y2Nlc3NUb2tlblJlcXVlc3QSEwoLYWNjZXNzVG9rZW4YASABKAkiLgogSWRl",
+            "bnRpZnlNZW1iZXJCeURpc2NvcmRJZFJlcXVlc3QSCgoCaWQYASABKAMiJAoT",
+            "U2VhcmNoTWVtYmVyUmVxdWVzdBINCgVxdWVyeRgBIAEoCSJDCh1Nb2RpZnlT",
+            "ZXJ2ZXJDb25uZWN0aW9uUmVxdWVzdBINCgVsb2dpbhgBIAEoBRITCgtzZXJ2",
+            "ZXJUb2tlbhgCIAEoBSI6ChZVcGRhdGVEaXNjb3JkSWRSZXF1ZXN0Eg0KBWxv",
+            "Z2luGAEgASgFEhEKCWRpc2NvcmRJZBgCIAEoAyJaChZDcmVhdGVOZXdNZW1i",
+            "ZXJSZXF1ZXN0EhEKCWRpc2NvcmRJZBgBIAEoAxIQCgh1c2VybmFtZRgCIAEo",
+            "CRIbChNjb25uZWN0VG9UeXBvU2VydmVyGAMgASgIKqIBChFNZW1iZXJGbGFn",
+            "TWVzc2FnZRIJCgVBZG1pbhAAEg0KCU1vZGVyYXRvchABEgoKBlBhdHJvbhAC",
+            "Eg4KClBhdHJvbml6ZXIQAxILCgdCb29zdGVyEAQSCwoHRHJvcEJhbhAFEgwK",
+            "CFBlcm1hQmFuEAYSCAoEQmV0YRAHEhEKDUJ1YmJsZUZhcm1pbmcQCBISCg5V",
+            "bmxpbWl0ZWRDbG91ZBAJMpYICgdNZW1iZXJzEkgKD0NyZWF0ZU5ld01lbWJl",
+            "chIfLm1lbWJlcnMuQ3JlYXRlTmV3TWVtYmVyUmVxdWVzdBoULm1lbWJlcnMu",
+            "TWVtYmVyUmVwbHkSTwoQR2V0TWVtYmVyQnlMb2dpbhIlLm1lbWJlcnMuSWRl",
+            "bnRpZnlNZW1iZXJCeUxvZ2luUmVxdWVzdBoULm1lbWJlcnMuTWVtYmVyUmVw",
+            "bHkSWwoWR2V0TWVtYmVyQnlBY2Nlc3NUb2tlbhIrLm1lbWJlcnMuSWRlbnRp",
+            "ZnlNZW1iZXJCeUFjY2Vzc1Rva2VuUmVxdWVzdBoULm1lbWJlcnMuTWVtYmVy",
+            "UmVwbHkSVwoUR2V0TWVtYmVyQnlEaXNjb3JkSWQSKS5tZW1iZXJzLklkZW50",
+            "aWZ5TWVtYmVyQnlEaXNjb3JkSWRSZXF1ZXN0GhQubWVtYmVycy5NZW1iZXJS",
+            "ZXBseRJYChVHZXRQYXRyb25pemVkT2ZNZW1iZXISKS5tZW1iZXJzLklkZW50",
+            "aWZ5TWVtYmVyQnlEaXNjb3JkSWRSZXF1ZXN0GhQubWVtYmVycy5NZW1iZXJS",
+            "ZXBseRJKCgxTZWFyY2hNZW1iZXISHC5tZW1iZXJzLlNlYXJjaE1lbWJlclJl",
+            "cXVlc3QaGi5tZW1iZXJzLk1lbWJlclNlYXJjaFJlcGx5MAESVQoTR2V0UmF3",
+            "TWVtYmVyQnlMb2dpbhIlLm1lbWJlcnMuSWRlbnRpZnlNZW1iZXJCeUxvZ2lu",
+            "UmVxdWVzdBoXLm1lbWJlcnMuUmF3TWVtYmVyUmVwbHkSWQoVR2V0QWNjZXNz",
+            "VG9rZW5CeUxvZ2luEiUubWVtYmVycy5JZGVudGlmeU1lbWJlckJ5TG9naW5S",
+            "ZXF1ZXN0GhkubWVtYmVycy5BY2Nlc3NUb2tlblJlcGx5Ek4KFVVwZGF0ZU1l",
+            "bWJlckRpc2NvcmRJZBIfLm1lbWJlcnMuVXBkYXRlRGlzY29yZElkUmVxdWVz",
+            "dBoULm1lbWJlcnMuTWVtYmVyUmVwbHkSVQoUQ2xlYXJNZW1iZXJEcm9wYm9v",
+            "c3QSJS5tZW1iZXJzLklkZW50aWZ5TWVtYmVyQnlMb2dpblJlcXVlc3QaFi5n",
+            "b29nbGUucHJvdG9idWYuRW1wdHkSWwoZQWRkTWVtYmVyU2VydmVyQ29ubmVj",
+            "dGlvbhImLm1lbWJlcnMuTW9kaWZ5U2VydmVyQ29ubmVjdGlvblJlcXVlc3Qa",
+            "Fi5nb29nbGUucHJvdG9idWYuRW1wdHkSXgocUmVtb3ZlTWVtYmVyU2VydmVy",
+            "Q29ubmVjdGlvbhImLm1lbWJlcnMuTW9kaWZ5U2VydmVyQ29ubmVjdGlvblJl",
+            "cXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHlCCaoCBlZhbG1hcmIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.MemberReply), global::Valmar.MemberReply.Parser, new[]{ "Bubbles", "Drops", "Sprites", "Scenes", "Flags", "RainbowSprites", "DiscordId", "Username", "Login", "ServerConnections" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Valmar.MemberFlagMessage), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.MemberReply), global::Valmar.MemberReply.Parser, new[]{ "Bubbles", "Drops", "Sprites", "Scenes", "Flags", "RainbowSprites", "DiscordId", "Username", "Login", "ServerConnections", "MappedFlags" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.AccessTokenReply), global::Valmar.AccessTokenReply.Parser, new[]{ "AccessToken" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.RawMemberReply), global::Valmar.RawMemberReply.Parser, new[]{ "MemberJson" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.MemberSearchReply), global::Valmar.MemberSearchReply.Parser, new[]{ "Username", "Login", "Raw" }, null, null, null, null),
@@ -86,6 +91,22 @@ namespace Valmar {
     #endregion
 
   }
+  #region Enums
+  public enum MemberFlagMessage {
+    [pbr::OriginalName("Admin")] Admin = 0,
+    [pbr::OriginalName("Moderator")] Moderator = 1,
+    [pbr::OriginalName("Patron")] Patron = 2,
+    [pbr::OriginalName("Patronizer")] Patronizer = 3,
+    [pbr::OriginalName("Booster")] Booster = 4,
+    [pbr::OriginalName("DropBan")] DropBan = 5,
+    [pbr::OriginalName("PermaBan")] PermaBan = 6,
+    [pbr::OriginalName("Beta")] Beta = 7,
+    [pbr::OriginalName("BubbleFarming")] BubbleFarming = 8,
+    [pbr::OriginalName("UnlimitedCloud")] UnlimitedCloud = 9,
+  }
+
+  #endregion
+
   #region Messages
   /// <summary>
   /// Response containing a member's properties.
@@ -135,6 +156,7 @@ namespace Valmar {
       username_ = other.username_;
       login_ = other.login_;
       serverConnections_ = other.serverConnections_.Clone();
+      mappedFlags_ = other.mappedFlags_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -263,6 +285,17 @@ namespace Valmar {
       get { return serverConnections_; }
     }
 
+    /// <summary>Field number for the "mappedFlags" field.</summary>
+    public const int MappedFlagsFieldNumber = 11;
+    private static readonly pb::FieldCodec<global::Valmar.MemberFlagMessage> _repeated_mappedFlags_codec
+        = pb::FieldCodec.ForEnum(90, x => (int) x, x => (global::Valmar.MemberFlagMessage) x);
+    private readonly pbc::RepeatedField<global::Valmar.MemberFlagMessage> mappedFlags_ = new pbc::RepeatedField<global::Valmar.MemberFlagMessage>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::Valmar.MemberFlagMessage> MappedFlags {
+      get { return mappedFlags_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -288,6 +321,7 @@ namespace Valmar {
       if (Username != other.Username) return false;
       if (Login != other.Login) return false;
       if(!serverConnections_.Equals(other.serverConnections_)) return false;
+      if(!mappedFlags_.Equals(other.mappedFlags_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -305,6 +339,7 @@ namespace Valmar {
       if (Username.Length != 0) hash ^= Username.GetHashCode();
       if (Login != 0) hash ^= Login.GetHashCode();
       hash ^= serverConnections_.GetHashCode();
+      hash ^= mappedFlags_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -360,6 +395,7 @@ namespace Valmar {
         output.WriteInt32(Login);
       }
       serverConnections_.WriteTo(output, _repeated_serverConnections_codec);
+      mappedFlags_.WriteTo(output, _repeated_mappedFlags_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -407,6 +443,7 @@ namespace Valmar {
         output.WriteInt32(Login);
       }
       serverConnections_.WriteTo(ref output, _repeated_serverConnections_codec);
+      mappedFlags_.WriteTo(ref output, _repeated_mappedFlags_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -445,6 +482,7 @@ namespace Valmar {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Login);
       }
       size += serverConnections_.CalculateSize(_repeated_serverConnections_codec);
+      size += mappedFlags_.CalculateSize(_repeated_mappedFlags_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -485,6 +523,7 @@ namespace Valmar {
         Login = other.Login;
       }
       serverConnections_.Add(other.serverConnections_);
+      mappedFlags_.Add(other.mappedFlags_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -541,6 +580,11 @@ namespace Valmar {
             serverConnections_.AddEntriesFrom(input, _repeated_serverConnections_codec);
             break;
           }
+          case 90:
+          case 88: {
+            mappedFlags_.AddEntriesFrom(input, _repeated_mappedFlags_codec);
+            break;
+          }
         }
       }
     #endif
@@ -595,6 +639,11 @@ namespace Valmar {
           case 82:
           case 80: {
             serverConnections_.AddEntriesFrom(ref input, _repeated_serverConnections_codec);
+            break;
+          }
+          case 90:
+          case 88: {
+            mappedFlags_.AddEntriesFrom(ref input, _repeated_mappedFlags_codec);
             break;
           }
         }

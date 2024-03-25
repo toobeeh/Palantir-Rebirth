@@ -37,32 +37,36 @@ namespace Valmar {
             "CHNwcml0ZUlkGAIgASgFInkKFVVzZVNwcml0ZUNvbWJvUmVxdWVzdBINCgVs",
             "b2dpbhgBIAEoBRIXCg9jbGVhck90aGVyU2xvdHMYAiABKAgSOAoFY29tYm8Y",
             "AyADKAsyKS5pbnZlbnRvcnkuU3ByaXRlU2xvdENvbmZpZ3VyYXRpb25SZXF1",
-            "ZXN0IkwKFVNldFNwcml0ZUNvbG9yUmVxdWVzdBINCgVsb2dpbhgBIAEoBRIQ",
-            "CghzcHJpdGVJZBgCIAEoBRISCgpjb2xvclNoaWZ0GAMgASgFIioKGUdldFNw",
-            "cml0ZUludmVudG9yeVJlcXVlc3QSDQoFbG9naW4YASABKAUibwocU3ByaXRl",
-            "U2xvdENvbmZpZ3VyYXRpb25SZXBseRIMCgRzbG90GAEgASgFEhAKCHNwcml0",
-            "ZUlkGAIgASgFEi8KCmNvbG9yU2hpZnQYAyABKAsyGy5nb29nbGUucHJvdG9i",
-            "dWYuSW50MzJWYWx1ZSI3ChVHZXRFdmVudENyZWRpdFJlcXVlc3QSDQoFbG9n",
-            "aW4YASABKAUSDwoHZXZlbnRJZBgCIAEoBSJVChBFdmVudENyZWRpdFJlcGx5",
-            "EhMKC3RvdGFsQ3JlZGl0GAEgASgFEhcKD2F2YWlsYWJsZUNyZWRpdBgCIAEo",
-            "BRITCgtldmVudERyb3BJZBgDIAEoBSIqChlHZXRTcHJpdGVTbG90Q291bnRS",
-            "ZXF1ZXN0Eg0KBWxvZ2luGAEgASgFIi0KFFNwcml0ZVNsb3RDb3VudFJlcGx5",
-            "EhUKDXVubG9ja2VkU2xvdHMYASABKAUyngUKCUludmVudG9yeRJSCg9HZXRC",
-            "dWJibGVDcmVkaXQSIS5pbnZlbnRvcnkuR2V0QnViYmxlQ3JlZGl0UmVxdWVz",
-            "dBocLmludmVudG9yeS5CdWJibGVDcmVkaXRSZXBseRJMCg1HZXREcm9wQ3Jl",
-            "ZGl0Eh8uaW52ZW50b3J5LkdldERyb3BDcmVkaXRSZXF1ZXN0GhouaW52ZW50",
-            "b3J5LkRyb3BDcmVkaXRSZXBseRJbChJHZXRTcHJpdGVTbG90Q291bnQSJC5p",
-            "bnZlbnRvcnkuR2V0U3ByaXRlU2xvdENvdW50UmVxdWVzdBofLmludmVudG9y",
-            "eS5TcHJpdGVTbG90Q291bnRSZXBseRJRCg5HZXRFdmVudENyZWRpdBIgLmlu",
-            "dmVudG9yeS5HZXRFdmVudENyZWRpdFJlcXVlc3QaGy5pbnZlbnRvcnkuRXZl",
-            "bnRDcmVkaXRSZXBseTABEmUKEkdldFNwcml0ZUludmVudG9yeRIkLmludmVu",
-            "dG9yeS5HZXRTcHJpdGVJbnZlbnRvcnlSZXF1ZXN0GicuaW52ZW50b3J5LlNw",
-            "cml0ZVNsb3RDb25maWd1cmF0aW9uUmVwbHkwARJACglCdXlTcHJpdGUSGy5p",
-            "bnZlbnRvcnkuQnV5U3ByaXRlUmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5F",
-            "bXB0eRJKCg5Vc2VTcHJpdGVDb21ibxIgLmludmVudG9yeS5Vc2VTcHJpdGVD",
-            "b21ib1JlcXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkSSgoOU2V0U3By",
-            "aXRlQ29sb3ISIC5pbnZlbnRvcnkuU2V0U3ByaXRlQ29sb3JSZXF1ZXN0GhYu",
-            "Z29vZ2xlLnByb3RvYnVmLkVtcHR5QgmqAgZWYWxtYXJiBnByb3RvMw=="));
+            "ZXN0ImQKH1Nwcml0ZUNvbG9yQ29uZmlndXJhdGlvblJlcXVlc3QSEAoIc3By",
+            "aXRlSWQYASABKAUSLwoKY29sb3JTaGlmdBgCIAEoCzIbLmdvb2dsZS5wcm90",
+            "b2J1Zi5JbnQzMlZhbHVlIoIBChVTZXRTcHJpdGVDb2xvclJlcXVlc3QSDQoF",
+            "bG9naW4YASABKAUSGQoRY2xlYXJPdGhlckNvbmZpZ3MYAiABKAgSPwoLY29s",
+            "b3JDb25maWcYAyADKAsyKi5pbnZlbnRvcnkuU3ByaXRlQ29sb3JDb25maWd1",
+            "cmF0aW9uUmVxdWVzdCIqChlHZXRTcHJpdGVJbnZlbnRvcnlSZXF1ZXN0Eg0K",
+            "BWxvZ2luGAEgASgFIm8KHFNwcml0ZVNsb3RDb25maWd1cmF0aW9uUmVwbHkS",
+            "DAoEc2xvdBgBIAEoBRIQCghzcHJpdGVJZBgCIAEoBRIvCgpjb2xvclNoaWZ0",
+            "GAMgASgLMhsuZ29vZ2xlLnByb3RvYnVmLkludDMyVmFsdWUiNwoVR2V0RXZl",
+            "bnRDcmVkaXRSZXF1ZXN0Eg0KBWxvZ2luGAEgASgFEg8KB2V2ZW50SWQYAiAB",
+            "KAUiVQoQRXZlbnRDcmVkaXRSZXBseRITCgt0b3RhbENyZWRpdBgBIAEoBRIX",
+            "Cg9hdmFpbGFibGVDcmVkaXQYAiABKAUSEwoLZXZlbnREcm9wSWQYAyABKAUi",
+            "KgoZR2V0U3ByaXRlU2xvdENvdW50UmVxdWVzdBINCgVsb2dpbhgBIAEoBSIt",
+            "ChRTcHJpdGVTbG90Q291bnRSZXBseRIVCg11bmxvY2tlZFNsb3RzGAEgASgF",
+            "MqsFCglJbnZlbnRvcnkSUgoPR2V0QnViYmxlQ3JlZGl0EiEuaW52ZW50b3J5",
+            "LkdldEJ1YmJsZUNyZWRpdFJlcXVlc3QaHC5pbnZlbnRvcnkuQnViYmxlQ3Jl",
+            "ZGl0UmVwbHkSTAoNR2V0RHJvcENyZWRpdBIfLmludmVudG9yeS5HZXREcm9w",
+            "Q3JlZGl0UmVxdWVzdBoaLmludmVudG9yeS5Ecm9wQ3JlZGl0UmVwbHkSWwoS",
+            "R2V0U3ByaXRlU2xvdENvdW50EiQuaW52ZW50b3J5LkdldFNwcml0ZVNsb3RD",
+            "b3VudFJlcXVlc3QaHy5pbnZlbnRvcnkuU3ByaXRlU2xvdENvdW50UmVwbHkS",
+            "UQoOR2V0RXZlbnRDcmVkaXQSIC5pbnZlbnRvcnkuR2V0RXZlbnRDcmVkaXRS",
+            "ZXF1ZXN0GhsuaW52ZW50b3J5LkV2ZW50Q3JlZGl0UmVwbHkwARJlChJHZXRT",
+            "cHJpdGVJbnZlbnRvcnkSJC5pbnZlbnRvcnkuR2V0U3ByaXRlSW52ZW50b3J5",
+            "UmVxdWVzdBonLmludmVudG9yeS5TcHJpdGVTbG90Q29uZmlndXJhdGlvblJl",
+            "cGx5MAESQAoJQnV5U3ByaXRlEhsuaW52ZW50b3J5LkJ1eVNwcml0ZVJlcXVl",
+            "c3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkSSgoOVXNlU3ByaXRlQ29tYm8S",
+            "IC5pbnZlbnRvcnkuVXNlU3ByaXRlQ29tYm9SZXF1ZXN0GhYuZ29vZ2xlLnBy",
+            "b3RvYnVmLkVtcHR5ElcKG1NldFNwcml0ZUNvbG9yQ29uZmlndXJhdGlvbhIg",
+            "LmludmVudG9yeS5TZXRTcHJpdGVDb2xvclJlcXVlc3QaFi5nb29nbGUucHJv",
+            "dG9idWYuRW1wdHlCCaoCBlZhbG1hcmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -73,7 +77,8 @@ namespace Valmar {
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BuySpriteRequest), global::Valmar.BuySpriteRequest.Parser, new[]{ "Login", "SpriteId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SpriteSlotConfigurationRequest), global::Valmar.SpriteSlotConfigurationRequest.Parser, new[]{ "SlotId", "SpriteId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.UseSpriteComboRequest), global::Valmar.UseSpriteComboRequest.Parser, new[]{ "Login", "ClearOtherSlots", "Combo" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SetSpriteColorRequest), global::Valmar.SetSpriteColorRequest.Parser, new[]{ "Login", "SpriteId", "ColorShift" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SpriteColorConfigurationRequest), global::Valmar.SpriteColorConfigurationRequest.Parser, new[]{ "SpriteId", "ColorShift" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SetSpriteColorRequest), global::Valmar.SetSpriteColorRequest.Parser, new[]{ "Login", "ClearOtherConfigs", "ColorConfig" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetSpriteInventoryRequest), global::Valmar.GetSpriteInventoryRequest.Parser, new[]{ "Login" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SpriteSlotConfigurationReply), global::Valmar.SpriteSlotConfigurationReply.Parser, new[]{ "Slot", "SpriteId", "ColorShift" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetEventCreditRequest), global::Valmar.GetEventCreditRequest.Parser, new[]{ "Login", "EventId" }, null, null, null, null),
@@ -1720,6 +1725,241 @@ namespace Valmar {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class SpriteColorConfigurationRequest : pb::IMessage<SpriteColorConfigurationRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<SpriteColorConfigurationRequest> _parser = new pb::MessageParser<SpriteColorConfigurationRequest>(() => new SpriteColorConfigurationRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<SpriteColorConfigurationRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SpriteColorConfigurationRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SpriteColorConfigurationRequest(SpriteColorConfigurationRequest other) : this() {
+      spriteId_ = other.spriteId_;
+      ColorShift = other.ColorShift;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SpriteColorConfigurationRequest Clone() {
+      return new SpriteColorConfigurationRequest(this);
+    }
+
+    /// <summary>Field number for the "spriteId" field.</summary>
+    public const int SpriteIdFieldNumber = 1;
+    private int spriteId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int SpriteId {
+      get { return spriteId_; }
+      set {
+        spriteId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "colorShift" field.</summary>
+    public const int ColorShiftFieldNumber = 2;
+    private static readonly pb::FieldCodec<int?> _single_colorShift_codec = pb::FieldCodec.ForStructWrapper<int>(18);
+    private int? colorShift_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int? ColorShift {
+      get { return colorShift_; }
+      set {
+        colorShift_ = value;
+      }
+    }
+
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as SpriteColorConfigurationRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(SpriteColorConfigurationRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (SpriteId != other.SpriteId) return false;
+      if (ColorShift != other.ColorShift) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (SpriteId != 0) hash ^= SpriteId.GetHashCode();
+      if (colorShift_ != null) hash ^= ColorShift.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (SpriteId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(SpriteId);
+      }
+      if (colorShift_ != null) {
+        _single_colorShift_codec.WriteTagAndValue(output, ColorShift);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (SpriteId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(SpriteId);
+      }
+      if (colorShift_ != null) {
+        _single_colorShift_codec.WriteTagAndValue(ref output, ColorShift);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (SpriteId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SpriteId);
+      }
+      if (colorShift_ != null) {
+        size += _single_colorShift_codec.CalculateSizeWithTag(ColorShift);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(SpriteColorConfigurationRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.SpriteId != 0) {
+        SpriteId = other.SpriteId;
+      }
+      if (other.colorShift_ != null) {
+        if (colorShift_ == null || other.ColorShift != 0) {
+          ColorShift = other.ColorShift;
+        }
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            SpriteId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            int? value = _single_colorShift_codec.Read(input);
+            if (colorShift_ == null || value != 0) {
+              ColorShift = value;
+            }
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            SpriteId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            int? value = _single_colorShift_codec.Read(ref input);
+            if (colorShift_ == null || value != 0) {
+              ColorShift = value;
+            }
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SetSpriteColorRequest : pb::IMessage<SetSpriteColorRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1734,7 +1974,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1755,8 +1995,8 @@ namespace Valmar {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public SetSpriteColorRequest(SetSpriteColorRequest other) : this() {
       login_ = other.login_;
-      spriteId_ = other.spriteId_;
-      colorShift_ = other.colorShift_;
+      clearOtherConfigs_ = other.clearOtherConfigs_;
+      colorConfig_ = other.colorConfig_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1778,28 +2018,27 @@ namespace Valmar {
       }
     }
 
-    /// <summary>Field number for the "spriteId" field.</summary>
-    public const int SpriteIdFieldNumber = 2;
-    private int spriteId_;
+    /// <summary>Field number for the "clearOtherConfigs" field.</summary>
+    public const int ClearOtherConfigsFieldNumber = 2;
+    private bool clearOtherConfigs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int SpriteId {
-      get { return spriteId_; }
+    public bool ClearOtherConfigs {
+      get { return clearOtherConfigs_; }
       set {
-        spriteId_ = value;
+        clearOtherConfigs_ = value;
       }
     }
 
-    /// <summary>Field number for the "colorShift" field.</summary>
-    public const int ColorShiftFieldNumber = 3;
-    private int colorShift_;
+    /// <summary>Field number for the "colorConfig" field.</summary>
+    public const int ColorConfigFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::Valmar.SpriteColorConfigurationRequest> _repeated_colorConfig_codec
+        = pb::FieldCodec.ForMessage(26, global::Valmar.SpriteColorConfigurationRequest.Parser);
+    private readonly pbc::RepeatedField<global::Valmar.SpriteColorConfigurationRequest> colorConfig_ = new pbc::RepeatedField<global::Valmar.SpriteColorConfigurationRequest>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int ColorShift {
-      get { return colorShift_; }
-      set {
-        colorShift_ = value;
-      }
+    public pbc::RepeatedField<global::Valmar.SpriteColorConfigurationRequest> ColorConfig {
+      get { return colorConfig_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1818,8 +2057,8 @@ namespace Valmar {
         return true;
       }
       if (Login != other.Login) return false;
-      if (SpriteId != other.SpriteId) return false;
-      if (ColorShift != other.ColorShift) return false;
+      if (ClearOtherConfigs != other.ClearOtherConfigs) return false;
+      if(!colorConfig_.Equals(other.colorConfig_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1828,8 +2067,8 @@ namespace Valmar {
     public override int GetHashCode() {
       int hash = 1;
       if (Login != 0) hash ^= Login.GetHashCode();
-      if (SpriteId != 0) hash ^= SpriteId.GetHashCode();
-      if (ColorShift != 0) hash ^= ColorShift.GetHashCode();
+      if (ClearOtherConfigs != false) hash ^= ClearOtherConfigs.GetHashCode();
+      hash ^= colorConfig_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1852,14 +2091,11 @@ namespace Valmar {
         output.WriteRawTag(8);
         output.WriteInt32(Login);
       }
-      if (SpriteId != 0) {
+      if (ClearOtherConfigs != false) {
         output.WriteRawTag(16);
-        output.WriteInt32(SpriteId);
+        output.WriteBool(ClearOtherConfigs);
       }
-      if (ColorShift != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(ColorShift);
-      }
+      colorConfig_.WriteTo(output, _repeated_colorConfig_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1874,14 +2110,11 @@ namespace Valmar {
         output.WriteRawTag(8);
         output.WriteInt32(Login);
       }
-      if (SpriteId != 0) {
+      if (ClearOtherConfigs != false) {
         output.WriteRawTag(16);
-        output.WriteInt32(SpriteId);
+        output.WriteBool(ClearOtherConfigs);
       }
-      if (ColorShift != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(ColorShift);
-      }
+      colorConfig_.WriteTo(ref output, _repeated_colorConfig_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1895,12 +2128,10 @@ namespace Valmar {
       if (Login != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Login);
       }
-      if (SpriteId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SpriteId);
+      if (ClearOtherConfigs != false) {
+        size += 1 + 1;
       }
-      if (ColorShift != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ColorShift);
-      }
+      size += colorConfig_.CalculateSize(_repeated_colorConfig_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1916,12 +2147,10 @@ namespace Valmar {
       if (other.Login != 0) {
         Login = other.Login;
       }
-      if (other.SpriteId != 0) {
-        SpriteId = other.SpriteId;
+      if (other.ClearOtherConfigs != false) {
+        ClearOtherConfigs = other.ClearOtherConfigs;
       }
-      if (other.ColorShift != 0) {
-        ColorShift = other.ColorShift;
-      }
+      colorConfig_.Add(other.colorConfig_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1942,11 +2171,11 @@ namespace Valmar {
             break;
           }
           case 16: {
-            SpriteId = input.ReadInt32();
+            ClearOtherConfigs = input.ReadBool();
             break;
           }
-          case 24: {
-            ColorShift = input.ReadInt32();
+          case 26: {
+            colorConfig_.AddEntriesFrom(input, _repeated_colorConfig_codec);
             break;
           }
         }
@@ -1969,11 +2198,11 @@ namespace Valmar {
             break;
           }
           case 16: {
-            SpriteId = input.ReadInt32();
+            ClearOtherConfigs = input.ReadBool();
             break;
           }
-          case 24: {
-            ColorShift = input.ReadInt32();
+          case 26: {
+            colorConfig_.AddEntriesFrom(ref input, _repeated_colorConfig_codec);
             break;
           }
         }
@@ -1998,7 +2227,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2188,7 +2417,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[9]; }
+      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2460,7 +2689,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[10]; }
+      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2687,7 +2916,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[11]; }
+      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2951,7 +3180,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[12]; }
+      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3141,7 +3370,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[13]; }
+      get { return global::Valmar.InventoryReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

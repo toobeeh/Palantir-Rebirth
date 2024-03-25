@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Palantir_Commands.Discord;
+using Palantir_Commands.Services;
 using Valmar_Client.Grpc;
 
 namespace Palantir_Commands;
@@ -42,6 +43,7 @@ class Program
                 .AddConsole())
             .Configure<DiscordBotClientOptions>(configuration.GetRequiredSection("Discord"))
             .AddHostedService<DiscordBotClient>()
+            .AddScoped<MemberContext>()
             .BuildServiceProvider();
 
         return builder.Build();

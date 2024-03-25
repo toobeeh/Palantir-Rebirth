@@ -134,10 +134,10 @@ namespace Valmar {
         __Marshaller_google_protobuf_Empty);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Valmar.SetSpriteColorRequest, global::Google.Protobuf.WellKnownTypes.Empty> __Method_SetSpriteColor = new grpc::Method<global::Valmar.SetSpriteColorRequest, global::Google.Protobuf.WellKnownTypes.Empty>(
+    static readonly grpc::Method<global::Valmar.SetSpriteColorRequest, global::Google.Protobuf.WellKnownTypes.Empty> __Method_SetSpriteColorConfiguration = new grpc::Method<global::Valmar.SetSpriteColorRequest, global::Google.Protobuf.WellKnownTypes.Empty>(
         grpc::MethodType.Unary,
         __ServiceName,
-        "SetSpriteColor",
+        "SetSpriteColorConfiguration",
         __Marshaller_inventory_SetSpriteColorRequest,
         __Marshaller_google_protobuf_Empty);
 
@@ -471,9 +471,9 @@ namespace Valmar {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Google.Protobuf.WellKnownTypes.Empty SetSpriteColor(global::Valmar.SetSpriteColorRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Google.Protobuf.WellKnownTypes.Empty SetSpriteColorConfiguration(global::Valmar.SetSpriteColorRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return SetSpriteColor(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return SetSpriteColorConfiguration(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
       /// set a user configuration for a sprite color
@@ -482,9 +482,9 @@ namespace Valmar {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Google.Protobuf.WellKnownTypes.Empty SetSpriteColor(global::Valmar.SetSpriteColorRequest request, grpc::CallOptions options)
+      public virtual global::Google.Protobuf.WellKnownTypes.Empty SetSpriteColorConfiguration(global::Valmar.SetSpriteColorRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_SetSpriteColor, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_SetSpriteColorConfiguration, null, options, request);
       }
       /// <summary>
       /// set a user configuration for a sprite color
@@ -495,9 +495,9 @@ namespace Valmar {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Google.Protobuf.WellKnownTypes.Empty> SetSpriteColorAsync(global::Valmar.SetSpriteColorRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Google.Protobuf.WellKnownTypes.Empty> SetSpriteColorConfigurationAsync(global::Valmar.SetSpriteColorRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return SetSpriteColorAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return SetSpriteColorConfigurationAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
       /// set a user configuration for a sprite color
@@ -506,9 +506,9 @@ namespace Valmar {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Google.Protobuf.WellKnownTypes.Empty> SetSpriteColorAsync(global::Valmar.SetSpriteColorRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Google.Protobuf.WellKnownTypes.Empty> SetSpriteColorConfigurationAsync(global::Valmar.SetSpriteColorRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncUnaryCall(__Method_SetSpriteColor, null, options, request);
+        return CallInvoker.AsyncUnaryCall(__Method_SetSpriteColorConfiguration, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

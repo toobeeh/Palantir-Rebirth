@@ -4,7 +4,7 @@
 ### Still WIP
 Palantir-Rebirth is/will be a refactor of the current Palantir Bot.  
 It consists of multiple components that can be deployed individually for scalability and maintainability (blah blah).  
-Palantir-Rebirth follows the new separation of business+persistence from application layer and uses Valmar as backend.
+Palantir-Rebirth follows the new separation of business+data from application layer and uses toobeeh/Valmar as grpc backend.
 
 The components are split to Core, Commands and Lobbies modules.
 
@@ -25,11 +25,11 @@ Commands will use a DSharpPlus Bot to bring the functionality of the current Pal
 Commands are split into following categories.
 
 ### Sprites
-- [ ] `>sprite [id]` - View a sprite
-- [ ] `>sprite buy [id]` - Buy a sprite
-- [ ] `>sprite use [id] (slot)` - Use a sprite on a slot
-- [ ] `>sprite combo (...ids)` - Use a combo of sprites
-- [ ] `>sprite color [id] (color shift)` - Use a rainbow shift color on a sprite
+- [x] `>sprite view [id]` / `>sprite [id]` - View a sprite
+- [x] `>sprite buy [id]` - Buy a sprite
+- [x] `>sprite use [id] (slot)` - Use a sprite on a slot
+- [x] `>sprite combo (...ids)` - Use a combo of sprites
+- [x] `>sprite color [id] (color shift)` - Use a rainbow shift color on a sprite
 - [ ] `>sprite inv` - View all bought sprites and total value
 
 Needed grpc services:

@@ -4,8 +4,11 @@ using DSharpPlus.Commands.Trees.Attributes;
 using DSharpPlus.Entities;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
+using Palantir_Commands.Services;
 using Valmar;
 using Valmar_Client.Grpc;
 
@@ -14,6 +17,7 @@ namespace Palantir_Commands.Discord.Commands;
 [Command("sprite")]
 public class SpriteCommands(
     ILogger<SpriteCommands> logger, 
+    MemberContext memberContext,
     Sprites.SpritesClient spritesClient, 
     Inventory.InventoryClient inventoryClient,
     Members.MembersClient membersClient,
@@ -243,6 +247,79 @@ public class SpriteCommands(
         
         embedBuilder.WithDescription($"This sprite combo will now be displayed on your skribbl avatar.\n" +
                                      $"To clear the combo, use the command `/sprite combo 0`.");
+        
+        await context.RespondAsync(embedBuilder.Build());
+    }
+    
+    /// <summary>
+    /// Choose a color modification for one of your rainbow sprites.
+    /// Leave "shift" empty to reset the color.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="spriteId">The ID of the sprite which will be colorized.</param>
+    /// <param name="shift">A number from 0-240 to modify your sprite color. 120 is the original color.</param>
+    [Command("color")]
+    [RequirePalantirMember]
+    public async Task UseSpriteColorConfig(CommandContext context, int spriteId, int? shift = null)
+    {
+        logger.LogTrace("UseSpriteColorConfig(context, {shift})", shift);
+
+        
+        var user = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = user.Login }).ToListAsync();
+        
+        // check if the user owns the sprite
+        if(!inventory.Any(slot => slot.SpriteId == spriteId))
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, "Sprite not in inventory", $"You don't own the selected sprite."));
+            return;
+        }
+        
+        // check if the sprite can be color customized
+        var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
+        if(!sprite.IsRainbow)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, "Sprite is no Rainbow Sprite", $"The sprite {sprite.Name} {sprite.Id.AsTypoId()} is not color-customizable."));
+            return;
+        }
+        
+        // check if the user can colorize another sprite (patron)
+        var moreThanOneUnlocked = user.MappedFlags.Any(flag => flag is MemberFlagMessage.Admin or MemberFlagMessage.Patron);
+        var otherConfig = inventory.FirstOrDefault(slot => slot.SpriteId != spriteId && slot.ColorShift is not null);
+        if (shift is not null && !moreThanOneUnlocked && otherConfig is not null)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, "No permission", $"You need to be a {"Patron".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to colorize more than one sprite at once.\n" +
+                                                                    $"Use `/sprite color {otherConfig.SpriteId}` to reset the color of your current rainbow sprite."));
+            return;
+        }
+        
+        // apply rainbow config
+        await inventoryClient.SetSpriteColorConfigurationAsync(new SetSpriteColorRequest
+        {
+            Login = user.Login, ClearOtherConfigs = false,
+            ColorConfig = { new SpriteColorConfigurationRequest { SpriteId = sprite.Id, ColorShift = shift } }
+        });
+        
+        
+        var embedBuilder = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithAuthor(shift is null ? "You cleared your sprite rainbow color." : "You colorized a rainbow sprite!")
+            .WithTitle($"{sprite.Id.AsTypoId()} _ _ {sprite.Name}")
+            .WithImageUrl($"https://static.typo.rip/sprites/rainbow/modulate.php?url={sprite.Url}&hue={shift?.ToString() ?? "120"}");
+        
+        if(shift is not null)
+        {
+            embedBuilder.WithDescription($"This sprite will now have its unique color!\n" +
+                                         $"To clear the color, use the command `/sprite color {sprite.Id}`.");
+        }
+        else
+        {
+            embedBuilder.WithDescription($"This sprite will now have its original color!\n" +
+                                         $"To colorize it, use the command `/sprite color {sprite.Id} (color)`.");
+        }
         
         await context.RespondAsync(embedBuilder.Build());
     }

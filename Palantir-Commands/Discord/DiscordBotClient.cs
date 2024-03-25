@@ -1,13 +1,12 @@
 using DSharpPlus;
 using DSharpPlus.Commands;
-using DSharpPlus.Commands.Processors.MessageCommands;
 using DSharpPlus.Commands.Processors.SlashCommands;
 using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Commands.Processors.TextCommands.Parsing;
-using DSharpPlus.Commands.Processors.UserCommands;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Commands;
 
 namespace Palantir_Commands.Discord;
@@ -41,6 +40,9 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
             }
         });
         await commands.AddProcessorAsync(new SlashCommandProcessor());
+        
+        // add custom checks
+        commands.AddCheck<RequirePalantirMemberCheck>();
         
         // add command modules
         commands.AddCommands(typeof(DevelopmentCommands));
