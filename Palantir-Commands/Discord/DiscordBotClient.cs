@@ -3,6 +3,8 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.SlashCommands;
 using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Commands.Processors.TextCommands.Parsing;
+using DSharpPlus.Interactivity;
+using DSharpPlus.Interactivity.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,6 +26,9 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         logger.LogInformation("Starting Discord Bot Client");
+        
+        // use interactivity
+        _client.UseInteractivity(new InteractivityConfiguration {});
 
         // use commands extension
         var commands = _client.UseCommands(new CommandsConfiguration

@@ -2,10 +2,12 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands.Attributes;
 using DSharpPlus.Commands.Trees.Attributes;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity.Extensions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MoreLinq;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
@@ -15,14 +17,114 @@ using Valmar_Client.Grpc;
 namespace Palantir_Commands.Discord.Commands;
 
 [Command("sprite")]
+[TextAlias("spt")]
+[RequirePalantirMember(MemberFlagMessage.Beta)]
 public class SpriteCommands(
     ILogger<SpriteCommands> logger, 
-    MemberContext memberContext,
     Sprites.SpritesClient spritesClient, 
     Inventory.InventoryClient inventoryClient,
     Members.MembersClient membersClient,
     Events.EventsClient eventsClient)
 {
+    
+    /// <summary>
+    /// View all sprites in your inventory
+    /// </summary>
+    /// <param name="context"></param>
+    /// <exception cref="Exception"></exception>
+    [Command("inventory")]
+    [TextAlias("inv")]
+    public async Task ViewSpriteInventory(CommandContext context)
+    {
+        logger.LogTrace("ViewSpriteInventory(context)");
+        
+        var member = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
+        
+        // get all sprites, likely more performance than each individually
+        var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
+        var ranks = await spritesClient.GetSpriteRanking(new Empty()).ToListAsync();
+
+        var userSprites = sprites.Where(sprite => inventory.Any(slot => slot.SpriteId == sprite.Id)).ToList();
+        var eventSpriteCount = userSprites.Count(sprite => sprite.EventDropId > 0);
+        var totalWorth = userSprites
+            .Where(sprite => sprite.EventDropId is null)
+            .Sum(sprite => sprite.Cost);
+
+        var uniquenessMaxUsers = ranks.Max(rank => rank.TotalBought);
+        var uniquenessUserScore = ranks
+            .Where(rank => inventory.Any(slot => slot.SpriteId == rank.Id))
+            .Select(rank => rank.TotalBought * 100 / uniquenessMaxUsers)
+            .Average();
+        
+        // batch sprites to 45 per page
+        var batchSize = 45;
+        var pages = inventory.Batch(batchSize).Select((batch, idx) => new
+        {
+            Page = idx + 1,
+            Sprites = batch.Select(slot => slot.SpriteId)
+        }).Select(page =>
+        {
+            var spriteNumberStart = batchSize * (page.Page - 1) + 1;
+            var embed =  new DiscordEmbedBuilder()
+                .WithPalantirPresets(context)
+                .WithAuthor($"Viewing sprites {spriteNumberStart} - {spriteNumberStart + page.Sprites.Count() - 1} of {inventory.Count}")
+                .WithTitle("Sprite Inventory");
+            
+            embed.AddField("Total Worth:", $"`🫧` {totalWorth} Bubbles");
+            embed.AddField("Event sprites:", $"`🎟️` {eventSpriteCount} Sprites collected");
+            embed.AddField("Uniqueness:", $"`💎` Your inventory has an uniqueness sore of {100 - Math.Round(uniquenessUserScore)}%");
+
+            if (inventory.Count < 5)
+            {
+                embed.AddField("Command help:", "Use `/sprite buy (id)` to buy a sprite\n" +
+                                                "Use `/sprite use (id)` to wear a sprite\n" +
+                                                "Use `/sprite color (id) (color)` to colorize a rainbow sprite");
+            }
+            
+            foreach (var fieldBatch in page.Sprites.Batch(5))
+            {
+                var fieldSprites = sprites.Where(sprite => fieldBatch.Contains(sprite.Id));
+                embed.AddField("_ _", string.Join("\n", fieldSprites.Select(sprite => $"`{sprite.Id.AsTypoId()}`{(sprite.IsRainbow ? " `🌈`" : "")}{(sprite.IsSpecial ? " `✨`" : "")} {sprite.Name}")), true);
+            }
+            
+            return embed;
+        }).ToList();
+
+        await context.RespondPalantirPaginationAsync(pages, "Sprites");
+    }
+    
+    /// <summary>
+    /// View the most popular sprites
+    /// </summary>
+    /// <param name="context"></param>
+    /// <exception cref="Exception"></exception>
+    [Command("list")]
+    public async Task ListSprites(CommandContext context)
+    {
+        logger.LogTrace("ListSprites(context)");
+        
+        var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
+        var ranks = await spritesClient.GetSpriteRanking(new Empty()).ToListAsync();
+
+        var ranked = sprites
+            .Select(sprite => new { Sprite = sprite, Rank = ranks.FirstOrDefault(rank => rank.Id == sprite.Id) })
+            .OrderBy(rank => rank.Rank?.Rank ?? ranks.Count)
+            .ToList();
+
+        var embedBuilder = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithDescription("Sprites are ranked by their total purchases and active users.\n" +
+                             $"View all sprites {"here".AsTypoLink("https://typo.rip/tools/sprites", "🌍")}")
+            .WithTitle("Sprite Ranking");
+
+        foreach (var sprite in ranked.Take(10))
+        {
+            embedBuilder.AddField($"**#{sprite.Rank?.Rank}** {sprite.Sprite.Id.AsTypoId()} _ _ {sprite.Sprite.Name}", $"{sprite.Rank?.TotalBought} bought, {sprite.Rank?.ActiveUsers} active");
+        }
+
+        await context.RespondAsync(embedBuilder.Build());
+    }
     
     /// <summary>
     /// View the details of a sprite
@@ -257,9 +359,8 @@ public class SpriteCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="spriteId">The ID of the sprite which will be colorized.</param>
-    /// <param name="shift">A number from 0-240 to modify your sprite color. 120 is the original color.</param>
+    /// <param name="shift">A number from 0-200 to modify your sprite color. 100 is the original color.</param>
     [Command("color")]
-    [RequirePalantirMember]
     public async Task UseSpriteColorConfig(CommandContext context, int spriteId, int? shift = null)
     {
         logger.LogTrace("UseSpriteColorConfig(context, {shift})", shift);
@@ -308,7 +409,7 @@ public class SpriteCommands(
             .WithPalantirPresets(context)
             .WithAuthor(shift is null ? "You cleared your sprite rainbow color." : "You colorized a rainbow sprite!")
             .WithTitle($"{sprite.Id.AsTypoId()} _ _ {sprite.Name}")
-            .WithImageUrl($"https://static.typo.rip/sprites/rainbow/modulate.php?url={sprite.Url}&hue={shift?.ToString() ?? "120"}");
+            .WithImageUrl(shift is null ? sprite.Url : $"https://static.typo.rip/sprites/rainbow/modulate.php?url={sprite.Url}&hue={shift}");
         
         if(shift is not null)
         {

@@ -14,20 +14,22 @@ public class RequirePalantirMemberCheck(MemberContext memberContext, Members.Mem
         RequirePalantirMemberAttribute attribute,
         CommandContext context)
     {
+        MemberReply member;
+        
         try
         {
-            var member = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest
+            member = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest
                 { Id = (long)context.User.Id });
-            memberContext.Member = member;
+            //memberContext.Member = member; TODO uncomment when DI issue of command/check fixed
         }
         catch
         {
-            return null; // "This command requires you to have a Palantir account.";
+            return "This command requires you to have a Palantir account.";
         }
 
         var firstMissingFlag =
-            attribute.RequiredFlags.FindIndex(flag => !memberContext.Member.MappedFlags.Contains(flag));
+            attribute.RequiredFlags.FindIndex(flag => !member.MappedFlags.Contains(flag));
         
-        return firstMissingFlag >= 0 ? $"You need the flag {attribute.RequiredFlags[firstMissingFlag]} to use this command." : null;
+        return firstMissingFlag >= 0 ? $"You need the flag '{attribute.RequiredFlags[firstMissingFlag]}' to use this command." : null;
     }
 }

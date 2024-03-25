@@ -9,7 +9,7 @@ public class MemberContext
 
     public MemberContext(ILogger<MemberContext> logger)
     {
-        logger.LogInformation("Context #{i} created", i++);
+        logger.LogDebug("Context #{i} created", i++);
     }
     
     private MemberReply? _member;
