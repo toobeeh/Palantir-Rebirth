@@ -41,10 +41,11 @@ Needed grpc services:
 - getSpriteInventory(login:int)
 
 ### Scenes 
-- [ ] `>scene [id]` - View a scene
-- [ ] `>scene buy [id]` - Buy a scene
-- [ ] `>scene use [id]` - Use a scene
-- [ ] `>scene inv` - View all bought scenes and the next scene price
+- [x] `>scene view [id]` / `>scene [id]` - View a scene
+- [x] `>scene buy [id]` - Buy a scene
+- [x] `>scene use (id)` - Use a scene
+- [x] `>scene inv` - View all bought scenes and the next scene price
+- [x] `>scene list` - View a ranking of all sprites
 
 Needed grpc services:
 - getScene(id:int)

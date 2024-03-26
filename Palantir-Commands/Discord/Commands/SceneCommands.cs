@@ -146,8 +146,7 @@ public class SceneCommands(
         }
         else
         {
-            var scenePrice = await inventoryClient.GetScenePriceAsync(new ScenePriceRequest { BoughtSceneCount = sceneRank.TotalBought });
-            embedBuilder.AddField("Price:", $"`🫧` {scenePrice.NextPrice} Bubbles\nWith each scene you buy, the price of the next one increases.");
+            embedBuilder.AddField("Price:", $"`🫧` Check `/scene inventory` to see your current scene price.\nWith each scene you buy, the price of the next one increases.");
         }
         
         if(scene.Exclusive)
