@@ -58,7 +58,7 @@ public class SpriteCommands(
             .Average();
         
         // batch sprites to 45 per page
-        var batchSize = 45;
+        const int batchSize = 45;
         var pages = inventory.Batch(batchSize).Select((batch, idx) => new
         {
             Page = idx + 1,
@@ -71,9 +71,9 @@ public class SpriteCommands(
                 .WithAuthor($"Viewing sprites {spriteNumberStart} - {spriteNumberStart + page.Sprites.Count() - 1} of {inventory.Count}")
                 .WithTitle("Sprite Inventory");
             
-            embed.AddField("Total Worth:", $"`🫧` {totalWorth} Bubbles");
+            embed.AddField("Total worth:", $"`🫧` {totalWorth} Bubbles");
             embed.AddField("Event sprites:", $"`🎟️` {eventSpriteCount} Sprites collected");
-            embed.AddField("Uniqueness:", $"`💎` Your inventory has an uniqueness sore of {100 - Math.Round(uniquenessUserScore)}%");
+            embed.AddField("Uniqueness:", $"`💎` Your inventory has an uniqueness score of {100 - Math.Round(uniquenessUserScore)}%");
 
             if (inventory.Count < 5)
             {
@@ -392,7 +392,7 @@ public class SpriteCommands(
         if (shift is not null && !moreThanOneUnlocked && otherConfig is not null)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "No permission", $"You need to be a {"Patron".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to colorize more than one sprite at once.\n" +
+                .WithPalantirErrorPresets(context, "Rainbow Sprite Limit", $"You need to be a {"Patron".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to colorize more than one sprite at once.\n" +
                                                                     $"Use `/sprite color {otherConfig.SpriteId}` to reset the color of your current rainbow sprite."));
             return;
         }

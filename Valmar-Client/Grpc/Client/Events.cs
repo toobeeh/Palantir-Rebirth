@@ -25,26 +25,28 @@ namespace Valmar {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CgxldmVudHMucHJvdG8SBmV2ZW50cxobZ29vZ2xlL3Byb3RvYnVmL2VtcHR5",
-            "LnByb3RvIm8KCkV2ZW50UmVwbHkSDAoEbmFtZRgBIAEoCRIKCgJpZBgCIAEo",
-            "BRINCgVzdGFydBgDIAEoCRITCgtkZXNjcmlwdGlvbhgEIAEoCRIOCgZsZW5n",
-            "dGgYBSABKAUSEwoLcHJvZ3Jlc3NpdmUYBiABKAgiSAoORXZlbnREcm9wUmVw",
-            "bHkSDAoEbmFtZRgBIAEoCRIKCgJpZBgCIAEoBRILCgN1cmwYAyABKAkSDwoH",
-            "ZXZlbnRJZBgEIAEoBSIdCg9HZXRFdmVudFJlcXVlc3QSCgoCaWQYASABKAUi",
-            "IQoTR2V0RXZlbnREcm9wUmVxdWVzdBIKCgJpZBgBIAEoBTKcAwoGRXZlbnRz",
-            "EjwKDEdldEFsbEV2ZW50cxIWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRoSLmV2",
-            "ZW50cy5FdmVudFJlcGx5MAESPQoPR2V0Q3VycmVudEV2ZW50EhYuZ29vZ2xl",
-            "LnByb3RvYnVmLkVtcHR5GhIuZXZlbnRzLkV2ZW50UmVwbHkSOwoMR2V0RXZl",
-            "bnRCeUlkEhcuZXZlbnRzLkdldEV2ZW50UmVxdWVzdBoSLmV2ZW50cy5FdmVu",
-            "dFJlcGx5EkQKEEdldEFsbEV2ZW50RHJvcHMSFi5nb29nbGUucHJvdG9idWYu",
-            "RW1wdHkaFi5ldmVudHMuRXZlbnREcm9wUmVwbHkwARJHChBHZXRFdmVudERy",
-            "b3BCeUlkEhsuZXZlbnRzLkdldEV2ZW50RHJvcFJlcXVlc3QaFi5ldmVudHMu",
-            "RXZlbnREcm9wUmVwbHkSSQoUR2V0RXZlbnREcm9wc09mRXZlbnQSFy5ldmVu",
-            "dHMuR2V0RXZlbnRSZXF1ZXN0GhYuZXZlbnRzLkV2ZW50RHJvcFJlcGx5MAFC",
-            "CaoCBlZhbG1hcmIGcHJvdG8z"));
+            "LnByb3RvGh9nb29nbGUvcHJvdG9idWYvdGltZXN0YW1wLnByb3RvIrwBCgpF",
+            "dmVudFJlcGx5EgwKBG5hbWUYASABKAkSCgoCaWQYAiABKAUSEwoLZGVzY3Jp",
+            "cHRpb24YBCABKAkSDgoGbGVuZ3RoGAUgASgFEhMKC3Byb2dyZXNzaXZlGAYg",
+            "ASgIEi0KCXN0YXJ0RGF0ZRgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1l",
+            "c3RhbXASKwoHZW5kRGF0ZRgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1l",
+            "c3RhbXAiSAoORXZlbnREcm9wUmVwbHkSDAoEbmFtZRgBIAEoCRIKCgJpZBgC",
+            "IAEoBRILCgN1cmwYAyABKAkSDwoHZXZlbnRJZBgEIAEoBSIdCg9HZXRFdmVu",
+            "dFJlcXVlc3QSCgoCaWQYASABKAUiIQoTR2V0RXZlbnREcm9wUmVxdWVzdBIK",
+            "CgJpZBgBIAEoBTKcAwoGRXZlbnRzEjwKDEdldEFsbEV2ZW50cxIWLmdvb2ds",
+            "ZS5wcm90b2J1Zi5FbXB0eRoSLmV2ZW50cy5FdmVudFJlcGx5MAESPQoPR2V0",
+            "Q3VycmVudEV2ZW50EhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5GhIuZXZlbnRz",
+            "LkV2ZW50UmVwbHkSOwoMR2V0RXZlbnRCeUlkEhcuZXZlbnRzLkdldEV2ZW50",
+            "UmVxdWVzdBoSLmV2ZW50cy5FdmVudFJlcGx5EkQKEEdldEFsbEV2ZW50RHJv",
+            "cHMSFi5nb29nbGUucHJvdG9idWYuRW1wdHkaFi5ldmVudHMuRXZlbnREcm9w",
+            "UmVwbHkwARJHChBHZXRFdmVudERyb3BCeUlkEhsuZXZlbnRzLkdldEV2ZW50",
+            "RHJvcFJlcXVlc3QaFi5ldmVudHMuRXZlbnREcm9wUmVwbHkSSQoUR2V0RXZl",
+            "bnREcm9wc09mRXZlbnQSFy5ldmVudHMuR2V0RXZlbnRSZXF1ZXN0GhYuZXZl",
+            "bnRzLkV2ZW50RHJvcFJlcGx5MAFCCaoCBlZhbG1hcmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventReply), global::Valmar.EventReply.Parser, new[]{ "Name", "Id", "Start", "Description", "Length", "Progressive" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventReply), global::Valmar.EventReply.Parser, new[]{ "Name", "Id", "Description", "Length", "Progressive", "StartDate", "EndDate" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventDropReply), global::Valmar.EventDropReply.Parser, new[]{ "Name", "Id", "Url", "EventId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetEventRequest), global::Valmar.GetEventRequest.Parser, new[]{ "Id" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetEventDropRequest), global::Valmar.GetEventDropRequest.Parser, new[]{ "Id" }, null, null, null, null)
@@ -94,10 +96,11 @@ namespace Valmar {
     public EventReply(EventReply other) : this() {
       name_ = other.name_;
       id_ = other.id_;
-      start_ = other.start_;
       description_ = other.description_;
       length_ = other.length_;
       progressive_ = other.progressive_;
+      startDate_ = other.startDate_ != null ? other.startDate_.Clone() : null;
+      endDate_ = other.endDate_ != null ? other.endDate_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -128,18 +131,6 @@ namespace Valmar {
       get { return id_; }
       set {
         id_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "start" field.</summary>
-    public const int StartFieldNumber = 3;
-    private string start_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Start {
-      get { return start_; }
-      set {
-        start_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -179,6 +170,30 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "startDate" field.</summary>
+    public const int StartDateFieldNumber = 7;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp startDate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp StartDate {
+      get { return startDate_; }
+      set {
+        startDate_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "endDate" field.</summary>
+    public const int EndDateFieldNumber = 8;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp endDate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp EndDate {
+      get { return endDate_; }
+      set {
+        endDate_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -196,10 +211,11 @@ namespace Valmar {
       }
       if (Name != other.Name) return false;
       if (Id != other.Id) return false;
-      if (Start != other.Start) return false;
       if (Description != other.Description) return false;
       if (Length != other.Length) return false;
       if (Progressive != other.Progressive) return false;
+      if (!object.Equals(StartDate, other.StartDate)) return false;
+      if (!object.Equals(EndDate, other.EndDate)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -209,10 +225,11 @@ namespace Valmar {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Id != 0) hash ^= Id.GetHashCode();
-      if (Start.Length != 0) hash ^= Start.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
       if (Length != 0) hash ^= Length.GetHashCode();
       if (Progressive != false) hash ^= Progressive.GetHashCode();
+      if (startDate_ != null) hash ^= StartDate.GetHashCode();
+      if (endDate_ != null) hash ^= EndDate.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -239,10 +256,6 @@ namespace Valmar {
         output.WriteRawTag(16);
         output.WriteInt32(Id);
       }
-      if (Start.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Start);
-      }
       if (Description.Length != 0) {
         output.WriteRawTag(34);
         output.WriteString(Description);
@@ -254,6 +267,14 @@ namespace Valmar {
       if (Progressive != false) {
         output.WriteRawTag(48);
         output.WriteBool(Progressive);
+      }
+      if (startDate_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(StartDate);
+      }
+      if (endDate_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(EndDate);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -273,10 +294,6 @@ namespace Valmar {
         output.WriteRawTag(16);
         output.WriteInt32(Id);
       }
-      if (Start.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Start);
-      }
       if (Description.Length != 0) {
         output.WriteRawTag(34);
         output.WriteString(Description);
@@ -288,6 +305,14 @@ namespace Valmar {
       if (Progressive != false) {
         output.WriteRawTag(48);
         output.WriteBool(Progressive);
+      }
+      if (startDate_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(StartDate);
+      }
+      if (endDate_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(EndDate);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -305,9 +330,6 @@ namespace Valmar {
       if (Id != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
       }
-      if (Start.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Start);
-      }
       if (Description.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
       }
@@ -316,6 +338,12 @@ namespace Valmar {
       }
       if (Progressive != false) {
         size += 1 + 1;
+      }
+      if (startDate_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(StartDate);
+      }
+      if (endDate_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EndDate);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -335,9 +363,6 @@ namespace Valmar {
       if (other.Id != 0) {
         Id = other.Id;
       }
-      if (other.Start.Length != 0) {
-        Start = other.Start;
-      }
       if (other.Description.Length != 0) {
         Description = other.Description;
       }
@@ -346,6 +371,18 @@ namespace Valmar {
       }
       if (other.Progressive != false) {
         Progressive = other.Progressive;
+      }
+      if (other.startDate_ != null) {
+        if (startDate_ == null) {
+          StartDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        StartDate.MergeFrom(other.StartDate);
+      }
+      if (other.endDate_ != null) {
+        if (endDate_ == null) {
+          EndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        EndDate.MergeFrom(other.EndDate);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -370,10 +407,6 @@ namespace Valmar {
             Id = input.ReadInt32();
             break;
           }
-          case 26: {
-            Start = input.ReadString();
-            break;
-          }
           case 34: {
             Description = input.ReadString();
             break;
@@ -384,6 +417,20 @@ namespace Valmar {
           }
           case 48: {
             Progressive = input.ReadBool();
+            break;
+          }
+          case 58: {
+            if (startDate_ == null) {
+              StartDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(StartDate);
+            break;
+          }
+          case 66: {
+            if (endDate_ == null) {
+              EndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(EndDate);
             break;
           }
         }
@@ -409,10 +456,6 @@ namespace Valmar {
             Id = input.ReadInt32();
             break;
           }
-          case 26: {
-            Start = input.ReadString();
-            break;
-          }
           case 34: {
             Description = input.ReadString();
             break;
@@ -423,6 +466,20 @@ namespace Valmar {
           }
           case 48: {
             Progressive = input.ReadBool();
+            break;
+          }
+          case 58: {
+            if (startDate_ == null) {
+              StartDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(StartDate);
+            break;
+          }
+          case 66: {
+            if (endDate_ == null) {
+              EndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(EndDate);
             break;
           }
         }

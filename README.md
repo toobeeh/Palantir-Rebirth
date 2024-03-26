@@ -30,8 +30,8 @@ Commands are split into following categories.
 - [x] `>sprite use [id] (slot)` - Use a sprite on a slot
 - [x] `>sprite combo (...ids)` - Use a combo of sprites
 - [x] `>sprite color [id] (color shift)` - Use a rainbow shift color on a sprite
-- [ ] `>sprite inventory` - View all bought sprites and total value
-- [ ] `>sprite list` - View a ranking of all sprites
+- [x] `>sprite inventory` - View all bought sprites and total value
+- [x] `>sprite list` - View a ranking of all sprites
 
 Needed grpc services:
 - getSprite(id:int)
