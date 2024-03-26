@@ -293,8 +293,9 @@ public class SpriteCommands(
             .WithTitle(sprite is null ? "Such empty 💨" : $"{sprite.Id.AsTypoId()} _ _ {sprite.Name}")
             .WithImageUrl(sprite?.Url ?? "");
         
-        embedBuilder.WithDescription($"This sprite will now be displayed on your skribbl avatar on slot {slot}.\n" +
+        if(sprite is not null) embedBuilder.WithDescription($"The sprite {sprite.Name} will now be displayed on your skribbl avatar on slot {slot}.\n" +
                                      $"To remove it, use the command `/sprite use 0 {slot}`.");
+        else embedBuilder.WithDescription($"The sprite on slot {slot} has been removed.");
         
         await context.RespondAsync(embedBuilder.Build());
     }

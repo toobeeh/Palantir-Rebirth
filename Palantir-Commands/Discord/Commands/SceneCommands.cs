@@ -263,8 +263,9 @@ public class SceneCommands(
             .WithTitle(scene is null ? "Such empty 💨" : $"{scene.Id.AsTypoId()} _ _ {scene.Name}")
             .WithImageUrl(scene?.Url ?? "");
         
-        embedBuilder.WithDescription($"This scene will now be displayed behind your avatar in skribbl lobbies.\n" +
+        if(scene is not null) embedBuilder.WithDescription($"This scene {scene.Name} will now be displayed behind your avatar in skribbl lobbies.\n" +
                                      $"To remove it, use the command `/scene use`.");
+        else embedBuilder.WithDescription("Your avatar background has been cleared.");
         
         await context.RespondAsync(embedBuilder.Build());
     }
