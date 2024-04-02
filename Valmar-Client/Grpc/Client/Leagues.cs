@@ -25,50 +25,57 @@ namespace Valmar {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg1sZWFndWVzLnByb3RvEgdsZWFndWVzGhtnb29nbGUvcHJvdG9idWYvZW1w",
-            "dHkucHJvdG8i4gIKG0xlYWd1ZVNlYXNvbkV2YWx1YXRpb25SZXBseRIMCgR5",
-            "ZWFyGAEgASgFEg0KBW1vbnRoGAIgASgFEjYKDHNjb3JlUmFua2luZxgDIAMo",
-            "CzIgLmxlYWd1ZXMuTGVhZ3VlU2NvcmVSYW5raW5nUmVwbHkSNgoMY291bnRS",
-            "YW5raW5nGAQgAygLMiAubGVhZ3Vlcy5MZWFndWVDb3VudFJhbmtpbmdSZXBs",
-            "eRI7Cgt0aW1lUmFua2luZxgFIAMoCzImLmxlYWd1ZXMuTGVhZ3VlQXZlcmFn",
-            "ZVRpbWVSYW5raW5nUmVwbHkSPwoNd2VpZ2h0UmFua2luZxgGIAMoCzIoLmxl",
-            "YWd1ZXMuTGVhZ3VlQXZlcmFnZVdlaWdodFJhbmtpbmdSZXBseRI4Cg1zdHJl",
-            "YWtSYW5raW5nGAcgAygLMiEubGVhZ3Vlcy5MZWFndWVTdHJlYWtSYW5raW5n",
-            "UmVwbHkitAEKIUxlYWd1ZVNlYXNvbk1lbWJlckV2YWx1YXRpb25SZXBseRIM",
-            "CgR5ZWFyGAEgASgFEg0KBW1vbnRoGAIgASgFEg0KBXNjb3JlGAMgASgBEg0K",
-            "BWNvdW50GAUgASgFEhEKCW1heFN0cmVhaxgGIAEoBRIVCg1jdXJyZW50U3Ry",
-            "ZWFrGAcgASgFEhMKC2F2ZXJhZ2VUaW1lGAggASgBEhUKDWF2ZXJhZ2VXZWln",
-            "aHQYCSABKAEiNgoXTGVhZ3VlU2NvcmVSYW5raW5nUmVwbHkSDAoEbmFtZRgB",
-            "IAEoCRINCgVzY29yZRgCIAEoASI8ChdMZWFndWVDb3VudFJhbmtpbmdSZXBs",
-            "eRIMCgRuYW1lGAEgASgJEhMKC2NhdWdodERyb3BzGAIgASgFIkIKHUxlYWd1",
-            "ZUF2ZXJhZ2VUaW1lUmFua2luZ1JlcGx5EgwKBG5hbWUYASABKAkSEwoLYXZl",
-            "cmFnZVRpbWUYAiABKAEiRgofTGVhZ3VlQXZlcmFnZVdlaWdodFJhbmtpbmdS",
-            "ZXBseRIMCgRuYW1lGAEgASgJEhUKDWF2ZXJhZ2VXZWlnaHQYAiABKAEiUgoY",
-            "TGVhZ3VlU3RyZWFrUmFua2luZ1JlcGx5EgwKBG5hbWUYASABKAkSEQoJbWF4",
-            "U3RyZWFrGAIgASgFEhUKDWN1cnJlbnRTdHJlYWsYAyABKAUiNAoVRXZhbHVh",
-            "dGVTZWFzb25SZXF1ZXN0EgwKBHllYXIYASABKAUSDQoFbW9udGgYAiABKAUi",
-            "SQobRXZhbHVhdGVNZW1iZXJTZWFzb25SZXF1ZXN0EgwKBHllYXIYASABKAUS",
-            "DQoFbW9udGgYAiABKAUSDQoFbG9naW4YAyABKAUiMwoiRXZhbHVhdGVNZW1i",
-            "ZXJDdXJyZW50U2Vhc29uUmVxdWVzdBINCgVsb2dpbhgCIAEoBTKyAwoHTGVh",
-            "Z3VlcxJbChtFdmFsdWF0ZUN1cnJlbnRMZWFndWVTZWFzb24SFi5nb29nbGUu",
-            "cHJvdG9idWYuRW1wdHkaJC5sZWFndWVzLkxlYWd1ZVNlYXNvbkV2YWx1YXRp",
-            "b25SZXBseRJcChRFdmFsdWF0ZUxlYWd1ZVNlYXNvbhIeLmxlYWd1ZXMuRXZh",
-            "bHVhdGVTZWFzb25SZXF1ZXN0GiQubGVhZ3Vlcy5MZWFndWVTZWFzb25FdmFs",
-            "dWF0aW9uUmVwbHkSfAohRXZhbHVhdGVNZW1iZXJDdXJyZW50TGVhZ3VlU2Vh",
-            "c29uEisubGVhZ3Vlcy5FdmFsdWF0ZU1lbWJlckN1cnJlbnRTZWFzb25SZXF1",
-            "ZXN0GioubGVhZ3Vlcy5MZWFndWVTZWFzb25NZW1iZXJFdmFsdWF0aW9uUmVw",
-            "bHkSbgoaRXZhbHVhdGVNZW1iZXJMZWFndWVTZWFzb24SJC5sZWFndWVzLkV2",
-            "YWx1YXRlTWVtYmVyU2Vhc29uUmVxdWVzdBoqLmxlYWd1ZXMuTGVhZ3VlU2Vh",
-            "c29uTWVtYmVyRXZhbHVhdGlvblJlcGx5QgmqAgZWYWxtYXJiBnByb3RvMw=="));
+            "dHkucHJvdG8aH2dvb2dsZS9wcm90b2J1Zi90aW1lc3RhbXAucHJvdG8iwgMK",
+            "G0xlYWd1ZVNlYXNvbkV2YWx1YXRpb25SZXBseRIMCgR5ZWFyGAEgASgFEg0K",
+            "BW1vbnRoGAIgASgFEjYKDHNjb3JlUmFua2luZxgDIAMoCzIgLmxlYWd1ZXMu",
+            "TGVhZ3VlU2NvcmVSYW5raW5nUmVwbHkSNgoMY291bnRSYW5raW5nGAQgAygL",
+            "MiAubGVhZ3Vlcy5MZWFndWVDb3VudFJhbmtpbmdSZXBseRI7Cgt0aW1lUmFu",
+            "a2luZxgFIAMoCzImLmxlYWd1ZXMuTGVhZ3VlQXZlcmFnZVRpbWVSYW5raW5n",
+            "UmVwbHkSPwoNd2VpZ2h0UmFua2luZxgGIAMoCzIoLmxlYWd1ZXMuTGVhZ3Vl",
+            "QXZlcmFnZVdlaWdodFJhbmtpbmdSZXBseRI4Cg1zdHJlYWtSYW5raW5nGAcg",
+            "AygLMiEubGVhZ3Vlcy5MZWFndWVTdHJlYWtSYW5raW5nUmVwbHkSLwoLc2Vh",
+            "c29uU3RhcnQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi0K",
+            "CXNlYXNvbkVuZBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAi",
+            "lAIKIUxlYWd1ZVNlYXNvbk1lbWJlckV2YWx1YXRpb25SZXBseRIMCgR5ZWFy",
+            "GAEgASgFEg0KBW1vbnRoGAIgASgFEg0KBXNjb3JlGAMgASgBEg0KBWNvdW50",
+            "GAUgASgFEhEKCW1heFN0cmVhaxgGIAEoBRIVCg1jdXJyZW50U3RyZWFrGAcg",
+            "ASgFEhMKC2F2ZXJhZ2VUaW1lGAggASgBEhUKDWF2ZXJhZ2VXZWlnaHQYCSAB",
+            "KAESLwoLc2Vhc29uU3RhcnQYCiABKAsyGi5nb29nbGUucHJvdG9idWYuVGlt",
+            "ZXN0YW1wEi0KCXNlYXNvbkVuZBgLIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5U",
+            "aW1lc3RhbXAiRgoXTGVhZ3VlU2NvcmVSYW5raW5nUmVwbHkSDAoEbmFtZRgB",
+            "IAEoCRINCgVzY29yZRgCIAEoARIOCgZ1c2VySWQYAyABKAMiTAoXTGVhZ3Vl",
+            "Q291bnRSYW5raW5nUmVwbHkSDAoEbmFtZRgBIAEoCRITCgtjYXVnaHREcm9w",
+            "cxgCIAEoBRIOCgZ1c2VySWQYAyABKAMiUgodTGVhZ3VlQXZlcmFnZVRpbWVS",
+            "YW5raW5nUmVwbHkSDAoEbmFtZRgBIAEoCRITCgthdmVyYWdlVGltZRgCIAEo",
+            "ARIOCgZ1c2VySWQYAyABKAMiVgofTGVhZ3VlQXZlcmFnZVdlaWdodFJhbmtp",
+            "bmdSZXBseRIMCgRuYW1lGAEgASgJEhUKDWF2ZXJhZ2VXZWlnaHQYAiABKAES",
+            "DgoGdXNlcklkGAMgASgDImIKGExlYWd1ZVN0cmVha1JhbmtpbmdSZXBseRIM",
+            "CgRuYW1lGAEgASgJEhEKCW1heFN0cmVhaxgCIAEoBRIVCg1jdXJyZW50U3Ry",
+            "ZWFrGAMgASgFEg4KBnVzZXJJZBgEIAEoAyI0ChVFdmFsdWF0ZVNlYXNvblJl",
+            "cXVlc3QSDAoEeWVhchgBIAEoBRINCgVtb250aBgCIAEoBSJJChtFdmFsdWF0",
+            "ZU1lbWJlclNlYXNvblJlcXVlc3QSDAoEeWVhchgBIAEoBRINCgVtb250aBgC",
+            "IAEoBRINCgVsb2dpbhgDIAEoBSIzCiJFdmFsdWF0ZU1lbWJlckN1cnJlbnRT",
+            "ZWFzb25SZXF1ZXN0Eg0KBWxvZ2luGAIgASgFMrIDCgdMZWFndWVzElsKG0V2",
+            "YWx1YXRlQ3VycmVudExlYWd1ZVNlYXNvbhIWLmdvb2dsZS5wcm90b2J1Zi5F",
+            "bXB0eRokLmxlYWd1ZXMuTGVhZ3VlU2Vhc29uRXZhbHVhdGlvblJlcGx5ElwK",
+            "FEV2YWx1YXRlTGVhZ3VlU2Vhc29uEh4ubGVhZ3Vlcy5FdmFsdWF0ZVNlYXNv",
+            "blJlcXVlc3QaJC5sZWFndWVzLkxlYWd1ZVNlYXNvbkV2YWx1YXRpb25SZXBs",
+            "eRJ8CiFFdmFsdWF0ZU1lbWJlckN1cnJlbnRMZWFndWVTZWFzb24SKy5sZWFn",
+            "dWVzLkV2YWx1YXRlTWVtYmVyQ3VycmVudFNlYXNvblJlcXVlc3QaKi5sZWFn",
+            "dWVzLkxlYWd1ZVNlYXNvbk1lbWJlckV2YWx1YXRpb25SZXBseRJuChpFdmFs",
+            "dWF0ZU1lbWJlckxlYWd1ZVNlYXNvbhIkLmxlYWd1ZXMuRXZhbHVhdGVNZW1i",
+            "ZXJTZWFzb25SZXF1ZXN0GioubGVhZ3Vlcy5MZWFndWVTZWFzb25NZW1iZXJF",
+            "dmFsdWF0aW9uUmVwbHlCCaoCBlZhbG1hcmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueSeasonEvaluationReply), global::Valmar.LeagueSeasonEvaluationReply.Parser, new[]{ "Year", "Month", "ScoreRanking", "CountRanking", "TimeRanking", "WeightRanking", "StreakRanking" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueSeasonMemberEvaluationReply), global::Valmar.LeagueSeasonMemberEvaluationReply.Parser, new[]{ "Year", "Month", "Score", "Count", "MaxStreak", "CurrentStreak", "AverageTime", "AverageWeight" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueScoreRankingReply), global::Valmar.LeagueScoreRankingReply.Parser, new[]{ "Name", "Score" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueCountRankingReply), global::Valmar.LeagueCountRankingReply.Parser, new[]{ "Name", "CaughtDrops" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueAverageTimeRankingReply), global::Valmar.LeagueAverageTimeRankingReply.Parser, new[]{ "Name", "AverageTime" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueAverageWeightRankingReply), global::Valmar.LeagueAverageWeightRankingReply.Parser, new[]{ "Name", "AverageWeight" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueStreakRankingReply), global::Valmar.LeagueStreakRankingReply.Parser, new[]{ "Name", "MaxStreak", "CurrentStreak" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueSeasonEvaluationReply), global::Valmar.LeagueSeasonEvaluationReply.Parser, new[]{ "Year", "Month", "ScoreRanking", "CountRanking", "TimeRanking", "WeightRanking", "StreakRanking", "SeasonStart", "SeasonEnd" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueSeasonMemberEvaluationReply), global::Valmar.LeagueSeasonMemberEvaluationReply.Parser, new[]{ "Year", "Month", "Score", "Count", "MaxStreak", "CurrentStreak", "AverageTime", "AverageWeight", "SeasonStart", "SeasonEnd" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueScoreRankingReply), global::Valmar.LeagueScoreRankingReply.Parser, new[]{ "Name", "Score", "UserId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueCountRankingReply), global::Valmar.LeagueCountRankingReply.Parser, new[]{ "Name", "CaughtDrops", "UserId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueAverageTimeRankingReply), global::Valmar.LeagueAverageTimeRankingReply.Parser, new[]{ "Name", "AverageTime", "UserId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueAverageWeightRankingReply), global::Valmar.LeagueAverageWeightRankingReply.Parser, new[]{ "Name", "AverageWeight", "UserId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeagueStreakRankingReply), global::Valmar.LeagueStreakRankingReply.Parser, new[]{ "Name", "MaxStreak", "CurrentStreak", "UserId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EvaluateSeasonRequest), global::Valmar.EvaluateSeasonRequest.Parser, new[]{ "Year", "Month" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EvaluateMemberSeasonRequest), global::Valmar.EvaluateMemberSeasonRequest.Parser, new[]{ "Year", "Month", "Login" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EvaluateMemberCurrentSeasonRequest), global::Valmar.EvaluateMemberCurrentSeasonRequest.Parser, new[]{ "Login" }, null, null, null, null)
@@ -123,6 +130,8 @@ namespace Valmar {
       timeRanking_ = other.timeRanking_.Clone();
       weightRanking_ = other.weightRanking_.Clone();
       streakRanking_ = other.streakRanking_.Clone();
+      seasonStart_ = other.seasonStart_ != null ? other.seasonStart_.Clone() : null;
+      seasonEnd_ = other.seasonEnd_ != null ? other.seasonEnd_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -211,6 +220,30 @@ namespace Valmar {
       get { return streakRanking_; }
     }
 
+    /// <summary>Field number for the "seasonStart" field.</summary>
+    public const int SeasonStartFieldNumber = 8;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp seasonStart_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp SeasonStart {
+      get { return seasonStart_; }
+      set {
+        seasonStart_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "seasonEnd" field.</summary>
+    public const int SeasonEndFieldNumber = 9;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp seasonEnd_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp SeasonEnd {
+      get { return seasonEnd_; }
+      set {
+        seasonEnd_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -233,6 +266,8 @@ namespace Valmar {
       if(!timeRanking_.Equals(other.timeRanking_)) return false;
       if(!weightRanking_.Equals(other.weightRanking_)) return false;
       if(!streakRanking_.Equals(other.streakRanking_)) return false;
+      if (!object.Equals(SeasonStart, other.SeasonStart)) return false;
+      if (!object.Equals(SeasonEnd, other.SeasonEnd)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -247,6 +282,8 @@ namespace Valmar {
       hash ^= timeRanking_.GetHashCode();
       hash ^= weightRanking_.GetHashCode();
       hash ^= streakRanking_.GetHashCode();
+      if (seasonStart_ != null) hash ^= SeasonStart.GetHashCode();
+      if (seasonEnd_ != null) hash ^= SeasonEnd.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -278,6 +315,14 @@ namespace Valmar {
       timeRanking_.WriteTo(output, _repeated_timeRanking_codec);
       weightRanking_.WriteTo(output, _repeated_weightRanking_codec);
       streakRanking_.WriteTo(output, _repeated_streakRanking_codec);
+      if (seasonStart_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(SeasonStart);
+      }
+      if (seasonEnd_ != null) {
+        output.WriteRawTag(74);
+        output.WriteMessage(SeasonEnd);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -301,6 +346,14 @@ namespace Valmar {
       timeRanking_.WriteTo(ref output, _repeated_timeRanking_codec);
       weightRanking_.WriteTo(ref output, _repeated_weightRanking_codec);
       streakRanking_.WriteTo(ref output, _repeated_streakRanking_codec);
+      if (seasonStart_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(SeasonStart);
+      }
+      if (seasonEnd_ != null) {
+        output.WriteRawTag(74);
+        output.WriteMessage(SeasonEnd);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -322,6 +375,12 @@ namespace Valmar {
       size += timeRanking_.CalculateSize(_repeated_timeRanking_codec);
       size += weightRanking_.CalculateSize(_repeated_weightRanking_codec);
       size += streakRanking_.CalculateSize(_repeated_streakRanking_codec);
+      if (seasonStart_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SeasonStart);
+      }
+      if (seasonEnd_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SeasonEnd);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -345,6 +404,18 @@ namespace Valmar {
       timeRanking_.Add(other.timeRanking_);
       weightRanking_.Add(other.weightRanking_);
       streakRanking_.Add(other.streakRanking_);
+      if (other.seasonStart_ != null) {
+        if (seasonStart_ == null) {
+          SeasonStart = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        SeasonStart.MergeFrom(other.SeasonStart);
+      }
+      if (other.seasonEnd_ != null) {
+        if (seasonEnd_ == null) {
+          SeasonEnd = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        SeasonEnd.MergeFrom(other.SeasonEnd);
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -388,6 +459,20 @@ namespace Valmar {
             streakRanking_.AddEntriesFrom(input, _repeated_streakRanking_codec);
             break;
           }
+          case 66: {
+            if (seasonStart_ == null) {
+              SeasonStart = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(SeasonStart);
+            break;
+          }
+          case 74: {
+            if (seasonEnd_ == null) {
+              SeasonEnd = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(SeasonEnd);
+            break;
+          }
         }
       }
     #endif
@@ -429,6 +514,20 @@ namespace Valmar {
           }
           case 58: {
             streakRanking_.AddEntriesFrom(ref input, _repeated_streakRanking_codec);
+            break;
+          }
+          case 66: {
+            if (seasonStart_ == null) {
+              SeasonStart = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(SeasonStart);
+            break;
+          }
+          case 74: {
+            if (seasonEnd_ == null) {
+              SeasonEnd = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(SeasonEnd);
             break;
           }
         }
@@ -484,6 +583,8 @@ namespace Valmar {
       currentStreak_ = other.currentStreak_;
       averageTime_ = other.averageTime_;
       averageWeight_ = other.averageWeight_;
+      seasonStart_ = other.seasonStart_ != null ? other.seasonStart_.Clone() : null;
+      seasonEnd_ = other.seasonEnd_ != null ? other.seasonEnd_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -589,6 +690,30 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "seasonStart" field.</summary>
+    public const int SeasonStartFieldNumber = 10;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp seasonStart_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp SeasonStart {
+      get { return seasonStart_; }
+      set {
+        seasonStart_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "seasonEnd" field.</summary>
+    public const int SeasonEndFieldNumber = 11;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp seasonEnd_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp SeasonEnd {
+      get { return seasonEnd_; }
+      set {
+        seasonEnd_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -612,6 +737,8 @@ namespace Valmar {
       if (CurrentStreak != other.CurrentStreak) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(AverageTime, other.AverageTime)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(AverageWeight, other.AverageWeight)) return false;
+      if (!object.Equals(SeasonStart, other.SeasonStart)) return false;
+      if (!object.Equals(SeasonEnd, other.SeasonEnd)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -627,6 +754,8 @@ namespace Valmar {
       if (CurrentStreak != 0) hash ^= CurrentStreak.GetHashCode();
       if (AverageTime != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(AverageTime);
       if (AverageWeight != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(AverageWeight);
+      if (seasonStart_ != null) hash ^= SeasonStart.GetHashCode();
+      if (seasonEnd_ != null) hash ^= SeasonEnd.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -677,6 +806,14 @@ namespace Valmar {
         output.WriteRawTag(73);
         output.WriteDouble(AverageWeight);
       }
+      if (seasonStart_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(SeasonStart);
+      }
+      if (seasonEnd_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(SeasonEnd);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -719,6 +856,14 @@ namespace Valmar {
         output.WriteRawTag(73);
         output.WriteDouble(AverageWeight);
       }
+      if (seasonStart_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(SeasonStart);
+      }
+      if (seasonEnd_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(SeasonEnd);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -752,6 +897,12 @@ namespace Valmar {
       }
       if (AverageWeight != 0D) {
         size += 1 + 8;
+      }
+      if (seasonStart_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SeasonStart);
+      }
+      if (seasonEnd_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SeasonEnd);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -788,6 +939,18 @@ namespace Valmar {
       }
       if (other.AverageWeight != 0D) {
         AverageWeight = other.AverageWeight;
+      }
+      if (other.seasonStart_ != null) {
+        if (seasonStart_ == null) {
+          SeasonStart = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        SeasonStart.MergeFrom(other.SeasonStart);
+      }
+      if (other.seasonEnd_ != null) {
+        if (seasonEnd_ == null) {
+          SeasonEnd = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        SeasonEnd.MergeFrom(other.SeasonEnd);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -836,6 +999,20 @@ namespace Valmar {
             AverageWeight = input.ReadDouble();
             break;
           }
+          case 82: {
+            if (seasonStart_ == null) {
+              SeasonStart = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(SeasonStart);
+            break;
+          }
+          case 90: {
+            if (seasonEnd_ == null) {
+              SeasonEnd = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(SeasonEnd);
+            break;
+          }
         }
       }
     #endif
@@ -881,6 +1058,20 @@ namespace Valmar {
           }
           case 73: {
             AverageWeight = input.ReadDouble();
+            break;
+          }
+          case 82: {
+            if (seasonStart_ == null) {
+              SeasonStart = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(SeasonStart);
+            break;
+          }
+          case 90: {
+            if (seasonEnd_ == null) {
+              SeasonEnd = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(SeasonEnd);
             break;
           }
         }
@@ -927,6 +1118,7 @@ namespace Valmar {
     public LeagueScoreRankingReply(LeagueScoreRankingReply other) : this() {
       name_ = other.name_;
       score_ = other.score_;
+      userId_ = other.userId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -960,6 +1152,18 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "userId" field.</summary>
+    public const int UserIdFieldNumber = 3;
+    private long userId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long UserId {
+      get { return userId_; }
+      set {
+        userId_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -977,6 +1181,7 @@ namespace Valmar {
       }
       if (Name != other.Name) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Score, other.Score)) return false;
+      if (UserId != other.UserId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -986,6 +1191,7 @@ namespace Valmar {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Score != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Score);
+      if (UserId != 0L) hash ^= UserId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1012,6 +1218,10 @@ namespace Valmar {
         output.WriteRawTag(17);
         output.WriteDouble(Score);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1030,6 +1240,10 @@ namespace Valmar {
         output.WriteRawTag(17);
         output.WriteDouble(Score);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1045,6 +1259,9 @@ namespace Valmar {
       }
       if (Score != 0D) {
         size += 1 + 8;
+      }
+      if (UserId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UserId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1063,6 +1280,9 @@ namespace Valmar {
       }
       if (other.Score != 0D) {
         Score = other.Score;
+      }
+      if (other.UserId != 0L) {
+        UserId = other.UserId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1087,6 +1307,10 @@ namespace Valmar {
             Score = input.ReadDouble();
             break;
           }
+          case 24: {
+            UserId = input.ReadInt64();
+            break;
+          }
         }
       }
     #endif
@@ -1108,6 +1332,10 @@ namespace Valmar {
           }
           case 17: {
             Score = input.ReadDouble();
+            break;
+          }
+          case 24: {
+            UserId = input.ReadInt64();
             break;
           }
         }
@@ -1154,6 +1382,7 @@ namespace Valmar {
     public LeagueCountRankingReply(LeagueCountRankingReply other) : this() {
       name_ = other.name_;
       caughtDrops_ = other.caughtDrops_;
+      userId_ = other.userId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1187,6 +1416,18 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "userId" field.</summary>
+    public const int UserIdFieldNumber = 3;
+    private long userId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long UserId {
+      get { return userId_; }
+      set {
+        userId_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1204,6 +1445,7 @@ namespace Valmar {
       }
       if (Name != other.Name) return false;
       if (CaughtDrops != other.CaughtDrops) return false;
+      if (UserId != other.UserId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1213,6 +1455,7 @@ namespace Valmar {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (CaughtDrops != 0) hash ^= CaughtDrops.GetHashCode();
+      if (UserId != 0L) hash ^= UserId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1239,6 +1482,10 @@ namespace Valmar {
         output.WriteRawTag(16);
         output.WriteInt32(CaughtDrops);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1257,6 +1504,10 @@ namespace Valmar {
         output.WriteRawTag(16);
         output.WriteInt32(CaughtDrops);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1272,6 +1523,9 @@ namespace Valmar {
       }
       if (CaughtDrops != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(CaughtDrops);
+      }
+      if (UserId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UserId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1290,6 +1544,9 @@ namespace Valmar {
       }
       if (other.CaughtDrops != 0) {
         CaughtDrops = other.CaughtDrops;
+      }
+      if (other.UserId != 0L) {
+        UserId = other.UserId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1314,6 +1571,10 @@ namespace Valmar {
             CaughtDrops = input.ReadInt32();
             break;
           }
+          case 24: {
+            UserId = input.ReadInt64();
+            break;
+          }
         }
       }
     #endif
@@ -1335,6 +1596,10 @@ namespace Valmar {
           }
           case 16: {
             CaughtDrops = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            UserId = input.ReadInt64();
             break;
           }
         }
@@ -1381,6 +1646,7 @@ namespace Valmar {
     public LeagueAverageTimeRankingReply(LeagueAverageTimeRankingReply other) : this() {
       name_ = other.name_;
       averageTime_ = other.averageTime_;
+      userId_ = other.userId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1414,6 +1680,18 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "userId" field.</summary>
+    public const int UserIdFieldNumber = 3;
+    private long userId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long UserId {
+      get { return userId_; }
+      set {
+        userId_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1431,6 +1709,7 @@ namespace Valmar {
       }
       if (Name != other.Name) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(AverageTime, other.AverageTime)) return false;
+      if (UserId != other.UserId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1440,6 +1719,7 @@ namespace Valmar {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (AverageTime != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(AverageTime);
+      if (UserId != 0L) hash ^= UserId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1466,6 +1746,10 @@ namespace Valmar {
         output.WriteRawTag(17);
         output.WriteDouble(AverageTime);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1484,6 +1768,10 @@ namespace Valmar {
         output.WriteRawTag(17);
         output.WriteDouble(AverageTime);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1499,6 +1787,9 @@ namespace Valmar {
       }
       if (AverageTime != 0D) {
         size += 1 + 8;
+      }
+      if (UserId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UserId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1517,6 +1808,9 @@ namespace Valmar {
       }
       if (other.AverageTime != 0D) {
         AverageTime = other.AverageTime;
+      }
+      if (other.UserId != 0L) {
+        UserId = other.UserId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1541,6 +1835,10 @@ namespace Valmar {
             AverageTime = input.ReadDouble();
             break;
           }
+          case 24: {
+            UserId = input.ReadInt64();
+            break;
+          }
         }
       }
     #endif
@@ -1562,6 +1860,10 @@ namespace Valmar {
           }
           case 17: {
             AverageTime = input.ReadDouble();
+            break;
+          }
+          case 24: {
+            UserId = input.ReadInt64();
             break;
           }
         }
@@ -1608,6 +1910,7 @@ namespace Valmar {
     public LeagueAverageWeightRankingReply(LeagueAverageWeightRankingReply other) : this() {
       name_ = other.name_;
       averageWeight_ = other.averageWeight_;
+      userId_ = other.userId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1641,6 +1944,18 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "userId" field.</summary>
+    public const int UserIdFieldNumber = 3;
+    private long userId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long UserId {
+      get { return userId_; }
+      set {
+        userId_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1658,6 +1973,7 @@ namespace Valmar {
       }
       if (Name != other.Name) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(AverageWeight, other.AverageWeight)) return false;
+      if (UserId != other.UserId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1667,6 +1983,7 @@ namespace Valmar {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (AverageWeight != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(AverageWeight);
+      if (UserId != 0L) hash ^= UserId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1693,6 +2010,10 @@ namespace Valmar {
         output.WriteRawTag(17);
         output.WriteDouble(AverageWeight);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1711,6 +2032,10 @@ namespace Valmar {
         output.WriteRawTag(17);
         output.WriteDouble(AverageWeight);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1726,6 +2051,9 @@ namespace Valmar {
       }
       if (AverageWeight != 0D) {
         size += 1 + 8;
+      }
+      if (UserId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UserId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1744,6 +2072,9 @@ namespace Valmar {
       }
       if (other.AverageWeight != 0D) {
         AverageWeight = other.AverageWeight;
+      }
+      if (other.UserId != 0L) {
+        UserId = other.UserId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1768,6 +2099,10 @@ namespace Valmar {
             AverageWeight = input.ReadDouble();
             break;
           }
+          case 24: {
+            UserId = input.ReadInt64();
+            break;
+          }
         }
       }
     #endif
@@ -1789,6 +2124,10 @@ namespace Valmar {
           }
           case 17: {
             AverageWeight = input.ReadDouble();
+            break;
+          }
+          case 24: {
+            UserId = input.ReadInt64();
             break;
           }
         }
@@ -1836,6 +2175,7 @@ namespace Valmar {
       name_ = other.name_;
       maxStreak_ = other.maxStreak_;
       currentStreak_ = other.currentStreak_;
+      userId_ = other.userId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1881,6 +2221,18 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "userId" field.</summary>
+    public const int UserIdFieldNumber = 4;
+    private long userId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long UserId {
+      get { return userId_; }
+      set {
+        userId_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1899,6 +2251,7 @@ namespace Valmar {
       if (Name != other.Name) return false;
       if (MaxStreak != other.MaxStreak) return false;
       if (CurrentStreak != other.CurrentStreak) return false;
+      if (UserId != other.UserId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1909,6 +2262,7 @@ namespace Valmar {
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (MaxStreak != 0) hash ^= MaxStreak.GetHashCode();
       if (CurrentStreak != 0) hash ^= CurrentStreak.GetHashCode();
+      if (UserId != 0L) hash ^= UserId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1939,6 +2293,10 @@ namespace Valmar {
         output.WriteRawTag(24);
         output.WriteInt32(CurrentStreak);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(32);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1961,6 +2319,10 @@ namespace Valmar {
         output.WriteRawTag(24);
         output.WriteInt32(CurrentStreak);
       }
+      if (UserId != 0L) {
+        output.WriteRawTag(32);
+        output.WriteInt64(UserId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1979,6 +2341,9 @@ namespace Valmar {
       }
       if (CurrentStreak != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(CurrentStreak);
+      }
+      if (UserId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(UserId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2000,6 +2365,9 @@ namespace Valmar {
       }
       if (other.CurrentStreak != 0) {
         CurrentStreak = other.CurrentStreak;
+      }
+      if (other.UserId != 0L) {
+        UserId = other.UserId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2028,6 +2396,10 @@ namespace Valmar {
             CurrentStreak = input.ReadInt32();
             break;
           }
+          case 32: {
+            UserId = input.ReadInt64();
+            break;
+          }
         }
       }
     #endif
@@ -2053,6 +2425,10 @@ namespace Valmar {
           }
           case 24: {
             CurrentStreak = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            UserId = input.ReadInt64();
             break;
           }
         }

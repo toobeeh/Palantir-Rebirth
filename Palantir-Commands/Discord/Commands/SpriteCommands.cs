@@ -365,7 +365,6 @@ public class SpriteCommands(
     public async Task UseSpriteColorConfig(CommandContext context, int spriteId, int? shift = null)
     {
         logger.LogTrace("UseSpriteColorConfig(context, {shift})", shift);
-
         
         var user = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
         var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = user.Login }).ToListAsync();

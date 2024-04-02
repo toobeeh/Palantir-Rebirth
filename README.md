@@ -80,9 +80,9 @@ Needed grpc services:
 - getEventCredits(login:int, eventId:int) - return list of event credits
 
 ### League
-- [ ] `>league (month) (year)` - View the league overview for a month
-- [ ] `>league board (month) (year)` - View the league board for a month
-- [ ] `>league rank (month) (year)` - View the own league stats for a month
+- [x] `>league (month) (year)` - View the league overview for a month
+- [x] `>league board (month) (year)` - View the league board for a month
+- [x] `>league rank (month) (year)` - View the own league stats for a month
 
 ### Patreon
 - [ ] `>card` - View the user card

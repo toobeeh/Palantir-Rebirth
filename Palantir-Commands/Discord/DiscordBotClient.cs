@@ -53,6 +53,7 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         commands.AddCommands(typeof(DevelopmentCommands));
         commands.AddCommands(typeof(SpriteCommands));
         commands.AddCommands(typeof(SceneCommands));
+        commands.AddCommands(typeof(LeagueCommands));
         
         await _client.ConnectAsync();
     }
