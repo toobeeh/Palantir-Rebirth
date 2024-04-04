@@ -6,7 +6,9 @@ using DSharpPlus.Entities;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using MoreLinq;
+using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
+using Palantir_Commands.Services;
 using Valmar;
 
 namespace Palantir_Commands.Discord.Commands;
@@ -16,6 +18,7 @@ namespace Palantir_Commands.Discord.Commands;
 public class LeagueCommands(
     ILogger<SceneCommands> logger, 
     Leagues.LeaguesClient leaguesClient,
+    MemberContext memberContext,
     Members.MembersClient membersClient)
 {
     /// <summary>
@@ -61,7 +64,7 @@ public class LeagueCommands(
                     $"➜ Season lasts from {Formatter.Timestamp(season.SeasonStart.ToDateTimeOffset(), TimestampFormat.ShortDate)} to {Formatter.Timestamp(season.SeasonEnd.ToDateTimeOffset(), TimestampFormat.ShortDate)}\n" +
                     $"_ _\n_ _\n")
                 .WithThumbnail(
-                    "https://media.discordapp.net/attachments/910894527261327370/983025068214992948/challenge.gif?ex=661bf1ef&is=66097cef&hm=9b14da7ca272f84b70b040e31292a36ebb213ab48d90dd950abd078329a52e8c&")
+                    "https://media.discordapp.net/attachments/910894527261327370/983025068214992948/challenge.gif")
             ;
 
         void AddTopRank(int index)
@@ -120,11 +123,13 @@ public class LeagueCommands(
     /// <param name="seasonYear">The year (eg 2023) of the season</param>
     /// <exception cref="Exception"></exception>
     [Command("rank")]
+    [TextAlias("rk")]
+    [RequirePalantirMember]
     public async Task ViewSeasonRank(CommandContext context, int? seasonMonth = null, int? seasonYear = null)
     {
         logger.LogTrace("ViewSeasonRank(context, {seasonMonth}, {seasonYear})", seasonMonth, seasonYear);
 
-        var user = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
+        var member = memberContext.Member;
         
         LeagueSeasonMemberEvaluationReply rank;
         LeagueSeasonEvaluationReply season;
@@ -134,7 +139,7 @@ public class LeagueCommands(
             {
                 Month = seasonMonth.Value,
                 Year = seasonYear.Value,
-                Login = user.Login
+                Login = member.Login
             });
             season = await leaguesClient.EvaluateLeagueSeasonAsync(new EvaluateSeasonRequest
             {
@@ -144,7 +149,7 @@ public class LeagueCommands(
         }
         else if(seasonMonth is null && seasonYear is null)
         {
-            rank = await leaguesClient.EvaluateMemberCurrentLeagueSeasonAsync(new EvaluateMemberCurrentSeasonRequest {Login = user.Login});
+            rank = await leaguesClient.EvaluateMemberCurrentLeagueSeasonAsync(new EvaluateMemberCurrentSeasonRequest {Login = member.Login});
             season = await leaguesClient.EvaluateCurrentLeagueSeasonAsync(new Empty());
         }
         else
@@ -164,9 +169,8 @@ public class LeagueCommands(
                     $"➜ Season lasts from {Formatter.Timestamp(rank.SeasonStart.ToDateTimeOffset(), TimestampFormat.ShortDate)} to {Formatter.Timestamp(rank.SeasonEnd.ToDateTimeOffset(), TimestampFormat.ShortDate)}\n" +
                     $"_ _\n_ _\n")
                 .WithThumbnail(
-                    "https://media.discordapp.net/attachments/910894527261327370/983025068214992948/challenge.gif?ex=661bf1ef&is=66097cef&hm=9b14da7ca272f84b70b040e31292a36ebb213ab48d90dd950abd078329a52e8c&")
+                    "https://media.discordapp.net/attachments/910894527261327370/983025068214992948/challenge.gif")
             ;
-        
         
         string[] rankEmotes =
         [
@@ -174,10 +178,10 @@ public class LeagueCommands(
             "<a:league_rnk3:987716889352470528>", "<a:league_rnk4:987723143982514207>"
         ];
 
-        var totalRank = season.ScoreRanking.ToList().FindIndex(rnk => rnk.UserId == user.DiscordId) + 1;
-        var dropsRank = season.CountRanking.ToList().FindIndex(rnk => rnk.UserId == user.DiscordId) + 1;
-        var streakRank = season.StreakRanking.ToList().FindIndex(rnk => rnk.UserId == user.DiscordId) + 1;
-        var weightRank = season.WeightRanking.ToList().FindIndex(rnk => rnk.UserId == user.DiscordId) + 1;
+        var totalRank = season.ScoreRanking.ToList().FindIndex(rnk => rnk.UserId == member.DiscordId) + 1;
+        var dropsRank = season.CountRanking.ToList().FindIndex(rnk => rnk.UserId == member.DiscordId) + 1;
+        var streakRank = season.StreakRanking.ToList().FindIndex(rnk => rnk.UserId == member.DiscordId) + 1;
+        var weightRank = season.WeightRanking.ToList().FindIndex(rnk => rnk.UserId == member.DiscordId) + 1;
         
         var rankHint = 
             totalRank == 1 ? "You are the leader of this season!" : 
@@ -208,6 +212,7 @@ public class LeagueCommands(
     /// <param name="seasonYear">The year (eg 2023) of the season</param>
     /// <exception cref="Exception"></exception>
     [Command("board")]
+    [TextAlias("bd")]
     public async Task ViewSeasonBoard(CommandContext context, int? seasonMonth = null, int? seasonYear = null)
     {
         logger.LogTrace("ViewSeasonBoard(context, {seasonMonth}, {seasonYear})", seasonMonth, seasonYear);
@@ -231,8 +236,6 @@ public class LeagueCommands(
                 "You must provide both a month and a year to view a specific league season, or neither to view the current season."));
             return;
         }
-
-        
         
         // batch ranks to 30 per page
         const int batchSize = 30;

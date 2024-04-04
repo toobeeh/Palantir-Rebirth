@@ -1,18 +1,16 @@
-using Microsoft.Extensions.Logging;
 using Valmar;
 
 namespace Palantir_Commands.Services;
 
+/// <summary>
+/// Wrapper class to be injected in command service scope.
+/// Can be attached a member to be used later throughout command execution.
+/// </summary>
 public class MemberContext
 {
-    private static int i = 0;
-
-    public MemberContext(ILogger<MemberContext> logger)
-    {
-        logger.LogDebug("Context #{i} created", i++);
-    }
-    
     private MemberReply? _member;
+    
+    public bool HasMemberAssigned => _member is not null;
     
     public MemberReply Member { get
         {

@@ -18,9 +18,14 @@ public class RequirePalantirMemberCheck(MemberContext memberContext, Members.Mem
         
         try
         {
-            member = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest
-                { Id = (long)context.User.Id });
-            //memberContext.Member = member; TODO uncomment when DI issue of command/check fixed
+            // attach member to context, if not already by parent check
+            if (!memberContext.HasMemberAssigned)
+            {
+                member = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest
+                    { Id = (long)context.User.Id });
+                memberContext.Member = member;
+            }
+            else member = memberContext.Member;
         }
         catch
         {

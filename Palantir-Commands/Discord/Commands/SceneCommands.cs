@@ -18,9 +18,9 @@ namespace Palantir_Commands.Discord.Commands;
 
 [Command("scene")]
 [TextAlias("sc")]
-[RequirePalantirMember(MemberFlagMessage.Beta)]
 public class SceneCommands(
     ILogger<SceneCommands> logger, 
+    MemberContext memberContext,
     Scenes.ScenesClient scenesClient, 
     Inventory.InventoryClient inventoryClient,
     Members.MembersClient membersClient,
@@ -35,11 +35,12 @@ public class SceneCommands(
     /// <exception cref="Exception"></exception>
     [Command("inventory")]
     [TextAlias("inv")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task ViewSceneInventory(CommandContext context)
     {
         logger.LogTrace("ViewSceneInventory(context)");
         
-        var member = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
+        var member = memberContext.Member;
         var inventory = await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
         
         // get all scenes, likely more performance than each individually
@@ -123,6 +124,7 @@ public class SceneCommands(
     /// <exception cref="Exception"></exception>
     [DefaultGroupCommand]
     [Command("view")]
+    [TextAlias("vw")]
     public async Task ViewScene(CommandContext context, int sceneId)
     {
         logger.LogTrace("ViewScene(context, {sceneId})", sceneId);
@@ -162,6 +164,7 @@ public class SceneCommands(
     }
     
     [Command("buy")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task BuyScene(CommandContext context, int sceneId)
     {
         logger.LogTrace("BuyScene(context, {sceneId})", sceneId);
@@ -169,8 +172,8 @@ public class SceneCommands(
         var scene = await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneId });
         
         // check if the user has bought this scene already
-        var user = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
-        var inventory = await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = user.Login });
+        var member = memberContext.Member;
+        var inventory = await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
         if(inventory.SceneIds.Contains(scene.Id))
         {
             await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context, "Scene already bought", $"You already own {scene.Name} {scene.Id.AsTypoId()}. You can use it with `/scene use {scene.Id}`."));
@@ -189,7 +192,7 @@ public class SceneCommands(
         {
             var sceneEvent = await eventsClient.GetEventByIdAsync(new GetEventRequest { Id = eventId });
             var traceStartDate = Timestamp.FromDateTimeOffset(sceneEvent.StartDate.ToDateTimeOffset().AddDays(-1));
-            var bubbleRange = await statsClient.GetBubbleTimespanRangeAsync(new BubbleTimespanRangeRequest { Login = user.Login, StartDate = traceStartDate, EndDate = sceneEvent.EndDate });
+            var bubbleRange = await statsClient.GetBubbleTimespanRangeAsync(new BubbleTimespanRangeRequest { Login = member.Login, StartDate = traceStartDate, EndDate = sceneEvent.EndDate });
             var bubblesCollected = bubbleRange.EndAmount - bubbleRange.StartAmount;
             var eventScenePrice = await scenesClient.GetEventScenePriceAsync(new GetEventScenePriceRequest
                 { EventDayLength = sceneEvent.Length });
@@ -204,7 +207,7 @@ public class SceneCommands(
         }   
         else
         {   
-            var bubbleCredit = await inventoryClient.GetBubbleCreditAsync(new GetBubbleCreditRequest { Login = user.Login });
+            var bubbleCredit = await inventoryClient.GetBubbleCreditAsync(new GetBubbleCreditRequest { Login = member.Login });
             var scenes = await scenesClient.GetAllScenes(new Empty()).ToListAsync();
             var regularSceneCount = scenes.Count(scene => inventory.SceneIds.Contains(scene.Id) && !scene.Exclusive && scene.EventId is null);
             var regularScenePrice = await inventoryClient.GetScenePriceAsync(new ScenePriceRequest
@@ -218,7 +221,7 @@ public class SceneCommands(
         }
         
         // buy scene
-        await inventoryClient.BuySceneAsync(new BuySceneRequest { Login = user.Login, SceneId = scene.Id });
+        await inventoryClient.BuySceneAsync(new BuySceneRequest { Login = member.Login, SceneId = scene.Id });
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor("You unlocked a new scene!")
@@ -236,13 +239,14 @@ public class SceneCommands(
     /// <param name="context"></param>
     /// <param name="sceneId">The ID of a scene, or none to remove it</param>
     [Command("use")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task UseScene(CommandContext context, int? sceneId = null)
     {
         logger.LogTrace("UseScene(context, {sceneId})", sceneId);
         
         var scene = sceneId is {} sceneIdValue ?await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneIdValue }) : null;
-        var user = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
-        var inventory = await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = user.Login });
+        var member = memberContext.Member;
+        var inventory = await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
         
         // check if the user owns this scene
         if(scene is not null && !inventory.SceneIds.Contains(scene.Id))
@@ -254,7 +258,7 @@ public class SceneCommands(
         }
         
         // activate new scene
-        await inventoryClient.UseSceneAsync(new UseSceneRequest { Login = user.Login, SceneId = scene?.Id });
+        await inventoryClient.UseSceneAsync(new UseSceneRequest { Login = member.Login, SceneId = scene?.Id });
         
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
@@ -262,7 +266,7 @@ public class SceneCommands(
             .WithTitle(scene is null ? "Such empty 💨" : $"{scene.Id.AsTypoId()} _ _ {scene.Name}")
             .WithImageUrl(scene?.Url ?? "");
         
-        if(scene is not null) embedBuilder.WithDescription($"This scene {scene.Name} will now be displayed behind your avatar in skribbl lobbies.\n" +
+        if(scene is not null) embedBuilder.WithDescription($"The scene {scene.Name} will now be displayed behind your avatar in skribbl lobbies.\n" +
                                      $"To remove it, use the command `/scene use`.");
         else embedBuilder.WithDescription("Your avatar background has been cleared.");
         

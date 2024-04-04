@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Palantir_Commands.Discord;
 using Palantir_Commands.Services;
+using Valmar;
 using Valmar_Client.Grpc;
 
 namespace Palantir_Commands;

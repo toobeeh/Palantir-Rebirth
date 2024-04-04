@@ -18,12 +18,11 @@ namespace Palantir_Commands.Discord.Commands;
 
 [Command("sprite")]
 [TextAlias("spt")]
-[RequirePalantirMember(MemberFlagMessage.Beta)]
 public class SpriteCommands(
     ILogger<SpriteCommands> logger, 
+    MemberContext memberContext,
     Sprites.SpritesClient spritesClient, 
     Inventory.InventoryClient inventoryClient,
-    Members.MembersClient membersClient,
     Events.EventsClient eventsClient)
 {
     
@@ -34,11 +33,12 @@ public class SpriteCommands(
     /// <exception cref="Exception"></exception>
     [Command("inventory")]
     [TextAlias("inv")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task ViewSpriteInventory(CommandContext context)
     {
         logger.LogTrace("ViewSpriteInventory(context)");
-        
-        var member = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
+
+        var member = memberContext.Member;
         var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
         
         // get all sprites, likely more performance than each individually
@@ -100,6 +100,7 @@ public class SpriteCommands(
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
     [Command("list")]
+    [TextAlias("ls")]
     public async Task ListSprites(CommandContext context)
     {
         logger.LogTrace("ListSprites(context)");
@@ -134,6 +135,7 @@ public class SpriteCommands(
     /// <exception cref="Exception"></exception>
     [DefaultGroupCommand]
     [Command("view")]
+    [TextAlias("vw")]
     public async Task ViewSprite(CommandContext context, int spriteId)
     {
         logger.LogTrace("ViewSprite(context, {spriteId})", spriteId);
@@ -180,6 +182,7 @@ public class SpriteCommands(
     }
     
     [Command("buy")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task BuySprite(CommandContext context, int spriteId)
     {
         logger.LogTrace("BuySprite(context, {spriteId})", spriteId);
@@ -194,8 +197,8 @@ public class SpriteCommands(
         }
         
         // check if the user has bought this sprite already
-        var user = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
-        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = user.Login }).ToListAsync();
+        var member = memberContext.Member;
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
         if(inventory.Any(slot => slot.SpriteId == sprite.Id))
         {
             await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context, "Sprite already bought", $"You already own {sprite.Name} {sprite.Id.AsTypoId()}. You can use it with `/sprite use {sprite.Id}`."));
@@ -206,7 +209,7 @@ public class SpriteCommands(
         if (sprite.EventDropId is { } eventDropId)
         {
             var drop = await eventsClient.GetEventDropByIdAsync(new GetEventDropRequest { Id = eventDropId });
-            var eventInventory = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = user.Login, EventId = drop.EventId}).ToListAsync();
+            var eventInventory = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = drop.EventId}).ToListAsync();
             var credit = eventInventory.FirstOrDefault(credit => credit.EventDropId == drop.Id)?.AvailableCredit ?? 0;
             
             if(credit < sprite.Cost) 
@@ -218,7 +221,7 @@ public class SpriteCommands(
         }   
         else
         {   
-            var bubbleCredit = await inventoryClient.GetBubbleCreditAsync(new GetBubbleCreditRequest { Login = user.Login });
+            var bubbleCredit = await inventoryClient.GetBubbleCreditAsync(new GetBubbleCreditRequest { Login = member.Login });
             if(bubbleCredit.AvailableCredit < sprite.Cost) 
             {
                 await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context, "Bubble credit too low", $"You need {sprite.Cost} Bubbles to buy {sprite.Name} {sprite.Id.AsTypoId()}, but you only have {bubbleCredit.AvailableCredit} available.\n" +
@@ -228,7 +231,7 @@ public class SpriteCommands(
         }
         
         // buy sprite
-        await inventoryClient.BuySpriteAsync(new BuySpriteRequest { Login = user.Login, SpriteId = sprite.Id });
+        await inventoryClient.BuySpriteAsync(new BuySpriteRequest { Login = member.Login, SpriteId = sprite.Id });
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor("You unlocked a new sprite!")
@@ -251,13 +254,14 @@ public class SpriteCommands(
     /// <param name="spriteId">The ID of a sprite</param>
     /// <param name="slot">The sprite slot where the sprite will be used on</param>
     [Command("use")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task UseSprite(CommandContext context, int spriteId, uint slot = 1)
     {
         logger.LogTrace("UseSprite(context, {spriteId}, {slot})", spriteId, slot);
         
         var sprite = spriteId == 0 ? null : await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
-        var user = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
-        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = user.Login }).ToListAsync();
+        var member = memberContext.Member;
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
         
         // check if the user owns this sprite
         if(sprite is not null && inventory.All(invSlot => invSlot.SpriteId != spriteId))
@@ -269,7 +273,7 @@ public class SpriteCommands(
         }
         
         // check if the user has enough sprite slots unlocked
-        var slotCount = await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = user.Login });
+        var slotCount = await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
         if(slot > slotCount.UnlockedSlots)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
@@ -284,7 +288,7 @@ public class SpriteCommands(
         {
             ClearOtherSlots = false,
             Combo = { new SpriteSlotConfigurationRequest { SpriteId = spriteId, SlotId = (int)slot } },
-            Login = user.Login
+            Login = member.Login
         });
         
         var embedBuilder = new DiscordEmbedBuilder()
@@ -308,12 +312,14 @@ public class SpriteCommands(
     /// <param name="context"></param>
     /// <param name="combo">A sequence of sprite IDs, in order of slots</param>
     [Command("combo")]
+    [TextAlias("cb")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task UseCombo(CommandContext context, params int[]? combo)
     {
         logger.LogTrace("UseCombo(context, {combo})", combo);
-        
-        var user = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
-        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = user.Login }).ToListAsync();
+
+        var member = memberContext.Member;
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
         
         // check if the user owns all sprites
         if(combo is not null && combo.Any(id => id > 0 && inventory.All(invSlot => invSlot.SpriteId != id)))
@@ -324,7 +330,7 @@ public class SpriteCommands(
         }
         
         // check if the user has enough sprite slots unlocked
-        var slotCount = await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = user.Login });
+        var slotCount = await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
         if(combo is not null && combo.Length > slotCount.UnlockedSlots)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
@@ -339,7 +345,7 @@ public class SpriteCommands(
         {
             ClearOtherSlots = true,
             Combo = { combo is null ? [] : combo.Select((id, idx) => new SpriteSlotConfigurationRequest { SpriteId = id, SlotId = idx + 1}) },
-            Login = user.Login
+            Login = member.Login
         });
         
         var embedBuilder = new DiscordEmbedBuilder()
@@ -362,12 +368,14 @@ public class SpriteCommands(
     /// <param name="spriteId">The ID of the sprite which will be colorized.</param>
     /// <param name="shift">A number from 0-200 to modify your sprite color. 100 is the original color.</param>
     [Command("color")]
+    [TextAlias("col")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task UseSpriteColorConfig(CommandContext context, int spriteId, int? shift = null)
     {
         logger.LogTrace("UseSpriteColorConfig(context, {shift})", shift);
-        
-        var user = await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest {Id = (long)context.User.Id});
-        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = user.Login }).ToListAsync();
+
+        var member = memberContext.Member;
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
         
         // check if the user owns the sprite
         if(!inventory.Any(slot => slot.SpriteId == spriteId))
@@ -387,7 +395,7 @@ public class SpriteCommands(
         }
         
         // check if the user can colorize another sprite (patron)
-        var moreThanOneUnlocked = user.MappedFlags.Any(flag => flag is MemberFlagMessage.Admin or MemberFlagMessage.Patron);
+        var moreThanOneUnlocked = member.MappedFlags.Any(flag => flag is MemberFlagMessage.Admin or MemberFlagMessage.Patron);
         var otherConfig = inventory.FirstOrDefault(slot => slot.SpriteId != spriteId && slot.ColorShift is not null);
         if (shift is not null && !moreThanOneUnlocked && otherConfig is not null)
         {
@@ -400,7 +408,7 @@ public class SpriteCommands(
         // apply rainbow config
         await inventoryClient.SetSpriteColorConfigurationAsync(new SetSpriteColorRequest
         {
-            Login = user.Login, ClearOtherConfigs = false,
+            Login = member.Login, ClearOtherConfigs = false,
             ColorConfig = { new SpriteColorConfigurationRequest { SpriteId = sprite.Id, ColorShift = shift } }
         });
         

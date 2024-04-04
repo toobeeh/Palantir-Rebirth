@@ -1,10 +1,13 @@
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands.Attributes;
 using DSharpPlus.Commands.Trees.Attributes;
+using Palantir_Commands.Discord.Checks;
+using Valmar;
 
 namespace Palantir_Commands.Discord.Commands;
 
 [Command("dev")]
+[RequirePalantirMember(MemberFlagMessage.Moderator)]
 public class DevelopmentCommands
 {
 
