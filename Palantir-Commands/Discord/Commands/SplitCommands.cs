@@ -136,7 +136,7 @@ public class SplitCommands(
     [Command("dropboost")]
     [TextAlias("db")]
     [RequirePalantirMember(MemberFlagMessage.Beta)]
-    public async Task StartDropboost(CommandContext context, uint factorSplits = 0, uint durationSplits = 0, uint cooldownSplits = 0, DropboostStartMode startMode = DropboostStartMode.Check)
+    public async Task StartDropboost(CommandContext context, uint factorSplits = 2, uint durationSplits = 0, uint cooldownSplits = 0, DropboostStartMode startMode = DropboostStartMode.Check)
     {
         logger.LogTrace("StartDropboost(context, factorSplits={factorSplits}, durationSplits={durationSplits}, cooldownSplits={cooldownSplits}, startMode={startMode})", factorSplits, durationSplits, cooldownSplits, startMode);
 
