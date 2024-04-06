@@ -28,63 +28,67 @@ namespace Valmar {
             "LnByb3RvGh9nb29nbGUvcHJvdG9idWYvdGltZXN0YW1wLnByb3RvGh5nb29n",
             "bGUvcHJvdG9idWYvd3JhcHBlcnMucHJvdG8iLQocR2V0TWVtYmVyU3BsaXRS",
             "ZXdhcmRzUmVxdWVzdBINCgVsb2dpbhgBIAEoBSIqChlHZXRBdmFpbGFibGVT",
-            "cGxpdHNSZXF1ZXN0Eg0KBWxvZ2luGAEgASgFIkQKFEF2YWlsYWJsZVNwbGl0",
-            "c1JlcGx5EhMKC3RvdGFsU3BsaXRzGAEgASgFEhcKD2F2YWlsYWJsZVNwbGl0",
-            "cxgCIAEoBSIhChNHZXRTcGxpdEJ5SWRSZXF1ZXN0EgoKAmlkGAEgASgFIp8B",
-            "ChJSZXdhcmRTcGxpdFJlcXVlc3QSDwoHc3BsaXRJZBgBIAEoBRIVCg1yZXdh",
-            "cmRlZUxvZ2luGAIgASgFEi0KB2NvbW1lbnQYAyABKAsyHC5nb29nbGUucHJv",
-            "dG9idWYuU3RyaW5nVmFsdWUSMgoNdmFsdWVPdmVycmlkZRgEIAEoCzIbLmdv",
-            "b2dsZS5wcm90b2J1Zi5JbnQzMlZhbHVlInwKClNwbGl0UmVwbHkSCgoCaWQY",
-            "ASABKAUSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIwCgxj",
-            "cmVhdGlvbkRhdGUYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1w",
-            "Eg0KBXZhbHVlGAUgASgFIvABChBTcGxpdFJld2FyZFJlcGx5EhUKDXJld2Fy",
-            "ZGVlTG9naW4YAiABKAUSIQoFc3BsaXQYAyABKAsyEi5zcGxpdHMuU3BsaXRS",
-            "ZXBseRIuCgpyZXdhcmREYXRlGAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRp",
-            "bWVzdGFtcBItCgdjb21tZW50GAUgASgLMhwuZ29vZ2xlLnByb3RvYnVmLlN0",
-            "cmluZ1ZhbHVlEjIKDXZhbHVlT3ZlcnJpZGUYBiABKAsyGy5nb29nbGUucHJv",
-            "dG9idWYuSW50MzJWYWx1ZRIPCgdleHBpcmVkGAcgASgIImwKFVN0YXJ0RHJv",
-            "cGJvb3N0UmVxdWVzdBINCgVsb2dpbhgBIAEoBRIWCg5kdXJhdGlvblNwbGl0",
-            "cxgFIAEoBRIUCgxmYWN0b3JTcGxpdHMYBiABKAUSFgoOY29vbGRvd25TcGxp",
-            "dHMYByABKAUipQEKFEFjdGl2ZURyb3Bib29zdFJlcGx5Eg0KBWxvZ2luGAEg",
-            "ASgFEg0KBXZhbHVlGAMgASgFEi0KCXN0YXJ0RGF0ZRgEIAEoCzIaLmdvb2ds",
-            "ZS5wcm90b2J1Zi5UaW1lc3RhbXASFwoPZHVyYXRpb25TZWNvbmRzGAUgASgF",
-            "Eg4KBmZhY3RvchgGIAEoARIXCg9jb29sZG93blNlY29uZHMYByABKAUiNAoj",
-            "R2V0QWN0aXZlRHJvcGJvb3N0c0Zvck1lbWJlclJlcXVlc3QSDQoFbG9naW4Y",
-            "ASABKAUilwIKGUJvb3N0Q29zdEluZm9ybWF0aW9uUmVwbHkSFwoPZmFjdG9y",
-            "U3BsaXRDb3N0GAEgASgFEhYKDmZhY3RvckluY3JlYXNlGAIgASgBEhUKDWRl",
-            "ZmF1bHRGYWN0b3IYAyABKAESGQoRZHVyYXRpb25TcGxpdENvc3QYBCABKAUS",
-            "HwoXZHVyYXRpb25JbmNyZWFzZU1pbnV0ZXMYBSABKAUSHgoWZGVmYXVsdER1",
-            "cmF0aW9uTWludXRlcxgGIAEoBRIZChFjb29sZG93blNwbGl0Q29zdBgHIAEo",
-            "BRIdChVjb29sZG93bkluY3JlYXNlSG91cnMYCCABKAUSHAoUZGVmYXVsdENv",
-            "b2xkb3duSG91cnMYCSABKAUy0wUKBlNwbGl0cxI5CglHZXRTcGxpdHMSFi5n",
-            "b29nbGUucHJvdG9idWYuRW1wdHkaEi5zcGxpdHMuU3BsaXRSZXBseTABEj8K",
-            "DEdldFNwbGl0QnlJZBIbLnNwbGl0cy5HZXRTcGxpdEJ5SWRSZXF1ZXN0GhIu",
-            "c3BsaXRzLlNwbGl0UmVwbHkSWQoVR2V0TWVtYmVyU3BsaXRSZXdhcmRzEiQu",
-            "c3BsaXRzLkdldE1lbWJlclNwbGl0UmV3YXJkc1JlcXVlc3QaGC5zcGxpdHMu",
-            "U3BsaXRSZXdhcmRSZXBseTABEkEKC1Jld2FyZFNwbGl0Ehouc3BsaXRzLlJl",
-            "d2FyZFNwbGl0UmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRJUChdH",
-            "ZXRCb29zdENvc3RJbmZvcm1hdGlvbhIWLmdvb2dsZS5wcm90b2J1Zi5FbXB0",
-            "eRohLnNwbGl0cy5Cb29zdENvc3RJbmZvcm1hdGlvblJlcGx5Ek0KE0dldEFj",
-            "dGl2ZURyb3Bib29zdHMSFi5nb29nbGUucHJvdG9idWYuRW1wdHkaHC5zcGxp",
-            "dHMuQWN0aXZlRHJvcGJvb3N0UmVwbHkwARJqChtHZXRBY3RpdmVEcm9wYm9v",
-            "c3RzT2ZNZW1iZXISKy5zcGxpdHMuR2V0QWN0aXZlRHJvcGJvb3N0c0Zvck1l",
-            "bWJlclJlcXVlc3QaHC5zcGxpdHMuQWN0aXZlRHJvcGJvb3N0UmVwbHkwARJH",
-            "Cg5TdGFydERyb3Bib29zdBIdLnNwbGl0cy5TdGFydERyb3Bib29zdFJlcXVl",
-            "c3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkSVQoSR2V0QXZhaWxhYmxlU3Bs",
-            "aXRzEiEuc3BsaXRzLkdldEF2YWlsYWJsZVNwbGl0c1JlcXVlc3QaHC5zcGxp",
-            "dHMuQXZhaWxhYmxlU3BsaXRzUmVwbHlCCaoCBlZhbG1hcmIGcHJvdG8z"));
+            "cGxpdHNSZXF1ZXN0Eg0KBWxvZ2luGAEgASgFIpMBChRBdmFpbGFibGVTcGxp",
+            "dHNSZXBseRITCgt0b3RhbFNwbGl0cxgBIAEoBRIXCg9hdmFpbGFibGVTcGxp",
+            "dHMYAiABKAUSNgoQYWN0aXZlRHJvcGJvb3N0cxgDIAMoCzIcLnNwbGl0cy5B",
+            "Y3RpdmVEcm9wYm9vc3RSZXBseRIVCg1jYW5TdGFydEJvb3N0GAQgASgIIiEK",
+            "E0dldFNwbGl0QnlJZFJlcXVlc3QSCgoCaWQYASABKAUinwEKElJld2FyZFNw",
+            "bGl0UmVxdWVzdBIPCgdzcGxpdElkGAEgASgFEhUKDXJld2FyZGVlTG9naW4Y",
+            "AiABKAUSLQoHY29tbWVudBgDIAEoCzIcLmdvb2dsZS5wcm90b2J1Zi5TdHJp",
+            "bmdWYWx1ZRIyCg12YWx1ZU92ZXJyaWRlGAQgASgLMhsuZ29vZ2xlLnByb3Rv",
+            "YnVmLkludDMyVmFsdWUifAoKU3BsaXRSZXBseRIKCgJpZBgBIAEoBRIMCgRu",
+            "YW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEjAKDGNyZWF0aW9uRGF0",
+            "ZRgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDQoFdmFsdWUY",
+            "BSABKAUi8AEKEFNwbGl0UmV3YXJkUmVwbHkSFQoNcmV3YXJkZWVMb2dpbhgC",
+            "IAEoBRIhCgVzcGxpdBgDIAEoCzISLnNwbGl0cy5TcGxpdFJlcGx5Ei4KCnJl",
+            "d2FyZERhdGUYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi0K",
+            "B2NvbW1lbnQYBSABKAsyHC5nb29nbGUucHJvdG9idWYuU3RyaW5nVmFsdWUS",
+            "MgoNdmFsdWVPdmVycmlkZRgGIAEoCzIbLmdvb2dsZS5wcm90b2J1Zi5JbnQz",
+            "MlZhbHVlEg8KB2V4cGlyZWQYByABKAgibAoVU3RhcnREcm9wYm9vc3RSZXF1",
+            "ZXN0Eg0KBWxvZ2luGAEgASgFEhYKDmR1cmF0aW9uU3BsaXRzGAUgASgFEhQK",
+            "DGZhY3RvclNwbGl0cxgGIAEoBRIWCg5jb29sZG93blNwbGl0cxgHIAEoBSKH",
+            "AgoUQWN0aXZlRHJvcGJvb3N0UmVwbHkSDQoFbG9naW4YASABKAUSDQoFdmFs",
+            "dWUYAyABKAUSLQoJc3RhcnREYXRlGAQgASgLMhouZ29vZ2xlLnByb3RvYnVm",
+            "LlRpbWVzdGFtcBIXCg9kdXJhdGlvblNlY29uZHMYBSABKAUSDgoGZmFjdG9y",
+            "GAYgASgBEhcKD2Nvb2xkb3duU2Vjb25kcxgHIAEoBRIrCgdlbmREYXRlGAgg",
+            "ASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIzCg9jb29sZG93bkVu",
+            "ZERhdGUYCSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIjQKI0dl",
+            "dEFjdGl2ZURyb3Bib29zdHNGb3JNZW1iZXJSZXF1ZXN0Eg0KBWxvZ2luGAEg",
+            "ASgFIpcCChlCb29zdENvc3RJbmZvcm1hdGlvblJlcGx5EhcKD2ZhY3RvclNw",
+            "bGl0Q29zdBgBIAEoBRIWCg5mYWN0b3JJbmNyZWFzZRgCIAEoARIVCg1kZWZh",
+            "dWx0RmFjdG9yGAMgASgBEhkKEWR1cmF0aW9uU3BsaXRDb3N0GAQgASgFEh8K",
+            "F2R1cmF0aW9uSW5jcmVhc2VNaW51dGVzGAUgASgFEh4KFmRlZmF1bHREdXJh",
+            "dGlvbk1pbnV0ZXMYBiABKAUSGQoRY29vbGRvd25TcGxpdENvc3QYByABKAUS",
+            "HQoVY29vbGRvd25JbmNyZWFzZUhvdXJzGAggASgFEhwKFGRlZmF1bHRDb29s",
+            "ZG93bkhvdXJzGAkgASgFMtMFCgZTcGxpdHMSOQoJR2V0U3BsaXRzEhYuZ29v",
+            "Z2xlLnByb3RvYnVmLkVtcHR5GhIuc3BsaXRzLlNwbGl0UmVwbHkwARI/CgxH",
+            "ZXRTcGxpdEJ5SWQSGy5zcGxpdHMuR2V0U3BsaXRCeUlkUmVxdWVzdBoSLnNw",
+            "bGl0cy5TcGxpdFJlcGx5ElkKFUdldE1lbWJlclNwbGl0UmV3YXJkcxIkLnNw",
+            "bGl0cy5HZXRNZW1iZXJTcGxpdFJld2FyZHNSZXF1ZXN0Ghguc3BsaXRzLlNw",
+            "bGl0UmV3YXJkUmVwbHkwARJBCgtSZXdhcmRTcGxpdBIaLnNwbGl0cy5SZXdh",
+            "cmRTcGxpdFJlcXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkSVAoXR2V0",
+            "Qm9vc3RDb3N0SW5mb3JtYXRpb24SFi5nb29nbGUucHJvdG9idWYuRW1wdHka",
+            "IS5zcGxpdHMuQm9vc3RDb3N0SW5mb3JtYXRpb25SZXBseRJNChNHZXRBY3Rp",
+            "dmVEcm9wYm9vc3RzEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5Ghwuc3BsaXRz",
+            "LkFjdGl2ZURyb3Bib29zdFJlcGx5MAESagobR2V0QWN0aXZlRHJvcGJvb3N0",
+            "c09mTWVtYmVyEisuc3BsaXRzLkdldEFjdGl2ZURyb3Bib29zdHNGb3JNZW1i",
+            "ZXJSZXF1ZXN0Ghwuc3BsaXRzLkFjdGl2ZURyb3Bib29zdFJlcGx5MAESRwoO",
+            "U3RhcnREcm9wYm9vc3QSHS5zcGxpdHMuU3RhcnREcm9wYm9vc3RSZXF1ZXN0",
+            "GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5ElUKEkdldEF2YWlsYWJsZVNwbGl0",
+            "cxIhLnNwbGl0cy5HZXRBdmFpbGFibGVTcGxpdHNSZXF1ZXN0Ghwuc3BsaXRz",
+            "LkF2YWlsYWJsZVNwbGl0c1JlcGx5QgmqAgZWYWxtYXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetMemberSplitRewardsRequest), global::Valmar.GetMemberSplitRewardsRequest.Parser, new[]{ "Login" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetAvailableSplitsRequest), global::Valmar.GetAvailableSplitsRequest.Parser, new[]{ "Login" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.AvailableSplitsReply), global::Valmar.AvailableSplitsReply.Parser, new[]{ "TotalSplits", "AvailableSplits" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.AvailableSplitsReply), global::Valmar.AvailableSplitsReply.Parser, new[]{ "TotalSplits", "AvailableSplits", "ActiveDropboosts", "CanStartBoost" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetSplitByIdRequest), global::Valmar.GetSplitByIdRequest.Parser, new[]{ "Id" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.RewardSplitRequest), global::Valmar.RewardSplitRequest.Parser, new[]{ "SplitId", "RewardeeLogin", "Comment", "ValueOverride" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SplitReply), global::Valmar.SplitReply.Parser, new[]{ "Id", "Name", "Description", "CreationDate", "Value" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SplitRewardReply), global::Valmar.SplitRewardReply.Parser, new[]{ "RewardeeLogin", "Split", "RewardDate", "Comment", "ValueOverride", "Expired" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.StartDropboostRequest), global::Valmar.StartDropboostRequest.Parser, new[]{ "Login", "DurationSplits", "FactorSplits", "CooldownSplits" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.ActiveDropboostReply), global::Valmar.ActiveDropboostReply.Parser, new[]{ "Login", "Value", "StartDate", "DurationSeconds", "Factor", "CooldownSeconds" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.ActiveDropboostReply), global::Valmar.ActiveDropboostReply.Parser, new[]{ "Login", "Value", "StartDate", "DurationSeconds", "Factor", "CooldownSeconds", "EndDate", "CooldownEndDate" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetActiveDropboostsForMemberRequest), global::Valmar.GetActiveDropboostsForMemberRequest.Parser, new[]{ "Login" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BoostCostInformationReply), global::Valmar.BoostCostInformationReply.Parser, new[]{ "FactorSplitCost", "FactorIncrease", "DefaultFactor", "DurationSplitCost", "DurationIncreaseMinutes", "DefaultDurationMinutes", "CooldownSplitCost", "CooldownIncreaseHours", "DefaultCooldownHours" }, null, null, null, null)
           }));
@@ -513,6 +517,8 @@ namespace Valmar {
     public AvailableSplitsReply(AvailableSplitsReply other) : this() {
       totalSplits_ = other.totalSplits_;
       availableSplits_ = other.availableSplits_;
+      activeDropboosts_ = other.activeDropboosts_.Clone();
+      canStartBoost_ = other.canStartBoost_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -546,6 +552,29 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "activeDropboosts" field.</summary>
+    public const int ActiveDropboostsFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::Valmar.ActiveDropboostReply> _repeated_activeDropboosts_codec
+        = pb::FieldCodec.ForMessage(26, global::Valmar.ActiveDropboostReply.Parser);
+    private readonly pbc::RepeatedField<global::Valmar.ActiveDropboostReply> activeDropboosts_ = new pbc::RepeatedField<global::Valmar.ActiveDropboostReply>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::Valmar.ActiveDropboostReply> ActiveDropboosts {
+      get { return activeDropboosts_; }
+    }
+
+    /// <summary>Field number for the "canStartBoost" field.</summary>
+    public const int CanStartBoostFieldNumber = 4;
+    private bool canStartBoost_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool CanStartBoost {
+      get { return canStartBoost_; }
+      set {
+        canStartBoost_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -563,6 +592,8 @@ namespace Valmar {
       }
       if (TotalSplits != other.TotalSplits) return false;
       if (AvailableSplits != other.AvailableSplits) return false;
+      if(!activeDropboosts_.Equals(other.activeDropboosts_)) return false;
+      if (CanStartBoost != other.CanStartBoost) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -572,6 +603,8 @@ namespace Valmar {
       int hash = 1;
       if (TotalSplits != 0) hash ^= TotalSplits.GetHashCode();
       if (AvailableSplits != 0) hash ^= AvailableSplits.GetHashCode();
+      hash ^= activeDropboosts_.GetHashCode();
+      if (CanStartBoost != false) hash ^= CanStartBoost.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -598,6 +631,11 @@ namespace Valmar {
         output.WriteRawTag(16);
         output.WriteInt32(AvailableSplits);
       }
+      activeDropboosts_.WriteTo(output, _repeated_activeDropboosts_codec);
+      if (CanStartBoost != false) {
+        output.WriteRawTag(32);
+        output.WriteBool(CanStartBoost);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -616,6 +654,11 @@ namespace Valmar {
         output.WriteRawTag(16);
         output.WriteInt32(AvailableSplits);
       }
+      activeDropboosts_.WriteTo(ref output, _repeated_activeDropboosts_codec);
+      if (CanStartBoost != false) {
+        output.WriteRawTag(32);
+        output.WriteBool(CanStartBoost);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -631,6 +674,10 @@ namespace Valmar {
       }
       if (AvailableSplits != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(AvailableSplits);
+      }
+      size += activeDropboosts_.CalculateSize(_repeated_activeDropboosts_codec);
+      if (CanStartBoost != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -649,6 +696,10 @@ namespace Valmar {
       }
       if (other.AvailableSplits != 0) {
         AvailableSplits = other.AvailableSplits;
+      }
+      activeDropboosts_.Add(other.activeDropboosts_);
+      if (other.CanStartBoost != false) {
+        CanStartBoost = other.CanStartBoost;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -673,6 +724,14 @@ namespace Valmar {
             AvailableSplits = input.ReadInt32();
             break;
           }
+          case 26: {
+            activeDropboosts_.AddEntriesFrom(input, _repeated_activeDropboosts_codec);
+            break;
+          }
+          case 32: {
+            CanStartBoost = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -694,6 +753,14 @@ namespace Valmar {
           }
           case 16: {
             AvailableSplits = input.ReadInt32();
+            break;
+          }
+          case 26: {
+            activeDropboosts_.AddEntriesFrom(ref input, _repeated_activeDropboosts_codec);
+            break;
+          }
+          case 32: {
+            CanStartBoost = input.ReadBool();
             break;
           }
         }
@@ -2320,6 +2387,8 @@ namespace Valmar {
       durationSeconds_ = other.durationSeconds_;
       factor_ = other.factor_;
       cooldownSeconds_ = other.cooldownSeconds_;
+      endDate_ = other.endDate_ != null ? other.endDate_.Clone() : null;
+      cooldownEndDate_ = other.cooldownEndDate_ != null ? other.cooldownEndDate_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2404,6 +2473,30 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "endDate" field.</summary>
+    public const int EndDateFieldNumber = 8;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp endDate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp EndDate {
+      get { return endDate_; }
+      set {
+        endDate_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "cooldownEndDate" field.</summary>
+    public const int CooldownEndDateFieldNumber = 9;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp cooldownEndDate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp CooldownEndDate {
+      get { return cooldownEndDate_; }
+      set {
+        cooldownEndDate_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -2425,6 +2518,8 @@ namespace Valmar {
       if (DurationSeconds != other.DurationSeconds) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Factor, other.Factor)) return false;
       if (CooldownSeconds != other.CooldownSeconds) return false;
+      if (!object.Equals(EndDate, other.EndDate)) return false;
+      if (!object.Equals(CooldownEndDate, other.CooldownEndDate)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2438,6 +2533,8 @@ namespace Valmar {
       if (DurationSeconds != 0) hash ^= DurationSeconds.GetHashCode();
       if (Factor != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Factor);
       if (CooldownSeconds != 0) hash ^= CooldownSeconds.GetHashCode();
+      if (endDate_ != null) hash ^= EndDate.GetHashCode();
+      if (cooldownEndDate_ != null) hash ^= CooldownEndDate.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2480,6 +2577,14 @@ namespace Valmar {
         output.WriteRawTag(56);
         output.WriteInt32(CooldownSeconds);
       }
+      if (endDate_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(EndDate);
+      }
+      if (cooldownEndDate_ != null) {
+        output.WriteRawTag(74);
+        output.WriteMessage(CooldownEndDate);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2514,6 +2619,14 @@ namespace Valmar {
         output.WriteRawTag(56);
         output.WriteInt32(CooldownSeconds);
       }
+      if (endDate_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(EndDate);
+      }
+      if (cooldownEndDate_ != null) {
+        output.WriteRawTag(74);
+        output.WriteMessage(CooldownEndDate);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2541,6 +2654,12 @@ namespace Valmar {
       }
       if (CooldownSeconds != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(CooldownSeconds);
+      }
+      if (endDate_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EndDate);
+      }
+      if (cooldownEndDate_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CooldownEndDate);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2574,6 +2693,18 @@ namespace Valmar {
       }
       if (other.CooldownSeconds != 0) {
         CooldownSeconds = other.CooldownSeconds;
+      }
+      if (other.endDate_ != null) {
+        if (endDate_ == null) {
+          EndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        EndDate.MergeFrom(other.EndDate);
+      }
+      if (other.cooldownEndDate_ != null) {
+        if (cooldownEndDate_ == null) {
+          CooldownEndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        CooldownEndDate.MergeFrom(other.CooldownEndDate);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2617,6 +2748,20 @@ namespace Valmar {
             CooldownSeconds = input.ReadInt32();
             break;
           }
+          case 66: {
+            if (endDate_ == null) {
+              EndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(EndDate);
+            break;
+          }
+          case 74: {
+            if (cooldownEndDate_ == null) {
+              CooldownEndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(CooldownEndDate);
+            break;
+          }
         }
       }
     #endif
@@ -2657,6 +2802,20 @@ namespace Valmar {
           }
           case 56: {
             CooldownSeconds = input.ReadInt32();
+            break;
+          }
+          case 66: {
+            if (endDate_ == null) {
+              EndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(EndDate);
+            break;
+          }
+          case 74: {
+            if (cooldownEndDate_ == null) {
+              CooldownEndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(CooldownEndDate);
             break;
           }
         }

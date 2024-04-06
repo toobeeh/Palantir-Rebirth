@@ -9,8 +9,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02193" />
-      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02193" />
+      <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02194" />
+      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02194" />
       <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02169" />
       <PackageReference Include="Google.Protobuf" Version="3.26.0" />
       <PackageReference Include="Grpc.AspNetCore" Version="2.62.0-pre1" />
@@ -25,6 +25,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <!--<ProjectReference Include="..\..\DSharpPlus\DSharpPlus.Commands\DSharpPlus.Commands.csproj" />
+      <ProjectReference Include="..\..\DSharpPlus\DSharpPlus.Interactivity\DSharpPlus.Interactivity.csproj" />
+      <ProjectReference Include="..\..\DSharpPlus\DSharpPlus\DSharpPlus.csproj" />-->
       <ProjectReference Include="..\Valmar-Client\Valmar-Client.csproj" />
     </ItemGroup>
 

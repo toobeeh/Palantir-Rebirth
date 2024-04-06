@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Commands;
+using Palantir_Commands.Discord.Converters;
 
 namespace Palantir_Commands.Discord;
 
@@ -35,16 +36,28 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         {
             ServiceProvider = serviceProvider
         });
+        
+        // create argument converters
+        var dropboostStartModeArgumentConverter = new DropboostStartModeArgumentConverter
+        {
+            ParameterType = ApplicationCommandOptionType.String
+        };
 
-        // create text processor for prefix
-        await commands.AddProcessorsAsync(new TextCommandProcessor
+        // create text processor
+        var textCommandProcessor = new TextCommandProcessor
         {
             Configuration = new TextCommandConfiguration
             {
                 PrefixResolver = new DefaultPrefixResolver(".").ResolvePrefixAsync
             }
-        });
-        await commands.AddProcessorAsync(new SlashCommandProcessor());
+        };
+        textCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(dropboostStartModeArgumentConverter);
+        await commands.AddProcessorsAsync(textCommandProcessor);
+        
+        // create slash processor
+        var slashCommandProcessor = new SlashCommandProcessor();
+        slashCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(dropboostStartModeArgumentConverter);
+        await commands.AddProcessorAsync(slashCommandProcessor);
         
         // add custom checks
         commands.AddCheck<RequirePalantirMemberCheck>();
@@ -54,7 +67,7 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         commands.AddCommands(typeof(SpriteCommands));
         commands.AddCommands(typeof(SceneCommands));
         commands.AddCommands(typeof(LeagueCommands));
-        commands.AddCommands(typeof(SplitCommands));
+        commands.AddCommands([typeof(SplitCommands)]); // TODO remove enumerable workaround as soon as dsharpplus fixed
         
         await _client.ConnectAsync();
     }

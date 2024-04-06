@@ -3,10 +3,12 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands.Attributes;
 using DSharpPlus.Commands.Trees.Attributes;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity.Extensions;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using MoreLinq;
 using Palantir_Commands.Discord.Checks;
+using Palantir_Commands.Discord.Converters;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
 using Valmar;
@@ -14,8 +16,6 @@ using Valmar_Client.Grpc;
 
 namespace Palantir_Commands.Discord.Commands;
 
-[Command("split")]
-[TextAlias("spl")]
 public class SplitCommands(
     ILogger<SplitCommands> logger, 
     MemberContext memberContext,
@@ -23,14 +23,14 @@ public class SplitCommands(
     Lobbies.LobbiesClient lobbiesClient,
     Splits.SplitsClient splitsClient)
 {
-    
+        
     /// <summary>
     /// View your received splits
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
-    [Command("inventory")]
-    [TextAlias("inv")]
+    [Command("splits")]
+    [TextAlias("spl")]
     [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task ViewSplitInventory(CommandContext context)
     {
@@ -53,7 +53,7 @@ public class SplitCommands(
                 .WithPalantirPresets(context)
                 .WithDescription(
                     "Splits are rewards which you can obtain by participating in leagues or special occasions.\n" +
-                    $"You can use splits to boost the droprate on skribbl using the `/split boost` command.")
+                    $"You can use splits to boost the droprate on skribbl using the `/dropboost` command.")
                 .WithTitle("Split Achievements");
 
             if (page.Page == 1 && page.Splits.Length == 0)
@@ -88,7 +88,7 @@ public class SplitCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
-    [Command("rate")]
+    [Command("droprate")]
     [TextAlias("rt")]
     [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task ViewCurrentDropboosts(CommandContext context)
@@ -105,23 +105,177 @@ public class SplitCommands(
         });
         
         var totalBoost = 1 + boosts.Sum(boost => boost.Factor - 1);
-        var boostsSummary = string.Join("\n",
+        var boostsSummary = boosts.Count == 0 ? "No drop boosts active" : string.Join("\n",
             boosts.Select(boost =>
-                $"x`{boost.Factor}` until {Formatter.Timestamp(boost.StartDate.ToDateTimeOffset().AddSeconds(boost.DurationSeconds))}"));
+                $"+{boost.Factor - 1 :0.#} ~ {(boost.StartDate.ToDateTimeOffset().AddSeconds(boost.DurationSeconds) - DateTimeOffset.Now).TotalMinutes :0}min remaining ~ {boost.Value} splits"));
         
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithDescription(
                 "Using splits, the drop rate can be boosted. The higher the drop rate, the more frequently drops appear on skribbl.\n" +
-                "With the `/split boost` command, you can start a drop boost once a week.\n _ _ \n**Active Boosts:**\n" +
+                "With the `/dropboost` command, you can start a drop boost once a week.\n _ _ \n**Active Boosts:**\n" +
                 $"{boostsSummary}\n" +
-                $"===========\nx`{totalBoost :0.#}` Boost active")
+                (boosts.Count > 0 ? $"===========\nx{totalBoost :0.#} Boost active" : ""))
             .WithTitle("Current Drop Boosts");
 
         embedBuilder.AddField("Current Droprate",
             $"`⌚` Drops appear every {bounds.MinDelaySeconds}-{bounds.MaxDelaySeconds} seconds.");
         
         await context.RespondAsync(embedBuilder.Build());
+    }
+
+    /// <summary>
+    /// Starts a new dropboost
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="factorSplits"></param>
+    /// <param name="durationSplits"></param>
+    /// <param name="cooldownSplits"></param>
+    /// <param name="startMode"></param>
+    /// <exception cref="Exception"></exception>
+    [Command("dropboost")]
+    [TextAlias("db")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    public async Task StartDropboost(CommandContext context, uint factorSplits = 0, uint durationSplits = 0, uint cooldownSplits = 0, DropboostStartMode startMode = DropboostStartMode.Check)
+    {
+        logger.LogTrace("StartDropboost(context, factorSplits={factorSplits}, durationSplits={durationSplits}, cooldownSplits={cooldownSplits}, startMode={startMode})", factorSplits, durationSplits, cooldownSplits, startMode);
+
+        var member = memberContext.Member;
+        var availableSplits = await splitsClient.GetAvailableSplitsAsync(new GetAvailableSplitsRequest { Login = member.Login });
+        var splitsPrices = await splitsClient.GetBoostCostInformationAsync(new Empty());
+        
+        if(availableSplits.CanStartBoost == false)
+        {
+            var nextCooldown = availableSplits.ActiveDropboosts
+                .OrderBy(boost => boost.CooldownEndDate)
+                .First();
+            
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, "Cannot start dropboost", 
+                    $"You have used up all your splits.\nYou can start the next boost with {nextCooldown.Value} splits at {Formatter.Timestamp(nextCooldown.CooldownEndDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}."));
+            return;
+        }
+        
+        if(factorSplits + durationSplits + cooldownSplits > availableSplits.AvailableSplits)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, "Not enough splits", "You do not have enough splits to start this boost.\n Use `/splits` to view your splits."));
+            return;
+        }
+
+        string? invalidSplitAmount = null;
+        if(factorSplits % splitsPrices.FactorSplitCost != 0) invalidSplitAmount = "factor splits must be a multiple of " + splitsPrices.FactorSplitCost;
+        if(durationSplits % splitsPrices.DurationSplitCost != 0) invalidSplitAmount = "duration splits must be a multiple of " + splitsPrices.DurationSplitCost;
+        if(cooldownSplits % splitsPrices.CooldownSplitCost != 0) invalidSplitAmount = "cooldown splits must be a multiple of " + splitsPrices.CooldownSplitCost;
+        
+        if(invalidSplitAmount is not null)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, "Invalid split amount", $"The {invalidSplitAmount}."));
+            return;
+        }
+
+        var description = $"You have `{availableSplits.AvailableSplits}` splits available.\n" +
+                          $"Using splits, you can power up your boost.\n" +
+                          $"Use `/splits` to learn more about your splits.\n_ _ \n" +
+                          $"`🔥 Factor: +{splitsPrices.FactorSplitCost} splits => +{splitsPrices.FactorIncrease} factor`\n" +
+                          $"`⌛ Duration: +{splitsPrices.DurationSplitCost} splits => +{splitsPrices.DurationIncreaseMinutes}min boost`\n" +
+                          $"`💤 Cooldown: +{splitsPrices.CooldownSplitCost} splits => -{splitsPrices.CooldownIncreaseHours}h until next boost`\n";
+        
+        var embedBuilder = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle("Start a new Dropboost")
+            .WithDescription(description);
+
+        var messageBuilder = new DiscordMessageBuilder()
+            .AddEmbed(embedBuilder.Build());
+        
+        void UpdateComponents(string submitText, bool disable)
+        {
+            messageBuilder.ClearComponents();
+
+            var minusFactor = new DiscordButtonComponent(ButtonStyle.Secondary, "-fac", "-", disable);
+            var plusFactor = new DiscordButtonComponent(ButtonStyle.Secondary, "+fac", "+", disable);
+            var labelFactor = new DiscordButtonComponent(ButtonStyle.Primary, "fac", 
+                $"Boost Factor: {factorSplits} Splits (+{splitsPrices.DefaultFactor + factorSplits/splitsPrices.FactorSplitCost * splitsPrices.FactorIncrease :0.#}x)", true);
+
+            var minusDur = new DiscordButtonComponent(ButtonStyle.Secondary, "-dur", "-", disable);
+            var plusDur = new DiscordButtonComponent(ButtonStyle.Secondary, "+dur", "+", disable);
+            var labelDur = new DiscordButtonComponent(ButtonStyle.Primary, "dur", 
+                $"Boost Duration: {durationSplits} Splits (+{splitsPrices.DefaultDurationMinutes + durationSplits/splitsPrices.DurationSplitCost * splitsPrices.DurationIncreaseMinutes :0.#}min)", true);
+
+            var minusCool = new DiscordButtonComponent(ButtonStyle.Secondary, "-cool", "-", disable);
+            var plusCool = new DiscordButtonComponent(ButtonStyle.Secondary, "+cool", "+", disable);
+            var labelCool = new DiscordButtonComponent(ButtonStyle.Primary, "cool", 
+                $"Boost Cooldown: {cooldownSplits} Splits (-{splitsPrices.DefaultCooldownHours + cooldownSplits/splitsPrices.CooldownSplitCost * splitsPrices.CooldownIncreaseHours :0}h)", true);
+            var start = new DiscordButtonComponent(ButtonStyle.Success, "start", submitText + " (" + (cooldownSplits + durationSplits + factorSplits) + "/" + availableSplits.AvailableSplits + " Splits selected)", disable);
+            
+            messageBuilder
+                .AddComponents(minusFactor, labelFactor, plusFactor)
+                .AddComponents(minusDur, labelDur, plusDur)
+                .AddComponents(minusCool, labelCool, plusCool)
+                .AddComponents(start);
+        }
+        
+        UpdateComponents("Start Dropboost", false);
+        await context.RespondAsync(messageBuilder);
+        var response = await context.GetResponseAsync();
+        var interactivity = context.Client.GetInteractivity();
+        
+        async Task SubmitBoost()
+        {
+            await splitsClient.StartDropboostAsync(new StartDropboostRequest
+            {
+                FactorSplits = (int)factorSplits,
+                DurationSplits = (int)durationSplits,
+                CooldownSplits = (int)cooldownSplits,
+                Login = member.Login
+            });
+                 
+            UpdateComponents("🔥 Boosted!", true);
+            await response.ModifyAsync(messageBuilder);
+        }
+
+        if (startMode == DropboostStartMode.Now)
+        {
+            await SubmitBoost();
+            return;
+        }
+        
+         // wait for interactions on the buttons
+         var buttonEvent = await interactivity.WaitForButtonAsync(response, context.User, TimeSpan.FromMinutes(1));
+         while(!buttonEvent.TimedOut)
+         {
+             await buttonEvent.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+             var buttonId = buttonEvent.Result.Id;
+
+             if (buttonId == "start")
+             {
+                 await SubmitBoost();
+                 return;
+             }
+             
+             uint[] oldSplits = [factorSplits, durationSplits, cooldownSplits];
+             var mode = buttonId.StartsWith('+') ? 1 : -1;
+             if(buttonId.Contains("fac")) factorSplits = (uint)(factorSplits + mode * splitsPrices.FactorSplitCost);
+             if(buttonId.Contains("dur")) durationSplits = (uint)(durationSplits + mode * splitsPrices.DurationSplitCost);
+             if(buttonId.Contains("cool")) cooldownSplits = (uint)(cooldownSplits + mode * splitsPrices.CooldownSplitCost);
+             
+             if(factorSplits + durationSplits + cooldownSplits > availableSplits.AvailableSplits)
+             {
+                 factorSplits = oldSplits[0];
+                 durationSplits = oldSplits[1];
+                 cooldownSplits = oldSplits[2];
+             }
+             
+             UpdateComponents("Start Dropboost", false);
+             await response.ModifyAsync(messageBuilder);
+             buttonEvent = await interactivity.WaitForButtonAsync(response, context.User, TimeSpan.FromMinutes(1));
+         }
+        
+         // disable navigation after timeout
+         UpdateComponents("Timed out", true);
+         await response.ModifyAsync(messageBuilder);
     }
     
 }

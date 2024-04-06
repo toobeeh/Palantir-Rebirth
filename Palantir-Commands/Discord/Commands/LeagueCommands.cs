@@ -101,7 +101,7 @@ public class LeagueCommands(
         if(season.ScoreRanking.Count > 1) AddTopRank(1);
         if(season.ScoreRanking.Count > 2) AddTopRank(2);
         if(season.ScoreRanking.Count > 3) AddBriefRank(3, 6);
-        if(season.ScoreRanking.Count > 6) AddBriefRank(6, 9);
+        if(season.ScoreRanking.Count > 6) AddBriefRank(7, 9);
         
         // add category leaders
         embedBuilder.AddField("`⚔️` Category Leaders",
@@ -254,13 +254,13 @@ public class LeagueCommands(
             var rankHeader =
                 $"#   " +
                 $" {"Name", 22} " +
-                $" {"Score", 6} " +
+                $" {"Score", 7} " +
                 $"  Ø {"Weight", 6} " +
                 $" {"Streak", 6} ";
             var rankText = page.Ranks.Select((rnk, index) =>
                 $"{rankStart + index, 3} " +
                 $" {rnk.Name.Replace("_", "⎽").Replace("*", "*"), 22} " +
-                $" {rnk.Score, 6:0.#} " +
+                $" {rnk.Score, 7:0.#} " +
                 $" {season.WeightRanking.First(subrnk => subrnk.UserId == rnk.UserId).AverageWeight * 100, 6:0}% " +
                 $" {season.StreakRanking.First(subrnk => subrnk.UserId == rnk.UserId).MaxStreak, 6} ")
                 .ToList();
