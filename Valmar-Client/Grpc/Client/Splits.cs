@@ -46,37 +46,43 @@ namespace Valmar {
             "MgoNdmFsdWVPdmVycmlkZRgGIAEoCzIbLmdvb2dsZS5wcm90b2J1Zi5JbnQz",
             "MlZhbHVlEg8KB2V4cGlyZWQYByABKAgibAoVU3RhcnREcm9wYm9vc3RSZXF1",
             "ZXN0Eg0KBWxvZ2luGAEgASgFEhYKDmR1cmF0aW9uU3BsaXRzGAUgASgFEhQK",
-            "DGZhY3RvclNwbGl0cxgGIAEoBRIWCg5jb29sZG93blNwbGl0cxgHIAEoBSKH",
-            "AgoUQWN0aXZlRHJvcGJvb3N0UmVwbHkSDQoFbG9naW4YASABKAUSDQoFdmFs",
-            "dWUYAyABKAUSLQoJc3RhcnREYXRlGAQgASgLMhouZ29vZ2xlLnByb3RvYnVm",
-            "LlRpbWVzdGFtcBIXCg9kdXJhdGlvblNlY29uZHMYBSABKAUSDgoGZmFjdG9y",
-            "GAYgASgBEhcKD2Nvb2xkb3duU2Vjb25kcxgHIAEoBRIrCgdlbmREYXRlGAgg",
-            "ASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIzCg9jb29sZG93bkVu",
-            "ZERhdGUYCSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIjQKI0dl",
-            "dEFjdGl2ZURyb3Bib29zdHNGb3JNZW1iZXJSZXF1ZXN0Eg0KBWxvZ2luGAEg",
-            "ASgFIpcCChlCb29zdENvc3RJbmZvcm1hdGlvblJlcGx5EhcKD2ZhY3RvclNw",
-            "bGl0Q29zdBgBIAEoBRIWCg5mYWN0b3JJbmNyZWFzZRgCIAEoARIVCg1kZWZh",
-            "dWx0RmFjdG9yGAMgASgBEhkKEWR1cmF0aW9uU3BsaXRDb3N0GAQgASgFEh8K",
-            "F2R1cmF0aW9uSW5jcmVhc2VNaW51dGVzGAUgASgFEh4KFmRlZmF1bHREdXJh",
-            "dGlvbk1pbnV0ZXMYBiABKAUSGQoRY29vbGRvd25TcGxpdENvc3QYByABKAUS",
-            "HQoVY29vbGRvd25JbmNyZWFzZUhvdXJzGAggASgFEhwKFGRlZmF1bHRDb29s",
-            "ZG93bkhvdXJzGAkgASgFMtMFCgZTcGxpdHMSOQoJR2V0U3BsaXRzEhYuZ29v",
-            "Z2xlLnByb3RvYnVmLkVtcHR5GhIuc3BsaXRzLlNwbGl0UmVwbHkwARI/CgxH",
-            "ZXRTcGxpdEJ5SWQSGy5zcGxpdHMuR2V0U3BsaXRCeUlkUmVxdWVzdBoSLnNw",
-            "bGl0cy5TcGxpdFJlcGx5ElkKFUdldE1lbWJlclNwbGl0UmV3YXJkcxIkLnNw",
-            "bGl0cy5HZXRNZW1iZXJTcGxpdFJld2FyZHNSZXF1ZXN0Ghguc3BsaXRzLlNw",
-            "bGl0UmV3YXJkUmVwbHkwARJBCgtSZXdhcmRTcGxpdBIaLnNwbGl0cy5SZXdh",
-            "cmRTcGxpdFJlcXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkSVAoXR2V0",
-            "Qm9vc3RDb3N0SW5mb3JtYXRpb24SFi5nb29nbGUucHJvdG9idWYuRW1wdHka",
-            "IS5zcGxpdHMuQm9vc3RDb3N0SW5mb3JtYXRpb25SZXBseRJNChNHZXRBY3Rp",
-            "dmVEcm9wYm9vc3RzEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5Ghwuc3BsaXRz",
-            "LkFjdGl2ZURyb3Bib29zdFJlcGx5MAESagobR2V0QWN0aXZlRHJvcGJvb3N0",
-            "c09mTWVtYmVyEisuc3BsaXRzLkdldEFjdGl2ZURyb3Bib29zdHNGb3JNZW1i",
-            "ZXJSZXF1ZXN0Ghwuc3BsaXRzLkFjdGl2ZURyb3Bib29zdFJlcGx5MAESRwoO",
-            "U3RhcnREcm9wYm9vc3QSHS5zcGxpdHMuU3RhcnREcm9wYm9vc3RSZXF1ZXN0",
-            "GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5ElUKEkdldEF2YWlsYWJsZVNwbGl0",
-            "cxIhLnNwbGl0cy5HZXRBdmFpbGFibGVTcGxpdHNSZXF1ZXN0Ghwuc3BsaXRz",
-            "LkF2YWlsYWJsZVNwbGl0c1JlcGx5QgmqAgZWYWxtYXJiBnByb3RvMw=="));
+            "DGZhY3RvclNwbGl0cxgGIAEoBRIWCg5jb29sZG93blNwbGl0cxgHIAEoBSK1",
+            "AQoXVXBncmFkZURyb3Bib29zdFJlcXVlc3QSDQoFbG9naW4YASABKAUSLQoJ",
+            "c3RhcnREYXRlGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIe",
+            "ChZkdXJhdGlvblNwbGl0c0luY3JlYXNlGAMgASgFEhwKFGZhY3RvclNwbGl0",
+            "c0luY3JlYXNlGAQgASgFEh4KFmNvb2xkb3duU3BsaXRzSW5jcmVhc2UYBSAB",
+            "KAUihwIKFEFjdGl2ZURyb3Bib29zdFJlcGx5Eg0KBWxvZ2luGAEgASgFEg0K",
+            "BXZhbHVlGAMgASgFEi0KCXN0YXJ0RGF0ZRgEIAEoCzIaLmdvb2dsZS5wcm90",
+            "b2J1Zi5UaW1lc3RhbXASFwoPZHVyYXRpb25TZWNvbmRzGAUgASgFEg4KBmZh",
+            "Y3RvchgGIAEoARIXCg9jb29sZG93blNlY29uZHMYByABKAUSKwoHZW5kRGF0",
+            "ZRgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASMwoPY29vbGRv",
+            "d25FbmREYXRlGAkgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCI0",
+            "CiNHZXRBY3RpdmVEcm9wYm9vc3RzRm9yTWVtYmVyUmVxdWVzdBINCgVsb2dp",
+            "bhgBIAEoBSKXAgoZQm9vc3RDb3N0SW5mb3JtYXRpb25SZXBseRIXCg9mYWN0",
+            "b3JTcGxpdENvc3QYASABKAUSFgoOZmFjdG9ySW5jcmVhc2UYAiABKAESFQoN",
+            "ZGVmYXVsdEZhY3RvchgDIAEoARIZChFkdXJhdGlvblNwbGl0Q29zdBgEIAEo",
+            "BRIfChdkdXJhdGlvbkluY3JlYXNlTWludXRlcxgFIAEoBRIeChZkZWZhdWx0",
+            "RHVyYXRpb25NaW51dGVzGAYgASgFEhkKEWNvb2xkb3duU3BsaXRDb3N0GAcg",
+            "ASgFEh0KFWNvb2xkb3duSW5jcmVhc2VIb3VycxgIIAEoBRIcChRkZWZhdWx0",
+            "Q29vbGRvd25Ib3VycxgJIAEoBTKgBgoGU3BsaXRzEjkKCUdldFNwbGl0cxIW",
+            "Lmdvb2dsZS5wcm90b2J1Zi5FbXB0eRoSLnNwbGl0cy5TcGxpdFJlcGx5MAES",
+            "PwoMR2V0U3BsaXRCeUlkEhsuc3BsaXRzLkdldFNwbGl0QnlJZFJlcXVlc3Qa",
+            "Ei5zcGxpdHMuU3BsaXRSZXBseRJZChVHZXRNZW1iZXJTcGxpdFJld2FyZHMS",
+            "JC5zcGxpdHMuR2V0TWVtYmVyU3BsaXRSZXdhcmRzUmVxdWVzdBoYLnNwbGl0",
+            "cy5TcGxpdFJld2FyZFJlcGx5MAESQQoLUmV3YXJkU3BsaXQSGi5zcGxpdHMu",
+            "UmV3YXJkU3BsaXRSZXF1ZXN0GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5ElQK",
+            "F0dldEJvb3N0Q29zdEluZm9ybWF0aW9uEhYuZ29vZ2xlLnByb3RvYnVmLkVt",
+            "cHR5GiEuc3BsaXRzLkJvb3N0Q29zdEluZm9ybWF0aW9uUmVwbHkSTQoTR2V0",
+            "QWN0aXZlRHJvcGJvb3N0cxIWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRocLnNw",
+            "bGl0cy5BY3RpdmVEcm9wYm9vc3RSZXBseTABEmoKG0dldEFjdGl2ZURyb3Bi",
+            "b29zdHNPZk1lbWJlchIrLnNwbGl0cy5HZXRBY3RpdmVEcm9wYm9vc3RzRm9y",
+            "TWVtYmVyUmVxdWVzdBocLnNwbGl0cy5BY3RpdmVEcm9wYm9vc3RSZXBseTAB",
+            "EkcKDlN0YXJ0RHJvcGJvb3N0Eh0uc3BsaXRzLlN0YXJ0RHJvcGJvb3N0UmVx",
+            "dWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRJLChBVcGdyYWRlRHJvcGJv",
+            "b3N0Eh8uc3BsaXRzLlVwZ3JhZGVEcm9wYm9vc3RSZXF1ZXN0GhYuZ29vZ2xl",
+            "LnByb3RvYnVmLkVtcHR5ElUKEkdldEF2YWlsYWJsZVNwbGl0cxIhLnNwbGl0",
+            "cy5HZXRBdmFpbGFibGVTcGxpdHNSZXF1ZXN0Ghwuc3BsaXRzLkF2YWlsYWJs",
+            "ZVNwbGl0c1JlcGx5QgmqAgZWYWxtYXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -88,6 +94,7 @@ namespace Valmar {
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SplitReply), global::Valmar.SplitReply.Parser, new[]{ "Id", "Name", "Description", "CreationDate", "Value" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SplitRewardReply), global::Valmar.SplitRewardReply.Parser, new[]{ "RewardeeLogin", "Split", "RewardDate", "Comment", "ValueOverride", "Expired" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.StartDropboostRequest), global::Valmar.StartDropboostRequest.Parser, new[]{ "Login", "DurationSplits", "FactorSplits", "CooldownSplits" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.UpgradeDropboostRequest), global::Valmar.UpgradeDropboostRequest.Parser, new[]{ "Login", "StartDate", "DurationSplitsIncrease", "FactorSplitsIncrease", "CooldownSplitsIncrease" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.ActiveDropboostReply), global::Valmar.ActiveDropboostReply.Parser, new[]{ "Login", "Value", "StartDate", "DurationSeconds", "Factor", "CooldownSeconds", "EndDate", "CooldownEndDate" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetActiveDropboostsForMemberRequest), global::Valmar.GetActiveDropboostsForMemberRequest.Parser, new[]{ "Login" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BoostCostInformationReply), global::Valmar.BoostCostInformationReply.Parser, new[]{ "FactorSplitCost", "FactorIncrease", "DefaultFactor", "DurationSplitCost", "DurationIncreaseMinutes", "DefaultDurationMinutes", "CooldownSplitCost", "CooldownIncreaseHours", "DefaultCooldownHours" }, null, null, null, null)
@@ -2347,6 +2354,353 @@ namespace Valmar {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class UpgradeDropboostRequest : pb::IMessage<UpgradeDropboostRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<UpgradeDropboostRequest> _parser = new pb::MessageParser<UpgradeDropboostRequest>(() => new UpgradeDropboostRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<UpgradeDropboostRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.SplitsReflection.Descriptor.MessageTypes[8]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public UpgradeDropboostRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public UpgradeDropboostRequest(UpgradeDropboostRequest other) : this() {
+      login_ = other.login_;
+      startDate_ = other.startDate_ != null ? other.startDate_.Clone() : null;
+      durationSplitsIncrease_ = other.durationSplitsIncrease_;
+      factorSplitsIncrease_ = other.factorSplitsIncrease_;
+      cooldownSplitsIncrease_ = other.cooldownSplitsIncrease_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public UpgradeDropboostRequest Clone() {
+      return new UpgradeDropboostRequest(this);
+    }
+
+    /// <summary>Field number for the "login" field.</summary>
+    public const int LoginFieldNumber = 1;
+    private int login_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Login {
+      get { return login_; }
+      set {
+        login_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "startDate" field.</summary>
+    public const int StartDateFieldNumber = 2;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp startDate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp StartDate {
+      get { return startDate_; }
+      set {
+        startDate_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "durationSplitsIncrease" field.</summary>
+    public const int DurationSplitsIncreaseFieldNumber = 3;
+    private int durationSplitsIncrease_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int DurationSplitsIncrease {
+      get { return durationSplitsIncrease_; }
+      set {
+        durationSplitsIncrease_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "factorSplitsIncrease" field.</summary>
+    public const int FactorSplitsIncreaseFieldNumber = 4;
+    private int factorSplitsIncrease_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int FactorSplitsIncrease {
+      get { return factorSplitsIncrease_; }
+      set {
+        factorSplitsIncrease_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "cooldownSplitsIncrease" field.</summary>
+    public const int CooldownSplitsIncreaseFieldNumber = 5;
+    private int cooldownSplitsIncrease_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CooldownSplitsIncrease {
+      get { return cooldownSplitsIncrease_; }
+      set {
+        cooldownSplitsIncrease_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as UpgradeDropboostRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(UpgradeDropboostRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Login != other.Login) return false;
+      if (!object.Equals(StartDate, other.StartDate)) return false;
+      if (DurationSplitsIncrease != other.DurationSplitsIncrease) return false;
+      if (FactorSplitsIncrease != other.FactorSplitsIncrease) return false;
+      if (CooldownSplitsIncrease != other.CooldownSplitsIncrease) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Login != 0) hash ^= Login.GetHashCode();
+      if (startDate_ != null) hash ^= StartDate.GetHashCode();
+      if (DurationSplitsIncrease != 0) hash ^= DurationSplitsIncrease.GetHashCode();
+      if (FactorSplitsIncrease != 0) hash ^= FactorSplitsIncrease.GetHashCode();
+      if (CooldownSplitsIncrease != 0) hash ^= CooldownSplitsIncrease.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Login != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Login);
+      }
+      if (startDate_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(StartDate);
+      }
+      if (DurationSplitsIncrease != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(DurationSplitsIncrease);
+      }
+      if (FactorSplitsIncrease != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(FactorSplitsIncrease);
+      }
+      if (CooldownSplitsIncrease != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(CooldownSplitsIncrease);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Login != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Login);
+      }
+      if (startDate_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(StartDate);
+      }
+      if (DurationSplitsIncrease != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(DurationSplitsIncrease);
+      }
+      if (FactorSplitsIncrease != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(FactorSplitsIncrease);
+      }
+      if (CooldownSplitsIncrease != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(CooldownSplitsIncrease);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Login != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Login);
+      }
+      if (startDate_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(StartDate);
+      }
+      if (DurationSplitsIncrease != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DurationSplitsIncrease);
+      }
+      if (FactorSplitsIncrease != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FactorSplitsIncrease);
+      }
+      if (CooldownSplitsIncrease != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CooldownSplitsIncrease);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(UpgradeDropboostRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Login != 0) {
+        Login = other.Login;
+      }
+      if (other.startDate_ != null) {
+        if (startDate_ == null) {
+          StartDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        StartDate.MergeFrom(other.StartDate);
+      }
+      if (other.DurationSplitsIncrease != 0) {
+        DurationSplitsIncrease = other.DurationSplitsIncrease;
+      }
+      if (other.FactorSplitsIncrease != 0) {
+        FactorSplitsIncrease = other.FactorSplitsIncrease;
+      }
+      if (other.CooldownSplitsIncrease != 0) {
+        CooldownSplitsIncrease = other.CooldownSplitsIncrease;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Login = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            if (startDate_ == null) {
+              StartDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(StartDate);
+            break;
+          }
+          case 24: {
+            DurationSplitsIncrease = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            FactorSplitsIncrease = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            CooldownSplitsIncrease = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Login = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            if (startDate_ == null) {
+              StartDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(StartDate);
+            break;
+          }
+          case 24: {
+            DurationSplitsIncrease = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            FactorSplitsIncrease = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            CooldownSplitsIncrease = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ActiveDropboostReply : pb::IMessage<ActiveDropboostReply>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -2361,7 +2715,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.SplitsReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Valmar.SplitsReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2840,7 +3194,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.SplitsReflection.Descriptor.MessageTypes[9]; }
+      get { return global::Valmar.SplitsReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3030,7 +3384,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.SplitsReflection.Descriptor.MessageTypes[10]; }
+      get { return global::Valmar.SplitsReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

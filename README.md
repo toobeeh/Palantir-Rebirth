@@ -91,9 +91,10 @@ Needed grpc services:
 - [ ] `>patronemoji (emoji)` - Set the patronemoji or view/remove the patronized user
 
 ### Splits
-- [ ] `>split inv` - Show an overview of the user splits
-- [ ] `>split boost (boost) (cooldown) (duration) (now)` - Start a new dropboost
-- [ ] `>split rate` - Show the current droprate
+- [x] `>boost inv` - Show an overview of the user splits
+- [x] `>boost (factor) (cooldown) (duration) (now)` - Start a new dropboost
+- [x] `>boost rate` - Show the current droprate and the users current boosts and cooldowns
+- [x] `>boost upgrade` - Upgrade one of the user's boosts (may also be in cooldown)
 
 ### Awards
 - [ ] `>awards` - Show an overview of the user's given/received awards'
