@@ -76,7 +76,8 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         commands.AddCommands(typeof(SpriteCommands));
         commands.AddCommands(typeof(SceneCommands));
         commands.AddCommands(typeof(LeagueCommands));
-        commands.AddCommands([typeof(SplitCommands)]); // TODO remove enumerable workaround as soon as dsharpplus fixed
+        commands.AddCommands(typeof(SplitCommands)); 
+        commands.AddCommands(typeof(OutfitCommands));
         
         await _client.ConnectAsync();
     }

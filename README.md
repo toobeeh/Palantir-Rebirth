@@ -54,10 +54,11 @@ Needed grpc services:
 - getSceneInventory(login:int)
 
 ### Outfits
-- [ ] `>outfits` - View all outfits
-- [ ] `>outfits save [name]` - Save the current sprite/scene/rainbow combo as outfit
-- [ ] `>outfits use [name]` - Use a saved outfit
-- [ ] `>outfits delete [name]` - Delete a saved outfit
+- [x] `>outfits` / `>outfits list` - View all outfits
+- [x] `>outfits save [name]` - Save the current sprite/scene/rainbow combo as outfit
+- [x] `>outfits use [name]` - Use a saved outfit
+- [x] `>outfits delete [name]` - Delete a saved outfit
+- [x] `>outfits view [name]` - View details of a saved outfit
 
 Needed grpc services:
 - getOutfits(login:int)
@@ -93,8 +94,9 @@ Needed grpc services:
 ### Splits
 - [x] `>boost inv` - Show an overview of the user splits
 - [x] `>boost (factor) (cooldown) (duration) (now)` - Start a new dropboost
-- [x] `>boost rate` - Show the current droprate and the users current boosts and cooldowns
+- [x] `>boost rate` - Show the current droprate and the users current boosts
 - [x] `>boost upgrade` - Upgrade one of the user's boosts (may also be in cooldown)
+- [x] `>boost cooldown` - View a member's current split cooldowns
 
 ### Awards
 - [ ] `>awards` - Show an overview of the user's given/received awards'

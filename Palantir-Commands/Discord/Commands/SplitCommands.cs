@@ -64,8 +64,8 @@ public class SplitCommands(
 
             else
             {
-                embedBuilder.AddField("Overview:",
-                    $"`📃` {totalAmount} total ~ {available.TotalSplits} unexpired ~ {available.AvailableSplits} available for boost\n_ _ \n_ _ ");
+                embedBuilder.AddField("Overview",
+                    $"`📃` {totalAmount} total ~ {available.TotalSplits} available\n_ _ \n_ _ ");
                 
                 foreach (var reward in page.Splits)
                 {
@@ -83,7 +83,54 @@ public class SplitCommands(
 
         await context.RespondPalantirPaginationAsync(pages);
     }
-    
+
+    /// <summary>
+    /// View a listing of your split cooldowns
+    /// </summary>
+    /// <param name="context"></param>
+    /// <exception cref="Exception"></exception>
+    [Command("cooldown")]
+    [TextAlias("cd")]
+    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    public async Task ViewSplitCooldowns(CommandContext context)
+    {
+        logger.LogTrace("ViewSplitCooldowns(context)");
+
+        var member = memberContext.Member;
+        var memberAvailableBoosts = await splitsClient.GetAvailableSplitsAsync(new GetAvailableSplitsRequest { Login = member.Login });
+        
+        var embedBuilder = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithDescription(
+                "When you use splits to start a dropboost, they have a default cooldown of seven days.\n" +
+                "You can modify listed boosts with the command `/boost upgrade [id]`.\n" +
+                "The splits listed here are currently in cooldown.")
+            .WithTitle("Split Cooldowns");
+        
+        embedBuilder.AddField("Overview",
+            $"`📃` {memberAvailableBoosts.TotalSplits} splits ~ {memberAvailableBoosts.AvailableSplits} ready to boost");
+        
+        if(memberAvailableBoosts.ActiveDropboosts.Count > 0)
+        {
+            var description = string.Join("\n", 
+                memberAvailableBoosts.ActiveDropboosts
+                    .OrderBy(boost => boost.StartDate)
+                    .Select((boost, index) => 
+                        $"{(index + 1).AsTypoId()} +{boost.Factor - 1 :0.#} ~ {boost.Value} splits\n" +
+                        $"  started {Formatter.Timestamp(boost.StartDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}\n" +
+                        $"  cooldown ends {Formatter.Timestamp(boost.CooldownEndDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}" ));
+            
+            embedBuilder.AddField("Your Cooldowns",
+                description);
+        }
+        else
+        {
+            embedBuilder.AddField("No Cooldowns", "All your splits are available!");
+        }
+        
+        await context.RespondAsync(embedBuilder.Build());
+    }
+
     /// <summary>
     /// View a listing of currently active dropboosts
     /// </summary>
@@ -116,24 +163,12 @@ public class SplitCommands(
             .WithPalantirPresets(context)
             .WithDescription(
                 "Using splits, the drop rate can be boosted. The higher the drop rate, the more frequently drops appear on skribbl.\n" +
-                "With the `/dropboost` command, you can start a drop boost once a week.\n _ _ \n**Active Boosts**\n" +
+                "With the `/boost start` command, you can start a drop boost once a week.\n _ _ \n**Active Boosts**\n" +
                 $"{boostsSummary}\n" +
                 (boosts.Count > 0 ? $"===========\nx{totalBoost :0.#} Boost active" : ""))
             .WithTitle("Current Drop Boosts");
-        
-        if(memberAvailableBoosts.ActiveDropboosts.Count > 0)
-        {
-            var description = string.Join("\n", 
-                memberAvailableBoosts.ActiveDropboosts
-                    .OrderBy(boost => boost.StartDate)
-                    .Select((boost, index) => 
-                        $"- x{boost.Factor - 1 :0.#} ~ {boost.Value} splits {PalantirFormatter.AsTypoId(index + 1)}\n" +
-                        $"  started {Formatter.Timestamp(boost.StartDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)} ~ " +
-                        $"cooldown ends {Formatter.Timestamp(boost.CooldownEndDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}" ));
-            
-            embedBuilder.AddField("Your Boosts",
-                description);
-        }
+
+        embedBuilder.AddField("Online Players", $"`👥` {onlinePlayersCount} people playing skribbl");
 
         embedBuilder.AddField("Current Droprate",
             $"`⌚` Drops appear every {bounds.MinDelaySeconds}-{bounds.MaxDelaySeconds} seconds.");
