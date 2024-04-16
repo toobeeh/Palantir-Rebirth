@@ -177,22 +177,22 @@ public class OutfitCommands(
         var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
         var scene = outfit.SceneId is {} sceneValue ? await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneValue }) : null;
         
-        var embed = new DiscordEmbedBuilder()
-            .WithPalantirPresets(context)
-            .WithAuthor("Viewing an user outfit")
-            .WithTitle(name)
-            .WithDescription($"You can use this outfit with `/outfit use {name}`. \n" +
-                             $"To update it to your current style, use `/outfit save {name}`.\n" +
-                             $"To delete the outfit, use `/outfit delete {name}`.");
-
         var combo = string.Join("\n", outfit.SpriteSlotConfiguration.Select(slot =>
         {
             var sprite = sprites.First(spt => spt.Id == slot.SpriteId);
             var shift = slot.ColorShift is not null ? $"(color shift: {slot.ColorShift})" : "";
             return $"{sprite.Id.AsTypoId()}  {sprite.Name}  {shift}";
         }));
-        embed.AddField("Combo:", combo.Length == 0 ? "Empty" : combo);
-        embed.AddField("Scene:", scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name}");
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithAuthor("Viewing an user outfit")
+            .WithTitle(name)
+            .WithDescription($"You can use this outfit with `/outfit use {name}`. \n" +
+                             $"To update it to your current style, use `/outfit save {name}`.\n" +
+                             $"To delete the outfit, use `/outfit delete {name}`.\n_ _\n" +
+                             $"**Combo:**\n{(combo.Length == 0 ? "Empty" : combo)}\n_ _\n" +
+                             $"**Scene:**\n{(scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name})")}");
         
         await context.RespondAsync(embed: embed);
     }

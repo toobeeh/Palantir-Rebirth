@@ -78,6 +78,7 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         commands.AddCommands(typeof(LeagueCommands));
         commands.AddCommands(typeof(SplitCommands)); 
         commands.AddCommands(typeof(OutfitCommands));
+        commands.AddCommands([typeof(MiscCommands)]);
         
         await _client.ConnectAsync();
     }

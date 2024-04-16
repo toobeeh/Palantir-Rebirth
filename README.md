@@ -54,11 +54,11 @@ Needed grpc services:
 - getSceneInventory(login:int)
 
 ### Outfits
-- [x] `>outfits` / `>outfits list` - View all outfits
-- [x] `>outfits save [name]` - Save the current sprite/scene/rainbow combo as outfit
-- [x] `>outfits use [name]` - Use a saved outfit
-- [x] `>outfits delete [name]` - Delete a saved outfit
-- [x] `>outfits view [name]` - View details of a saved outfit
+- [x] `>outfit` / `>outfits list` - View all outfits
+- [x] `>outfit save [name]` - Save the current sprite/scene/rainbow combo as outfit
+- [x] `>outfit use [name]` - Use a saved outfit
+- [x] `>outfit delete [name]` - Delete a saved outfit
+- [x] `>outfit view [name]` - View details of a saved outfit
 
 Needed grpc services:
 - getOutfits(login:int)
@@ -103,9 +103,6 @@ Needed grpc services:
 - [ ] `>awards gallery` - Show the gallery of received awards
 - [ ] `>awards view [id]` - View an received award with image
 
-### Leaderboard
-- [ ] `>leaderboard (mode)` - View the server leaderboard of bubbles or drops
-
 ### Inventory
 - [ ] `>inventory` - View the inventory of the user (no sprites/list) with stats of drops, bubbles, flags, current combo, patronemoji, splits
 - [ ] `>stat (mode)` - View the bubble stat graph for month/week/day
@@ -117,7 +114,7 @@ Needed grpc services:
 - [ ] `>help (command)` - Show the help
 - [ ] `>about` - Show some infos/stats
 - [ ] `>calc [mode] [amount]` - Calculate the time to reach a goal
-- 
+- [x] `>leaderboard (mode)` - View the server leaderboard of bubbles or drops
 
 ## Lobbies
 Most likely there will be a separate Discord bot for lobbies to prevent ratelimit issues.  

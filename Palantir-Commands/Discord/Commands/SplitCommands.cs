@@ -240,7 +240,7 @@ public class SplitCommands(
                 .First();
             
             await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, $"Cannot ${(boostModify is null ? "start" : "upgrade")} dropboost", 
+                .WithPalantirErrorPresets(context, $"Cannot {(boostModify is null ? "start" : "upgrade")} dropboost", 
                     $"You have used up all your splits.\nYou can ${(boostModify is null ? "start" : "upgrade")} your next boost with {nextCooldown.Value} splits at {Formatter.Timestamp(nextCooldown.CooldownEndDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}."));
             return;
         }
@@ -248,7 +248,7 @@ public class SplitCommands(
         if(factorSplits + durationSplits + cooldownSplits > availableSplits.AvailableSplits)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "Not enough splits", $"You do not have enough splits to ${(boostModify is null ? "start" : "upgrade")} this boost.\n Use `/splits` to view your splits."));
+                .WithPalantirErrorPresets(context, "Not enough splits", $"You do not have enough splits to {(boostModify is null ? "start" : "upgrade")} this boost.\n Use `/splits` to view your splits."));
             return;
         }
 

@@ -25,24 +25,45 @@ namespace Valmar {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CgtzdGF0cy5wcm90bxIFc3RhdHMaH2dvb2dsZS9wcm90b2J1Zi90aW1lc3Rh",
-            "bXAucHJvdG8ihwEKGkJ1YmJsZVRpbWVzcGFuUmFuZ2VSZXF1ZXN0Eg0KBWxv",
-            "Z2luGAEgASgFEi0KCXN0YXJ0RGF0ZRgCIAEoCzIaLmdvb2dsZS5wcm90b2J1",
-            "Zi5UaW1lc3RhbXASKwoHZW5kRGF0ZRgDIAEoCzIaLmdvb2dsZS5wcm90b2J1",
-            "Zi5UaW1lc3RhbXAiQgoYQnViYmxlVGltZXNwYW5SYW5nZVJlcGx5EhMKC3N0",
-            "YXJ0QW1vdW50GAEgASgFEhEKCWVuZEFtb3VudBgCIAEoBTJlCgVTdGF0cxJc",
-            "ChZHZXRCdWJibGVUaW1lc3BhblJhbmdlEiEuc3RhdHMuQnViYmxlVGltZXNw",
-            "YW5SYW5nZVJlcXVlc3QaHy5zdGF0cy5CdWJibGVUaW1lc3BhblJhbmdlUmVw",
-            "bHlCCaoCBlZhbG1hcmIGcHJvdG8z"));
+            "bXAucHJvdG8aHmdvb2dsZS9wcm90b2J1Zi93cmFwcGVycy5wcm90byKHAQoa",
+            "QnViYmxlVGltZXNwYW5SYW5nZVJlcXVlc3QSDQoFbG9naW4YASABKAUSLQoJ",
+            "c3RhcnREYXRlGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIr",
+            "CgdlbmREYXRlGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJC",
+            "ChhCdWJibGVUaW1lc3BhblJhbmdlUmVwbHkSEwoLc3RhcnRBbW91bnQYASAB",
+            "KAUSEQoJZW5kQW1vdW50GAIgASgFIm4KFUdldExlYWRlcmJvYXJkTWVzc2Fn",
+            "ZRIvCgpndWlsZFRva2VuGAEgASgLMhsuZ29vZ2xlLnByb3RvYnVmLkludDMy",
+            "VmFsdWUSJAoEbW9kZRgCIAEoDjIWLnN0YXRzLkxlYWRlcmJvYXJkTW9kZSJE",
+            "ChJMZWFkZXJib2FyZE1lc3NhZ2USLgoHZW50cmllcxgBIAMoCzIdLnN0YXRz",
+            "LkxlYWRlcmJvYXJkUmFua01lc3NhZ2UiegoWTGVhZGVyYm9hcmRSYW5rTWVz",
+            "c2FnZRIMCgRyYW5rGAEgASgFEg0KBWxvZ2luGAIgASgFEhEKCWRpc2NvcmRJ",
+            "ZBgDIAEoAxIQCgh1c2VybmFtZRgEIAEoCRIPCgdidWJibGVzGAUgASgFEg0K",
+            "BWRyb3BzGAYgASgFKikKD0xlYWRlcmJvYXJkTW9kZRILCgdCVUJCTEVTEAAS",
+            "CQoFRFJPUFMQATKwAQoFU3RhdHMSXAoWR2V0QnViYmxlVGltZXNwYW5SYW5n",
+            "ZRIhLnN0YXRzLkJ1YmJsZVRpbWVzcGFuUmFuZ2VSZXF1ZXN0Gh8uc3RhdHMu",
+            "QnViYmxlVGltZXNwYW5SYW5nZVJlcGx5EkkKDkdldExlYWRlcmJvYXJkEhwu",
+            "c3RhdHMuR2V0TGVhZGVyYm9hcmRNZXNzYWdlGhkuc3RhdHMuTGVhZGVyYm9h",
+            "cmRNZXNzYWdlQgmqAgZWYWxtYXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Valmar.LeaderboardMode), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BubbleTimespanRangeRequest), global::Valmar.BubbleTimespanRangeRequest.Parser, new[]{ "Login", "StartDate", "EndDate" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BubbleTimespanRangeReply), global::Valmar.BubbleTimespanRangeReply.Parser, new[]{ "StartAmount", "EndAmount" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BubbleTimespanRangeReply), global::Valmar.BubbleTimespanRangeReply.Parser, new[]{ "StartAmount", "EndAmount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetLeaderboardMessage), global::Valmar.GetLeaderboardMessage.Parser, new[]{ "GuildToken", "Mode" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeaderboardMessage), global::Valmar.LeaderboardMessage.Parser, new[]{ "Entries" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.LeaderboardRankMessage), global::Valmar.LeaderboardRankMessage.Parser, new[]{ "Rank", "Login", "DiscordId", "Username", "Bubbles", "Drops" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
+  #region Enums
+  public enum LeaderboardMode {
+    [pbr::OriginalName("BUBBLES")] Bubbles = 0,
+    [pbr::OriginalName("DROPS")] Drops = 1,
+  }
+
+  #endregion
+
   #region Messages
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class BubbleTimespanRangeRequest : pb::IMessage<BubbleTimespanRangeRequest>
@@ -544,6 +565,795 @@ namespace Valmar {
           }
           case 16: {
             EndAmount = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class GetLeaderboardMessage : pb::IMessage<GetLeaderboardMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<GetLeaderboardMessage> _parser = new pb::MessageParser<GetLeaderboardMessage>(() => new GetLeaderboardMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<GetLeaderboardMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetLeaderboardMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetLeaderboardMessage(GetLeaderboardMessage other) : this() {
+      GuildToken = other.GuildToken;
+      mode_ = other.mode_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetLeaderboardMessage Clone() {
+      return new GetLeaderboardMessage(this);
+    }
+
+    /// <summary>Field number for the "guildToken" field.</summary>
+    public const int GuildTokenFieldNumber = 1;
+    private static readonly pb::FieldCodec<int?> _single_guildToken_codec = pb::FieldCodec.ForStructWrapper<int>(10);
+    private int? guildToken_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int? GuildToken {
+      get { return guildToken_; }
+      set {
+        guildToken_ = value;
+      }
+    }
+
+
+    /// <summary>Field number for the "mode" field.</summary>
+    public const int ModeFieldNumber = 2;
+    private global::Valmar.LeaderboardMode mode_ = global::Valmar.LeaderboardMode.Bubbles;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Valmar.LeaderboardMode Mode {
+      get { return mode_; }
+      set {
+        mode_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as GetLeaderboardMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(GetLeaderboardMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (GuildToken != other.GuildToken) return false;
+      if (Mode != other.Mode) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (guildToken_ != null) hash ^= GuildToken.GetHashCode();
+      if (Mode != global::Valmar.LeaderboardMode.Bubbles) hash ^= Mode.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (guildToken_ != null) {
+        _single_guildToken_codec.WriteTagAndValue(output, GuildToken);
+      }
+      if (Mode != global::Valmar.LeaderboardMode.Bubbles) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) Mode);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (guildToken_ != null) {
+        _single_guildToken_codec.WriteTagAndValue(ref output, GuildToken);
+      }
+      if (Mode != global::Valmar.LeaderboardMode.Bubbles) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) Mode);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (guildToken_ != null) {
+        size += _single_guildToken_codec.CalculateSizeWithTag(GuildToken);
+      }
+      if (Mode != global::Valmar.LeaderboardMode.Bubbles) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Mode);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(GetLeaderboardMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.guildToken_ != null) {
+        if (guildToken_ == null || other.GuildToken != 0) {
+          GuildToken = other.GuildToken;
+        }
+      }
+      if (other.Mode != global::Valmar.LeaderboardMode.Bubbles) {
+        Mode = other.Mode;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            int? value = _single_guildToken_codec.Read(input);
+            if (guildToken_ == null || value != 0) {
+              GuildToken = value;
+            }
+            break;
+          }
+          case 16: {
+            Mode = (global::Valmar.LeaderboardMode) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            int? value = _single_guildToken_codec.Read(ref input);
+            if (guildToken_ == null || value != 0) {
+              GuildToken = value;
+            }
+            break;
+          }
+          case 16: {
+            Mode = (global::Valmar.LeaderboardMode) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LeaderboardMessage : pb::IMessage<LeaderboardMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LeaderboardMessage> _parser = new pb::MessageParser<LeaderboardMessage>(() => new LeaderboardMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LeaderboardMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LeaderboardMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LeaderboardMessage(LeaderboardMessage other) : this() {
+      entries_ = other.entries_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LeaderboardMessage Clone() {
+      return new LeaderboardMessage(this);
+    }
+
+    /// <summary>Field number for the "entries" field.</summary>
+    public const int EntriesFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Valmar.LeaderboardRankMessage> _repeated_entries_codec
+        = pb::FieldCodec.ForMessage(10, global::Valmar.LeaderboardRankMessage.Parser);
+    private readonly pbc::RepeatedField<global::Valmar.LeaderboardRankMessage> entries_ = new pbc::RepeatedField<global::Valmar.LeaderboardRankMessage>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::Valmar.LeaderboardRankMessage> Entries {
+      get { return entries_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LeaderboardMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LeaderboardMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!entries_.Equals(other.entries_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= entries_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      entries_.WriteTo(output, _repeated_entries_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      entries_.WriteTo(ref output, _repeated_entries_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += entries_.CalculateSize(_repeated_entries_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LeaderboardMessage other) {
+      if (other == null) {
+        return;
+      }
+      entries_.Add(other.entries_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            entries_.AddEntriesFrom(input, _repeated_entries_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            entries_.AddEntriesFrom(ref input, _repeated_entries_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LeaderboardRankMessage : pb::IMessage<LeaderboardRankMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LeaderboardRankMessage> _parser = new pb::MessageParser<LeaderboardRankMessage>(() => new LeaderboardRankMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LeaderboardRankMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LeaderboardRankMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LeaderboardRankMessage(LeaderboardRankMessage other) : this() {
+      rank_ = other.rank_;
+      login_ = other.login_;
+      discordId_ = other.discordId_;
+      username_ = other.username_;
+      bubbles_ = other.bubbles_;
+      drops_ = other.drops_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LeaderboardRankMessage Clone() {
+      return new LeaderboardRankMessage(this);
+    }
+
+    /// <summary>Field number for the "rank" field.</summary>
+    public const int RankFieldNumber = 1;
+    private int rank_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Rank {
+      get { return rank_; }
+      set {
+        rank_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "login" field.</summary>
+    public const int LoginFieldNumber = 2;
+    private int login_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Login {
+      get { return login_; }
+      set {
+        login_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "discordId" field.</summary>
+    public const int DiscordIdFieldNumber = 3;
+    private long discordId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long DiscordId {
+      get { return discordId_; }
+      set {
+        discordId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "username" field.</summary>
+    public const int UsernameFieldNumber = 4;
+    private string username_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Username {
+      get { return username_; }
+      set {
+        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "bubbles" field.</summary>
+    public const int BubblesFieldNumber = 5;
+    private int bubbles_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Bubbles {
+      get { return bubbles_; }
+      set {
+        bubbles_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "drops" field.</summary>
+    public const int DropsFieldNumber = 6;
+    private int drops_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Drops {
+      get { return drops_; }
+      set {
+        drops_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LeaderboardRankMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LeaderboardRankMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Rank != other.Rank) return false;
+      if (Login != other.Login) return false;
+      if (DiscordId != other.DiscordId) return false;
+      if (Username != other.Username) return false;
+      if (Bubbles != other.Bubbles) return false;
+      if (Drops != other.Drops) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Rank != 0) hash ^= Rank.GetHashCode();
+      if (Login != 0) hash ^= Login.GetHashCode();
+      if (DiscordId != 0L) hash ^= DiscordId.GetHashCode();
+      if (Username.Length != 0) hash ^= Username.GetHashCode();
+      if (Bubbles != 0) hash ^= Bubbles.GetHashCode();
+      if (Drops != 0) hash ^= Drops.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Rank != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Rank);
+      }
+      if (Login != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Login);
+      }
+      if (DiscordId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(DiscordId);
+      }
+      if (Username.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Username);
+      }
+      if (Bubbles != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Bubbles);
+      }
+      if (Drops != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(Drops);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Rank != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Rank);
+      }
+      if (Login != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Login);
+      }
+      if (DiscordId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(DiscordId);
+      }
+      if (Username.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Username);
+      }
+      if (Bubbles != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Bubbles);
+      }
+      if (Drops != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(Drops);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Rank != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Rank);
+      }
+      if (Login != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Login);
+      }
+      if (DiscordId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(DiscordId);
+      }
+      if (Username.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
+      }
+      if (Bubbles != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Bubbles);
+      }
+      if (Drops != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Drops);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LeaderboardRankMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Rank != 0) {
+        Rank = other.Rank;
+      }
+      if (other.Login != 0) {
+        Login = other.Login;
+      }
+      if (other.DiscordId != 0L) {
+        DiscordId = other.DiscordId;
+      }
+      if (other.Username.Length != 0) {
+        Username = other.Username;
+      }
+      if (other.Bubbles != 0) {
+        Bubbles = other.Bubbles;
+      }
+      if (other.Drops != 0) {
+        Drops = other.Drops;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Rank = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Login = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            DiscordId = input.ReadInt64();
+            break;
+          }
+          case 34: {
+            Username = input.ReadString();
+            break;
+          }
+          case 40: {
+            Bubbles = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            Drops = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Rank = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Login = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            DiscordId = input.ReadInt64();
+            break;
+          }
+          case 34: {
+            Username = input.ReadString();
+            break;
+          }
+          case 40: {
+            Bubbles = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            Drops = input.ReadInt32();
             break;
           }
         }

@@ -52,6 +52,10 @@ namespace Valmar {
     static readonly grpc::Marshaller<global::Valmar.BubbleTimespanRangeRequest> __Marshaller_stats_BubbleTimespanRangeRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.BubbleTimespanRangeRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.BubbleTimespanRangeReply> __Marshaller_stats_BubbleTimespanRangeReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.BubbleTimespanRangeReply.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GetLeaderboardMessage> __Marshaller_stats_GetLeaderboardMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetLeaderboardMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.LeaderboardMessage> __Marshaller_stats_LeaderboardMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.LeaderboardMessage.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Valmar.BubbleTimespanRangeRequest, global::Valmar.BubbleTimespanRangeReply> __Method_GetBubbleTimespanRange = new grpc::Method<global::Valmar.BubbleTimespanRangeRequest, global::Valmar.BubbleTimespanRangeReply>(
@@ -60,6 +64,14 @@ namespace Valmar {
         "GetBubbleTimespanRange",
         __Marshaller_stats_BubbleTimespanRangeRequest,
         __Marshaller_stats_BubbleTimespanRangeReply);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GetLeaderboardMessage, global::Valmar.LeaderboardMessage> __Method_GetLeaderboard = new grpc::Method<global::Valmar.GetLeaderboardMessage, global::Valmar.LeaderboardMessage>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetLeaderboard",
+        __Marshaller_stats_GetLeaderboardMessage,
+        __Marshaller_stats_LeaderboardMessage);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -141,6 +153,54 @@ namespace Valmar {
       public virtual grpc::AsyncUnaryCall<global::Valmar.BubbleTimespanRangeReply> GetBubbleTimespanRangeAsync(global::Valmar.BubbleTimespanRangeRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetBubbleTimespanRange, null, options, request);
+      }
+      /// <summary>
+      /// gets the member leaderboard, either global or for a guild, sorted by bubbles or drops
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.LeaderboardMessage GetLeaderboard(global::Valmar.GetLeaderboardMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetLeaderboard(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// gets the member leaderboard, either global or for a guild, sorted by bubbles or drops
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.LeaderboardMessage GetLeaderboard(global::Valmar.GetLeaderboardMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetLeaderboard, null, options, request);
+      }
+      /// <summary>
+      /// gets the member leaderboard, either global or for a guild, sorted by bubbles or drops
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.LeaderboardMessage> GetLeaderboardAsync(global::Valmar.GetLeaderboardMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetLeaderboardAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// gets the member leaderboard, either global or for a guild, sorted by bubbles or drops
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.LeaderboardMessage> GetLeaderboardAsync(global::Valmar.GetLeaderboardMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetLeaderboard, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

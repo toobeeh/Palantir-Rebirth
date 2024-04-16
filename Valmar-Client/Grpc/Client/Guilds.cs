@@ -28,14 +28,18 @@ namespace Valmar {
             "ZElkGAEgASgDEhEKCWNoYW5uZWxJZBgCIAEoAxIRCgltZXNzYWdlSWQYAyAB",
             "KAMSFAoMb2JzZXJ2ZVRva2VuGAQgASgFEgwKBG5hbWUYBSABKAkSHAoUY29u",
             "bmVjdGVkTWVtYmVyQ291bnQYBiABKAUiJwoPR2V0R3VpbGRSZXF1ZXN0EhQK",
-            "DG9ic2VydmVUb2tlbhgBIAEoBTJICgZHdWlsZHMSPgoPR2V0R3VpbGRCeVRv",
-            "a2VuEhcuZ3VpbGRzLkdldEd1aWxkUmVxdWVzdBoSLmd1aWxkcy5HdWlsZFJl",
-            "cGx5QgmqAgZWYWxtYXJiBnByb3RvMw=="));
+            "DG9ic2VydmVUb2tlbhgBIAEoBSIoChNHZXRHdWlsZEJ5SWRNZXNzYWdlEhEK",
+            "CWRpc2NvcmRJZBgBIAEoAzKQAQoGR3VpbGRzEj4KD0dldEd1aWxkQnlUb2tl",
+            "bhIXLmd1aWxkcy5HZXRHdWlsZFJlcXVlc3QaEi5ndWlsZHMuR3VpbGRSZXBs",
+            "eRJGChNHZXRHdWlsZEJ5RGlzY29yZElkEhsuZ3VpbGRzLkdldEd1aWxkQnlJ",
+            "ZE1lc3NhZ2UaEi5ndWlsZHMuR3VpbGRSZXBseUIJqgIGVmFsbWFyYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GuildReply), global::Valmar.GuildReply.Parser, new[]{ "GuildId", "ChannelId", "MessageId", "ObserveToken", "Name", "ConnectedMemberCount" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetGuildRequest), global::Valmar.GetGuildRequest.Parser, new[]{ "ObserveToken" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetGuildRequest), global::Valmar.GetGuildRequest.Parser, new[]{ "ObserveToken" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetGuildByIdMessage), global::Valmar.GetGuildByIdMessage.Parser, new[]{ "DiscordId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -604,6 +608,199 @@ namespace Valmar {
             break;
           case 8: {
             ObserveToken = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// Request containing a guild discord ID
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class GetGuildByIdMessage : pb::IMessage<GetGuildByIdMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<GetGuildByIdMessage> _parser = new pb::MessageParser<GetGuildByIdMessage>(() => new GetGuildByIdMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<GetGuildByIdMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.GuildsReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetGuildByIdMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetGuildByIdMessage(GetGuildByIdMessage other) : this() {
+      discordId_ = other.discordId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetGuildByIdMessage Clone() {
+      return new GetGuildByIdMessage(this);
+    }
+
+    /// <summary>Field number for the "discordId" field.</summary>
+    public const int DiscordIdFieldNumber = 1;
+    private long discordId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long DiscordId {
+      get { return discordId_; }
+      set {
+        discordId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as GetGuildByIdMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(GetGuildByIdMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DiscordId != other.DiscordId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (DiscordId != 0L) hash ^= DiscordId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (DiscordId != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(DiscordId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (DiscordId != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(DiscordId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (DiscordId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(DiscordId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(GetGuildByIdMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.DiscordId != 0L) {
+        DiscordId = other.DiscordId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            DiscordId = input.ReadInt64();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            DiscordId = input.ReadInt64();
             break;
           }
         }
