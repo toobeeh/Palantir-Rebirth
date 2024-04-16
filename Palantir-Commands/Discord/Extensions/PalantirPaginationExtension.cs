@@ -9,11 +9,11 @@ namespace Palantir_Commands.Discord.Extensions;
 
 public static class PalantirPaginationExtension
 {
-    public static async Task RespondPalantirPaginationAsync(this CommandContext context, List<DiscordEmbedBuilder> pages, string pageListingName = "Page")
+    public static async Task RespondPalantirPaginationAsync(this CommandContext context, List<DiscordEmbedBuilder> pages, string pageListingName = "Page", int? startPage = null)
     {
         var interactivity = context.Client.GetInteractivity();
 
-        var currentPage = 0;
+        var currentPage = startPage - 1 ?? 0;
         const string nextPageId = "nextPage";
         const string prevPageId = "prevPage";
         DiscordComponentEmoji nextPageEmoji = new DiscordComponentEmoji { Id = 1217564955729985586, Name = "tt_award_stonks"};

@@ -19,8 +19,14 @@ public class MiscCommands(
     Stats.StatsClient statsClient
 )
 {
+    /// <summary>
+    /// Views the leaderboard of the server
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="mode">The ranking mode - either bubble or drops</param>
+    /// <param name="searchValue">When a search value is provided, the leaderboard shows the page with the closest scores first.</param>
     [Command("leaderboard"), TextAlias("lb"), RequireGuild]
-    public async Task ViewLeaderboard(CommandContext context, LeaderboardMode mode = LeaderboardMode.Bubbles)
+    public async Task ViewLeaderboard(CommandContext context, LeaderboardMode mode = LeaderboardMode.Bubbles, int? searchValue = null)
     {
         logger.LogTrace("ViewLeaderboard(context, mode={mode})", mode);
         
@@ -32,11 +38,13 @@ public class MiscCommands(
         });
         
         const int batchSize = 12;
-        var pages = leaderboard.Entries.Batch(batchSize).Select((batch, idx) => new
+        var batches = leaderboard.Entries.Batch(batchSize).Select((batch, idx) => new
         {
             Page = idx + 1,
             Ranks = batch.ToList()
-        }).Select(page =>
+        }).ToList();
+            
+        var pages = batches.Select(page =>
         {
             var embed = new DiscordEmbedBuilder()
                 .WithPalantirPresets(context)
@@ -45,13 +53,16 @@ public class MiscCommands(
                 .WithTitle($"{(mode == LeaderboardMode.Bubbles ? "Bubble" : "Drop")} Leaderboard");
 
             page.Ranks.ForEach(rank => embed.AddField($"#{rank.Rank} _ _-_ _ {rank.Username}", $"```js\n" +
-                                                             $"Bubbles: {rank.Bubbles}\nDrops: {rank.Drops}\n" +
-                                                             $"```\n_ _", true));
+                $"Bubbles: {rank.Bubbles}\nDrops: {rank.Drops}\n" +
+                $"```\n_ _", true));
 
             return embed;
         }).ToList();
+        
+        int? startPage = searchValue is {} minVal ? batches.FirstOrDefault(batch => batch.Ranks.Any(rank =>
+            (mode == LeaderboardMode.Bubbles ? rank.Bubbles : rank.Drops) <= minVal))?.Page : null;
 
-        await context.RespondPalantirPaginationAsync(pages);
+        await context.RespondPalantirPaginationAsync(pages, "Page", startPage);
     }
     
 }
