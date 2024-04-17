@@ -105,10 +105,10 @@ Needed grpc services:
 
 ### Inventory
 - [ ] `>inventory` - View the inventory of the user (no sprites/list) with stats of drops, bubbles, flags, current combo, patronemoji, splits
-- [ ] `>stat (mode)` - View the bubble stat graph for month/week/day
+- [x] `>stat (mode)` - View the bubble stat graph for month/week/day
 
 ### Admin
-- [ ] `>add sprite ` - Admin commands
+(not necessary for first release)
 
 ### Misc
 - [ ] `>help (command)` - Show the help

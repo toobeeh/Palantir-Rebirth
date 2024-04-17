@@ -53,6 +53,10 @@ namespace Valmar {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.BubbleTimespanRangeReply> __Marshaller_stats_BubbleTimespanRangeReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.BubbleTimespanRangeReply.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GetBubbleProgressMessage> __Marshaller_stats_GetBubbleProgressMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetBubbleProgressMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.BubbleProgressMessage> __Marshaller_stats_BubbleProgressMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.BubbleProgressMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.GetLeaderboardMessage> __Marshaller_stats_GetLeaderboardMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetLeaderboardMessage.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.LeaderboardMessage> __Marshaller_stats_LeaderboardMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.LeaderboardMessage.Parser));
@@ -64,6 +68,14 @@ namespace Valmar {
         "GetBubbleTimespanRange",
         __Marshaller_stats_BubbleTimespanRangeRequest,
         __Marshaller_stats_BubbleTimespanRangeReply);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GetBubbleProgressMessage, global::Valmar.BubbleProgressMessage> __Method_GetBubbleProgress = new grpc::Method<global::Valmar.GetBubbleProgressMessage, global::Valmar.BubbleProgressMessage>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetBubbleProgress",
+        __Marshaller_stats_GetBubbleProgressMessage,
+        __Marshaller_stats_BubbleProgressMessage);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Valmar.GetLeaderboardMessage, global::Valmar.LeaderboardMessage> __Method_GetLeaderboard = new grpc::Method<global::Valmar.GetLeaderboardMessage, global::Valmar.LeaderboardMessage>(
@@ -153,6 +165,54 @@ namespace Valmar {
       public virtual grpc::AsyncUnaryCall<global::Valmar.BubbleTimespanRangeReply> GetBubbleTimespanRangeAsync(global::Valmar.BubbleTimespanRangeRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetBubbleTimespanRange, null, options, request);
+      }
+      /// <summary>
+      /// Get the bubble progress in a time range with given range steps
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.BubbleProgressMessage GetBubbleProgress(global::Valmar.GetBubbleProgressMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetBubbleProgress(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Get the bubble progress in a time range with given range steps
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.BubbleProgressMessage GetBubbleProgress(global::Valmar.GetBubbleProgressMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetBubbleProgress, null, options, request);
+      }
+      /// <summary>
+      /// Get the bubble progress in a time range with given range steps
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.BubbleProgressMessage> GetBubbleProgressAsync(global::Valmar.GetBubbleProgressMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetBubbleProgressAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Get the bubble progress in a time range with given range steps
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.BubbleProgressMessage> GetBubbleProgressAsync(global::Valmar.GetBubbleProgressMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetBubbleProgress, null, options, request);
       }
       /// <summary>
       /// gets the member leaderboard, either global or for a guild, sorted by bubbles or drops

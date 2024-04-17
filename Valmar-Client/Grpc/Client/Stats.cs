@@ -25,27 +25,41 @@ namespace Valmar {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CgtzdGF0cy5wcm90bxIFc3RhdHMaH2dvb2dsZS9wcm90b2J1Zi90aW1lc3Rh",
-            "bXAucHJvdG8aHmdvb2dsZS9wcm90b2J1Zi93cmFwcGVycy5wcm90byKHAQoa",
-            "QnViYmxlVGltZXNwYW5SYW5nZVJlcXVlc3QSDQoFbG9naW4YASABKAUSLQoJ",
-            "c3RhcnREYXRlGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIr",
-            "CgdlbmREYXRlGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJC",
-            "ChhCdWJibGVUaW1lc3BhblJhbmdlUmVwbHkSEwoLc3RhcnRBbW91bnQYASAB",
-            "KAUSEQoJZW5kQW1vdW50GAIgASgFIm4KFUdldExlYWRlcmJvYXJkTWVzc2Fn",
-            "ZRIvCgpndWlsZFRva2VuGAEgASgLMhsuZ29vZ2xlLnByb3RvYnVmLkludDMy",
-            "VmFsdWUSJAoEbW9kZRgCIAEoDjIWLnN0YXRzLkxlYWRlcmJvYXJkTW9kZSJE",
-            "ChJMZWFkZXJib2FyZE1lc3NhZ2USLgoHZW50cmllcxgBIAMoCzIdLnN0YXRz",
-            "LkxlYWRlcmJvYXJkUmFua01lc3NhZ2UiegoWTGVhZGVyYm9hcmRSYW5rTWVz",
-            "c2FnZRIMCgRyYW5rGAEgASgFEg0KBWxvZ2luGAIgASgFEhEKCWRpc2NvcmRJ",
-            "ZBgDIAEoAxIQCgh1c2VybmFtZRgEIAEoCRIPCgdidWJibGVzGAUgASgFEg0K",
-            "BWRyb3BzGAYgASgFKikKD0xlYWRlcmJvYXJkTW9kZRILCgdCVUJCTEVTEAAS",
-            "CQoFRFJPUFMQATKwAQoFU3RhdHMSXAoWR2V0QnViYmxlVGltZXNwYW5SYW5n",
-            "ZRIhLnN0YXRzLkJ1YmJsZVRpbWVzcGFuUmFuZ2VSZXF1ZXN0Gh8uc3RhdHMu",
-            "QnViYmxlVGltZXNwYW5SYW5nZVJlcGx5EkkKDkdldExlYWRlcmJvYXJkEhwu",
-            "c3RhdHMuR2V0TGVhZGVyYm9hcmRNZXNzYWdlGhkuc3RhdHMuTGVhZGVyYm9h",
-            "cmRNZXNzYWdlQgmqAgZWYWxtYXJiBnByb3RvMw=="));
+            "bXAucHJvdG8aHmdvb2dsZS9wcm90b2J1Zi93cmFwcGVycy5wcm90byK6AQoY",
+            "R2V0QnViYmxlUHJvZ3Jlc3NNZXNzYWdlEg0KBWxvZ2luGAEgASgFEi0KCXN0",
+            "YXJ0RGF0ZRgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASKwoH",
+            "ZW5kRGF0ZRgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASMwoI",
+            "aW50ZXJ2YWwYBCABKA4yIS5zdGF0cy5CdWJibGVQcm9ncmVzc0ludGVydmFs",
+            "TW9kZSJLChVCdWJibGVQcm9ncmVzc01lc3NhZ2USMgoHZW50cmllcxgBIAMo",
+            "CzIhLnN0YXRzLkJ1YmJsZVByb2dyZXNzRW50cnlNZXNzYWdlIlcKGkJ1YmJs",
+            "ZVByb2dyZXNzRW50cnlNZXNzYWdlEigKBGRhdGUYASABKAsyGi5nb29nbGUu",
+            "cHJvdG9idWYuVGltZXN0YW1wEg8KB2J1YmJsZXMYAiABKAUihwEKGkJ1YmJs",
+            "ZVRpbWVzcGFuUmFuZ2VSZXF1ZXN0Eg0KBWxvZ2luGAEgASgFEi0KCXN0YXJ0",
+            "RGF0ZRgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASKwoHZW5k",
+            "RGF0ZRgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiQgoYQnVi",
+            "YmxlVGltZXNwYW5SYW5nZVJlcGx5EhMKC3N0YXJ0QW1vdW50GAEgASgFEhEK",
+            "CWVuZEFtb3VudBgCIAEoBSJuChVHZXRMZWFkZXJib2FyZE1lc3NhZ2USLwoK",
+            "Z3VpbGRUb2tlbhgBIAEoCzIbLmdvb2dsZS5wcm90b2J1Zi5JbnQzMlZhbHVl",
+            "EiQKBG1vZGUYAiABKA4yFi5zdGF0cy5MZWFkZXJib2FyZE1vZGUiRAoSTGVh",
+            "ZGVyYm9hcmRNZXNzYWdlEi4KB2VudHJpZXMYASADKAsyHS5zdGF0cy5MZWFk",
+            "ZXJib2FyZFJhbmtNZXNzYWdlInoKFkxlYWRlcmJvYXJkUmFua01lc3NhZ2US",
+            "DAoEcmFuaxgBIAEoBRINCgVsb2dpbhgCIAEoBRIRCglkaXNjb3JkSWQYAyAB",
+            "KAMSEAoIdXNlcm5hbWUYBCABKAkSDwoHYnViYmxlcxgFIAEoBRINCgVkcm9w",
+            "cxgGIAEoBSopCg9MZWFkZXJib2FyZE1vZGUSCwoHQlVCQkxFUxAAEgkKBURS",
+            "T1BTEAEqOgoaQnViYmxlUHJvZ3Jlc3NJbnRlcnZhbE1vZGUSBwoDREFZEAAS",
+            "CAoEV0VFSxABEgkKBU1PTlRIEAIyhAIKBVN0YXRzElwKFkdldEJ1YmJsZVRp",
+            "bWVzcGFuUmFuZ2USIS5zdGF0cy5CdWJibGVUaW1lc3BhblJhbmdlUmVxdWVz",
+            "dBofLnN0YXRzLkJ1YmJsZVRpbWVzcGFuUmFuZ2VSZXBseRJSChFHZXRCdWJi",
+            "bGVQcm9ncmVzcxIfLnN0YXRzLkdldEJ1YmJsZVByb2dyZXNzTWVzc2FnZRoc",
+            "LnN0YXRzLkJ1YmJsZVByb2dyZXNzTWVzc2FnZRJJCg5HZXRMZWFkZXJib2Fy",
+            "ZBIcLnN0YXRzLkdldExlYWRlcmJvYXJkTWVzc2FnZRoZLnN0YXRzLkxlYWRl",
+            "cmJvYXJkTWVzc2FnZUIJqgIGVmFsbWFyYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Valmar.LeaderboardMode), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Valmar.LeaderboardMode), typeof(global::Valmar.BubbleProgressIntervalMode), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetBubbleProgressMessage), global::Valmar.GetBubbleProgressMessage.Parser, new[]{ "Login", "StartDate", "EndDate", "Interval" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BubbleProgressMessage), global::Valmar.BubbleProgressMessage.Parser, new[]{ "Entries" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BubbleProgressEntryMessage), global::Valmar.BubbleProgressEntryMessage.Parser, new[]{ "Date", "Bubbles" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BubbleTimespanRangeRequest), global::Valmar.BubbleTimespanRangeRequest.Parser, new[]{ "Login", "StartDate", "EndDate" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.BubbleTimespanRangeReply), global::Valmar.BubbleTimespanRangeReply.Parser, new[]{ "StartAmount", "EndAmount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetLeaderboardMessage), global::Valmar.GetLeaderboardMessage.Parser, new[]{ "GuildToken", "Mode" }, null, null, null, null),
@@ -62,9 +76,749 @@ namespace Valmar {
     [pbr::OriginalName("DROPS")] Drops = 1,
   }
 
+  public enum BubbleProgressIntervalMode {
+    [pbr::OriginalName("DAY")] Day = 0,
+    [pbr::OriginalName("WEEK")] Week = 1,
+    [pbr::OriginalName("MONTH")] Month = 2,
+  }
+
   #endregion
 
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class GetBubbleProgressMessage : pb::IMessage<GetBubbleProgressMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<GetBubbleProgressMessage> _parser = new pb::MessageParser<GetBubbleProgressMessage>(() => new GetBubbleProgressMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<GetBubbleProgressMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetBubbleProgressMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetBubbleProgressMessage(GetBubbleProgressMessage other) : this() {
+      login_ = other.login_;
+      startDate_ = other.startDate_ != null ? other.startDate_.Clone() : null;
+      endDate_ = other.endDate_ != null ? other.endDate_.Clone() : null;
+      interval_ = other.interval_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetBubbleProgressMessage Clone() {
+      return new GetBubbleProgressMessage(this);
+    }
+
+    /// <summary>Field number for the "login" field.</summary>
+    public const int LoginFieldNumber = 1;
+    private int login_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Login {
+      get { return login_; }
+      set {
+        login_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "startDate" field.</summary>
+    public const int StartDateFieldNumber = 2;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp startDate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp StartDate {
+      get { return startDate_; }
+      set {
+        startDate_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "endDate" field.</summary>
+    public const int EndDateFieldNumber = 3;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp endDate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp EndDate {
+      get { return endDate_; }
+      set {
+        endDate_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "interval" field.</summary>
+    public const int IntervalFieldNumber = 4;
+    private global::Valmar.BubbleProgressIntervalMode interval_ = global::Valmar.BubbleProgressIntervalMode.Day;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Valmar.BubbleProgressIntervalMode Interval {
+      get { return interval_; }
+      set {
+        interval_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as GetBubbleProgressMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(GetBubbleProgressMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Login != other.Login) return false;
+      if (!object.Equals(StartDate, other.StartDate)) return false;
+      if (!object.Equals(EndDate, other.EndDate)) return false;
+      if (Interval != other.Interval) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Login != 0) hash ^= Login.GetHashCode();
+      if (startDate_ != null) hash ^= StartDate.GetHashCode();
+      if (endDate_ != null) hash ^= EndDate.GetHashCode();
+      if (Interval != global::Valmar.BubbleProgressIntervalMode.Day) hash ^= Interval.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Login != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Login);
+      }
+      if (startDate_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(StartDate);
+      }
+      if (endDate_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(EndDate);
+      }
+      if (Interval != global::Valmar.BubbleProgressIntervalMode.Day) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) Interval);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Login != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Login);
+      }
+      if (startDate_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(StartDate);
+      }
+      if (endDate_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(EndDate);
+      }
+      if (Interval != global::Valmar.BubbleProgressIntervalMode.Day) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) Interval);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Login != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Login);
+      }
+      if (startDate_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(StartDate);
+      }
+      if (endDate_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EndDate);
+      }
+      if (Interval != global::Valmar.BubbleProgressIntervalMode.Day) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Interval);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(GetBubbleProgressMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Login != 0) {
+        Login = other.Login;
+      }
+      if (other.startDate_ != null) {
+        if (startDate_ == null) {
+          StartDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        StartDate.MergeFrom(other.StartDate);
+      }
+      if (other.endDate_ != null) {
+        if (endDate_ == null) {
+          EndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        EndDate.MergeFrom(other.EndDate);
+      }
+      if (other.Interval != global::Valmar.BubbleProgressIntervalMode.Day) {
+        Interval = other.Interval;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Login = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            if (startDate_ == null) {
+              StartDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(StartDate);
+            break;
+          }
+          case 26: {
+            if (endDate_ == null) {
+              EndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(EndDate);
+            break;
+          }
+          case 32: {
+            Interval = (global::Valmar.BubbleProgressIntervalMode) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Login = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            if (startDate_ == null) {
+              StartDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(StartDate);
+            break;
+          }
+          case 26: {
+            if (endDate_ == null) {
+              EndDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(EndDate);
+            break;
+          }
+          case 32: {
+            Interval = (global::Valmar.BubbleProgressIntervalMode) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class BubbleProgressMessage : pb::IMessage<BubbleProgressMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<BubbleProgressMessage> _parser = new pb::MessageParser<BubbleProgressMessage>(() => new BubbleProgressMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<BubbleProgressMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public BubbleProgressMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public BubbleProgressMessage(BubbleProgressMessage other) : this() {
+      entries_ = other.entries_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public BubbleProgressMessage Clone() {
+      return new BubbleProgressMessage(this);
+    }
+
+    /// <summary>Field number for the "entries" field.</summary>
+    public const int EntriesFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Valmar.BubbleProgressEntryMessage> _repeated_entries_codec
+        = pb::FieldCodec.ForMessage(10, global::Valmar.BubbleProgressEntryMessage.Parser);
+    private readonly pbc::RepeatedField<global::Valmar.BubbleProgressEntryMessage> entries_ = new pbc::RepeatedField<global::Valmar.BubbleProgressEntryMessage>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::Valmar.BubbleProgressEntryMessage> Entries {
+      get { return entries_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as BubbleProgressMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(BubbleProgressMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!entries_.Equals(other.entries_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= entries_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      entries_.WriteTo(output, _repeated_entries_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      entries_.WriteTo(ref output, _repeated_entries_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += entries_.CalculateSize(_repeated_entries_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(BubbleProgressMessage other) {
+      if (other == null) {
+        return;
+      }
+      entries_.Add(other.entries_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            entries_.AddEntriesFrom(input, _repeated_entries_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            entries_.AddEntriesFrom(ref input, _repeated_entries_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class BubbleProgressEntryMessage : pb::IMessage<BubbleProgressEntryMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<BubbleProgressEntryMessage> _parser = new pb::MessageParser<BubbleProgressEntryMessage>(() => new BubbleProgressEntryMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<BubbleProgressEntryMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public BubbleProgressEntryMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public BubbleProgressEntryMessage(BubbleProgressEntryMessage other) : this() {
+      date_ = other.date_ != null ? other.date_.Clone() : null;
+      bubbles_ = other.bubbles_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public BubbleProgressEntryMessage Clone() {
+      return new BubbleProgressEntryMessage(this);
+    }
+
+    /// <summary>Field number for the "date" field.</summary>
+    public const int DateFieldNumber = 1;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp date_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp Date {
+      get { return date_; }
+      set {
+        date_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "bubbles" field.</summary>
+    public const int BubblesFieldNumber = 2;
+    private int bubbles_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Bubbles {
+      get { return bubbles_; }
+      set {
+        bubbles_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as BubbleProgressEntryMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(BubbleProgressEntryMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Date, other.Date)) return false;
+      if (Bubbles != other.Bubbles) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (date_ != null) hash ^= Date.GetHashCode();
+      if (Bubbles != 0) hash ^= Bubbles.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (date_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Date);
+      }
+      if (Bubbles != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Bubbles);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (date_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Date);
+      }
+      if (Bubbles != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Bubbles);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (date_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Date);
+      }
+      if (Bubbles != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Bubbles);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(BubbleProgressEntryMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.date_ != null) {
+        if (date_ == null) {
+          Date = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        Date.MergeFrom(other.Date);
+      }
+      if (other.Bubbles != 0) {
+        Bubbles = other.Bubbles;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (date_ == null) {
+              Date = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(Date);
+            break;
+          }
+          case 16: {
+            Bubbles = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (date_ == null) {
+              Date = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(Date);
+            break;
+          }
+          case 16: {
+            Bubbles = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class BubbleTimespanRangeRequest : pb::IMessage<BubbleTimespanRangeRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -80,7 +834,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -362,7 +1116,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -589,7 +1343,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -824,7 +1578,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1003,7 +1757,7 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Valmar.StatsReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
