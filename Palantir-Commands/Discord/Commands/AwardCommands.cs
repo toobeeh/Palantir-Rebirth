@@ -3,6 +3,7 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands.Attributes;
 using DSharpPlus.Commands.Trees.Attributes;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity.Extensions;
 using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -25,6 +26,13 @@ public class AwardCommands(
     Members.MembersClient membersClient
 )
 {
+    private string GetAwardEmote(AwardRarityMessage rarity) => rarity switch
+    {
+        AwardRarityMessage.Common => TypoEmotes.CommonAward,
+        AwardRarityMessage.Special => TypoEmotes.SpecialAward,
+        AwardRarityMessage.Epic => TypoEmotes.EpicAward,
+        _ => TypoEmotes.LegendaryAward
+    };
     
     /// <summary>
     /// Lists the award inventory
@@ -51,11 +59,13 @@ public class AwardCommands(
         var receivedList = inventory.ReceivedAwards
             .Select(award => awardsDict[award.AwardId])
             .GroupBy(award => award.Rarity)
+            .OrderBy(group => group.Key)
             .Select(group => $"{group.Key}: x{group.Count()}");
         
         var givenGrouping = inventory.GivenAwards
             .Select(award => awardsDict[award.AwardId])
             .GroupBy(award => award.Rarity)
+            .OrderBy(group => group.Key)
             .Select(group => $"{group.Key}: x{group.Count()}");
         
         embed.AddField("Received Awards", $"```js\n{string.Join("\n", receivedList)}\n```", true);
@@ -66,15 +76,10 @@ public class AwardCommands(
         var rarities = inventory.AvailableAwards
             .Select(award => awardsDict[award.AwardId])
             .GroupBy(award => award.Rarity)
+            .OrderBy(group => group.Key)
             .Select(group =>
             {
-                var emote = group.Key switch
-                {
-                    AwardRarityMessage.Common => TypoEmotes.CommonAward,
-                    AwardRarityMessage.Special => TypoEmotes.SpecialAward,
-                    AwardRarityMessage.Epic => TypoEmotes.EpicAward,
-                    _ => TypoEmotes.LegendaryAward
-                };
+                var emote = GetAwardEmote(group.Key);
 
                 var desc = group
                     .GroupBy(award => award.Id)
@@ -110,7 +115,45 @@ public class AwardCommands(
             $"\n`✨` **Award Pack Level:**  {awardPackLevel.Level} ({awardPackLevel.CollectedBubbles} bubbles)\n" +
             $"`🎟️` **Next Pack:**  {nextPackInfo}");
         
-        await context.RespondAsync(embed: embed);
+        var openPackEnabled = member.NextAwardPackDate.ToDateTimeOffset() <= DateTimeOffset.UtcNow;
+        if (!openPackEnabled)
+        {
+            await context.RespondAsync(embed: embed);
+            return;
+        }
+
+        var message = new DiscordMessageBuilder().AddEmbed(embed);
+        var openBtn = new DiscordButtonComponent(ButtonStyle.Primary, "open", "Open Award Pack", false, new DiscordComponentEmoji("✨"));
+        message.AddComponents(openBtn);
+        
+        await context.RespondAsync(message);
+        var sent = await context.GetResponseAsync();
+
+        if (sent is null)
+        {
+            throw new Exception("Could not get response");
+        }
+        
+        var result = await context.Client.GetInteractivity().WaitForButtonAsync(sent, context.User, TimeSpan.FromMinutes(1));
+        if (!result.TimedOut)
+        {
+            await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+            var newAwards = await inventoryClient.OpenAwardPackAsync(new OpenAwardPackMessage { Login = member.Login });
+
+            var response = new DiscordFollowupMessageBuilder();
+            foreach (var award in newAwards.Awards)
+            {
+                response.AddEmbed(new DiscordEmbedBuilder().WithPalantirPresets(context)
+                    .WithTitle($"You pulled a **{award.Name}**")
+                    .WithThumbnail(award.Url)
+                    .WithDescription($"{award.Description}\n_ _\n{GetAwardEmote(award.Rarity)} {award.Rarity} Award Rarity"));
+            }
+
+            await result.Result.Interaction.CreateFollowupMessageAsync(response);
+        }
+        
+        message.ClearComponents();
+        await sent.ModifyAsync(message);
     }
 
     /// <summary>
@@ -144,13 +187,7 @@ public class AwardCommands(
             })
             .Select((item, index) =>
             {
-                var emote = item.Award.Rarity switch
-                {
-                    AwardRarityMessage.Common => TypoEmotes.CommonAward,
-                    AwardRarityMessage.Special => TypoEmotes.SpecialAward,
-                    AwardRarityMessage.Epic => TypoEmotes.EpicAward,
-                    _ => TypoEmotes.LegendaryAward
-                };
+                var emote = GetAwardEmote(item.Award.Rarity);
                 
                 return new
                 {
@@ -217,13 +254,7 @@ public class AwardCommands(
         var image = (await inventoryClient
             .GetGalleryItems(new GetGalleryItemsMessage { ImageIds = { target.LinkedImageId.Value }, Login = member.Login })
             .ToListAsync()).First();
-        var emote = award.Rarity switch
-        {
-            AwardRarityMessage.Common => TypoEmotes.CommonAward,
-            AwardRarityMessage.Special => TypoEmotes.SpecialAward,
-            AwardRarityMessage.Epic => TypoEmotes.EpicAward,
-            _ => TypoEmotes.LegendaryAward
-        };
+        var emote = GetAwardEmote(award.Rarity);
 
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
