@@ -23,6 +23,7 @@ Tasks of core module (planned and implemented):
 ## Commands
 Commands will use a DSharpPlus Bot to bring the functionality of the current Palantir Bot to Discord, using the gRPC backend.
 Commands are split into following categories.
+Checklist for implementation:
 
 ### Sprites
 - [x] `>sprite view [id]` / `>sprite [id]` - View a sprite
@@ -33,13 +34,6 @@ Commands are split into following categories.
 - [x] `>sprite inventory` - View all bought sprites and total value
 - [x] `>sprite list` - View a ranking of all sprites
 
-Needed grpc services:
-- getSprite(id:int)
-- useSpriteCombo(login:int, clearOther:bool, slots:Array<{slot:int, spriteId:int}>)
-- setSpriteColor(login:int, spriteId:int, colorShift:int?)
-- buySprite(login:int, spriteId:int)
-- getSpriteInventory(login:int)
-
 ### Scenes 
 - [x] `>scene view [id]` / `>scene [id]` - View a scene
 - [x] `>scene buy [id]` - Buy a scene
@@ -47,24 +41,12 @@ Needed grpc services:
 - [x] `>scene inv` - View all bought scenes and the next scene price
 - [x] `>scene list` - View a ranking of all sprites
 
-Needed grpc services:
-- getScene(id:int)
-- buyScene(login:int, sceneId:int)
-- useScene(login:int, sceneId:int)
-- getSceneInventory(login:int)
-
 ### Outfits
 - [x] `>outfit` / `>outfits list` - View all outfits
 - [x] `>outfit save [name]` - Save the current sprite/scene/rainbow combo as outfit
 - [x] `>outfit use [name]` - Use a saved outfit
 - [x] `>outfit delete [name]` - Delete a saved outfit
 - [x] `>outfit view [name]` - View details of a saved outfit
-
-Needed grpc services:
-- getOutfits(login:int)
-- saveOutfit(login:int, name:string, spriteSlots:Array<{slot:int, spriteId:int}>, sceneId:int, colorShift:int?)
-- useOutfit(login:int, name:string)
-- deleteOutfit(login:int, name:string)
 
 ### Events 
 - [ ] `>event (id)` - View an event
@@ -105,7 +87,6 @@ Needed grpc services:
 
 ### Inventory
 - [ ] `>inventory` - View the inventory of the user (no sprites/list) with stats of drops, bubbles, flags, current combo, patronemoji, splits
-- [x] `>stat (mode)` - View the bubble stat graph for month/week/day
 
 ### Admin
 (not necessary for first release)
@@ -114,7 +95,8 @@ Needed grpc services:
 - [ ] `>help (command)` - Show the help
 - [ ] `>about` - Show some infos/stats
 - [ ] `>calc [mode] [amount]` - Calculate the time to reach a goal
-- [x] `>leaderboard (mode)` - View the server leaderboard of bubbles or drops
+- [x] `>leaderboard (bubbles / drops)` - View the server leaderboard of bubbles or drops
+- [x] `>stat (day/week/month)` - View the bubble stat graph for month/week/day
 
 ## Lobbies
 Most likely there will be a separate Discord bot for lobbies to prevent ratelimit issues.  

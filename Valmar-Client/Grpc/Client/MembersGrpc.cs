@@ -55,6 +55,8 @@ namespace Valmar {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.IdentifyMemberByLoginRequest> __Marshaller_members_IdentifyMemberByLoginRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.IdentifyMemberByLoginRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GetMembersByLoginMessage> __Marshaller_members_GetMembersByLoginMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetMembersByLoginMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.IdentifyMemberByAccessTokenRequest> __Marshaller_members_IdentifyMemberByAccessTokenRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.IdentifyMemberByAccessTokenRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.IdentifyMemberByDiscordIdRequest> __Marshaller_members_IdentifyMemberByDiscordIdRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.IdentifyMemberByDiscordIdRequest.Parser));
@@ -87,6 +89,14 @@ namespace Valmar {
         __ServiceName,
         "GetMemberByLogin",
         __Marshaller_members_IdentifyMemberByLoginRequest,
+        __Marshaller_members_MemberReply);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GetMembersByLoginMessage, global::Valmar.MemberReply> __Method_GetMembersByLogin = new grpc::Method<global::Valmar.GetMembersByLoginMessage, global::Valmar.MemberReply>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "GetMembersByLogin",
+        __Marshaller_members_GetMembersByLoginMessage,
         __Marshaller_members_MemberReply);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
@@ -269,6 +279,30 @@ namespace Valmar {
       public virtual grpc::AsyncUnaryCall<global::Valmar.MemberReply> GetMemberByLoginAsync(global::Valmar.IdentifyMemberByLoginRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetMemberByLogin, null, options, request);
+      }
+      /// <summary>
+      /// Gets many members by login
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::Valmar.MemberReply> GetMembersByLogin(global::Valmar.GetMembersByLoginMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetMembersByLogin(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Gets many members by login
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::Valmar.MemberReply> GetMembersByLogin(global::Valmar.GetMembersByLoginMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_GetMembersByLogin, null, options, request);
       }
       /// <summary>
       /// Gets a member by its access token

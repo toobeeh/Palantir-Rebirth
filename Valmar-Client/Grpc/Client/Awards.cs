@@ -25,23 +25,35 @@ namespace Valmar {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cgxhd2FyZHMucHJvdG8SBmF3YXJkcxobZ29vZ2xlL3Byb3RvYnVmL2VtcHR5",
-            "LnByb3RvIlgKCkF3YXJkUmVwbHkSDAoEbmFtZRgBIAEoCRILCgN1cmwYAiAB",
-            "KAkSCgoCaWQYAyABKAUSEwoLZGVzY3JpcHRpb24YBCABKAkSDgoGcmFyaXR5",
-            "GAUgASgFIh0KD0dldEF3YXJkUmVxdWVzdBIKCgJpZBgBIAEoBTKDAQoGQXdh",
-            "cmRzEjwKDEdldEFsbEF3YXJkcxIWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRoS",
-            "LmF3YXJkcy5Bd2FyZFJlcGx5MAESOwoMR2V0QXdhcmRCeUlkEhcuYXdhcmRz",
-            "LkdldEF3YXJkUmVxdWVzdBoSLmF3YXJkcy5Bd2FyZFJlcGx5QgmqAgZWYWxt",
-            "YXJiBnByb3RvMw=="));
+            "LnByb3RvIosBCgpBd2FyZFJlcGx5EgwKBG5hbWUYASABKAkSCwoDdXJsGAIg",
+            "ASgJEgoKAmlkGAMgASgFEhMKC2Rlc2NyaXB0aW9uGAQgASgJEhUKCXJhcml0",
+            "eU51bRgFIAEoBUICGAESKgoGcmFyaXR5GAYgASgOMhouYXdhcmRzLkF3YXJk",
+            "UmFyaXR5TWVzc2FnZSIdCg9HZXRBd2FyZFJlcXVlc3QSCgoCaWQYASABKAUq",
+            "RgoSQXdhcmRSYXJpdHlNZXNzYWdlEgoKBkNvbW1vbhAAEgsKB1NwZWNpYWwQ",
+            "ARIICgRFcGljEAISDQoJTGVnZW5kYXJ5EAMygwEKBkF3YXJkcxI8CgxHZXRB",
+            "bGxBd2FyZHMSFi5nb29nbGUucHJvdG9idWYuRW1wdHkaEi5hd2FyZHMuQXdh",
+            "cmRSZXBseTABEjsKDEdldEF3YXJkQnlJZBIXLmF3YXJkcy5HZXRBd2FyZFJl",
+            "cXVlc3QaEi5hd2FyZHMuQXdhcmRSZXBseUIJqgIGVmFsbWFyYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.AwardReply), global::Valmar.AwardReply.Parser, new[]{ "Name", "Url", "Id", "Description", "Rarity" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Valmar.AwardRarityMessage), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.AwardReply), global::Valmar.AwardReply.Parser, new[]{ "Name", "Url", "Id", "Description", "RarityNum", "Rarity" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetAwardRequest), global::Valmar.GetAwardRequest.Parser, new[]{ "Id" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
+  #region Enums
+  public enum AwardRarityMessage {
+    [pbr::OriginalName("Common")] Common = 0,
+    [pbr::OriginalName("Special")] Special = 1,
+    [pbr::OriginalName("Epic")] Epic = 2,
+    [pbr::OriginalName("Legendary")] Legendary = 3,
+  }
+
+  #endregion
+
   #region Messages
   /// <summary>
   /// Response containing a award's properties.
@@ -85,6 +97,7 @@ namespace Valmar {
       url_ = other.url_;
       id_ = other.id_;
       description_ = other.description_;
+      rarityNum_ = other.rarityNum_;
       rarity_ = other.rarity_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -143,12 +156,25 @@ namespace Valmar {
       }
     }
 
-    /// <summary>Field number for the "rarity" field.</summary>
-    public const int RarityFieldNumber = 5;
-    private int rarity_;
+    /// <summary>Field number for the "rarityNum" field.</summary>
+    public const int RarityNumFieldNumber = 5;
+    private int rarityNum_;
+    [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Rarity {
+    public int RarityNum {
+      get { return rarityNum_; }
+      set {
+        rarityNum_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "rarity" field.</summary>
+    public const int RarityFieldNumber = 6;
+    private global::Valmar.AwardRarityMessage rarity_ = global::Valmar.AwardRarityMessage.Common;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Valmar.AwardRarityMessage Rarity {
       get { return rarity_; }
       set {
         rarity_ = value;
@@ -174,6 +200,7 @@ namespace Valmar {
       if (Url != other.Url) return false;
       if (Id != other.Id) return false;
       if (Description != other.Description) return false;
+      if (RarityNum != other.RarityNum) return false;
       if (Rarity != other.Rarity) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -186,7 +213,8 @@ namespace Valmar {
       if (Url.Length != 0) hash ^= Url.GetHashCode();
       if (Id != 0) hash ^= Id.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
-      if (Rarity != 0) hash ^= Rarity.GetHashCode();
+      if (RarityNum != 0) hash ^= RarityNum.GetHashCode();
+      if (Rarity != global::Valmar.AwardRarityMessage.Common) hash ^= Rarity.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -221,9 +249,13 @@ namespace Valmar {
         output.WriteRawTag(34);
         output.WriteString(Description);
       }
-      if (Rarity != 0) {
+      if (RarityNum != 0) {
         output.WriteRawTag(40);
-        output.WriteInt32(Rarity);
+        output.WriteInt32(RarityNum);
+      }
+      if (Rarity != global::Valmar.AwardRarityMessage.Common) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) Rarity);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -251,9 +283,13 @@ namespace Valmar {
         output.WriteRawTag(34);
         output.WriteString(Description);
       }
-      if (Rarity != 0) {
+      if (RarityNum != 0) {
         output.WriteRawTag(40);
-        output.WriteInt32(Rarity);
+        output.WriteInt32(RarityNum);
+      }
+      if (Rarity != global::Valmar.AwardRarityMessage.Common) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) Rarity);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -277,8 +313,11 @@ namespace Valmar {
       if (Description.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
       }
-      if (Rarity != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Rarity);
+      if (RarityNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RarityNum);
+      }
+      if (Rarity != global::Valmar.AwardRarityMessage.Common) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Rarity);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -304,7 +343,10 @@ namespace Valmar {
       if (other.Description.Length != 0) {
         Description = other.Description;
       }
-      if (other.Rarity != 0) {
+      if (other.RarityNum != 0) {
+        RarityNum = other.RarityNum;
+      }
+      if (other.Rarity != global::Valmar.AwardRarityMessage.Common) {
         Rarity = other.Rarity;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -339,7 +381,11 @@ namespace Valmar {
             break;
           }
           case 40: {
-            Rarity = input.ReadInt32();
+            RarityNum = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            Rarity = (global::Valmar.AwardRarityMessage) input.ReadEnum();
             break;
           }
         }
@@ -374,7 +420,11 @@ namespace Valmar {
             break;
           }
           case 40: {
-            Rarity = input.ReadInt32();
+            RarityNum = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            Rarity = (global::Valmar.AwardRarityMessage) input.ReadEnum();
             break;
           }
         }

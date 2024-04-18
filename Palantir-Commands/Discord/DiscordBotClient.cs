@@ -34,7 +34,7 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         logger.LogInformation("Starting Discord Bot Client");
         
         // use interactivity
-        _client.UseInteractivity(new InteractivityConfiguration {});
+        _client.UseInteractivity(new InteractivityConfiguration());
 
         // use commands extension
         var commands = _client.UseCommands(new CommandsConfiguration
@@ -57,7 +57,7 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         {
             Configuration = new TextCommandConfiguration
             {
-                PrefixResolver = new DefaultPrefixResolver(".").ResolvePrefixAsync
+                PrefixResolver = new DefaultPrefixResolver(options.Value.Prefix).ResolvePrefixAsync
             }
         };
         textCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(dropboostStartModeArgumentConverter);
@@ -78,6 +78,7 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         commands.AddCommands(typeof(LeagueCommands));
         commands.AddCommands(typeof(SplitCommands)); 
         commands.AddCommands(typeof(OutfitCommands));
+        commands.AddCommands(typeof(AwardCommands));
         commands.AddCommands([typeof(MiscCommands)]);
         
         await _client.ConnectAsync();

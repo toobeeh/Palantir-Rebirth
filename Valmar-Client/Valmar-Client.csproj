@@ -19,8 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="$(ProtoRoot)\*.proto"  ProtoRoot="$(ProtoRoot)" GrpcServices="Client" />
-        <Protobuf Update="$(ProtoRoot)\*.proto">
+        <Protobuf Include="$(ProtoRoot)\*.proto"  ProtoRoot="$(ProtoRoot)" GrpcServices="Client">
             <Access>Public</Access>
             <ProtoCompile>True</ProtoCompile>
             <CompileOutputs>True</CompileOutputs>

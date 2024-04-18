@@ -88,6 +88,22 @@ namespace Valmar {
     static readonly grpc::Marshaller<global::Valmar.ScenePriceRequest> __Marshaller_inventory_ScenePriceRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.ScenePriceRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.ScenePriceReply> __Marshaller_inventory_ScenePriceReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.ScenePriceReply.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GetAwardInventoryMessage> __Marshaller_inventory_GetAwardInventoryMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetAwardInventoryMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.AwardInventoryMessage> __Marshaller_inventory_AwardInventoryMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.AwardInventoryMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GetAwardPackLevelMessage> __Marshaller_inventory_GetAwardPackLevelMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetAwardPackLevelMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.AwardPackLevelMessage> __Marshaller_inventory_AwardPackLevelMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.AwardPackLevelMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GetGalleryItemsMessage> __Marshaller_inventory_GetGalleryItemsMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetGalleryItemsMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GalleryItemMessage> __Marshaller_inventory_GalleryItemMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GalleryItemMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.OpenAwardPackMessage> __Marshaller_inventory_OpenAwardPackMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.OpenAwardPackMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.AwardPackResultMessage> __Marshaller_inventory_AwardPackResultMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.AwardPackResultMessage.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Valmar.GetBubbleCreditRequest, global::Valmar.BubbleCreditReply> __Method_GetBubbleCredit = new grpc::Method<global::Valmar.GetBubbleCreditRequest, global::Valmar.BubbleCreditReply>(
@@ -184,6 +200,38 @@ namespace Valmar {
         "GetScenePrice",
         __Marshaller_inventory_ScenePriceRequest,
         __Marshaller_inventory_ScenePriceReply);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GetAwardInventoryMessage, global::Valmar.AwardInventoryMessage> __Method_GetAwardInventory = new grpc::Method<global::Valmar.GetAwardInventoryMessage, global::Valmar.AwardInventoryMessage>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetAwardInventory",
+        __Marshaller_inventory_GetAwardInventoryMessage,
+        __Marshaller_inventory_AwardInventoryMessage);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GetAwardPackLevelMessage, global::Valmar.AwardPackLevelMessage> __Method_GetAwardPackLevel = new grpc::Method<global::Valmar.GetAwardPackLevelMessage, global::Valmar.AwardPackLevelMessage>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetAwardPackLevel",
+        __Marshaller_inventory_GetAwardPackLevelMessage,
+        __Marshaller_inventory_AwardPackLevelMessage);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GetGalleryItemsMessage, global::Valmar.GalleryItemMessage> __Method_GetGalleryItems = new grpc::Method<global::Valmar.GetGalleryItemsMessage, global::Valmar.GalleryItemMessage>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "GetGalleryItems",
+        __Marshaller_inventory_GetGalleryItemsMessage,
+        __Marshaller_inventory_GalleryItemMessage);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.OpenAwardPackMessage, global::Valmar.AwardPackResultMessage> __Method_OpenAwardPack = new grpc::Method<global::Valmar.OpenAwardPackMessage, global::Valmar.AwardPackResultMessage>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "OpenAwardPack",
+        __Marshaller_inventory_OpenAwardPackMessage,
+        __Marshaller_inventory_AwardPackResultMessage);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -699,7 +747,7 @@ namespace Valmar {
         return CallInvoker.AsyncUnaryCall(__Method_UseScene, null, options, request);
       }
       /// <summary>
-      /// get the price of the next scene and the total amount of bubbles spent on scnes in the inv
+      /// get the price of the next scene and the total amount of bubbles spent on scenes in the inv
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -712,7 +760,7 @@ namespace Valmar {
         return GetScenePrice(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// get the price of the next scene and the total amount of bubbles spent on scnes in the inv
+      /// get the price of the next scene and the total amount of bubbles spent on scenes in the inv
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -723,7 +771,7 @@ namespace Valmar {
         return CallInvoker.BlockingUnaryCall(__Method_GetScenePrice, null, options, request);
       }
       /// <summary>
-      /// get the price of the next scene and the total amount of bubbles spent on scnes in the inv
+      /// get the price of the next scene and the total amount of bubbles spent on scenes in the inv
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -736,7 +784,7 @@ namespace Valmar {
         return GetScenePriceAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// get the price of the next scene and the total amount of bubbles spent on scnes in the inv
+      /// get the price of the next scene and the total amount of bubbles spent on scenes in the inv
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -745,6 +793,174 @@ namespace Valmar {
       public virtual grpc::AsyncUnaryCall<global::Valmar.ScenePriceReply> GetScenePriceAsync(global::Valmar.ScenePriceRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetScenePrice, null, options, request);
+      }
+      /// <summary>
+      /// get the inventory of awards - currently available, received and given
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.AwardInventoryMessage GetAwardInventory(global::Valmar.GetAwardInventoryMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetAwardInventory(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// get the inventory of awards - currently available, received and given
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.AwardInventoryMessage GetAwardInventory(global::Valmar.GetAwardInventoryMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetAwardInventory, null, options, request);
+      }
+      /// <summary>
+      /// get the inventory of awards - currently available, received and given
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.AwardInventoryMessage> GetAwardInventoryAsync(global::Valmar.GetAwardInventoryMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetAwardInventoryAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// get the inventory of awards - currently available, received and given
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.AwardInventoryMessage> GetAwardInventoryAsync(global::Valmar.GetAwardInventoryMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetAwardInventory, null, options, request);
+      }
+      /// <summary>
+      /// get the current award pack level and cooldown until next pack
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.AwardPackLevelMessage GetAwardPackLevel(global::Valmar.GetAwardPackLevelMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetAwardPackLevel(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// get the current award pack level and cooldown until next pack
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.AwardPackLevelMessage GetAwardPackLevel(global::Valmar.GetAwardPackLevelMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetAwardPackLevel, null, options, request);
+      }
+      /// <summary>
+      /// get the current award pack level and cooldown until next pack
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.AwardPackLevelMessage> GetAwardPackLevelAsync(global::Valmar.GetAwardPackLevelMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetAwardPackLevelAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// get the current award pack level and cooldown until next pack
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.AwardPackLevelMessage> GetAwardPackLevelAsync(global::Valmar.GetAwardPackLevelMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetAwardPackLevel, null, options, request);
+      }
+      /// <summary>
+      /// get images from the image gallery of a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::Valmar.GalleryItemMessage> GetGalleryItems(global::Valmar.GetGalleryItemsMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetGalleryItems(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// get images from the image gallery of a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::Valmar.GalleryItemMessage> GetGalleryItems(global::Valmar.GetGalleryItemsMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_GetGalleryItems, null, options, request);
+      }
+      /// <summary>
+      /// open an award pack
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.AwardPackResultMessage OpenAwardPack(global::Valmar.OpenAwardPackMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return OpenAwardPack(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// open an award pack
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.AwardPackResultMessage OpenAwardPack(global::Valmar.OpenAwardPackMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_OpenAwardPack, null, options, request);
+      }
+      /// <summary>
+      /// open an award pack
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.AwardPackResultMessage> OpenAwardPackAsync(global::Valmar.OpenAwardPackMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return OpenAwardPackAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// open an award pack
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.AwardPackResultMessage> OpenAwardPackAsync(global::Valmar.OpenAwardPackMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_OpenAwardPack, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

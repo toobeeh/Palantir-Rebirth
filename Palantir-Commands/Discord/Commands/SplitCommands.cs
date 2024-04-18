@@ -69,7 +69,7 @@ public class SplitCommands(
                 
                 foreach (var reward in page.Splits)
                 {
-                    var description = $"{(reward.Expired ? "`⛔`" : "`☑️`")} {Formatter.Timestamp(reward.RewardDate.ToDateTimeOffset(), TimestampFormat.ShortDate)}\n" +
+                    var description = $"{(reward.Expired ? "`⛔`" : "`✔️`")} {Formatter.Timestamp(reward.RewardDate.ToDateTimeOffset(), TimestampFormat.ShortDate)}\n" +
                                       $" **{reward.ValueOverride ?? reward.Split.Value} Splits **\n" +
                                        $"{reward.Split.Description}" +
                                        $"{(reward.Comment is not null ? "\n`" + reward.Comment + "`" : "")}";
