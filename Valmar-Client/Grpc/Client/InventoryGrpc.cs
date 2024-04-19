@@ -104,6 +104,10 @@ namespace Valmar {
     static readonly grpc::Marshaller<global::Valmar.OpenAwardPackMessage> __Marshaller_inventory_OpenAwardPackMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.OpenAwardPackMessage.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.AwardPackResultMessage> __Marshaller_inventory_AwardPackResultMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.AwardPackResultMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GetFirstSeenDateRequest> __Marshaller_inventory_GetFirstSeenDateRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetFirstSeenDateRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.FirstSeenMessage> __Marshaller_inventory_FirstSeenMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.FirstSeenMessage.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Valmar.GetBubbleCreditRequest, global::Valmar.BubbleCreditReply> __Method_GetBubbleCredit = new grpc::Method<global::Valmar.GetBubbleCreditRequest, global::Valmar.BubbleCreditReply>(
@@ -232,6 +236,14 @@ namespace Valmar {
         "OpenAwardPack",
         __Marshaller_inventory_OpenAwardPackMessage,
         __Marshaller_inventory_AwardPackResultMessage);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GetFirstSeenDateRequest, global::Valmar.FirstSeenMessage> __Method_GetFirstSeenDate = new grpc::Method<global::Valmar.GetFirstSeenDateRequest, global::Valmar.FirstSeenMessage>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetFirstSeenDate",
+        __Marshaller_inventory_GetFirstSeenDateRequest,
+        __Marshaller_inventory_FirstSeenMessage);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -961,6 +973,54 @@ namespace Valmar {
       public virtual grpc::AsyncUnaryCall<global::Valmar.AwardPackResultMessage> OpenAwardPackAsync(global::Valmar.OpenAwardPackMessage request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_OpenAwardPack, null, options, request);
+      }
+      /// <summary>
+      /// gets the first seen date of a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.FirstSeenMessage GetFirstSeenDate(global::Valmar.GetFirstSeenDateRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetFirstSeenDate(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// gets the first seen date of a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.FirstSeenMessage GetFirstSeenDate(global::Valmar.GetFirstSeenDateRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetFirstSeenDate, null, options, request);
+      }
+      /// <summary>
+      /// gets the first seen date of a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.FirstSeenMessage> GetFirstSeenDateAsync(global::Valmar.GetFirstSeenDateRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetFirstSeenDateAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// gets the first seen date of a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.FirstSeenMessage> GetFirstSeenDateAsync(global::Valmar.GetFirstSeenDateRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetFirstSeenDate, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

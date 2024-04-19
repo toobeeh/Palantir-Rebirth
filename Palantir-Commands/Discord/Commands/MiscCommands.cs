@@ -11,6 +11,7 @@ using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
 using Valmar;
+using Valmar_Client.Grpc;
 
 namespace Palantir_Commands.Discord.Commands;
 
@@ -18,9 +19,97 @@ public class MiscCommands(
     ILogger<OutfitCommands> logger,
     MemberContext memberContext,
     Guilds.GuildsClient guildsClient,
-    Stats.StatsClient statsClient
+    Stats.StatsClient statsClient,
+    Inventory.InventoryClient inventoryClient,
+    Sprites.SpritesClient spriteClient,
+    Scenes.ScenesClient scenesClient,
+    Splits.SplitsClient splitsClient
 )
 {
+    [Command("inventory"), TextAlias("inv"), RequirePalantirMember]
+    public async Task ViewInventory(CommandContext context)
+    {
+        logger.LogTrace("ViewInventory(context)");
+        
+        var member = memberContext.Member;
+
+        // start tasks in parallel
+        var bubbleCreditTask = inventoryClient.GetBubbleCreditAsync(new GetBubbleCreditRequest { Login = member.Login });
+        var dropCreditTask = inventoryClient.GetDropCreditAsync(new GetDropCreditRequest { Login = member.Login });
+        var spritesTask = spriteClient.GetAllSprites(new Empty()).ToListAsync();
+        var scenesTask = scenesClient.GetAllScenes(new Empty()).ToListAsync(); 
+        var spriteInvTask = inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
+            .ToListAsync();
+        var sceneInvTask = inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
+        var awardInvTask = inventoryClient.GetAwardInventoryAsync(new GetAwardInventoryMessage { Login = member.Login });
+        var splitInvTask = splitsClient.GetAvailableSplitsAsync(new GetAvailableSplitsRequest { Login = member.Login });
+        var firstSeenTask = inventoryClient.GetFirstSeenDateAsync(new GetFirstSeenDateRequest { Login = member.Login });
+        var awardPackInfoTask = inventoryClient.GetAwardPackLevelAsync(new GetAwardPackLevelMessage { Login = member.Login });
+
+        // collect results
+        var bubbleCredit = await bubbleCreditTask;
+        var dropCredit = await dropCreditTask;
+        var spriteInv = await spriteInvTask;
+        var scenes = (await scenesTask).ToDictionary(scene => scene.Id);
+        var sprites = (await spritesTask).ToDictionary(sprite => sprite.Id);
+        var sceneInv = await sceneInvTask;
+        var awardInv = await awardInvTask;
+        var splitInv = await splitInvTask;
+        var firstSeen = await firstSeenTask;
+        var awardPackInfo = await awardPackInfoTask;
+        
+        // build embed
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"Inventory of {member.Username}");
+
+        Dictionary<MemberFlagMessage, string> flagBadgeMap = new()
+        {
+            { MemberFlagMessage.Admin, "🛠️ Admin" },
+            { MemberFlagMessage.Moderator, "🛡️ Moderator" },
+            { MemberFlagMessage.UnlimitedCloud, "🖼️ Unlimited Cloud" },
+            { MemberFlagMessage.Beta, "🧪 Beta Tester" },
+            { MemberFlagMessage.BubbleFarming, "⚠️ Bubble Farming" },
+            { MemberFlagMessage.PermaBan, "⚠️ Typo Ban" },
+            { MemberFlagMessage.DropBan, "⚠️ Drop Ban" },
+            { MemberFlagMessage.Patron, "💙 Patron" },
+            { MemberFlagMessage.Patronizer, "❤️‍🔥 Patronizer" }
+        };
+        
+        var userFlagMessages = member.MappedFlags.Select(flag => flagBadgeMap[flag]).ToList();
+        if(firstSeen.FirstSeen.ToDateTimeOffset() < new DateTimeOffset(2020, 9, 1, 0, 0, 0, TimeSpan.Zero))
+        {
+            userFlagMessages.Add("💎 Early Member");
+        }
+        
+        embed.AddField("Badges", "```js\n" + string.Join("\n", userFlagMessages) + "\n```", true);
+        embed.AddField("Collections", $"```asciidoc\n- {spriteInv.Count} sprites\n- {sceneInv.SceneIds.Count} scenes\n- {awardInv.ReceivedAwards.Count} awards\n- {splitInv.TotalSplits} splits\n```", true);
+        
+        // field as spacer
+        embed.AddField("_ _", "_ _");
+        
+        embed.AddField("Bubble Stats", $"```asciidoc\n- {bubbleCredit.BubblesAmount} collected\n- {bubbleCredit.AvailableCredit} available\n- First seen {firstSeen.FirstSeen.ToDateTimeOffset() :d}```\n_ _", true);
+        embed.AddField("Drop Stats", $"```asciidoc\n- {dropCredit.RegularCount} regular drops\n- {dropCredit.LeagueCount} league drops```", true);
+
+        var spritesText = spriteInv.Count == 0
+            ? "None"
+            : string.Join(", ", spriteInv.Where(slot => slot.Slot > 0).Select(slot => sprites[slot.SpriteId].Name));
+        var sceneText = sceneInv.ActiveId is {} activeId ? scenes[activeId].Name : "Empty";
+        var emojiText = member.PatronEmoji is { } emoji ? $"\nEmoji: {emoji}" : "";
+        embed.AddField("Skribbl Outfit", $"```yaml\nScene: {sceneText}\nSprites: {spritesText}{emojiText}```");
+        
+        var boostAvailable = splitInv.CanStartBoost;
+        var packAvailable = member.NextAwardPackDate.ToDateTimeOffset() < DateTimeOffset.UtcNow;
+        var boostText = boostAvailable ? "Dropboost available!" : 
+            $@"Next boost in {(DateTimeOffset.UtcNow - splitInv.ActiveDropboosts.Select(boost => boost.CooldownEndDate).Order().First().ToDateTimeOffset()) :d\d\h\m} days";
+        var awardPackText = packAvailable ? "Award pack available!" : 
+            $@"Next pack in {(member.NextAwardPackDate.ToDateTimeOffset() - DateTimeOffset.UtcNow) :d\d\h\m} days";
+        embed.AddField("Recent Activity", $"```md\n{(packAvailable ? ">" : "-")} {awardPackText}\n{(boostAvailable ? ">" : "-")} {boostText}\n- {awardPackInfo.CollectedBubbles} bubbles / last week```");
+
+        await context.RespondAsync(embed);
+    }
+    
+    
     /// <summary>
     /// Views the leaderboard of the server
     /// </summary>

@@ -81,12 +81,9 @@ Needed grpc services:
 - [x] `>boost cooldown` - View a member's current split cooldowns
 
 ### Awards
-- [x] `>awards` - Show an overview of the user's given/received awards'
+- [x] `>awards` / `>awards inventory` - Show an overview of the user's given/received awards'
 - [x] `>awards gallery` - Show the gallery of received awards
 - [x] `>awards view [id]` - View an received award with image
-
-### Inventory
-- [ ] `>inventory` - View the inventory of the user (no sprites/list) with stats of drops, bubbles, flags, current combo, patronemoji, splits
 
 ### Admin
 (not necessary for first release)
@@ -97,6 +94,7 @@ Needed grpc services:
 - [ ] `>calc [mode] [amount]` - Calculate the time to reach a goal
 - [x] `>leaderboard (bubbles / drops)` - View the server leaderboard of bubbles or drops
 - [x] `>stat (day/week/month)` - View the bubble stat graph for month/week/day
+- [x] `>inventory` - View the inventory of the user (no sprites/list) with stats of drops, bubbles, flags, current combo, patronemoji, splits
 
 ## Lobbies
 Most likely there will be a separate Discord bot for lobbies to prevent ratelimit issues.  
