@@ -43,8 +43,23 @@ public class SplitCommands(
             await splitsClient.GetMemberSplitRewards(new GetMemberSplitRewardsRequest { Login = member.Login }).ToListAsync();
         var totalAmount = inventory.Sum(x => x.ValueOverride ?? x.Split.Value);
 
-        const int batchSize = 12;
-        var pages = inventory.OrderByDescending(reward => reward.RewardDate).Batch(batchSize).Select((batch, idx) => new
+        var rewards = inventory.Select(reward => new
+        {
+            Title = reward.Split.Name,
+            Description = $"- {reward.ValueOverride ?? reward.Split.Value} splits\n" +
+                          $"- On {reward.RewardDate.ToDateTimeOffset():d} ({(reward.Expired ? "⛔ Expired" : "✔️ Available")})\n" +
+                          $"# {reward.Comment ?? reward.Split.Description}"
+        });
+        
+        const int batchSize = 8;
+        var pages = inventory.OrderByDescending(reward => reward.RewardDate).Select(reward => new
+        {
+            Title = $"{reward.Split.Name} _ _ `{(reward.Expired ? "⛔ Expired" : "✔️ Available")}`",
+            Description = $"{Formatter.Colorize("-", reward.Expired ? AnsiColor.Magenta : AnsiColor.Cyan)} {reward.ValueOverride ?? reward.Split.Value} splits\n" +
+                          $"{Formatter.Colorize("-", reward.Expired ? AnsiColor.Magenta : AnsiColor.Cyan)} On {reward.RewardDate.ToDateTimeOffset():d}\n" +
+                          $" \n" +
+                          $"{Formatter.Colorize(reward.Comment ?? reward.Split.Description, reward.Expired ? AnsiColor.Magenta : AnsiColor.Cyan)}"
+        }).Batch(batchSize).Select((batch, idx) => new
         {
             Page = idx + 1,
             Splits = batch
@@ -55,11 +70,11 @@ public class SplitCommands(
                 .WithDescription(
                     "Splits are rewards which you can obtain by participating in leagues or special occasions.\n" +
                     $"You can use splits to boost the droprate on skribbl using the `/dropboost` command.")
-                .WithTitle("Split Achievements");
+                .WithTitle("Split Achievement Inventory");
 
             if (page.Page == 1 && page.Splits.Length == 0)
             {
-                embedBuilder.AddField("No rewards", "You have not received any splits yet.");
+                embedBuilder.AddField("No achievements", "You have not received any splits yet.");
             }
 
             else
@@ -67,15 +82,9 @@ public class SplitCommands(
                 embedBuilder.AddField("Overview",
                     $"`📃` {totalAmount} total ~ {available.TotalSplits} available\n_ _ \n_ _ ");
                 
-                foreach (var reward in page.Splits)
-                {
-                    var description = $"{(reward.Expired ? "`⛔`" : "`✔️`")} {Formatter.Timestamp(reward.RewardDate.ToDateTimeOffset(), TimestampFormat.ShortDate)}\n" +
-                                      $" **{reward.ValueOverride ?? reward.Split.Value} Splits **\n" +
-                                       $"{reward.Split.Description}" +
-                                       $"{(reward.Comment is not null ? "\n`" + reward.Comment + "`" : "")}";
-                    
-                    embedBuilder.AddField($"{reward.Split.Name}", description, true);
-                }
+                embedBuilder.WithDualColumnFields(page.Splits, 
+                    item => item.Title, 
+                    item => $"```ansi\n{item.Description}\n```");
             }
 
             return embedBuilder;

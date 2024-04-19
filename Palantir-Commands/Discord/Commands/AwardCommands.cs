@@ -19,7 +19,7 @@ namespace Palantir_Commands.Discord.Commands;
 
 [Command("award"), TextAlias("aw")]
 public class AwardCommands(
-    ILogger<OutfitCommands> logger,
+    ILogger<AwardCommands> logger,
     MemberContext memberContext,
     Awards.AwardsClient awardsClient,
     Inventory.InventoryClient inventoryClient,
@@ -205,18 +205,8 @@ public class AwardCommands(
                 .WithPalantirPresets(context)
                 .WithTitle("Award Gallery")
                 .WithDescription("Here you can see all the awards you have received from other players.\n" +
-                                 "To view a single award and its image, use the command `/award view (id)`.");
-            
-            // add embed fields so that there are only two inline next to each other
-            var items = page.ToList();
-            while (items.Count > 0)
-            {
-                var seq = items.Take(2);
-                items = items.Skip(2).ToList();
-
-                seq.ForEach(item => embed.AddField(item.Title, $"```md\n{item.Description}\n```", true));
-                embed.AddField("_ _", "_ _");
-            }
+                                 "To view a single award and its image, use the command `/award view (id)`.")
+                .WithDualColumnFields(page, item => item.Title, item => $"```md\n{item.Description}\n```");
             
             return embed;
         }).ToList();

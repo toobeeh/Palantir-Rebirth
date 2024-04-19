@@ -52,4 +52,19 @@ public static class EmbedBuilderExtensions
         builder.WithTimestamp(DateTimeOffset.Now);
         return builder;
     }
+    
+    public static DiscordEmbedBuilder WithDualColumnFields<TItem>(this DiscordEmbedBuilder builder, IList<TItem> items, Func<TItem, string> titleSelector, Func<TItem, string> contentSelector)
+    {
+        var remaining = items.ToList();
+        while (remaining.Count > 0)
+        {
+            var seq = remaining.Take(2).ToList();
+            remaining = remaining.Skip(2).ToList();
+            
+            seq.ForEach(item => builder.AddField(titleSelector.Invoke(item), contentSelector.Invoke(item), true));
+            builder.AddField("_ _", "_ _");
+        }
+
+        return builder;
+    }
 }
