@@ -92,6 +92,8 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
 
     private async Task HandleError(CommandsExtension extension, CommandErroredEventArgs args)
     {
+        logger.LogWarning("HandleError({args})", args);
+        
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirErrorPresets(args.Context);
 

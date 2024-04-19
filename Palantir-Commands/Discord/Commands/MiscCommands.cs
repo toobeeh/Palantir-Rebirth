@@ -45,6 +45,8 @@ public class MiscCommands(
         var splitInvTask = splitsClient.GetAvailableSplitsAsync(new GetAvailableSplitsRequest { Login = member.Login });
         var firstSeenTask = inventoryClient.GetFirstSeenDateAsync(new GetFirstSeenDateRequest { Login = member.Login });
         var awardPackInfoTask = inventoryClient.GetAwardPackLevelAsync(new GetAwardPackLevelMessage { Login = member.Login });
+        var spriteSlotCountTask = inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
+        var splitRewardsTask = splitsClient.GetMemberSplitRewards(new GetMemberSplitRewardsRequest { Login = member.Login }).ToListAsync();
 
         // collect results
         var bubbleCredit = await bubbleCreditTask;
@@ -57,6 +59,8 @@ public class MiscCommands(
         var splitInv = await splitInvTask;
         var firstSeen = await firstSeenTask;
         var awardPackInfo = await awardPackInfoTask;
+        var spriteSlotCount = await spriteSlotCountTask;
+        var splitRewards = await splitRewardsTask;
         
         // build embed
         var embed = new DiscordEmbedBuilder()
@@ -69,6 +73,7 @@ public class MiscCommands(
             { MemberFlagMessage.Moderator, "🛡️ Moderator" },
             { MemberFlagMessage.UnlimitedCloud, "🖼️ Unlimited Cloud" },
             { MemberFlagMessage.Beta, "🧪 Beta Tester" },
+            { MemberFlagMessage.Booster, "🔥 Server Booster" },
             { MemberFlagMessage.BubbleFarming, "⚠️ Bubble Farming" },
             { MemberFlagMessage.PermaBan, "⚠️ Typo Ban" },
             { MemberFlagMessage.DropBan, "⚠️ Drop Ban" },
@@ -76,24 +81,35 @@ public class MiscCommands(
             { MemberFlagMessage.Patronizer, "❤️‍🔥 Patronizer" }
         };
         
-        var userFlagMessages = member.MappedFlags.Select(flag => flagBadgeMap[flag]).ToList();
+        var userFlagMessages = member.MappedFlags
+            .Select(flag =>
+            {
+                flagBadgeMap.TryGetValue(flag, out var flagDesc);
+                return flagDesc;
+            })
+            .OfType<string>()
+            .ToList();
+        
         if(firstSeen.FirstSeen.ToDateTimeOffset() < new DateTimeOffset(2020, 9, 1, 0, 0, 0, TimeSpan.Zero))
         {
             userFlagMessages.Add("💎 Early Member");
         }
         
-        embed.AddField("Badges", "```js\n" + string.Join("\n", userFlagMessages) + "\n```", true);
-        embed.AddField("Collections", $"```asciidoc\n- {spriteInv.Count} sprites\n- {sceneInv.SceneIds.Count} scenes\n- {awardInv.ReceivedAwards.Count} awards\n- {splitInv.TotalSplits} splits\n```", true);
+        if(userFlagMessages.Count > 0) embed.AddField("Badges", "```js\n" + string.Join("\n", userFlagMessages) + "\n```", true);
+        
+        var splitsTotalCount = splitRewards.Sum(reward => reward.ValueOverride ?? reward.Split.Value);
+        embed.AddField("Collections", $"```asciidoc\n- {spriteInv.Count} sprites\n- {sceneInv.SceneIds.Count} scenes\n- {awardInv.ReceivedAwards.Count} awards\n- {splitsTotalCount} splits\n- {spriteSlotCount.UnlockedSlots} slots unlocked\n```", true);
         
         // field as spacer
         embed.AddField("_ _", "_ _");
         
         embed.AddField("Bubble Stats", $"```asciidoc\n- {bubbleCredit.BubblesAmount} collected\n- {bubbleCredit.AvailableCredit} available\n- First seen {firstSeen.FirstSeen.ToDateTimeOffset() :d}```\n_ _", true);
-        embed.AddField("Drop Stats", $"```asciidoc\n- {dropCredit.RegularCount} regular drops\n- {dropCredit.LeagueCount} league drops```", true);
+        embed.AddField("Drop Stats", $"```asciidoc\n- {dropCredit.TotalCredit} total value\n- {dropCredit.RegularCount} regular drops\n- {dropCredit.LeagueCount} league drops```", true);
 
-        var spritesText = spriteInv.Count == 0
-            ? "None"
-            : string.Join(", ", spriteInv.Where(slot => slot.Slot > 0).Select(slot => sprites[slot.SpriteId].Name));
+        var activeSprites = spriteInv.Where(slot => slot.Slot > 0 && slot.SpriteId > 0).Select(slot => sprites[slot.SpriteId].Name).ToList();
+        var spritesText = activeSprites.Count > 0
+            ? string.Join(", ", activeSprites)
+            : "None";
         var sceneText = sceneInv.ActiveId is {} activeId ? scenes[activeId].Name : "Empty";
         var emojiText = member.PatronEmoji is { } emoji ? $"\nEmoji: {emoji}" : "";
         embed.AddField("Skribbl Outfit", $"```yaml\nScene: {sceneText}\nSprites: {spritesText}{emojiText}```");
