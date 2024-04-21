@@ -142,7 +142,7 @@ public class SceneCommands(
         if (scene.EventId is { } eventId)
         {
             var sceneEvent = await eventsClient.GetEventByIdAsync(new GetEventRequest { Id = eventId });
-            var price = await scenesClient.GetEventScenePriceAsync(new GetEventScenePriceRequest { EventDayLength = sceneEvent.Length });
+            var price = await scenesClient.GetEventSceneAsync(new GetEventSceneRequest { EventId = sceneEvent.Id});
             embedBuilder.AddField("Event Scene:", $"{sceneEvent.Name} Event {sceneEvent.Id.AsTypoId()}\n" +
                                                    $"Unlock this scene by collecting {price.Price} Bubbles during the event");
         }
@@ -194,8 +194,7 @@ public class SceneCommands(
             var traceStartDate = Timestamp.FromDateTimeOffset(sceneEvent.StartDate.ToDateTimeOffset().AddDays(-1));
             var bubbleRange = await statsClient.GetBubbleTimespanRangeAsync(new BubbleTimespanRangeRequest { Login = member.Login, StartDate = traceStartDate, EndDate = sceneEvent.EndDate });
             var bubblesCollected = bubbleRange.EndAmount - bubbleRange.StartAmount;
-            var eventScenePrice = await scenesClient.GetEventScenePriceAsync(new GetEventScenePriceRequest
-                { EventDayLength = sceneEvent.Length });
+            var eventScenePrice = await scenesClient.GetEventSceneAsync(new GetEventSceneRequest { EventId = sceneEvent.Id});
             
             if(bubblesCollected < eventScenePrice.Price) 
             {

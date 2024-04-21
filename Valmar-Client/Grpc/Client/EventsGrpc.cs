@@ -58,6 +58,8 @@ namespace Valmar {
     static readonly grpc::Marshaller<global::Valmar.EventDropReply> __Marshaller_events_EventDropReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.EventDropReply.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.GetEventDropRequest> __Marshaller_events_GetEventDropRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetEventDropRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Google.Protobuf.WellKnownTypes.Timestamp> __Marshaller_google_protobuf_Timestamp = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Protobuf.WellKnownTypes.Timestamp.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Google.Protobuf.WellKnownTypes.Empty, global::Valmar.EventReply> __Method_GetAllEvents = new grpc::Method<global::Google.Protobuf.WellKnownTypes.Empty, global::Valmar.EventReply>(
@@ -106,6 +108,14 @@ namespace Valmar {
         "GetEventDropsOfEvent",
         __Marshaller_events_GetEventRequest,
         __Marshaller_events_EventDropReply);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GetEventRequest, global::Google.Protobuf.WellKnownTypes.Timestamp> __Method_GetEventReleaseSlots = new grpc::Method<global::Valmar.GetEventRequest, global::Google.Protobuf.WellKnownTypes.Timestamp>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "GetEventReleaseSlots",
+        __Marshaller_events_GetEventRequest,
+        __Marshaller_google_protobuf_Timestamp);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -355,6 +365,30 @@ namespace Valmar {
       public virtual grpc::AsyncServerStreamingCall<global::Valmar.EventDropReply> GetEventDropsOfEvent(global::Valmar.GetEventRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncServerStreamingCall(__Method_GetEventDropsOfEvent, null, options, request);
+      }
+      /// <summary>
+      /// gets the release slots of an progressive event
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::Google.Protobuf.WellKnownTypes.Timestamp> GetEventReleaseSlots(global::Valmar.GetEventRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetEventReleaseSlots(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// gets the release slots of an progressive event
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncServerStreamingCall<global::Google.Protobuf.WellKnownTypes.Timestamp> GetEventReleaseSlots(global::Valmar.GetEventRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_GetEventReleaseSlots, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

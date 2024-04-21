@@ -30,24 +30,28 @@ namespace Valmar {
             "cHRpb24YBCABKAkSDgoGbGVuZ3RoGAUgASgFEhMKC3Byb2dyZXNzaXZlGAYg",
             "ASgIEi0KCXN0YXJ0RGF0ZRgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1l",
             "c3RhbXASKwoHZW5kRGF0ZRgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1l",
-            "c3RhbXAiSAoORXZlbnREcm9wUmVwbHkSDAoEbmFtZRgBIAEoCRIKCgJpZBgC",
-            "IAEoBRILCgN1cmwYAyABKAkSDwoHZXZlbnRJZBgEIAEoBSIdCg9HZXRFdmVu",
-            "dFJlcXVlc3QSCgoCaWQYASABKAUiIQoTR2V0RXZlbnREcm9wUmVxdWVzdBIK",
-            "CgJpZBgBIAEoBTKcAwoGRXZlbnRzEjwKDEdldEFsbEV2ZW50cxIWLmdvb2ds",
-            "ZS5wcm90b2J1Zi5FbXB0eRoSLmV2ZW50cy5FdmVudFJlcGx5MAESPQoPR2V0",
-            "Q3VycmVudEV2ZW50EhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5GhIuZXZlbnRz",
-            "LkV2ZW50UmVwbHkSOwoMR2V0RXZlbnRCeUlkEhcuZXZlbnRzLkdldEV2ZW50",
-            "UmVxdWVzdBoSLmV2ZW50cy5FdmVudFJlcGx5EkQKEEdldEFsbEV2ZW50RHJv",
-            "cHMSFi5nb29nbGUucHJvdG9idWYuRW1wdHkaFi5ldmVudHMuRXZlbnREcm9w",
-            "UmVwbHkwARJHChBHZXRFdmVudERyb3BCeUlkEhsuZXZlbnRzLkdldEV2ZW50",
-            "RHJvcFJlcXVlc3QaFi5ldmVudHMuRXZlbnREcm9wUmVwbHkSSQoUR2V0RXZl",
-            "bnREcm9wc09mRXZlbnQSFy5ldmVudHMuR2V0RXZlbnRSZXF1ZXN0GhYuZXZl",
-            "bnRzLkV2ZW50RHJvcFJlcGx5MAFCCaoCBlZhbG1hcmIGcHJvdG8z"));
+            "c3RhbXAiqgEKDkV2ZW50RHJvcFJlcGx5EgwKBG5hbWUYASABKAkSCgoCaWQY",
+            "AiABKAUSCwoDdXJsGAMgASgJEg8KB2V2ZW50SWQYBCABKAUSMAoMcmVsZWFz",
+            "ZVN0YXJ0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpy",
+            "ZWxlYXNlRW5kGAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCId",
+            "Cg9HZXRFdmVudFJlcXVlc3QSCgoCaWQYASABKAUiIQoTR2V0RXZlbnREcm9w",
+            "UmVxdWVzdBIKCgJpZBgBIAEoBTLrAwoGRXZlbnRzEjwKDEdldEFsbEV2ZW50",
+            "cxIWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRoSLmV2ZW50cy5FdmVudFJlcGx5",
+            "MAESPQoPR2V0Q3VycmVudEV2ZW50EhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5",
+            "GhIuZXZlbnRzLkV2ZW50UmVwbHkSOwoMR2V0RXZlbnRCeUlkEhcuZXZlbnRz",
+            "LkdldEV2ZW50UmVxdWVzdBoSLmV2ZW50cy5FdmVudFJlcGx5EkQKEEdldEFs",
+            "bEV2ZW50RHJvcHMSFi5nb29nbGUucHJvdG9idWYuRW1wdHkaFi5ldmVudHMu",
+            "RXZlbnREcm9wUmVwbHkwARJHChBHZXRFdmVudERyb3BCeUlkEhsuZXZlbnRz",
+            "LkdldEV2ZW50RHJvcFJlcXVlc3QaFi5ldmVudHMuRXZlbnREcm9wUmVwbHkS",
+            "SQoUR2V0RXZlbnREcm9wc09mRXZlbnQSFy5ldmVudHMuR2V0RXZlbnRSZXF1",
+            "ZXN0GhYuZXZlbnRzLkV2ZW50RHJvcFJlcGx5MAESTQoUR2V0RXZlbnRSZWxl",
+            "YXNlU2xvdHMSFy5ldmVudHMuR2V0RXZlbnRSZXF1ZXN0GhouZ29vZ2xlLnBy",
+            "b3RvYnVmLlRpbWVzdGFtcDABQgmqAgZWYWxtYXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventReply), global::Valmar.EventReply.Parser, new[]{ "Name", "Id", "Description", "Length", "Progressive", "StartDate", "EndDate" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventDropReply), global::Valmar.EventDropReply.Parser, new[]{ "Name", "Id", "Url", "EventId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventDropReply), global::Valmar.EventDropReply.Parser, new[]{ "Name", "Id", "Url", "EventId", "ReleaseStart", "ReleaseEnd" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetEventRequest), global::Valmar.GetEventRequest.Parser, new[]{ "Id" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetEventDropRequest), global::Valmar.GetEventDropRequest.Parser, new[]{ "Id" }, null, null, null, null)
           }));
@@ -531,6 +535,8 @@ namespace Valmar {
       id_ = other.id_;
       url_ = other.url_;
       eventId_ = other.eventId_;
+      releaseStart_ = other.releaseStart_ != null ? other.releaseStart_.Clone() : null;
+      releaseEnd_ = other.releaseEnd_ != null ? other.releaseEnd_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -588,6 +594,30 @@ namespace Valmar {
       }
     }
 
+    /// <summary>Field number for the "releaseStart" field.</summary>
+    public const int ReleaseStartFieldNumber = 7;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp releaseStart_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp ReleaseStart {
+      get { return releaseStart_; }
+      set {
+        releaseStart_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "releaseEnd" field.</summary>
+    public const int ReleaseEndFieldNumber = 8;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp releaseEnd_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp ReleaseEnd {
+      get { return releaseEnd_; }
+      set {
+        releaseEnd_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -607,6 +637,8 @@ namespace Valmar {
       if (Id != other.Id) return false;
       if (Url != other.Url) return false;
       if (EventId != other.EventId) return false;
+      if (!object.Equals(ReleaseStart, other.ReleaseStart)) return false;
+      if (!object.Equals(ReleaseEnd, other.ReleaseEnd)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -618,6 +650,8 @@ namespace Valmar {
       if (Id != 0) hash ^= Id.GetHashCode();
       if (Url.Length != 0) hash ^= Url.GetHashCode();
       if (EventId != 0) hash ^= EventId.GetHashCode();
+      if (releaseStart_ != null) hash ^= ReleaseStart.GetHashCode();
+      if (releaseEnd_ != null) hash ^= ReleaseEnd.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -652,6 +686,14 @@ namespace Valmar {
         output.WriteRawTag(32);
         output.WriteInt32(EventId);
       }
+      if (releaseStart_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(ReleaseStart);
+      }
+      if (releaseEnd_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(ReleaseEnd);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -678,6 +720,14 @@ namespace Valmar {
         output.WriteRawTag(32);
         output.WriteInt32(EventId);
       }
+      if (releaseStart_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(ReleaseStart);
+      }
+      if (releaseEnd_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(ReleaseEnd);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -699,6 +749,12 @@ namespace Valmar {
       }
       if (EventId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(EventId);
+      }
+      if (releaseStart_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ReleaseStart);
+      }
+      if (releaseEnd_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ReleaseEnd);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -723,6 +779,18 @@ namespace Valmar {
       }
       if (other.EventId != 0) {
         EventId = other.EventId;
+      }
+      if (other.releaseStart_ != null) {
+        if (releaseStart_ == null) {
+          ReleaseStart = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        ReleaseStart.MergeFrom(other.ReleaseStart);
+      }
+      if (other.releaseEnd_ != null) {
+        if (releaseEnd_ == null) {
+          ReleaseEnd = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        ReleaseEnd.MergeFrom(other.ReleaseEnd);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -755,6 +823,20 @@ namespace Valmar {
             EventId = input.ReadInt32();
             break;
           }
+          case 58: {
+            if (releaseStart_ == null) {
+              ReleaseStart = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(ReleaseStart);
+            break;
+          }
+          case 66: {
+            if (releaseEnd_ == null) {
+              ReleaseEnd = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(ReleaseEnd);
+            break;
+          }
         }
       }
     #endif
@@ -784,6 +866,20 @@ namespace Valmar {
           }
           case 32: {
             EventId = input.ReadInt32();
+            break;
+          }
+          case 58: {
+            if (releaseStart_ == null) {
+              ReleaseStart = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(ReleaseStart);
+            break;
+          }
+          case 66: {
+            if (releaseEnd_ == null) {
+              ReleaseEnd = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(ReleaseEnd);
             break;
           }
         }

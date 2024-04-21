@@ -62,7 +62,7 @@ public static class EmbedBuilderExtensions
             remaining = remaining.Skip(2).ToList();
             
             seq.ForEach(item => builder.AddField(titleSelector.Invoke(item), contentSelector.Invoke(item), true));
-            builder.AddField("_ _", "_ _");
+            if(remaining.Count > 0) builder.AddField("_ _", "_ _");
         }
 
         return builder;

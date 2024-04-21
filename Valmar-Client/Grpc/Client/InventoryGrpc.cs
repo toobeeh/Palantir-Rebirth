@@ -108,6 +108,16 @@ namespace Valmar {
     static readonly grpc::Marshaller<global::Valmar.GetFirstSeenDateRequest> __Marshaller_inventory_GetFirstSeenDateRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetFirstSeenDateRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Valmar.FirstSeenMessage> __Marshaller_inventory_FirstSeenMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.FirstSeenMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.RedeemLeagueEventDropMessage> __Marshaller_inventory_RedeemLeagueEventDropMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.RedeemLeagueEventDropMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GiftEventCreditMessage> __Marshaller_inventory_GiftEventCreditMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GiftEventCreditMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GiftLossMessage> __Marshaller_inventory_GiftLossMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GiftLossMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GetGiftLossRateMessage> __Marshaller_inventory_GetGiftLossRateMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GetGiftLossRateMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Valmar.GiftLossRateMessage> __Marshaller_inventory_GiftLossRateMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Valmar.GiftLossRateMessage.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Valmar.GetBubbleCreditRequest, global::Valmar.BubbleCreditReply> __Method_GetBubbleCredit = new grpc::Method<global::Valmar.GetBubbleCreditRequest, global::Valmar.BubbleCreditReply>(
@@ -244,6 +254,30 @@ namespace Valmar {
         "GetFirstSeenDate",
         __Marshaller_inventory_GetFirstSeenDateRequest,
         __Marshaller_inventory_FirstSeenMessage);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.RedeemLeagueEventDropMessage, global::Google.Protobuf.WellKnownTypes.Empty> __Method_RedeemLeagueEventDrop = new grpc::Method<global::Valmar.RedeemLeagueEventDropMessage, global::Google.Protobuf.WellKnownTypes.Empty>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "RedeemLeagueEventDrop",
+        __Marshaller_inventory_RedeemLeagueEventDropMessage,
+        __Marshaller_google_protobuf_Empty);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GiftEventCreditMessage, global::Valmar.GiftLossMessage> __Method_GiftEventCredit = new grpc::Method<global::Valmar.GiftEventCreditMessage, global::Valmar.GiftLossMessage>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GiftEventCredit",
+        __Marshaller_inventory_GiftEventCreditMessage,
+        __Marshaller_inventory_GiftLossMessage);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Valmar.GetGiftLossRateMessage, global::Valmar.GiftLossRateMessage> __Method_GetGiftLossRate = new grpc::Method<global::Valmar.GetGiftLossRateMessage, global::Valmar.GiftLossRateMessage>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetGiftLossRate",
+        __Marshaller_inventory_GetGiftLossRateMessage,
+        __Marshaller_inventory_GiftLossRateMessage);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -1021,6 +1055,150 @@ namespace Valmar {
       public virtual grpc::AsyncUnaryCall<global::Valmar.FirstSeenMessage> GetFirstSeenDateAsync(global::Valmar.GetFirstSeenDateRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetFirstSeenDate, null, options, request);
+      }
+      /// <summary>
+      /// redeems league event drops for a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Protobuf.WellKnownTypes.Empty RedeemLeagueEventDrop(global::Valmar.RedeemLeagueEventDropMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RedeemLeagueEventDrop(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// redeems league event drops for a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Protobuf.WellKnownTypes.Empty RedeemLeagueEventDrop(global::Valmar.RedeemLeagueEventDropMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_RedeemLeagueEventDrop, null, options, request);
+      }
+      /// <summary>
+      /// redeems league event drops for a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Protobuf.WellKnownTypes.Empty> RedeemLeagueEventDropAsync(global::Valmar.RedeemLeagueEventDropMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RedeemLeagueEventDropAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// redeems league event drops for a member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Protobuf.WellKnownTypes.Empty> RedeemLeagueEventDropAsync(global::Valmar.RedeemLeagueEventDropMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_RedeemLeagueEventDrop, null, options, request);
+      }
+      /// <summary>
+      /// gift an amount of event credit to another member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.GiftLossMessage GiftEventCredit(global::Valmar.GiftEventCreditMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GiftEventCredit(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// gift an amount of event credit to another member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.GiftLossMessage GiftEventCredit(global::Valmar.GiftEventCreditMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GiftEventCredit, null, options, request);
+      }
+      /// <summary>
+      /// gift an amount of event credit to another member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.GiftLossMessage> GiftEventCreditAsync(global::Valmar.GiftEventCreditMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GiftEventCreditAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// gift an amount of event credit to another member
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.GiftLossMessage> GiftEventCreditAsync(global::Valmar.GiftEventCreditMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GiftEventCredit, null, options, request);
+      }
+      /// <summary>
+      /// gets the current gift loss rate
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.GiftLossRateMessage GetGiftLossRate(global::Valmar.GetGiftLossRateMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetGiftLossRate(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// gets the current gift loss rate
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Valmar.GiftLossRateMessage GetGiftLossRate(global::Valmar.GetGiftLossRateMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetGiftLossRate, null, options, request);
+      }
+      /// <summary>
+      /// gets the current gift loss rate
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.GiftLossRateMessage> GetGiftLossRateAsync(global::Valmar.GetGiftLossRateMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetGiftLossRateAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// gets the current gift loss rate
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Valmar.GiftLossRateMessage> GetGiftLossRateAsync(global::Valmar.GetGiftLossRateMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetGiftLossRate, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

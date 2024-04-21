@@ -34,24 +34,24 @@ namespace Valmar {
             "SWQYCCABKAsyGy5nb29nbGUucHJvdG9idWYuSW50MzJWYWx1ZSIdCg9HZXRT",
             "Y2VuZVJlcXVlc3QSCgoCaWQYASABKAUiVwoRU2NlbmVSYW5raW5nUmVwbHkS",
             "CgoCaWQYASABKAUSEwoLYWN0aXZlVXNlcnMYAiABKAUSEwoLdG90YWxCb3Vn",
-            "aHQYAyABKAUSDAoEcmFuaxgEIAEoBSIzChlHZXRFdmVudFNjZW5lUHJpY2VS",
-            "ZXF1ZXN0EhYKDmV2ZW50RGF5TGVuZ3RoGAEgASgFIiUKFEV2ZW50U2NlbmVQ",
-            "cmljZVJlcGx5Eg0KBXByaWNlGAIgASgFMqICCgZTY2VuZXMSPAoMR2V0QWxs",
-            "U2NlbmVzEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5GhIuc2NlbmVzLlNjZW5l",
-            "UmVwbHkwARI7CgxHZXRTY2VuZUJ5SWQSFy5zY2VuZXMuR2V0U2NlbmVSZXF1",
-            "ZXN0GhIuc2NlbmVzLlNjZW5lUmVwbHkSRgoPR2V0U2NlbmVSYW5raW5nEhYu",
-            "Z29vZ2xlLnByb3RvYnVmLkVtcHR5Ghkuc2NlbmVzLlNjZW5lUmFua2luZ1Jl",
-            "cGx5MAESVQoSR2V0RXZlbnRTY2VuZVByaWNlEiEuc2NlbmVzLkdldEV2ZW50",
-            "U2NlbmVQcmljZVJlcXVlc3QaHC5zY2VuZXMuRXZlbnRTY2VuZVByaWNlUmVw",
-            "bHlCCaoCBlZhbG1hcmIGcHJvdG8z"));
+            "aHQYAyABKAUSDAoEcmFuaxgEIAEoBSJDCg9FdmVudFNjZW5lUmVwbHkSIQoF",
+            "c2NlbmUYASABKAsyEi5zY2VuZXMuU2NlbmVSZXBseRINCgVwcmljZRgCIAEo",
+            "BSInChRHZXRFdmVudFNjZW5lUmVxdWVzdBIPCgdldmVudElkGAEgASgFMpMC",
+            "CgZTY2VuZXMSPAoMR2V0QWxsU2NlbmVzEhYuZ29vZ2xlLnByb3RvYnVmLkVt",
+            "cHR5GhIuc2NlbmVzLlNjZW5lUmVwbHkwARI7CgxHZXRTY2VuZUJ5SWQSFy5z",
+            "Y2VuZXMuR2V0U2NlbmVSZXF1ZXN0GhIuc2NlbmVzLlNjZW5lUmVwbHkSRgoP",
+            "R2V0U2NlbmVSYW5raW5nEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5Ghkuc2Nl",
+            "bmVzLlNjZW5lUmFua2luZ1JlcGx5MAESRgoNR2V0RXZlbnRTY2VuZRIcLnNj",
+            "ZW5lcy5HZXRFdmVudFNjZW5lUmVxdWVzdBoXLnNjZW5lcy5FdmVudFNjZW5l",
+            "UmVwbHlCCaoCBlZhbG1hcmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SceneReply), global::Valmar.SceneReply.Parser, new[]{ "Name", "Url", "Id", "Exclusive", "PrimaryColor", "GuessedColor", "Artist", "EventId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetSceneRequest), global::Valmar.GetSceneRequest.Parser, new[]{ "Id" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.SceneRankingReply), global::Valmar.SceneRankingReply.Parser, new[]{ "Id", "ActiveUsers", "TotalBought", "Rank" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetEventScenePriceRequest), global::Valmar.GetEventScenePriceRequest.Parser, new[]{ "EventDayLength" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventScenePriceReply), global::Valmar.EventScenePriceReply.Parser, new[]{ "Price" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.EventSceneReply), global::Valmar.EventSceneReply.Parser, new[]{ "Scene", "Price" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Valmar.GetEventSceneRequest), global::Valmar.GetEventSceneRequest.Parser, new[]{ "EventId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -1040,16 +1040,16 @@ namespace Valmar {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class GetEventScenePriceRequest : pb::IMessage<GetEventScenePriceRequest>
+  public sealed partial class EventSceneReply : pb::IMessage<EventSceneReply>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<GetEventScenePriceRequest> _parser = new pb::MessageParser<GetEventScenePriceRequest>(() => new GetEventScenePriceRequest());
+    private static readonly pb::MessageParser<EventSceneReply> _parser = new pb::MessageParser<EventSceneReply>(() => new EventSceneReply());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<GetEventScenePriceRequest> Parser { get { return _parser; } }
+    public static pb::MessageParser<EventSceneReply> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1065,7 +1065,7 @@ namespace Valmar {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GetEventScenePriceRequest() {
+    public EventSceneReply() {
       OnConstruction();
     }
 
@@ -1073,205 +1073,28 @@ namespace Valmar {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GetEventScenePriceRequest(GetEventScenePriceRequest other) : this() {
-      eventDayLength_ = other.eventDayLength_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GetEventScenePriceRequest Clone() {
-      return new GetEventScenePriceRequest(this);
-    }
-
-    /// <summary>Field number for the "eventDayLength" field.</summary>
-    public const int EventDayLengthFieldNumber = 1;
-    private int eventDayLength_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int EventDayLength {
-      get { return eventDayLength_; }
-      set {
-        eventDayLength_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as GetEventScenePriceRequest);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GetEventScenePriceRequest other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (EventDayLength != other.EventDayLength) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (EventDayLength != 0) hash ^= EventDayLength.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (EventDayLength != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(EventDayLength);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (EventDayLength != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(EventDayLength);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (EventDayLength != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(EventDayLength);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GetEventScenePriceRequest other) {
-      if (other == null) {
-        return;
-      }
-      if (other.EventDayLength != 0) {
-        EventDayLength = other.EventDayLength;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            EventDayLength = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            EventDayLength = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class EventScenePriceReply : pb::IMessage<EventScenePriceReply>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<EventScenePriceReply> _parser = new pb::MessageParser<EventScenePriceReply>(() => new EventScenePriceReply());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<EventScenePriceReply> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Valmar.ScenesReflection.Descriptor.MessageTypes[4]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public EventScenePriceReply() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public EventScenePriceReply(EventScenePriceReply other) : this() {
+    public EventSceneReply(EventSceneReply other) : this() {
+      scene_ = other.scene_ != null ? other.scene_.Clone() : null;
       price_ = other.price_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public EventScenePriceReply Clone() {
-      return new EventScenePriceReply(this);
+    public EventSceneReply Clone() {
+      return new EventSceneReply(this);
+    }
+
+    /// <summary>Field number for the "scene" field.</summary>
+    public const int SceneFieldNumber = 1;
+    private global::Valmar.SceneReply scene_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Valmar.SceneReply Scene {
+      get { return scene_; }
+      set {
+        scene_ = value;
+      }
     }
 
     /// <summary>Field number for the "price" field.</summary>
@@ -1289,18 +1112,19 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as EventScenePriceReply);
+      return Equals(other as EventSceneReply);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(EventScenePriceReply other) {
+    public bool Equals(EventSceneReply other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (!object.Equals(Scene, other.Scene)) return false;
       if (Price != other.Price) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -1309,6 +1133,7 @@ namespace Valmar {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (scene_ != null) hash ^= Scene.GetHashCode();
       if (Price != 0) hash ^= Price.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1328,6 +1153,10 @@ namespace Valmar {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
+      if (scene_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Scene);
+      }
       if (Price != 0) {
         output.WriteRawTag(16);
         output.WriteInt32(Price);
@@ -1342,6 +1171,10 @@ namespace Valmar {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (scene_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Scene);
+      }
       if (Price != 0) {
         output.WriteRawTag(16);
         output.WriteInt32(Price);
@@ -1356,6 +1189,9 @@ namespace Valmar {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (scene_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Scene);
+      }
       if (Price != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Price);
       }
@@ -1367,9 +1203,15 @@ namespace Valmar {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(EventScenePriceReply other) {
+    public void MergeFrom(EventSceneReply other) {
       if (other == null) {
         return;
+      }
+      if (other.scene_ != null) {
+        if (scene_ == null) {
+          Scene = new global::Valmar.SceneReply();
+        }
+        Scene.MergeFrom(other.Scene);
       }
       if (other.Price != 0) {
         Price = other.Price;
@@ -1389,6 +1231,13 @@ namespace Valmar {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
+          case 10: {
+            if (scene_ == null) {
+              Scene = new global::Valmar.SceneReply();
+            }
+            input.ReadMessage(Scene);
+            break;
+          }
           case 16: {
             Price = input.ReadInt32();
             break;
@@ -1408,8 +1257,205 @@ namespace Valmar {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
+          case 10: {
+            if (scene_ == null) {
+              Scene = new global::Valmar.SceneReply();
+            }
+            input.ReadMessage(Scene);
+            break;
+          }
           case 16: {
             Price = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class GetEventSceneRequest : pb::IMessage<GetEventSceneRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<GetEventSceneRequest> _parser = new pb::MessageParser<GetEventSceneRequest>(() => new GetEventSceneRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<GetEventSceneRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Valmar.ScenesReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetEventSceneRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetEventSceneRequest(GetEventSceneRequest other) : this() {
+      eventId_ = other.eventId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetEventSceneRequest Clone() {
+      return new GetEventSceneRequest(this);
+    }
+
+    /// <summary>Field number for the "eventId" field.</summary>
+    public const int EventIdFieldNumber = 1;
+    private int eventId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int EventId {
+      get { return eventId_; }
+      set {
+        eventId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as GetEventSceneRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(GetEventSceneRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (EventId != other.EventId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (EventId != 0) hash ^= EventId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (EventId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(EventId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (EventId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(EventId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (EventId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(EventId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(GetEventSceneRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.EventId != 0) {
+        EventId = other.EventId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            EventId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            EventId = input.ReadInt32();
             break;
           }
         }
