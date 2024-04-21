@@ -49,10 +49,10 @@ Checklist for implementation:
 - [x] `>outfit view [name]` - View details of a saved outfit
 
 ### Events 
-- [ ] `>event (id)` - View an event
-- [ ] `>event list` - Show all events
-- [ ] `>gift [user] [amount] [sprite]` - Gift a user event drops used for a event sprite
-- [ ] `>redeem [amount] [sprite]` - Redeem event league credit for a sprite's event drop
+- [x] `>event (id)` / `>event view (id)` - View an event
+- [x] `>event list` - Show all events
+- [x] `>event gift [user] [amount] [eventId]` - Gift a user event drops of an event
+- [ ] `>event redeem [amount] [sprite]` - Redeem event league credit for a sprite's event drop
 
 Needed grpc services:
 - getEvent(id:int) - event details

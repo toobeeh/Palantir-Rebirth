@@ -152,7 +152,7 @@ public class EventCommands(
     }
     
     [Command("gift"), TextAlias("gf"), RequirePalantirMember(MemberFlagMessage.Beta)]
-    public async Task GiftEventDrops(CommandContext context, DiscordMember receiver, uint amount, int eventId)
+    public async Task GiftEventDrops(CommandContext context, DiscordMember receiver, uint amount, uint eventId)
     {
         logger.LogTrace("GiftEventDrops(receiver={receiver}, amount={amount}, eventId={eventId})", receiver, amount, eventId);
         
@@ -180,11 +180,20 @@ public class EventCommands(
                 .WithDescription("You cannot gift yourself drops. Mention someone else to gift drops to."));
             return;
         }
+
+        if (amount < 1)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context)
+                .WithAuthor("Gotcha >:(")
+                .WithTitle("Invalid gift amount")
+                .WithDescription($"The gift amount {amount} is invalid."));
+            return;
+        }
         
-        var evt = await eventsClient.GetEventByIdAsync(new GetEventRequest { Id = eventId });
-        var credits = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = eventId}).ToDictionaryAsync(credit => credit.EventDropId);
-        var drops = await eventsClient.GetEventDropsOfEvent(new GetEventRequest { Id = eventId}).ToDictionaryAsync(drop => drop.Id);
-        var lossRate = await inventoryClient.GetGiftLossRateAsync(new GetGiftLossRateMessage { EventId = eventId, Login = member.Login });
+        var evt = await eventsClient.GetEventByIdAsync(new GetEventRequest { Id = (int)eventId });
+        var credits = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = evt.Id}).ToDictionaryAsync(credit => credit.EventDropId);
+        var drops = await eventsClient.GetEventDropsOfEvent(new GetEventRequest { Id = evt.Id}).ToDictionaryAsync(drop => drop.Id);
+        var lossRate = await inventoryClient.GetGiftLossRateAsync(new GetGiftLossRateMessage { EventId = evt.Id, Login = member.Login });
 
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
@@ -194,7 +203,7 @@ public class EventCommands(
                 $"Using gifts, you can transfer some of your event drops to a friend.\n" +
                 $"When you do that, Palantir will keep a small amount of the gift to prevent shady business.\n" +
                 $"Your current gift loss rate is `{lossRate.LossRateBase * 100 :0.#}%` ({lossRate.CollectedDrops :0.#}/{lossRate.RequiredDrops} drops)\n_ _\n" +
-                $"To send a gift, choose an event drop which you want to gift to {Formatter.Mention(receiver, true)}.");
+                $"To send a gift, choose the event drop which you want to gift to {Formatter.Mention(receiver, true)}.");
 
         var message = new DiscordMessageBuilder()
             .AddEmbed(embed);
@@ -223,53 +232,42 @@ public class EventCommands(
         var response = await context.GetResponseAsync() ?? throw new Exception("Could not retrieve response");
         EventDropReply? selectedDrop = null;
 
-        while (true)
-        {
-            var cancelSelect = new CancellationTokenSource();
-            var cancelConfirm = new CancellationTokenSource();
-
-            var expectConfirm = Task.Run(async () =>
+        var buttonInteractionHandler = new InteractivityHandler<bool>(
+            async interactivity => await interactivity.WaitForButtonAsync(response, context.User),
+            async result =>
             {
-                var buttonResult = await context.Client.GetInteractivity()
-                    .WaitForButtonAsync(response, context.User);
-                if(cancelConfirm.IsCancellationRequested) return false;
-                await cancelSelect.CancelAsync();
-                
-                if (buttonResult.TimedOut) return false;
                 if (selectedDrop == null) throw new Exception("No drop selected.");
-                
-                var result = await inventoryClient.GiftEventCreditAsync(new GiftEventCreditMessage
+
+                var giftResult = await inventoryClient.GiftEventCreditAsync(new GiftEventCreditMessage
                 {
                     SenderLogin = member.Login,
                     RecipientLogin = receiverMember.Login,
                     Amount = (int)amount,
                     EventDropId = selectedDrop.Id
                 });
-                
-                await buttonResult.Result.Interaction.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
-                    .AddEmbed(new DiscordEmbedBuilder()
-                        .WithPalantirPresets(context)
-                        .WithTitle("`🎉` Gift sent")
-                        .WithDescription($"You have gifted {result.TotalAmount} {selectedDrop.Name} drops to {Formatter.Mention(receiver, true)}.\n" +
-                                         $"Palantir has kept {result.LostAmount} drops of the gift.")));
-                
-                // exit loop
+
+                await result.Result.Interaction.CreateResponseAsync(
+                    InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
+                        .AddEmbed(new DiscordEmbedBuilder()
+                            .WithPalantirPresets(context)
+                            .WithTitle("`🎉` Gift sent")
+                            .WithDescription(
+                                $"You have gifted {giftResult.TotalAmount} {selectedDrop.Name} drops to {Formatter.Mention(receiver, true)}.\n" +
+                                $"Palantir has kept {giftResult.LostAmount} drops of the gift.")));
+
                 return false;
-            }, cancelConfirm.Token);
-            
-            var expectSelect = Task.Run(async () =>
+            },
+            false
+        );
+
+        var selectInteractionHandler = new InteractivityHandler<bool>(
+            async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "dropId"),
+            async result =>
             {
-                var selectResult = await context.Client.GetInteractivity()
-                    .WaitForSelectAsync(response, context.User, "dropId");
-                if (cancelSelect.IsCancellationRequested) return false;
-                await cancelConfirm.CancelAsync();
-                
-                if (selectResult.TimedOut) return false;
-                
-                await selectResult.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+                await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
                 embed.ClearFields();
 
-                selectedDrop = drops[Convert.ToInt32(selectResult.Result.Values.First())];
+                selectedDrop = drops[Convert.ToInt32(result.Result.Values.First())];
                 embed.AddField("Selected Drop", $"`💧` {selectedDrop.Name}\n`💰` {credits[selectedDrop.Id].AvailableCredit} drops available\n_ _\n_ _ ");
 
                 var validDrop = amount <= credits[selectedDrop.Id].AvailableCredit; 
@@ -280,22 +278,20 @@ public class EventCommands(
                 else
                 {
                     embed.AddField("`✅` Confirm gift", $"You are about to gift {amount} drops.\n" +
-                                                        "Confirm the gift by clicking the button below.");
+                                                       "Confirm the gift by clicking the button below.");
                 }
 
                 rebuildComponents(false, !validDrop, selectedDrop.Id);
                 await response.ModifyAsync(message);
                 return true;
-            }, cancelSelect.Token);
+            },
+            false
+        );
 
-            // wait for a task to finish; filter out cancelled tasks
-            Task<bool> finishedTask;
-            do
-            {
-                var candidates = new List<Task<bool>> {expectSelect, expectConfirm}.Where(task => !task.IsCanceled).ToList();
-                finishedTask = await Task.WhenAny(candidates);
-            } while (finishedTask.IsCanceled); 
-            if (!await finishedTask) break;
+        while (true)
+        {
+            var continueInteractions = await context.Client.GetInteractivity().HandleNextInteraction([buttonInteractionHandler, selectInteractionHandler]);
+            if (!continueInteractions) break;
         }
 
         rebuildComponents(true, true, selectedDrop?.Id ?? 0);
