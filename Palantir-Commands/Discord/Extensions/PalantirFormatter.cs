@@ -7,16 +7,16 @@ public static class PalantirFormatter
     public static string AsCountdownTimespan(this TimeSpan time) {
         string result = string.Empty;
 
-        if (time.Days > 0)
+        if (time.Days != 0)
             result += $"{time.Days}{("d")}, ";
         
-        if (time.Hours > 0)
+        if (time.Hours != 0)
             result += $"{time.Hours}{("h")}, ";
         
-        if (time.Minutes > 0)
+        if (time.Minutes != 0)
             result += $"{time.Minutes}{("min")}, ";
         
-        if (time.Seconds > 0)
+        if (time.Seconds != 0 || string.IsNullOrEmpty(result))
             result += $"{time.Seconds}{("s")}";
 
         if (result.EndsWith(", "))

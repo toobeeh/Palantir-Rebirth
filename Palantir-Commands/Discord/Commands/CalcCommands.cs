@@ -20,7 +20,7 @@ public class CalcCommands(ILogger<CalcCommands> logger, MemberContext memberCont
     {
         logger.LogTrace("CalculateBubbles(amount={amount})", amount);
         
-        var seconds = amount + 10;
+        var seconds = amount * 10;
         var time = TimeSpan.FromSeconds(seconds);
         
         var embed = new DiscordEmbedBuilder()
@@ -44,16 +44,24 @@ public class CalcCommands(ILogger<CalcCommands> logger, MemberContext memberCont
         });
         var member = memberContext.Member;
         
-        var rank = leaderboard.Entries.ToList().ElementAtOrDefault((int)position - 1);
-        
-        
-        var seconds = (rank?.Bubbles ?? 0 - member.Bubbles) * 10;
-        var time = TimeSpan.FromSeconds(seconds);
-        
+        var dict = leaderboard.Entries.ToDictionary(pos => pos.Rank);
+        dict.TryGetValue((int)position, out var rank);
+
         var embed = new DiscordEmbedBuilder()
-            .WithPalantirPresets(context)
-            .WithTitle($"Time to become #{position}")
-            .WithDescription(@$"To reach #{position} ({rank?.Bubbles ?? 0} Bubbles) on the server leaderboard, you have to spend `{time.AsCountdownTimespan()}` on skribbl.");
+            .WithPalantirPresets(context);
+        
+        var seconds = ((rank?.Bubbles ?? 0) - member.Bubbles) * 10;
+        if (seconds > 0)
+        {
+            embed.WithTitle($"Time to become #{position}")
+                .WithDescription(@$"To reach #{position} ({rank?.Bubbles ?? 0} Bubbles) on the server leaderboard, you have to spend `{TimeSpan.FromSeconds(seconds).AsCountdownTimespan()}` on skribbl.");
+        }
+        else
+        {
+            embed.WithTitle($"Time ahead of #{position}")
+                .WithDescription(
+                    $"You are `{TimeSpan.FromSeconds(seconds * -1).AsCountdownTimespan()}` ahead of #{position} ({rank?.Bubbles ?? 0} Bubbles) on the server leaderboard.");
+        }
 
         await context.RespondAsync(embed);
     }
