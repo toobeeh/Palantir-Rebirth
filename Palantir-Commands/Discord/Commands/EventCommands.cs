@@ -122,7 +122,7 @@ public class EventCommands(
             .WithDescription(
                 $"From {Formatter.Timestamp(evt.StartDate.ToDateTimeOffset(), TimestampFormat.LongDate)} to {Formatter.Timestamp(evt.EndDate.ToDateTimeOffset(), TimestampFormat.LongDate)} ({evt.Length} days)\n" +
                 (evt.Progressive ? "This event is progressive. Event drops and sprites will reveal gradually!" : "") +
-                (giftLossRate.CollectedDrops > 0 ? $"Your current gift loss rate is `{giftLossRate.LossRateBase*100 :0.#}%` ({giftLossRate.CollectedDrops :0.#}/{giftLossRate.RequiredDrops} drops)\nTo gift event drops of this event, use `/event gift (amount) 22`\n" : "") +
+                (giftLossRate.CollectedDrops > 0 ? $"Your current gift loss rate is `{giftLossRate.LossRateBase*100 :0.#}%` ({giftLossRate.CollectedDrops :0.#}/{giftLossRate.RequiredDrops} drops)\nTo gift event drops, use `/event gift (@receiver)`\n" : "") +
                 $"\n```\n{evt.Description}```");
 
         try
@@ -152,9 +152,9 @@ public class EventCommands(
     }
     
     [Command("gift"), TextAlias("gf"), RequirePalantirMember(MemberFlagMessage.Beta)]
-    public async Task GiftEventDrops(CommandContext context, DiscordMember receiver, uint amount, uint eventId)
+    public async Task GiftEventDrops(CommandContext context, DiscordMember receiver)
     {
-        logger.LogTrace("GiftEventDrops(receiver={receiver}, amount={amount}, eventId={eventId})", receiver, amount, eventId);
+        logger.LogTrace("GiftEventDrops(receiver={receiver})", receiver);
         
         var member = memberContext.Member;
         MemberReply receiverMember;
@@ -181,58 +181,91 @@ public class EventCommands(
             return;
         }
 
-        if (amount < 1)
-        {
-            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context)
-                .WithAuthor("Gotcha >:(")
-                .WithTitle("Invalid gift amount")
-                .WithDescription($"The gift amount {amount} is invalid."));
-            return;
-        }
+        var events = await eventsClient.GetAllEvents(new Empty()).ToDictionaryAsync(e => e.Id);
+        var selectedEvent = events.MaxBy(kv => kv.Key).Value;
+        var credits = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = selectedEvent.Id}).ToDictionaryAsync(credit => credit.EventDropId);
+        var drops = await eventsClient.GetEventDropsOfEvent(new GetEventRequest { Id = selectedEvent.Id}).ToDictionaryAsync(drop => drop.Id);
+        var lossRate = await inventoryClient.GetGiftLossRateAsync(new GetGiftLossRateMessage { EventId = selectedEvent.Id, Login = member.Login });
+
         
-        var evt = await eventsClient.GetEventByIdAsync(new GetEventRequest { Id = (int)eventId });
-        var credits = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = evt.Id}).ToDictionaryAsync(credit => credit.EventDropId);
-        var drops = await eventsClient.GetEventDropsOfEvent(new GetEventRequest { Id = evt.Id}).ToDictionaryAsync(drop => drop.Id);
-        var lossRate = await inventoryClient.GetGiftLossRateAsync(new GetGiftLossRateMessage { EventId = evt.Id, Login = member.Login });
+        EventDropReply? selectedDrop = null;
+        var selectedAmount = 0;
 
-        var embed = new DiscordEmbedBuilder()
-            .WithPalantirPresets(context)
-            .WithAuthor($"Gift {amount} event drops")
-            .WithTitle($"{evt.Id.AsTypoId()} {evt.Name} Event")
-            .WithDescription(
-                $"Using gifts, you can transfer some of your event drops to a friend.\n" +
-                $"When you do that, Palantir will keep a small amount of the gift to prevent shady business.\n" +
-                $"Your current gift loss rate is `{lossRate.LossRateBase * 100 :0.#}%` ({lossRate.CollectedDrops :0.#}/{lossRate.RequiredDrops} drops)\n_ _\n" +
-                $"To send a gift, choose the event drop which you want to gift to {Formatter.Mention(receiver, true)}.");
-
-        var message = new DiscordMessageBuilder()
-            .AddEmbed(embed);
-
-        var rebuildComponents = (bool selectDisabled, bool buttonDisabled, int selectedDropId) =>
+        DiscordMessageBuilder BuildMessageFromState(bool disableAll = false)
         {
-            var dropOptions = drops.Values
-                .OrderByDescending(drop => drop.Id)
-                .Select(drop => new DiscordSelectComponentOption(drop.Name, drop.Id.ToString(),
-                    $"{credits[drop.Id].AvailableCredit} drops available", selectedDropId == drop.Id))
-                .ToList();
-            var select = new DiscordSelectComponent("dropId", "Choose an event drop", dropOptions, selectDisabled);
-            var confirm = new DiscordButtonComponent(ButtonStyle.Success, "confirm", "Send Gift", buttonDisabled, new DiscordComponentEmoji("🎁"));
+            var message = new DiscordMessageBuilder();
             
+            var dropSelectDisabled = false;
+            var amountSelectDisabled = false;
+            var buttonDisabled = false;
+            var embed = new DiscordEmbedBuilder().WithPalantirPresets(context)
+                .WithAuthor($"Gift {(selectedAmount == 0 ? "" : selectedAmount)} event drops")
+                .WithTitle($"{selectedEvent.Id.AsTypoId()} {selectedEvent.Name} Event")
+                .WithDescription($"Using gifts, you can transfer some of your event drops to a friend.\n" + $"When you do that, Palantir will keep a small amount of the gift to prevent shady business.\n" + $"Your current gift loss rate is `{lossRate.LossRateBase * 100:0.#}%` ({lossRate.CollectedDrops:0.#}/{lossRate.RequiredDrops} drops)\n_ _\n" + $"To send a gift, choose the event drop which you want to gift to {Formatter.Mention(receiver, true)}.");
+
+
+            if (selectedDrop is not null)
+            {
+                embed.AddField("Selected Drop", $"`💧` {selectedDrop.Name}\n`💰` {credits[selectedDrop.Id].AvailableCredit} drops available\n_ _\n_ _ ");
+
+                if (selectedAmount > 0)
+                {
+                    var validDrop = selectedAmount <= credits[selectedDrop.Id].AvailableCredit; 
+                    if (!validDrop)
+                    {
+                        buttonDisabled = true;
+                        embed.AddField("`⚠️` Not enough credit", $"You do not have enough credit to gift the selected amount ({selectedAmount}).\nChoose a lesser amount.");
+                    }
+                    else
+                    {
+                        embed.AddField("`✅` Confirm gift", $"You are about to gift {selectedAmount} drops.\n" +
+                                                           "Confirm the gift by clicking the button below.");
+                    } 
+                }
+            }
+
+            var dropOptions = drops.Values.OrderByDescending(drop => drop.Id)
+                .Select(drop => new DiscordSelectComponentOption(drop.Name, drop.Id.ToString(), $"{credits[drop.Id].AvailableCredit} drops available", selectedDrop?.Id == drop.Id))
+                .ToList();
+            
+            var eventOptions = events.Values.OrderByDescending(selectEvent => selectEvent.Id)
+                .Select(evt => new DiscordSelectComponentOption(evt.Name + " Event", evt.Id.ToString(), $" ", evt.Id == selectedEvent.Id))
+                .ToList();
+            
+            var creditOptions = Enumerable
+                .Repeat(1, selectedDrop is not null ? Math.Min(25, credits[selectedDrop.Id].AvailableCredit) : 0)
+                .Select((_, idx) =>
+                    new DiscordSelectComponentOption($"{idx + 1} Drops", (idx + 1).ToString(), $" ",
+                        selectedAmount == idx + 1))
+                .ToList();
+
+            if (creditOptions.Count == 0)
+            {
+                amountSelectDisabled = true;
+                creditOptions.Add(new DiscordSelectComponentOption($"- Drops", "value", $" ", false));
+            }
+            
+            var eventSelect = new DiscordSelectComponent("eventId", "Choose an event", eventOptions, disableAll);
+            var dropSelect = new DiscordSelectComponent("dropId", "Choose an event drop", dropOptions, disableAll || dropSelectDisabled);
+            var amountSelect = new DiscordSelectComponent("amount", "Choose the gift amount", creditOptions, disableAll || amountSelectDisabled || dropSelectDisabled || selectedDrop is null);
+            var confirm = new DiscordButtonComponent(ButtonStyle.Success, "confirm", "Send Gift", selectedAmount == 0 || disableAll || buttonDisabled, new DiscordComponentEmoji("🎁"));
+
             message.ClearEmbeds();
             message.AddEmbed(embed);
-            
-            message.ClearComponents();
-            message
-                .AddComponents(select)
-                .AddComponents(confirm);
-        };
-        
-        rebuildComponents(false, true, 0);
-        await context.RespondAsync(message);
-        var response = await context.GetResponseAsync() ?? throw new Exception("Could not retrieve response");
-        EventDropReply? selectedDrop = null;
 
-        var buttonInteractionHandler = new InteractivityHandler<bool>(
+            message.ClearComponents();
+            message.AddComponents(eventSelect)
+                .AddComponents(dropSelect)
+                .AddComponents(amountSelect)
+                .AddComponents(confirm);
+
+            return message;
+        }
+
+        await context.RespondAsync(BuildMessageFromState());
+        var response = await context.GetResponseAsync() ?? throw new Exception("Could not retrieve response");
+
+        var confirmInteractionHandler = new InteractivityHandler<bool>(
             async interactivity => await interactivity.WaitForButtonAsync(response, context.User),
             async result =>
             {
@@ -242,7 +275,7 @@ public class EventCommands(
                 {
                     SenderLogin = member.Login,
                     RecipientLogin = receiverMember.Login,
-                    Amount = (int)amount,
+                    Amount = selectedAmount,
                     EventDropId = selectedDrop.Id
                 });
 
@@ -260,29 +293,45 @@ public class EventCommands(
             false
         );
 
-        var selectInteractionHandler = new InteractivityHandler<bool>(
+        var dropSelectInteractionHandler = new InteractivityHandler<bool>(
             async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "dropId"),
             async result =>
             {
                 await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
-                embed.ClearFields();
-
                 selectedDrop = drops[Convert.ToInt32(result.Result.Values.First())];
-                embed.AddField("Selected Drop", $"`💧` {selectedDrop.Name}\n`💰` {credits[selectedDrop.Id].AvailableCredit} drops available\n_ _\n_ _ ");
-
-                var validDrop = amount <= credits[selectedDrop.Id].AvailableCredit; 
-                if (!validDrop)
-                {
-                    embed.AddField("`⚠️` Not enough credit", $"You do not have enough credit to gift the selected amount ({amount}).\nRe-run the command with a lesser amount.");
-                }
-                else
-                {
-                    embed.AddField("`✅` Confirm gift", $"You are about to gift {amount} drops.\n" +
-                                                       "Confirm the gift by clicking the button below.");
-                }
-
-                rebuildComponents(false, !validDrop, selectedDrop.Id);
-                await response.ModifyAsync(message);
+                
+                await response.ModifyAsync(BuildMessageFromState());
+                return true;
+            },
+            false
+        );
+        
+        var eventSelectInteractionHandler = new InteractivityHandler<bool>(
+            async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "eventId"),
+            async result =>
+            {
+                await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+                selectedEvent = events[Convert.ToInt32(result.Result.Values.First())];
+                credits = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = selectedEvent.Id}).ToDictionaryAsync(credit => credit.EventDropId);
+                drops = await eventsClient.GetEventDropsOfEvent(new GetEventRequest { Id = selectedEvent.Id}).ToDictionaryAsync(drop => drop.Id);
+                lossRate = await inventoryClient.GetGiftLossRateAsync(new GetGiftLossRateMessage { EventId = selectedEvent.Id, Login = member.Login });
+                selectedDrop = null;
+                selectedAmount = 0;
+                
+                await response.ModifyAsync(BuildMessageFromState());
+                return true;
+            },
+            false
+        );
+        
+        var amountSelectInteractionHandler = new InteractivityHandler<bool>(
+            async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "amount"),
+            async result =>
+            {
+                await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+                selectedAmount = Convert.ToInt32(result.Result.Values.First());
+                
+                await response.ModifyAsync(BuildMessageFromState());
                 return true;
             },
             false
@@ -290,17 +339,175 @@ public class EventCommands(
 
         while (true)
         {
-            var continueInteractions = await context.Client.GetInteractivity().HandleNextInteraction([buttonInteractionHandler, selectInteractionHandler]);
+            var continueInteractions = await context.Client.GetInteractivity().HandleNextInteraction(
+                [confirmInteractionHandler, dropSelectInteractionHandler, eventSelectInteractionHandler, amountSelectInteractionHandler]);
             if (!continueInteractions) break;
         }
 
-        rebuildComponents(true, true, selectedDrop?.Id ?? 0);
-        await response.ModifyAsync(message);
+        await response.ModifyAsync(BuildMessageFromState(true));
     }
     
     [Command("redeem"), TextAlias("rd"), RequirePalantirMember(MemberFlagMessage.Beta)]
-    public async Task RedeemLeagueEventDrops(CommandContext context, uint amount, int eventSprite)
+    public async Task RedeemLeagueEventDrops(CommandContext context)
     {
-        throw new NotImplementedException();
+        logger.LogTrace("RedeemLeagueEventDrops()");
+        
+        var member = memberContext.Member;
+        
+        var events = await eventsClient.GetAllEvents(new Empty()).ToDictionaryAsync(e => e.Id);
+        var selectedEvent = events.MaxBy(kv => kv.Key).Value;
+        var credits = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = selectedEvent.Id}).ToDictionaryAsync(credit => credit.EventDropId);
+        var drops = await eventsClient.GetEventDropsOfEvent(new GetEventRequest { Id = selectedEvent.Id}).ToDictionaryAsync(drop => drop.Id);
+        
+        EventDropReply? selectedDrop = null;
+        var selectedAmount = 0;
+
+        DiscordMessageBuilder BuildMessageFromState(bool disableAll = false)
+        {
+            var message = new DiscordMessageBuilder();
+            
+            var dropSelectDisabled = false;
+            var amountSelectDisabled = false;
+            var buttonDisabled = false;
+            var embed = new DiscordEmbedBuilder().WithPalantirPresets(context)
+                .WithAuthor($"Redeem {(selectedAmount == 0 ? "" : selectedAmount)} league drops")
+                .WithTitle($"{selectedEvent.Id.AsTypoId()} {selectedEvent.Name} Event")
+                .WithDescription($"When you catch league drops during an event, you can redeem them for an event drop of your choice.");
+            
+            if (selectedDrop is not null)
+            {
+                embed.AddField("Selected Drop", $"`💧` {selectedDrop.Name}\n`💰` {credits[selectedDrop.Id].RedeemableAmount :0.#} drops redeemable\n_ _\n_ _ ");
+
+                if (selectedAmount > 0)
+                {
+                    var validDrop = selectedAmount <= credits[selectedDrop.Id].RedeemableAmount; 
+                    if (!validDrop)
+                    {
+                        buttonDisabled = true;
+                        embed.AddField("`⚠️` Not enough credit", $"You do not have enough credit to redeem the selected amount ({selectedAmount}).\nChoose a lesser amount.");
+                    }
+                    else
+                    {
+                        embed.AddField("`✅` Confirm redeem", $"You are about to redeem {selectedAmount} drops.\n" +
+                                                           "Confirm tby clicking the button below.");
+                    } 
+                }
+            }
+
+            var dropOptions = drops.Values.OrderByDescending(drop => drop.Id)
+                .Select(drop => new DiscordSelectComponentOption(drop.Name, drop.Id.ToString(), $"{credits[drop.Id].RedeemableAmount :0.#} drops available", selectedDrop?.Id == drop.Id))
+                .ToList();
+            
+            var eventOptions = events.Values.OrderByDescending(selectEvent => selectEvent.Id)
+                .Select(evt => new DiscordSelectComponentOption(evt.Name + " Event", evt.Id.ToString(), $" ", evt.Id == selectedEvent.Id))
+                .ToList();
+            
+            var creditOptions = Enumerable
+                .Repeat(1, selectedDrop is not null ? Math.Min(25, (int)Math.Floor(credits[selectedDrop.Id].RedeemableAmount)) : 0)
+                .Select((_, idx) =>
+                    new DiscordSelectComponentOption($"{idx + 1} Drops", (idx + 1).ToString(), $" ",
+                        selectedAmount == idx + 1))
+                .ToList();
+
+            if (creditOptions.Count == 0)
+            {
+                amountSelectDisabled = true;
+                creditOptions.Add(new DiscordSelectComponentOption($"- Drops", "value", $" ", false));
+            }
+            
+            var eventSelect = new DiscordSelectComponent("eventId", "Choose an event", eventOptions, disableAll);
+            var dropSelect = new DiscordSelectComponent("dropId", "Choose an event drop", dropOptions, disableAll || dropSelectDisabled);
+            var amountSelect = new DiscordSelectComponent("amount", "Choose the drop amount", creditOptions, disableAll || amountSelectDisabled || dropSelectDisabled || selectedDrop is null);
+            var confirm = new DiscordButtonComponent(ButtonStyle.Success, "confirm", "Redeem", selectedAmount == 0 || disableAll || buttonDisabled, new DiscordComponentEmoji("♻️"));
+
+            message.ClearEmbeds();
+            message.AddEmbed(embed);
+
+            message.ClearComponents();
+            message.AddComponents(eventSelect)
+                .AddComponents(dropSelect)
+                .AddComponents(amountSelect)
+                .AddComponents(confirm);
+
+            return message;
+        }
+
+        await context.RespondAsync(BuildMessageFromState());
+        var response = await context.GetResponseAsync() ?? throw new Exception("Could not retrieve response");
+
+        var confirmInteractionHandler = new InteractivityHandler<bool>(
+            async interactivity => await interactivity.WaitForButtonAsync(response, context.User),
+            async result =>
+            {
+                if (selectedDrop == null) throw new Exception("No drop selected.");
+
+                await inventoryClient.RedeemLeagueEventDropAsync(new RedeemLeagueEventDropMessage
+                    { Login = member.Login, EventDropId = selectedDrop.Id, Amount = selectedAmount });
+
+                await result.Result.Interaction.CreateResponseAsync(
+                    InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
+                        .AddEmbed(new DiscordEmbedBuilder()
+                            .WithPalantirPresets(context)
+                            .WithTitle("`🎉` Drops redeemed")
+                            .WithDescription(
+                                $"You have redeemed {selectedAmount} {selectedDrop.Name} drops!\n" +
+                                $"View your updated credit in `/event view {selectedEvent.Id}`")));
+
+                return false;
+            },
+            false
+        );
+
+        var dropSelectInteractionHandler = new InteractivityHandler<bool>(
+            async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "dropId"),
+            async result =>
+            {
+                await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+                selectedDrop = drops[Convert.ToInt32(result.Result.Values.First())];
+                
+                await response.ModifyAsync(BuildMessageFromState());
+                return true;
+            },
+            false
+        );
+        
+        var eventSelectInteractionHandler = new InteractivityHandler<bool>(
+            async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "eventId"),
+            async result =>
+            {
+                await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+                selectedEvent = events[Convert.ToInt32(result.Result.Values.First())];
+                credits = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = selectedEvent.Id}).ToDictionaryAsync(credit => credit.EventDropId);
+                drops = await eventsClient.GetEventDropsOfEvent(new GetEventRequest { Id = selectedEvent.Id}).ToDictionaryAsync(drop => drop.Id);
+                selectedDrop = null;
+                selectedAmount = 0;
+                
+                await response.ModifyAsync(BuildMessageFromState());
+                return true;
+            },
+            false
+        );
+        
+        var amountSelectInteractionHandler = new InteractivityHandler<bool>(
+            async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "amount"),
+            async result =>
+            {
+                await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+                selectedAmount = Convert.ToInt32(result.Result.Values.First());
+                
+                await response.ModifyAsync(BuildMessageFromState());
+                return true;
+            },
+            false
+        );
+
+        while (true)
+        {
+            var continueInteractions = await context.Client.GetInteractivity().HandleNextInteraction(
+                [confirmInteractionHandler, dropSelectInteractionHandler, eventSelectInteractionHandler, amountSelectInteractionHandler]);
+            if (!continueInteractions) break;
+        }
+
+        await response.ModifyAsync(BuildMessageFromState(true));
     }
 }
