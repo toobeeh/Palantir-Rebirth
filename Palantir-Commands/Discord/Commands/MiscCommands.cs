@@ -117,9 +117,9 @@ public class MiscCommands(
         var boostAvailable = splitInv.CanStartBoost;
         var packAvailable = member.NextAwardPackDate.ToDateTimeOffset() < DateTimeOffset.UtcNow;
         var boostText = boostAvailable ? "Dropboost available!" : 
-            $@"Next boost in {(DateTimeOffset.UtcNow - splitInv.ActiveDropboosts.Select(boost => boost.CooldownEndDate).Order().First().ToDateTimeOffset()) :d\d\h\m} days";
+            $@"Next boost in {(DateTimeOffset.UtcNow - splitInv.ActiveDropboosts.Select(boost => boost.CooldownEndDate).Order().First().ToDateTimeOffset()).AsCountdownTimespan()}";
         var awardPackText = packAvailable ? "Award pack available!" : 
-            $@"Next pack in {(member.NextAwardPackDate.ToDateTimeOffset() - DateTimeOffset.UtcNow) :d\d\h\m} days";
+            $@"Next pack in {(member.NextAwardPackDate.ToDateTimeOffset() - DateTimeOffset.UtcNow).AsCountdownTimespan()}";
         embed.AddField("Recent Activity", $"```md\n{(packAvailable ? ">" : "-")} {awardPackText}\n{(boostAvailable ? ">" : "-")} {boostText}\n- {awardPackInfo.CollectedBubbles} bubbles / last week```");
 
         await context.RespondAsync(embed);

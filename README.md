@@ -52,7 +52,7 @@ Checklist for implementation:
 - [x] `>event (id)` / `>event view (id)` - View an event
 - [x] `>event list` - Show all events
 - [x] `>event gift [user] [amount] [eventId]` - Gift a user event drops of an event
-- [ ] `>event redeem [amount] [sprite]` - Redeem event league credit for a sprite's event drop
+- [ ] ~~`>event redeem [amount] [sprite]` - Redeem event league credit for a sprite's event drop~~ Removed
 
 Needed grpc services:
 - getEvent(id:int) - event details
@@ -91,7 +91,7 @@ Needed grpc services:
 ### Misc
 - [ ] `>help (command)` - Show the help
 - [ ] `>about` - Show some infos/stats
-- [ ] `>calc [mode] [amount]` - Calculate the time to reach a goal
+- [x] `>calc [rank/bubbles] [amount]` - Calculate the time to reach a goal
 - [x] `>leaderboard (bubbles / drops)` - View the server leaderboard of bubbles or drops
 - [x] `>stat (day/week/month)` - View the bubble stat graph for month/week/day
 - [x] `>inventory` - View the inventory of the user (no sprites/list) with stats of drops, bubbles, flags, current combo, patronemoji, splits

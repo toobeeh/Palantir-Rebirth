@@ -80,6 +80,7 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         commands.AddCommands(typeof(OutfitCommands));
         commands.AddCommands(typeof(AwardCommands));
         commands.AddCommands(typeof(EventCommands));
+        commands.AddCommands(typeof(CalcCommands));
         commands.AddCommands([typeof(MiscCommands)]);
         
         await _client.ConnectAsync();
