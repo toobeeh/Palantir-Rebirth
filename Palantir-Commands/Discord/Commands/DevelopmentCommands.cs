@@ -1,5 +1,4 @@
 using DSharpPlus.Commands;
-using DSharpPlus.Commands.Trees.Attributes;
 using Palantir_Commands.Discord.Checks;
 using tobeh.Valmar;
 

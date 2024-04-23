@@ -8,6 +8,10 @@ Palantir-Rebirth follows the new separation of business+data from application la
 
 The components are split to Core, Commands and Lobbies modules.
 
+## gRPC Clients
+GRPC clients for Valmar and ImageGen are installed from their NuGet packages.  
+For local development, the packages can be switched to a local version in the csproj files.
+
 ## Core
 Core contains features that are vital for the complete typo ecosystem, like dispatching drops, cleaning database, fetching patrons, and everything that happens on a scheduled basis.  
 Core should not be replicated; can be considered rather as a client and performs non-cpu-heavy things.

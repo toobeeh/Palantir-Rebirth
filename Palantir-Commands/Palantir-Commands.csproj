@@ -11,9 +11,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02194" />
-      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02194" />
-      <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02169" />
+      <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02213" />
+      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02213" />
+      <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02213" />
       <PackageReference Include="Google.Protobuf" Version="3.26.0" />
       <PackageReference Include="Grpc.AspNetCore" Version="2.62.0-pre1" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.2.24128.5" />

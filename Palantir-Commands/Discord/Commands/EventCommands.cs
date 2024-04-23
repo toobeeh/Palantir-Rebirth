@@ -1,7 +1,6 @@
 using DSharpPlus;
 using DSharpPlus.Commands;
-using DSharpPlus.Commands.Processors.TextCommands.Attributes;
-using DSharpPlus.Commands.Trees.Attributes;
+using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
 using Google.Protobuf.WellKnownTypes;
@@ -246,7 +245,7 @@ public class EventCommands(
             var eventSelect = new DiscordSelectComponent("eventId", "Choose an event", eventOptions, disableAll);
             var dropSelect = new DiscordSelectComponent("dropId", "Choose an event drop", dropOptions, disableAll || dropSelectDisabled);
             var amountSelect = new DiscordSelectComponent("amount", "Choose the gift amount", creditOptions, disableAll || amountSelectDisabled || dropSelectDisabled || selectedDrop is null);
-            var confirm = new DiscordButtonComponent(ButtonStyle.Success, "confirm", "Send Gift", selectedAmount == 0 || disableAll || buttonDisabled, new DiscordComponentEmoji("🎁"));
+            var confirm = new DiscordButtonComponent(DiscordButtonStyle.Success, "confirm", "Send Gift", selectedAmount == 0 || disableAll || buttonDisabled, new DiscordComponentEmoji("🎁"));
 
             message.ClearEmbeds();
             message.AddEmbed(embed);
@@ -278,7 +277,7 @@ public class EventCommands(
                 });
 
                 await result.Result.Interaction.CreateResponseAsync(
-                    InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
+                    DiscordInteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
                         .AddEmbed(new DiscordEmbedBuilder()
                             .WithPalantirPresets(context)
                             .WithTitle("`🎉` Gift sent")
@@ -295,7 +294,7 @@ public class EventCommands(
             async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "dropId"),
             async result =>
             {
-                await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+                await result.Result.Interaction.CreateResponseAsync(DiscordInteractionResponseType.UpdateMessage);
                 selectedDrop = drops[Convert.ToInt32(result.Result.Values.First())];
                 
                 await response.ModifyAsync(BuildMessageFromState());
@@ -308,7 +307,7 @@ public class EventCommands(
             async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "eventId"),
             async result =>
             {
-                await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+                await result.Result.Interaction.CreateResponseAsync(DiscordInteractionResponseType.UpdateMessage);
                 selectedEvent = events[Convert.ToInt32(result.Result.Values.First())];
                 credits = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = selectedEvent.Id}).ToDictionaryAsync(credit => credit.EventDropId);
                 drops = await eventsClient.GetEventDropsOfEvent(new GetEventRequest { Id = selectedEvent.Id}).ToDictionaryAsync(drop => drop.Id);
@@ -326,7 +325,7 @@ public class EventCommands(
             async interactivity => await interactivity.WaitForSelectAsync(response, context.User, "amount"),
             async result =>
             {
-                await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+                await result.Result.Interaction.CreateResponseAsync(DiscordInteractionResponseType.UpdateMessage);
                 selectedAmount = Convert.ToInt32(result.Result.Values.First());
                 
                 await response.ModifyAsync(BuildMessageFromState());

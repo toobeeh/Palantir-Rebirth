@@ -1,7 +1,6 @@
 using DSharpPlus;
 using DSharpPlus.Commands;
-using DSharpPlus.Commands.Processors.TextCommands.Attributes;
-using DSharpPlus.Commands.Trees.Attributes;
+using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
 using Google.Protobuf.WellKnownTypes;
@@ -121,7 +120,7 @@ public class AwardCommands(
         }
 
         var message = new DiscordMessageBuilder().AddEmbed(embed);
-        var openBtn = new DiscordButtonComponent(ButtonStyle.Primary, "open", "Open Award Pack", false, new DiscordComponentEmoji("✨"));
+        var openBtn = new DiscordButtonComponent(DiscordButtonStyle.Primary, "open", "Open Award Pack", false, new DiscordComponentEmoji("✨"));
         message.AddComponents(openBtn);
         
         await context.RespondAsync(message);
@@ -135,7 +134,7 @@ public class AwardCommands(
         var result = await context.Client.GetInteractivity().WaitForButtonAsync(sent, context.User, TimeSpan.FromMinutes(1));
         if (!result.TimedOut)
         {
-            await result.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+            await result.Result.Interaction.CreateResponseAsync(DiscordInteractionResponseType.UpdateMessage);
             var newAwards = await inventoryClient.OpenAwardPackAsync(new OpenAwardPackMessage { Login = member.Login });
 
             var response = new DiscordFollowupMessageBuilder();

@@ -1,7 +1,6 @@
 using DSharpPlus;
 using DSharpPlus.Commands;
-using DSharpPlus.Commands.Processors.TextCommands.Attributes;
-using DSharpPlus.Commands.Trees.Attributes;
+using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
 using Google.Protobuf.WellKnownTypes;
@@ -292,21 +291,21 @@ public class SplitCommands(
         {
             messageBuilder.ClearComponents();
 
-            var minusFactor = new DiscordButtonComponent(ButtonStyle.Secondary, "-fac", "-", disable);
-            var plusFactor = new DiscordButtonComponent(ButtonStyle.Secondary, "+fac", "+", disable);
-            var labelFactor = new DiscordButtonComponent(ButtonStyle.Primary, "fac", 
+            var minusFactor = new DiscordButtonComponent(DiscordButtonStyle.Secondary, "-fac", "-", disable);
+            var plusFactor = new DiscordButtonComponent(DiscordButtonStyle.Secondary, "+fac", "+", disable);
+            var labelFactor = new DiscordButtonComponent(DiscordButtonStyle.Primary, "fac", 
                 $"Boost Factor: {factorSplits} Splits (+{splitsPrices.DefaultFactor + factorSplits/splitsPrices.FactorSplitCost * splitsPrices.FactorIncrease :0.#}x)", true);
 
-            var minusDur = new DiscordButtonComponent(ButtonStyle.Secondary, "-dur", "-", disable);
-            var plusDur = new DiscordButtonComponent(ButtonStyle.Secondary, "+dur", "+", disable);
-            var labelDur = new DiscordButtonComponent(ButtonStyle.Primary, "dur", 
+            var minusDur = new DiscordButtonComponent(DiscordButtonStyle.Secondary, "-dur", "-", disable);
+            var plusDur = new DiscordButtonComponent(DiscordButtonStyle.Secondary, "+dur", "+", disable);
+            var labelDur = new DiscordButtonComponent(DiscordButtonStyle.Primary, "dur", 
                 $"Boost Duration: {durationSplits} Splits (+{splitsPrices.DefaultDurationMinutes + durationSplits/splitsPrices.DurationSplitCost * splitsPrices.DurationIncreaseMinutes :0.#}min)", true);
 
-            var minusCool = new DiscordButtonComponent(ButtonStyle.Secondary, "-cool", "-", disable);
-            var plusCool = new DiscordButtonComponent(ButtonStyle.Secondary, "+cool", "+", disable);
-            var labelCool = new DiscordButtonComponent(ButtonStyle.Primary, "cool", 
+            var minusCool = new DiscordButtonComponent(DiscordButtonStyle.Secondary, "-cool", "-", disable);
+            var plusCool = new DiscordButtonComponent(DiscordButtonStyle.Secondary, "+cool", "+", disable);
+            var labelCool = new DiscordButtonComponent(DiscordButtonStyle.Primary, "cool", 
                 $"Boost Cooldown: {cooldownSplits} Splits (-{splitsPrices.DefaultCooldownHours + cooldownSplits/splitsPrices.CooldownSplitCost * splitsPrices.CooldownIncreaseHours :0}h)", true);
-            var start = new DiscordButtonComponent(ButtonStyle.Success, "start", submitText + " (" + (cooldownSplits + durationSplits + factorSplits) + "/" + availableSplits.AvailableSplits + " Splits selected)", disable);
+            var start = new DiscordButtonComponent(DiscordButtonStyle.Success, "start", submitText + " (" + (cooldownSplits + durationSplits + factorSplits) + "/" + availableSplits.AvailableSplits + " Splits selected)", disable);
             
             messageBuilder
                 .AddComponents(minusFactor, labelFactor, plusFactor)
@@ -358,7 +357,7 @@ public class SplitCommands(
          var buttonEvent = await interactivity.WaitForButtonAsync(response, context.User, TimeSpan.FromMinutes(1));
          while(!buttonEvent.TimedOut)
          {
-             await buttonEvent.Result.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage);
+             await buttonEvent.Result.Interaction.CreateResponseAsync(DiscordInteractionResponseType.UpdateMessage);
              var buttonId = buttonEvent.Result.Id;
 
              if (buttonId == "start")

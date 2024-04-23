@@ -1,6 +1,5 @@
 using DSharpPlus.Commands;
-using DSharpPlus.Commands.Processors.TextCommands.Attributes;
-using DSharpPlus.Commands.Trees.Attributes;
+using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;

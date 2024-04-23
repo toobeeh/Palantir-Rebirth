@@ -26,5 +26,5 @@ public class LeaderboardModeArgumentConverter : ITextArgumentConverter<Leaderboa
     }
 
     public bool RequiresText { get; init; }
-    public ApplicationCommandOptionType ParameterType { get; init; }
+    public DiscordApplicationCommandOptionType ParameterType { get; init; }
 }

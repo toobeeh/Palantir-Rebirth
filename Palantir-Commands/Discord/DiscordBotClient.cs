@@ -49,7 +49,7 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         // create argument converters
         var dropboostStartModeArgumentConverter = new DropboostStartModeArgumentConverter
         {
-            ParameterType = ApplicationCommandOptionType.String
+            ParameterType = DiscordApplicationCommandOptionType.String
         };
 
         // create text processor
