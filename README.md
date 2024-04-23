@@ -11,6 +11,8 @@ The components are split to Core, Commands and Lobbies modules.
 ## gRPC Clients
 GRPC clients for Valmar and ImageGen are installed from their NuGet packages.  
 For local development, the packages can be switched to a local version in the csproj files.
+When pushing to the repository, the packages should be switched back to the NuGet version.
+This is especially important to ensure nuget has the latest version of the packages.
 
 ## Core
 Core contains features that are vital for the complete typo ecosystem, like dispatching drops, cleaning database, fetching patrons, and everything that happens on a scheduled basis.  
