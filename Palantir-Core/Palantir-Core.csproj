@@ -6,7 +6,7 @@
         <RootNamespace>Palantir_Core</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <LocalValmarSource>C:\Users\tobeh\repos\Valmar\tobeh.Valmar.Client\tobeh.Valmar.Client.csproj</LocalValmarSource>
+        <!--<LocalValmarSource>C:\Users\tobeh\repos\Valmar\tobeh.Valmar.Client\tobeh.Valmar.Client.csproj</LocalValmarSource>-->
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,10 +27,10 @@
 
     <!-- toggle between local and nuget valmar client -->
     <ItemGroup Condition=" '$(LocalValmarSource)' != '' ">
-        <ProjectReference Include="$(LocalValmarSource)" Version="0.1.1713826088" />
+        <ProjectReference Include="$(LocalValmarSource)" />
     </ItemGroup>
     <ItemGroup Condition=" '$(LocalValmarSource)' == '' ">
-        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1713826088" />
+        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1713834930" />
     </ItemGroup>
 
     <ItemGroup>
