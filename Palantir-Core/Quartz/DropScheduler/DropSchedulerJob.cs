@@ -1,11 +1,8 @@
-using System.Collections.Concurrent;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using Palantir_Core.Discord;
-using Palantir_Core.Patreon;
 using Quartz;
-using Valmar;
+using tobeh.Valmar;
 
 namespace Palantir_Core.Quartz.DropScheduler;
 

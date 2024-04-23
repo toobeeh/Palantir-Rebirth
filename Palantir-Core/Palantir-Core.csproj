@@ -6,6 +6,7 @@
         <RootNamespace>Palantir_Core</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LocalValmarSource>C:\Users\tobeh\repos\Valmar\tobeh.Valmar.Client\tobeh.Valmar.Client.csproj</LocalValmarSource>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,6 +25,14 @@
       <PackageReference Include="System.Net.Http" Version="4.3.4" />
     </ItemGroup>
 
+    <!-- toggle between local and nuget valmar client -->
+    <ItemGroup Condition=" '$(LocalValmarSource)' != '' ">
+        <ProjectReference Include="$(LocalValmarSource)" Version="0.1.1713826088" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(LocalValmarSource)' == '' ">
+        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1713826088" />
+    </ItemGroup>
+
     <ItemGroup>
         <Content Include=".docker\docker-compose.yml" />
         <Content Include=".docker\Dockerfile" />
@@ -31,10 +40,6 @@
         <Content Include="Configuration\*.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Valmar-Client\Valmar-Client.csproj" />
     </ItemGroup>
 
 </Project>

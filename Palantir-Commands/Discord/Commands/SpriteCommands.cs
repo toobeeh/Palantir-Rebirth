@@ -2,17 +2,15 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands.Attributes;
 using DSharpPlus.Commands.Trees.Attributes;
 using DSharpPlus.Entities;
-using DSharpPlus.Interactivity.Extensions;
 using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MoreLinq;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
-using Valmar;
-using Valmar_Client.Grpc;
+using tobeh.TypoImageGen;
+using tobeh.Valmar;
+using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
@@ -23,6 +21,7 @@ public class SpriteCommands(
     MemberContext memberContext,
     Sprites.SpritesClient spritesClient, 
     Inventory.InventoryClient inventoryClient,
+    ImageGenerator.ImageGeneratorClient imageGeneratorClient,
     Events.EventsClient eventsClient)
 {
     
@@ -59,7 +58,7 @@ public class SpriteCommands(
         
         // batch sprites to 45 per page
         const int batchSize = 45;
-        var pages = inventory.Batch(batchSize).Select((batch, idx) => new
+        var pages = MoreEnumerable.Batch(inventory, batchSize).Select((batch, idx) => new
         {
             Page = idx + 1,
             Sprites = batch.Select(slot => slot.SpriteId)
@@ -82,7 +81,7 @@ public class SpriteCommands(
                                                 "Use `/sprite color (id) (color)` to colorize a rainbow sprite");
             }
             
-            foreach (var fieldBatch in page.Sprites.Batch(5))
+            foreach (var fieldBatch in MoreEnumerable.Batch(page.Sprites, 5))
             {
                 var fieldSprites = sprites.Where(sprite => fieldBatch.Contains(sprite.Id));
                 embed.AddField("_ _", string.Join("\n", fieldSprites.Select(sprite => $"`{sprite.Id.AsTypoId()}`{(sprite.IsRainbow ? " `🌈`" : "")}{(sprite.IsSpecial ? " `✨`" : "")} {sprite.Name}")), true);
@@ -314,12 +313,13 @@ public class SpriteCommands(
     [Command("combo")]
     [TextAlias("cb")]
     [RequirePalantirMember(MemberFlagMessage.Beta)]
-    public async Task UseCombo(CommandContext context, params int[]? combo)
+    public async Task UseCombo(CommandContext context, params int[]? combo) // TODO fix slash command type
     {
         logger.LogTrace("UseCombo(context, {combo})", combo);
 
         var member = memberContext.Member;
         var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
+        var allSprites = await spritesClient.GetAllSprites(new Empty()).ToDictionaryAsync(sprite => sprite.Id);
         
         // check if the user owns all sprites
         if(combo is not null && combo.Any(id => id > 0 && inventory.All(invSlot => invSlot.SpriteId != id)))
@@ -347,17 +347,33 @@ public class SpriteCommands(
             Combo = { combo is null ? [] : combo.Select((id, idx) => new SpriteSlotConfigurationRequest { SpriteId = id, SlotId = idx + 1}) },
             Login = member.Login
         });
-        
+
+        var messageBuilder = new DiscordMessageBuilder();
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor(combo?.Length == 0 ? "You cleared your sprite combo." : "You activated a sprite combo!")
             .WithTitle(combo?.Length == 0 ? "Such empty 💨" : $"{combo?.Length ?? 0} Sprites selected")
-            .WithImageUrl(""); // TODO generate combo image
-        
-        embedBuilder.WithDescription($"This sprite combo will now be displayed on your skribbl avatar.\n" +
+            .WithDescription($"This sprite combo will now be displayed on your skribbl avatar.\n" +
                                      $"To clear the combo, use the command `/sprite combo 0`.");
         
-        await context.RespondAsync(embedBuilder.Build());
+        if (combo is not null)
+        {
+            var comboUrls = combo?.Select(id => allSprites[id].Url);
+            var imageChunks = await imageGeneratorClient.GenerateComboFromUrls(new GenerateComboFromUrlsMessage
+                { SourceUrls = { comboUrls } }).ToListAsync();
+        
+            var bytes = imageChunks
+                .OrderBy(chunk => chunk.ChunkIndex)
+                .SelectMany(chunk => chunk.Chunk.ToByteArray())
+                .ToArray();
+
+            var name = $"{imageChunks.First().Name}.{imageChunks.First().FileType}"; 
+            messageBuilder.AddFile(name, new MemoryStream(bytes));
+            embedBuilder.WithImageUrl($"attachment://{name}");
+        }
+        
+        messageBuilder.AddEmbed(embedBuilder);
+        await context.RespondAsync(messageBuilder);
     }
     
     /// <summary>

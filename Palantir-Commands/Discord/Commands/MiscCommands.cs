@@ -10,8 +10,8 @@ using MoreLinq;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
-using Valmar;
-using Valmar_Client.Grpc;
+using tobeh.Valmar;
+using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 

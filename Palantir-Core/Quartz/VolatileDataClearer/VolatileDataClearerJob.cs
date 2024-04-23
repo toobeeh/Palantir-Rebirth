@@ -1,7 +1,7 @@
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using Valmar;
+using tobeh.Valmar;
 
 namespace Palantir_Core.Quartz.VolatileDataClearer;
 

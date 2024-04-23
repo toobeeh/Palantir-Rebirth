@@ -1,13 +1,12 @@
 ﻿using System.Globalization;
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Palantir_Commands.Discord;
 using Palantir_Commands.Services;
-using Valmar;
-using Valmar_Client.Grpc;
+using tobeh.TypoImageGen.Client.Util;
+using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands;
 
@@ -41,7 +40,8 @@ class Program
         var configuration = configBuilder.Build();
         
         builder.Services
-            .AddGrpcClients(Assembly.Load("Valmar-Client"), configuration.GetValue<string>("Grpc:Address"))
+            .AddTypoImageGeneratorGrpc(configuration.GetValue<string>("Grpc:ImageGenAddress"))
+            .AddValmarGrpc(configuration.GetValue<string>("Grpc:ValmarAddress"))
             .AddLogging(builder => builder
                 .AddConfiguration(configuration.GetSection("Logging"))
                 .AddConsole())

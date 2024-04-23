@@ -11,7 +11,7 @@ using Palantir_Core.Quartz.FlagUpdater;
 using Palantir_Core.Quartz.OnlineItemsUpdater;
 using Palantir_Core.Quartz.VolatileDataClearer;
 using Quartz;
-using Valmar_Client.Grpc;
+using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Core;
 
@@ -46,7 +46,7 @@ class Program
         var configuration = builder.Build();
         
         return new ServiceCollection()
-            .AddGrpcClients(Assembly.Load("Valmar-Client"), configuration.GetValue<string>("Grpc:Address"))
+            .AddValmarGrpc(configuration.GetValue<string>("Grpc:Address"))
             .AddSingleton<PatreonApiClient>()
             .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
             .AddSingleton<DiscordApiClient>()

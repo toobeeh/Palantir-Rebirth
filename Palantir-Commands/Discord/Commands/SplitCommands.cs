@@ -11,8 +11,8 @@ using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Converters;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
-using Valmar;
-using Valmar_Client.Grpc;
+using tobeh.Valmar;
+using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
@@ -69,7 +69,7 @@ public class SplitCommands(
                 .WithPalantirPresets(context)
                 .WithDescription(
                     "Splits are rewards which you can obtain by participating in leagues or special occasions.\n" +
-                    $"You can use splits to boost the droprate on skribbl using the `/dropboost` command.")
+                    $"You can use splits to boost the droprate on skribbl using the `/boost start` command.")
                 .WithTitle("Split Achievement Inventory");
 
             if (page.Page == 1 && page.Splits.Length == 0)
@@ -250,7 +250,7 @@ public class SplitCommands(
             
             await context.RespondAsync(new DiscordEmbedBuilder()
                 .WithPalantirErrorPresets(context, $"Cannot {(boostModify is null ? "start" : "upgrade")} dropboost", 
-                    $"You have used up all your splits.\nYou can ${(boostModify is null ? "start" : "upgrade")} your next boost with {nextCooldown.Value} splits at {Formatter.Timestamp(nextCooldown.CooldownEndDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}."));
+                    $"You have used up all your splits.\nYou can {(boostModify is null ? "start" : "upgrade")} your next boost with {nextCooldown.Value} splits at {Formatter.Timestamp(nextCooldown.CooldownEndDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}."));
             return;
         }
         

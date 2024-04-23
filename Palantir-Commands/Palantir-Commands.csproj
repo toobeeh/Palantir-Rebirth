@@ -6,6 +6,8 @@
         <RootNamespace>Palantir_Commands</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LocalImageGenSource>C:\Users\tobeh\repos\TypoImageGen\tobeh.TypoImageGen.Client\tobeh.TypoImageGen.Client.csproj</LocalImageGenSource>
+        <LocalValmarSource>C:\Users\tobeh\repos\Valmar\tobeh.Valmar.Client\tobeh.Valmar.Client.csproj</LocalValmarSource>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,12 +25,21 @@
       <PackageReference Include="morelinq" Version="4.1.0" />
       <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.8.1" />
     </ItemGroup>
-
-    <ItemGroup>
-      <!--<ProjectReference Include="..\..\DSharpPlus\DSharpPlus.Commands\DSharpPlus.Commands.csproj" />
-      <ProjectReference Include="..\..\DSharpPlus\DSharpPlus.Interactivity\DSharpPlus.Interactivity.csproj" />
-      <ProjectReference Include="..\..\DSharpPlus\DSharpPlus\DSharpPlus.csproj" />-->
-      <ProjectReference Include="..\Valmar-Client\Valmar-Client.csproj" />
+    
+    <!--toggle between local and nuget imagegen-->
+    <ItemGroup Condition=" '$(LocalImageGenSource)' != '' ">
+        <ProjectReference Include="$(LocalImageGenSource)" Version="0.1.1713826088" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(LocalImageGenSource)' == '' ">
+        <PackageReference Include="tobeh.TypoImageGen.Client" Version="0.1.1713826088" />
+    </ItemGroup>
+    
+    <!-- toggle between local and nuget valmar client -->
+    <ItemGroup Condition=" '$(LocalValmarSource)' != '' ">
+        <ProjectReference Include="$(LocalValmarSource)" Version="0.1.1713826088" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(LocalValmarSource)' == '' ">
+        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1713826088" />
     </ItemGroup>
 
     <ItemGroup>

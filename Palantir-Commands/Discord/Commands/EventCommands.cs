@@ -3,8 +3,6 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands.Attributes;
 using DSharpPlus.Commands.Trees.Attributes;
 using DSharpPlus.Entities;
-using DSharpPlus.EventArgs;
-using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -13,8 +11,8 @@ using MoreLinq;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
-using Valmar;
-using Valmar_Client.Grpc;
+using tobeh.Valmar;
+using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 

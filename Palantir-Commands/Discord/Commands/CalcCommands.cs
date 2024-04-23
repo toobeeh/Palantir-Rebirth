@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
-using Valmar;
+using tobeh.Valmar;
 
 namespace Palantir_Commands.Discord.Commands;
 

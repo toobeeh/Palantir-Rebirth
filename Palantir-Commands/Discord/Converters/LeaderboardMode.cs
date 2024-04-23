@@ -3,7 +3,7 @@ using DSharpPlus.Commands.Processors.SlashCommands;
 using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
-using Valmar;
+using tobeh.Valmar;
 
 namespace Palantir_Commands.Discord.Converters;
 

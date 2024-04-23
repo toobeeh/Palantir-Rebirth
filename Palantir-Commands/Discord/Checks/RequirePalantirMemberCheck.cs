@@ -1,7 +1,7 @@
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
 using Palantir_Commands.Services;
-using Valmar;
+using tobeh.Valmar;
 
 namespace Palantir_Commands.Discord.Checks;
 

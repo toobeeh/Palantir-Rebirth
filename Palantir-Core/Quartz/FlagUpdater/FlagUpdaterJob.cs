@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Palantir_Core.Discord;
 using Palantir_Core.Patreon;
 using Quartz;
-using Valmar;
+using tobeh.Valmar;
 
 namespace Palantir_Core.Quartz.FlagUpdater;
 
