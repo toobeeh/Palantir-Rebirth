@@ -126,7 +126,7 @@ public class MiscCommands(
             ? string.Join(", ", activeSprites)
             : "None";
         var sceneText = sceneInv.ActiveId is { } activeId ? scenes[activeId].Name : "Empty";
-        var emojiText = member.PatronEmoji is { } emoji ? $"\nEmoji: {emoji}" : "";
+        var emojiText = member.PatronEmoji is { } emoji && !string.IsNullOrWhiteSpace(emoji) ? $"\nEmoji: {emoji}" : "";
         embed.AddField("Skribbl Outfit", $"```yaml\nScene: {sceneText}\nSprites: {spritesText}{emojiText}```");
 
         var boostAvailable = splitInv.CanStartBoost;
