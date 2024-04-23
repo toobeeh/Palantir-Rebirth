@@ -8,6 +8,7 @@ using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
 using tobeh.TypoImageGen;
+using tobeh.TypoImageGen.Client.Util;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
 
@@ -312,7 +313,7 @@ public class SpriteCommands(
     [Command("combo")]
     [TextAlias("cb")]
     [RequirePalantirMember(MemberFlagMessage.Beta)]
-    public async Task UseCombo(CommandContext context, params int[]? combo) // TODO fix slash command type
+    public async Task UseCombo(CommandContext context, params int[] combo)
     {
         logger.LogTrace("UseCombo(context, {combo})", combo);
 
@@ -320,8 +321,11 @@ public class SpriteCommands(
         var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
         var allSprites = await spritesClient.GetAllSprites(new Empty()).ToDictionaryAsync(sprite => sprite.Id);
         
+        // filter out 0 sprite
+        combo = combo.Where(id => id != 0).ToArray();
+        
         // check if the user owns all sprites
-        if(combo is not null && combo.Any(id => id > 0 && inventory.All(invSlot => invSlot.SpriteId != id)))
+        if(combo.Any(id => id > 0 && inventory.All(invSlot => invSlot.SpriteId != id)))
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
                 .WithPalantirErrorPresets(context, "Sprite not in inventory", $"You don't own all sprites from the selected combo yet."));
@@ -330,7 +334,7 @@ public class SpriteCommands(
         
         // check if the user has enough sprite slots unlocked
         var slotCount = await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
-        if(combo is not null && combo.Length > slotCount.UnlockedSlots)
+        if(combo.Length > slotCount.UnlockedSlots)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
                 .WithPalantirErrorPresets(context, "Slot not unlocked", $"You need to unlock more sprite slots to use this combo with {combo.Length} sprites ({slotCount.UnlockedSlots} slot(s) available).\n" +
@@ -343,11 +347,10 @@ public class SpriteCommands(
         await inventoryClient.UseSpriteComboAsync(new UseSpriteComboRequest
         {
             ClearOtherSlots = true,
-            Combo = { combo is null ? [] : combo.Select((id, idx) => new SpriteSlotConfigurationRequest { SpriteId = id, SlotId = idx + 1}) },
+            Combo = { combo.Select((id, idx) => new SpriteSlotConfigurationRequest { SpriteId = id, SlotId = idx + 1}) },
             Login = member.Login
         });
 
-        var messageBuilder = new DiscordMessageBuilder();
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor(combo?.Length == 0 ? "You cleared your sprite combo." : "You activated a sprite combo!")
@@ -355,24 +358,16 @@ public class SpriteCommands(
             .WithDescription($"This sprite combo will now be displayed on your skribbl avatar.\n" +
                                      $"To clear the combo, use the command `/sprite combo 0`.");
         
-        if (combo is not null)
-        {
-            var comboUrls = combo?.Select(id => allSprites[id].Url);
-            var imageChunks = await imageGeneratorClient.GenerateComboFromUrls(new GenerateComboFromUrlsMessage
-                { SourceUrls = { comboUrls } }).ToListAsync();
         
-            var bytes = imageChunks
-                .OrderBy(chunk => chunk.ChunkIndex)
-                .SelectMany(chunk => chunk.Chunk.ToByteArray())
-                .ToArray();
+        var colorMaps = inventory
+            .Where(spt => spt.ColorShift != null)
+            .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
+        
+        var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
+            { SpriteIds = {combo}, ColorMaps = { colorMaps }}).CollectFileChunksAsync();
 
-            var name = $"{imageChunks.First().Name}.{imageChunks.First().FileType}"; 
-            messageBuilder.AddFile(name, new MemoryStream(bytes));
-            embedBuilder.WithImageUrl($"attachment://{name}");
-        }
-        
-        messageBuilder.AddEmbed(embedBuilder);
-        await context.RespondAsync(messageBuilder);
+        await context.RespondAsync(
+            embedBuilder.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
     
     /// <summary>
@@ -393,7 +388,7 @@ public class SpriteCommands(
         var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
         
         // check if the user owns the sprite
-        if(!inventory.Any(slot => slot.SpriteId == spriteId))
+        if(inventory.All(slot => slot.SpriteId != spriteId))
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
                 .WithPalantirErrorPresets(context, "Sprite not in inventory", $"You don't own the selected sprite."));

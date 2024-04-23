@@ -8,6 +8,8 @@ using MoreLinq;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
+using tobeh.TypoImageGen;
+using tobeh.TypoImageGen.Client.Util;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
 
@@ -17,6 +19,7 @@ namespace Palantir_Commands.Discord.Commands;
 public class OutfitCommands(
     ILogger<OutfitCommands> logger,
     Outfits.OutfitsClient outfitsClient,
+    ImageGenerator.ImageGeneratorClient imageGeneratorClient,
     MemberContext memberContext,
     Inventory.InventoryClient inventoryClient,
     Sprites.SpritesClient spritesClient,
@@ -92,11 +95,22 @@ public class OutfitCommands(
         
         await outfitsClient.SaveOutfitAsync(new SaveOutfitRequest { Login = member.Login, Outfit = outfit });
         
-        await context.RespondAsync(embed: new DiscordEmbedBuilder()
+        var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor("What a drip")
             .WithTitle($"Outfit `{name}` saved")
-            .WithDescription("This outfit contains your current sprites and scene.\n You can now use this outfit with `/outfit use (name)` or view details with `/outfit view (name)`"));
+            .WithDescription("This outfit contains your current sprites and scene.\n You can now use this outfit with `/outfit use (name)` or view details with `/outfit view (name)`");
+        
+        var colorMaps = spriteInv
+            .Where(spt => spt.ColorShift != null && spt.Slot > 0)
+            .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
+
+        var combo = spriteInv.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
+        var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
+            { SpriteIds = {combo}, ColorMaps = { colorMaps }}).CollectFileChunksAsync();
+
+        await context.RespondAsync(
+            embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
     
     [Command("delete"), TextAlias("dl"), RequirePalantirMember(MemberFlagMessage.Beta)]
@@ -133,9 +147,10 @@ public class OutfitCommands(
         
         var member = memberContext.Member;
 
+        OutfitMessage outfit;
         try
         {
-            await outfitsClient.GetOutfitAsync(new GetOutfitRequest { Login = member.Login, OutfitName = name });
+            outfit = await outfitsClient.GetOutfitAsync(new GetOutfitRequest { Login = member.Login, OutfitName = name });
         }
         catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
         {
@@ -147,10 +162,21 @@ public class OutfitCommands(
         
         await outfitsClient.UseOutfitAsync(new UseOutfitRequest { Login = member.Login, OutfitName = name });
         
-        await context.RespondAsync(embed: new DiscordEmbedBuilder()
+        var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithTitle($"Outfit `{name}` set")
-            .WithDescription("Sprites and scenes from this outfit have been loaded!"));
+            .WithDescription("Sprites and scenes from this outfit have been loaded!");
+        
+        var colorMaps = outfit.SpriteSlotConfiguration
+            .Where(spt => spt.ColorShift != null && spt.Slot > 0)
+            .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
+
+        var combo = outfit.SpriteSlotConfiguration.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
+        var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
+            { SpriteIds = {combo}, ColorMaps = { colorMaps }}).CollectFileChunksAsync();
+
+        await context.RespondAsync(
+            embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
     
     [Command("view"), TextAlias("vw"), RequirePalantirMember(MemberFlagMessage.Beta)]
@@ -192,6 +218,15 @@ public class OutfitCommands(
                              $"**Combo:**\n{(combo.Length == 0 ? "Empty" : combo)}\n_ _\n" +
                              $"**Scene:**\n{(scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name})")}");
         
-        await context.RespondAsync(embed: embed);
+        var colorMaps = outfit.SpriteSlotConfiguration
+            .Where(spt => spt.ColorShift != null && spt.Slot > 0)
+            .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
+
+        var comboIds = outfit.SpriteSlotConfiguration.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
+        var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
+            { SpriteIds = {comboIds}, ColorMaps = { colorMaps }}).CollectFileChunksAsync();
+
+        await context.RespondAsync(
+            embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
 }

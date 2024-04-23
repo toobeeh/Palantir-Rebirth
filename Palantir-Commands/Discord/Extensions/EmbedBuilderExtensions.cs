@@ -67,4 +67,14 @@ public static class EmbedBuilderExtensions
 
         return builder;
     }
+    
+    public static DiscordMessageBuilder ToMessageBuilderWithAttachmentImage(this DiscordEmbedBuilder builder, string fileName, Stream fileStream)
+    {
+        builder.WithImageUrl($"attachment://{fileName}");
+        
+        var messageBuilder = new DiscordMessageBuilder();
+        messageBuilder.AddEmbed(builder);
+        messageBuilder.AddFile(fileName, fileStream);
+        return messageBuilder;
+    }
 }

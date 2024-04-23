@@ -9,6 +9,8 @@ using MoreLinq;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
+using tobeh.TypoImageGen;
+using tobeh.TypoImageGen.Client.Util;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
 
@@ -22,7 +24,8 @@ public class MiscCommands(
     Inventory.InventoryClient inventoryClient,
     Sprites.SpritesClient spriteClient,
     Scenes.ScenesClient scenesClient,
-    Splits.SplitsClient splitsClient
+    Splits.SplitsClient splitsClient,
+    ImageGenerator.ImageGeneratorClient imageGeneratorClient
 )
 {
     [Command("inventory"), TextAlias("inv"), RequirePalantirMember]
@@ -121,7 +124,16 @@ public class MiscCommands(
             $@"Next pack in {(member.NextAwardPackDate.ToDateTimeOffset() - DateTimeOffset.UtcNow).AsCountdownTimespan()}";
         embed.AddField("Recent Activity", $"```md\n{(packAvailable ? ">" : "-")} {awardPackText}\n{(boostAvailable ? ">" : "-")} {boostText}\n- {awardPackInfo.CollectedBubbles} bubbles / last week```");
 
-        await context.RespondAsync(embed);
+        var colorMaps = spriteInv
+            .Where(spt => spt.ColorShift != null && spt.Slot > 0)
+            .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
+
+        var combo = spriteInv.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
+        var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
+            { SpriteIds = {combo}, ColorMaps = { colorMaps }}).CollectFileChunksAsync();
+
+        await context.RespondAsync(
+            embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
     
     
