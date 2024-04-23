@@ -15,14 +15,6 @@ ENV PATREON_TOKEN "${PATREON_TOKEN}"
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 
-# build grpc lib
-WORKDIR /src
-COPY ["Valmar-Client/Valmar-Client.csproj", "Valmar-Client/"]
-RUN dotnet restore "Valmar-Client/Valmar-Client.csproj"
-COPY ./Valmar-Client ./Valmar-Client
-WORKDIR "/src/Valmar-Client"
-RUN dotnet build "Valmar-Client.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
 # build core
 WORKDIR /src
 COPY ["Palantir-Core/Palantir-Core.csproj", "Palantir-Core/"]

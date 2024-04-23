@@ -4,7 +4,7 @@ WORKDIR /app
 EXPOSE 8080
 
 ARG GRPC_VALMAR_URL="http://localhost:1234"
-ENV GRPC_VALMAR_URL "${GRPC_URL}"
+ENV GRPC_VALMAR_URL "${GRPC_VALMAR_URL}"
 
 ARG GRPC_IMAGEGEN_URL="http://localhost:1234"
 ENV GRPC_IMAGEGEN_URL "${GRPC_IMAGEGEN_URL}"
@@ -15,15 +15,7 @@ ENV DISCORD_TOKEN "${DISCORD_TOKEN}"
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 
-# build grpc lib
-WORKDIR /src
-COPY ["Valmar-Client/Valmar-Client.csproj", "Valmar-Client/"]
-RUN dotnet restore "Valmar-Client/Valmar-Client.csproj"
-COPY ./Valmar-Client ./Valmar-Client
-WORKDIR "/src/Valmar-Client"
-RUN dotnet build "Valmar-Client.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
-# build core
+# build commands
 WORKDIR /src
 COPY ["Palantir-Commands/Palantir-Commands.csproj", "Palantir-Commands/"]
 RUN dotnet restore "Palantir-Commands/Palantir-Commands.csproj"
