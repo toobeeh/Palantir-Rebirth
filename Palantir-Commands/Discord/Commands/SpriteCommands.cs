@@ -3,7 +3,6 @@ using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
-using MoreLinq;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
@@ -17,14 +16,13 @@ namespace Palantir_Commands.Discord.Commands;
 [Command("sprite")]
 [TextAlias("spt")]
 public class SpriteCommands(
-    ILogger<SpriteCommands> logger, 
+    ILogger<SpriteCommands> logger,
     MemberContext memberContext,
-    Sprites.SpritesClient spritesClient, 
+    Sprites.SpritesClient spritesClient,
     Inventory.InventoryClient inventoryClient,
     ImageGenerator.ImageGeneratorClient imageGeneratorClient,
     Events.EventsClient eventsClient)
 {
-    
     /// <summary>
     /// View all sprites in your inventory
     /// </summary>
@@ -38,8 +36,9 @@ public class SpriteCommands(
         logger.LogTrace("ViewSpriteInventory(context)");
 
         var member = memberContext.Member;
-        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
-        
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
+            .ToListAsync();
+
         // get all sprites, likely more performance than each individually
         var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
         var ranks = await spritesClient.GetSpriteRanking(new Empty()).ToListAsync();
@@ -55,24 +54,26 @@ public class SpriteCommands(
             .Where(rank => inventory.Any(slot => slot.SpriteId == rank.Id))
             .Select(rank => rank.TotalBought * 100 / uniquenessMaxUsers)
             .Average();
-        
+
         // batch sprites to 45 per page
         const int batchSize = 45;
-        var pages = MoreEnumerable.Batch(inventory, batchSize).Select((batch, idx) => new
+        var pages = inventory.Chunk(batchSize).Select((batch, idx) => new
         {
             Page = idx + 1,
             Sprites = batch.Select(slot => slot.SpriteId)
         }).Select(page =>
         {
             var spriteNumberStart = batchSize * (page.Page - 1) + 1;
-            var embed =  new DiscordEmbedBuilder()
+            var embed = new DiscordEmbedBuilder()
                 .WithPalantirPresets(context)
-                .WithAuthor($"Viewing sprites {spriteNumberStart} - {spriteNumberStart + page.Sprites.Count() - 1} of {inventory.Count}")
+                .WithAuthor(
+                    $"Viewing sprites {spriteNumberStart} - {spriteNumberStart + page.Sprites.Count() - 1} of {inventory.Count}")
                 .WithTitle("Sprite Inventory");
-            
+
             embed.AddField("Total worth:", $"`🫧` {totalWorth} Bubbles");
             embed.AddField("Event sprites:", $"`🎟️` {eventSpriteCount} Sprites collected");
-            embed.AddField("Uniqueness:", $"`💎` Your inventory has an uniqueness score of {100 - Math.Round(uniquenessUserScore)}%");
+            embed.AddField("Uniqueness:",
+                $"`💎` Your inventory has an uniqueness score of {100 - Math.Round(uniquenessUserScore)}%");
 
             if (inventory.Count < 5)
             {
@@ -80,19 +81,23 @@ public class SpriteCommands(
                                                 "Use `/sprite use (id)` to wear a sprite\n" +
                                                 "Use `/sprite color (id) (color)` to colorize a rainbow sprite");
             }
-            
-            foreach (var fieldBatch in MoreEnumerable.Batch(page.Sprites, 5))
+
+            foreach (var fieldBatch in page.Sprites.Chunk(5))
             {
                 var fieldSprites = sprites.Where(sprite => fieldBatch.Contains(sprite.Id));
-                embed.AddField("_ _", string.Join("\n", fieldSprites.Select(sprite => $"`{sprite.Id.AsTypoId()}`{(sprite.IsRainbow ? " `🌈`" : "")}{(sprite.IsSpecial ? " `✨`" : "")} {sprite.Name}")), true);
+                embed.AddField("_ _",
+                    string.Join("\n",
+                        fieldSprites.Select(sprite =>
+                            $"`{sprite.Id.AsTypoId()}`{(sprite.IsRainbow ? " `🌈`" : "")}{(sprite.IsSpecial ? " `✨`" : "")} {sprite.Name}")),
+                    true);
             }
-            
+
             return embed;
         }).ToList();
 
         await context.RespondPalantirPaginationAsync(pages, "Sprites");
     }
-    
+
     /// <summary>
     /// View the most popular sprites
     /// </summary>
@@ -103,7 +108,7 @@ public class SpriteCommands(
     public async Task ListSprites(CommandContext context)
     {
         logger.LogTrace("ListSprites(context)");
-        
+
         var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
         var ranks = await spritesClient.GetSpriteRanking(new Empty()).ToListAsync();
 
@@ -120,12 +125,13 @@ public class SpriteCommands(
 
         foreach (var sprite in ranked.Take(10))
         {
-            embedBuilder.AddField($"**#{sprite.Rank?.Rank}** {sprite.Sprite.Id.AsTypoId()} _ _ {sprite.Sprite.Name}", $"{sprite.Rank?.TotalBought} bought, {sprite.Rank?.ActiveUsers} active");
+            embedBuilder.AddField($"**#{sprite.Rank?.Rank}** {sprite.Sprite.Id.AsTypoId()} _ _ {sprite.Sprite.Name}",
+                $"{sprite.Rank?.TotalBought} bought, {sprite.Rank?.ActiveUsers} active");
         }
 
         await context.RespondAsync(embedBuilder.Build());
     }
-    
+
     /// <summary>
     /// View the details of a sprite
     /// </summary>
@@ -138,18 +144,20 @@ public class SpriteCommands(
     public async Task ViewSprite(CommandContext context, int spriteId)
     {
         logger.LogTrace("ViewSprite(context, {spriteId})", spriteId);
-        
+
         var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
 
         if (!sprite.IsReleased)
         {
-            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context, "Sprite not released", "This sprite is not released yet. Stay tuned!"));
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Sprite not released", "This sprite is not released yet. Stay tuned!"));
             return;
         }
-        
+
         var ranking = await spritesClient.GetSpriteRanking(new Empty()).ToListAsync();
-        var spriteRank = ranking.Find(s => s.Id == spriteId) ?? throw new Exception("Failed to calculate sprite ranking");
-        
+        var spriteRank = ranking.Find(s => s.Id == spriteId) ??
+                         throw new Exception("Failed to calculate sprite ranking");
+
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithTitle($"{sprite.Id.AsTypoId()} _ _ {sprite.Name}")
@@ -169,38 +177,43 @@ public class SpriteCommands(
         {
             embedBuilder.AddField("Price:", $"`🫧` {sprite.Cost} Bubbles");
         }
-        
-        if(sprite.IsRainbow) embedBuilder.AddField("Rainbow Sprite:", $"`🌈` This sprite is color-customizable");
-        if(sprite.IsSpecial) embedBuilder.AddField("Background Sprite:", $"`✨` This sprite replaces the avatar");
-        
+
+        if (sprite.IsRainbow) embedBuilder.AddField("Rainbow Sprite:", $"`🌈` This sprite is color-customizable");
+        if (sprite.IsSpecial) embedBuilder.AddField("Background Sprite:", $"`✨` This sprite replaces the avatar");
+
         embedBuilder.AddField("Artist:", $"`🖌️` Created by {sprite.Artist ?? "tobeh"}");
-        embedBuilder.AddField("Ranking:", $"`📈` #{spriteRank.Rank}: {spriteRank.TotalBought} bought, {spriteRank.ActiveUsers} active \n" +
-                                          $"View all sprites {"here".AsTypoLink("https://typo.rip/tools/sprites", "🌍")}");
-        
+        embedBuilder.AddField("Ranking:",
+            $"`📈` #{spriteRank.Rank}: {spriteRank.TotalBought} bought, {spriteRank.ActiveUsers} active \n" +
+            $"View all sprites {"here".AsTypoLink("https://typo.rip/tools/sprites", "🌍")}");
+
         await context.RespondAsync(embedBuilder.Build());
     }
-    
+
     [Command("buy")]
     [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task BuySprite(CommandContext context, int spriteId)
     {
         logger.LogTrace("BuySprite(context, {spriteId})", spriteId);
-        
+
         var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
 
         // unreleased sprites - eg progressive event sprites - may only be bought after a certain date
         if (!sprite.IsReleased)
         {
-            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context, "Sprite not released", "This sprite is not released yet. Stay tuned!"));
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Sprite not released", "This sprite is not released yet. Stay tuned!"));
             return;
         }
-        
+
         // check if the user has bought this sprite already
         var member = memberContext.Member;
-        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
-        if(inventory.Any(slot => slot.SpriteId == sprite.Id))
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
+            .ToListAsync();
+        if (inventory.Any(slot => slot.SpriteId == sprite.Id))
         {
-            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context, "Sprite already bought", $"You already own {sprite.Name} {sprite.Id.AsTypoId()}. You can use it with `/sprite use {sprite.Id}`."));
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Sprite already bought",
+                $"You already own {sprite.Name} {sprite.Id.AsTypoId()}. You can use it with `/sprite use {sprite.Id}`."));
             return;
         }
 
@@ -208,27 +221,33 @@ public class SpriteCommands(
         if (sprite.EventDropId is { } eventDropId)
         {
             var drop = await eventsClient.GetEventDropByIdAsync(new GetEventDropRequest { Id = eventDropId });
-            var eventInventory = await inventoryClient.GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = drop.EventId}).ToListAsync();
+            var eventInventory = await inventoryClient.GetEventCredit(new GetEventCreditRequest
+                { Login = member.Login, EventId = drop.EventId }).ToListAsync();
             var credit = eventInventory.FirstOrDefault(credit => credit.EventDropId == drop.Id)?.AvailableCredit ?? 0;
-            
-            if(credit < sprite.Cost) 
+
+            if (credit < sprite.Cost)
             {
-                await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context, "Event credit too low", $"You need {sprite.Cost} {drop.Name} Drop(s) to buy {sprite.Name} {sprite.Id.AsTypoId()}, but you only have {credit} available.\n" +
+                await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                    "Event credit too low",
+                    $"You need {sprite.Cost} {drop.Name} Drop(s) to buy {sprite.Name} {sprite.Id.AsTypoId()}, but you only have {credit} available.\n" +
                     $"Collect more {drop.Name} Drops on skribbl or check in `/event` if you have some league event drops to redeem!"));
                 return;
             }
-        }   
+        }
         else
-        {   
-            var bubbleCredit = await inventoryClient.GetBubbleCreditAsync(new GetBubbleCreditRequest { Login = member.Login });
-            if(bubbleCredit.AvailableCredit < sprite.Cost) 
+        {
+            var bubbleCredit =
+                await inventoryClient.GetBubbleCreditAsync(new GetBubbleCreditRequest { Login = member.Login });
+            if (bubbleCredit.AvailableCredit < sprite.Cost)
             {
-                await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context, "Bubble credit too low", $"You need {sprite.Cost} Bubbles to buy {sprite.Name} {sprite.Id.AsTypoId()}, but you only have {bubbleCredit.AvailableCredit} available.\n" +
+                await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                    "Bubble credit too low",
+                    $"You need {sprite.Cost} Bubbles to buy {sprite.Name} {sprite.Id.AsTypoId()}, but you only have {bubbleCredit.AvailableCredit} available.\n" +
                     $"Collect more Bubbles by playing skribbl or catch drops to get bonus bubbles!"));
                 return;
             }
         }
-        
+
         // buy sprite
         await inventoryClient.BuySpriteAsync(new BuySpriteRequest { Login = member.Login, SpriteId = sprite.Id });
         var embedBuilder = new DiscordEmbedBuilder()
@@ -236,14 +255,18 @@ public class SpriteCommands(
             .WithAuthor("You unlocked a new sprite!")
             .WithTitle($"{sprite.Id.AsTypoId()} _ _ {sprite.Name}")
             .WithImageUrl(sprite.Url);
-        
-        embedBuilder.AddField("Wear it:", $"`👕` Use the command `/sprite use {sprite.Id}` to wear this sprite on your skribbl avatar.");
-        if(sprite.IsRainbow) embedBuilder.AddField("Customize color:", $"`🌈` Use the command `/sprite color {sprite.Id} (color)` to change the color of this sprite.");
-        if(sprite.IsSpecial) embedBuilder.AddField("Background Sprite:", $"`✨` This sprite replaces the avatar, when you wear it.");
-        
+
+        embedBuilder.AddField("Wear it:",
+            $"`👕` Use the command `/sprite use {sprite.Id}` to wear this sprite on your skribbl avatar.");
+        if (sprite.IsRainbow)
+            embedBuilder.AddField("Customize color:",
+                $"`🌈` Use the command `/sprite color {sprite.Id} (color)` to change the color of this sprite.");
+        if (sprite.IsSpecial)
+            embedBuilder.AddField("Background Sprite:", $"`✨` This sprite replaces the avatar, when you wear it.");
+
         await context.RespondAsync(embedBuilder.Build());
     }
-    
+
     /// <summary>
     /// Choose a sprite to wear on your avatar on skribbl.
     /// To remove a sprite on a slot, use `0` as the sprite ID.
@@ -257,31 +280,37 @@ public class SpriteCommands(
     public async Task UseSprite(CommandContext context, int spriteId, uint slot = 1)
     {
         logger.LogTrace("UseSprite(context, {spriteId}, {slot})", spriteId, slot);
-        
-        var sprite = spriteId == 0 ? null : await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
+
+        var sprite = spriteId == 0
+            ? null
+            : await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
         var member = memberContext.Member;
-        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
-        
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
+            .ToListAsync();
+
         // check if the user owns this sprite
-        if(sprite is not null && inventory.All(invSlot => invSlot.SpriteId != spriteId))
+        if (sprite is not null && inventory.All(invSlot => invSlot.SpriteId != spriteId))
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "Sprite not in inventory", $"You don't own the sprite {sprite.Name} {sprite.Id.AsTypoId()} yet.\n" +
-                                                                              $"You can buy it with `/sprite buy {spriteId}`."));
+                .WithPalantirErrorPresets(context, "Sprite not in inventory",
+                    $"You don't own the sprite {sprite.Name} {sprite.Id.AsTypoId()} yet.\n" +
+                    $"You can buy it with `/sprite buy {spriteId}`."));
             return;
         }
-        
+
         // check if the user has enough sprite slots unlocked
-        var slotCount = await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
-        if(slot > slotCount.UnlockedSlots)
+        var slotCount =
+            await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
+        if (slot > slotCount.UnlockedSlots)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "Slot not unlocked", $"You need to unlock more sprite slots to use {sprite?.Name ?? "sprites"} {sprite?.Id.AsTypoId() ?? ""} on slot {slot} ({slotCount.UnlockedSlots} slot(s) available).\n" +
-                                                                        $"For each 1000 drops, you unlock an additional slot.\n" +
-                                                                        $"{"Patrons".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} get one slot on top."));
+                .WithPalantirErrorPresets(context, "Slot not unlocked",
+                    $"You need to unlock more sprite slots to use {sprite?.Name ?? "sprites"} {sprite?.Id.AsTypoId() ?? ""} on slot {slot} ({slotCount.UnlockedSlots} slot(s) available).\n" +
+                    $"For each 1000 drops, you unlock an additional slot.\n" +
+                    $"{"Patrons".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} get one slot on top."));
             return;
         }
-        
+
         // activate new sprite
         await inventoryClient.UseSpriteComboAsync(new UseSpriteComboRequest
         {
@@ -289,20 +318,22 @@ public class SpriteCommands(
             Combo = { new SpriteSlotConfigurationRequest { SpriteId = spriteId, SlotId = (int)slot } },
             Login = member.Login
         });
-        
+
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor(sprite is null ? "You cleared a sprite slot." : "You activated a sprite!")
             .WithTitle(sprite is null ? "Such empty 💨" : $"{sprite.Id.AsTypoId()} _ _ {sprite.Name}")
             .WithImageUrl(sprite?.Url ?? "");
-        
-        if(sprite is not null) embedBuilder.WithDescription($"The sprite {sprite.Name} will now be displayed on your skribbl avatar on slot {slot}.\n" +
-                                     $"To remove it, use the command `/sprite use 0 {slot}`.");
+
+        if (sprite is not null)
+            embedBuilder.WithDescription(
+                $"The sprite {sprite.Name} will now be displayed on your skribbl avatar on slot {slot}.\n" +
+                $"To remove it, use the command `/sprite use 0 {slot}`.");
         else embedBuilder.WithDescription($"The sprite on slot {slot} has been removed.");
-        
+
         await context.RespondAsync(embedBuilder.Build());
     }
-    
+
     /// <summary>
     /// Choose a sprite combination to wear on your avatar on skribbl.
     /// This overwrites all other currently set sprites.
@@ -318,36 +349,43 @@ public class SpriteCommands(
         logger.LogTrace("UseCombo(context, {combo})", combo);
 
         var member = memberContext.Member;
-        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
+            .ToListAsync();
         var allSprites = await spritesClient.GetAllSprites(new Empty()).ToDictionaryAsync(sprite => sprite.Id);
-        
+
         // filter out 0 sprite
         combo = combo.Where(id => id != 0).ToArray();
-        
+
         // check if the user owns all sprites
-        if(combo.Any(id => id > 0 && inventory.All(invSlot => invSlot.SpriteId != id)))
+        if (combo.Any(id => id > 0 && inventory.All(invSlot => invSlot.SpriteId != id)))
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "Sprite not in inventory", $"You don't own all sprites from the selected combo yet."));
+                .WithPalantirErrorPresets(context, "Sprite not in inventory",
+                    $"You don't own all sprites from the selected combo yet."));
             return;
         }
-        
+
         // check if the user has enough sprite slots unlocked
-        var slotCount = await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
-        if(combo.Length > slotCount.UnlockedSlots)
+        var slotCount =
+            await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
+        if (combo.Length > slotCount.UnlockedSlots)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "Slot not unlocked", $"You need to unlock more sprite slots to use this combo with {combo.Length} sprites ({slotCount.UnlockedSlots} slot(s) available).\n" +
-                                                                        $"For each 1000 drops, you unlock an additional slot.\n" +
-                                                                        $"{"Patrons".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} get one slot on top."));
+                .WithPalantirErrorPresets(context, "Slot not unlocked",
+                    $"You need to unlock more sprite slots to use this combo with {combo.Length} sprites ({slotCount.UnlockedSlots} slot(s) available).\n" +
+                    $"For each 1000 drops, you unlock an additional slot.\n" +
+                    $"{"Patrons".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} get one slot on top."));
             return;
         }
-        
+
         // activate new sprite
         await inventoryClient.UseSpriteComboAsync(new UseSpriteComboRequest
         {
             ClearOtherSlots = true,
-            Combo = { combo.Select((id, idx) => new SpriteSlotConfigurationRequest { SpriteId = id, SlotId = idx + 1}) },
+            Combo =
+            {
+                combo.Select((id, idx) => new SpriteSlotConfigurationRequest { SpriteId = id, SlotId = idx + 1 })
+            },
             Login = member.Login
         });
 
@@ -356,20 +394,20 @@ public class SpriteCommands(
             .WithAuthor(combo?.Length == 0 ? "You cleared your sprite combo." : "You activated a sprite combo!")
             .WithTitle(combo?.Length == 0 ? "Such empty 💨" : $"{combo?.Length ?? 0} Sprites selected")
             .WithDescription($"This sprite combo will now be displayed on your skribbl avatar.\n" +
-                                     $"To clear the combo, use the command `/sprite combo 0`.");
-        
-        
+                             $"To clear the combo, use the command `/sprite combo 0`.");
+
+
         var colorMaps = inventory
             .Where(spt => spt.ColorShift != null)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
-        
+
         var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
-            { SpriteIds = {combo}, ColorMaps = { colorMaps }}).CollectFileChunksAsync();
+            { SpriteIds = { combo }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
 
         await context.RespondAsync(
             embedBuilder.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
-    
+
     /// <summary>
     /// Choose a color modification for one of your rainbow sprites.
     /// Leave "shift" empty to reset the color.
@@ -385,51 +423,57 @@ public class SpriteCommands(
         logger.LogTrace("UseSpriteColorConfig(context, {shift})", shift);
 
         var member = memberContext.Member;
-        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login }).ToListAsync();
-        
+        var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
+            .ToListAsync();
+
         // check if the user owns the sprite
-        if(inventory.All(slot => slot.SpriteId != spriteId))
+        if (inventory.All(slot => slot.SpriteId != spriteId))
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
                 .WithPalantirErrorPresets(context, "Sprite not in inventory", $"You don't own the selected sprite."));
             return;
         }
-        
+
         // check if the sprite can be color customized
         var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
-        if(!sprite.IsRainbow)
+        if (!sprite.IsRainbow)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "Sprite is no Rainbow Sprite", $"The sprite {sprite.Name} {sprite.Id.AsTypoId()} is not color-customizable."));
+                .WithPalantirErrorPresets(context, "Sprite is no Rainbow Sprite",
+                    $"The sprite {sprite.Name} {sprite.Id.AsTypoId()} is not color-customizable."));
             return;
         }
-        
+
         // check if the user can colorize another sprite (patron)
-        var moreThanOneUnlocked = member.MappedFlags.Any(flag => flag is MemberFlagMessage.Admin or MemberFlagMessage.Patron);
+        var moreThanOneUnlocked =
+            member.MappedFlags.Any(flag => flag is MemberFlagMessage.Admin or MemberFlagMessage.Patron);
         var otherConfig = inventory.FirstOrDefault(slot => slot.SpriteId != spriteId && slot.ColorShift is not null);
         if (shift is not null && !moreThanOneUnlocked && otherConfig is not null)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "Rainbow Sprite Limit", $"You need to be a {"Patron".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to colorize more than one sprite at once.\n" +
-                                                                    $"Use `/sprite color {otherConfig.SpriteId}` to reset the color of your current rainbow sprite."));
+                .WithPalantirErrorPresets(context, "Rainbow Sprite Limit",
+                    $"You need to be a {"Patron".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to colorize more than one sprite at once.\n" +
+                    $"Use `/sprite color {otherConfig.SpriteId}` to reset the color of your current rainbow sprite."));
             return;
         }
-        
+
         // apply rainbow config
         await inventoryClient.SetSpriteColorConfigurationAsync(new SetSpriteColorRequest
         {
             Login = member.Login, ClearOtherConfigs = false,
             ColorConfig = { new SpriteColorConfigurationRequest { SpriteId = sprite.Id, ColorShift = shift } }
         });
-        
-        
+
+
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor(shift is null ? "You cleared your sprite rainbow color." : "You colorized a rainbow sprite!")
             .WithTitle($"{sprite.Id.AsTypoId()} _ _ {sprite.Name}")
-            .WithImageUrl(shift is null ? sprite.Url : $"https://static.typo.rip/sprites/rainbow/modulate.php?url={sprite.Url}&hue={shift}");
-        
-        if(shift is not null)
+            .WithImageUrl(shift is null
+                ? sprite.Url
+                : $"https://static.typo.rip/sprites/rainbow/modulate.php?url={sprite.Url}&hue={shift}");
+
+        if (shift is not null)
         {
             embedBuilder.WithDescription($"This sprite will now have its unique color!\n" +
                                          $"To clear the color, use the command `/sprite color {sprite.Id}`.");
@@ -439,7 +483,7 @@ public class SpriteCommands(
             embedBuilder.WithDescription($"This sprite will now have its original color!\n" +
                                          $"To colorize it, use the command `/sprite color {sprite.Id} (color)`.");
         }
-        
+
         await context.RespondAsync(embedBuilder.Build());
     }
 }

@@ -4,7 +4,6 @@ using DSharpPlus.Entities;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using MoreLinq;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
@@ -26,7 +25,6 @@ public class OutfitCommands(
     Scenes.ScenesClient scenesClient
 )
 {
-    
     /// <summary>
     /// Lists all saved outfits
     /// </summary>
@@ -40,7 +38,7 @@ public class OutfitCommands(
         var outfits = await outfitsClient.GetOutfits(new GetOutfitsRequest { Login = member.Login }).ToListAsync();
 
         const int batchSize = 12;
-        var pages = outfits.Batch(batchSize).Select((batch, idx) => new
+        var pages = outfits.Chunk(batchSize).Select((batch, idx) => new
         {
             Page = idx + 1,
             Outfits = batch.ToList()
@@ -80,11 +78,12 @@ public class OutfitCommands(
     public async Task SaveOutfit(CommandContext context, string name)
     {
         logger.LogTrace("SaveOutfit(context, name={name})", name);
-        
+
         var member = memberContext.Member;
         var spriteInv = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
             .ToListAsync();
-        var sceneInv = await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
+        var sceneInv =
+            await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
 
         var outfit = new OutfitMessage
         {
@@ -92,32 +91,33 @@ public class OutfitCommands(
             SceneId = sceneInv.ActiveId,
             SpriteSlotConfiguration = { spriteInv.Where(slot => slot.Slot > 0) }
         };
-        
+
         await outfitsClient.SaveOutfitAsync(new SaveOutfitRequest { Login = member.Login, Outfit = outfit });
-        
+
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor("What a drip")
             .WithTitle($"Outfit `{name}` saved")
-            .WithDescription("This outfit contains your current sprites and scene.\n You can now use this outfit with `/outfit use (name)` or view details with `/outfit view (name)`");
-        
+            .WithDescription(
+                "This outfit contains your current sprites and scene.\n You can now use this outfit with `/outfit use (name)` or view details with `/outfit view (name)`");
+
         var colorMaps = spriteInv
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
 
         var combo = spriteInv.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
         var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
-            { SpriteIds = {combo}, ColorMaps = { colorMaps }}).CollectFileChunksAsync();
+            { SpriteIds = { combo }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
 
         await context.RespondAsync(
             embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
-    
+
     [Command("delete"), TextAlias("dl"), RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task DeleteOutfit(CommandContext context, string name)
     {
         logger.LogTrace("DeleteOutfit(context, name={name})", name);
-        
+
         var member = memberContext.Member;
 
         try
@@ -131,26 +131,27 @@ public class OutfitCommands(
                     "Use `/outfit list` to see all your saved outfits."));
             return;
         }
-        
+
         await outfitsClient.DeleteOutfitAsync(new DeleteOutfitRequest { Login = member.Login, OutfitName = name });
-        
+
         await context.RespondAsync(embed: new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithTitle($"Outfit `{name}` deleted")
             .WithDescription("To save a new outfit with your current style, use `/outfit save (name)`"));
     }
-    
+
     [Command("use"), RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task UseOutfit(CommandContext context, string name)
     {
         logger.LogTrace("UseOutfit(context, name={name})", name);
-        
+
         var member = memberContext.Member;
 
         OutfitMessage outfit;
         try
         {
-            outfit = await outfitsClient.GetOutfitAsync(new GetOutfitRequest { Login = member.Login, OutfitName = name });
+            outfit = await outfitsClient.GetOutfitAsync(
+                new GetOutfitRequest { Login = member.Login, OutfitName = name });
         }
         catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
         {
@@ -159,36 +160,37 @@ public class OutfitCommands(
                     "Use `/outfit list` to see all your saved outfits."));
             return;
         }
-        
+
         await outfitsClient.UseOutfitAsync(new UseOutfitRequest { Login = member.Login, OutfitName = name });
-        
+
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithTitle($"Outfit `{name}` set")
             .WithDescription("Sprites and scenes from this outfit have been loaded!");
-        
+
         var colorMaps = outfit.SpriteSlotConfiguration
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
 
         var combo = outfit.SpriteSlotConfiguration.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
         var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
-            { SpriteIds = {combo}, ColorMaps = { colorMaps }}).CollectFileChunksAsync();
+            { SpriteIds = { combo }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
 
         await context.RespondAsync(
             embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
-    
+
     [Command("view"), TextAlias("vw"), RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task ViewOutfit(CommandContext context, string name)
     {
         logger.LogTrace("ViewOutfit(context, name={name})", name);
-        
+
         var member = memberContext.Member;
         OutfitMessage outfit;
         try
         {
-            outfit = await outfitsClient.GetOutfitAsync(new GetOutfitRequest { Login = member.Login, OutfitName = name });
+            outfit = await outfitsClient.GetOutfitAsync(
+                new GetOutfitRequest { Login = member.Login, OutfitName = name });
         }
         catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
         {
@@ -197,10 +199,12 @@ public class OutfitCommands(
                     "Use `/outfit list` to see all your saved outfits."));
             return;
         }
-        
+
         var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
-        var scene = outfit.SceneId is {} sceneValue ? await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneValue }) : null;
-        
+        var scene = outfit.SceneId is { } sceneValue
+            ? await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneValue })
+            : null;
+
         var combo = string.Join("\n", outfit.SpriteSlotConfiguration.Select(slot =>
         {
             var sprite = sprites.First(spt => spt.Id == slot.SpriteId);
@@ -217,14 +221,14 @@ public class OutfitCommands(
                              $"To delete the outfit, use `/outfit delete {name}`.\n_ _\n" +
                              $"**Combo:**\n{(combo.Length == 0 ? "Empty" : combo)}\n_ _\n" +
                              $"**Scene:**\n{(scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name})")}");
-        
+
         var colorMaps = outfit.SpriteSlotConfiguration
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
 
         var comboIds = outfit.SpriteSlotConfiguration.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
         var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
-            { SpriteIds = {comboIds}, ColorMaps = { colorMaps }}).CollectFileChunksAsync();
+            { SpriteIds = { comboIds }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
 
         await context.RespondAsync(
             embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
