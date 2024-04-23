@@ -105,7 +105,7 @@ public class OutfitCommands(
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
 
-        var combo = spriteInv.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
+        var combo = spriteInv.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot).Select(slot => slot.SpriteId);
         var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
             { SpriteIds = { combo }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
 
@@ -172,7 +172,8 @@ public class OutfitCommands(
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
 
-        var combo = outfit.SpriteSlotConfiguration.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
+        var combo = outfit.SpriteSlotConfiguration.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot)
+            .Select(slot => slot.SpriteId);
         var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
             { SpriteIds = { combo }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
 
@@ -226,8 +227,9 @@ public class OutfitCommands(
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
 
-        var comboIds = outfit.SpriteSlotConfiguration.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
-        var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
+        var comboIds = outfit.SpriteSlotConfiguration.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot)
+            .Select(slot => slot.SpriteId);
+        var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage
             { SpriteIds = { comboIds }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
 
         await context.RespondAsync(

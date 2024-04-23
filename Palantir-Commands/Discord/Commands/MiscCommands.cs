@@ -144,7 +144,7 @@ public class MiscCommands(
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
 
-        var combo = spriteInv.Where(slot => slot.Slot > 0).Select(slot => slot.SpriteId);
+        var combo = spriteInv.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot).Select(slot => slot.SpriteId);
         var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
             { SpriteIds = { combo }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
 
