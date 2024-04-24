@@ -19,7 +19,11 @@ using Palantir_Commands.Discord.Extensions;
 
 namespace Palantir_Commands.Discord;
 
-public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<DiscordBotClientOptions> options, ILoggerFactory loggerFactory, IServiceProvider serviceProvider) : IHostedService
+public class DiscordBotClient(
+    ILogger<DiscordBotClient> logger,
+    IOptions<DiscordBotClientOptions> options,
+    ILoggerFactory loggerFactory,
+    IServiceProvider serviceProvider) : IHostedService
 {
     private readonly DiscordClient _client = new(new DiscordConfiguration
     {
@@ -28,11 +32,11 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         LoggerFactory = loggerFactory,
         Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
     });
-    
+
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         logger.LogInformation("Starting Discord Bot Client");
-        
+
         // use interactivity
         _client.UseInteractivity(new InteractivityConfiguration());
 
@@ -42,10 +46,10 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
             ServiceProvider = serviceProvider,
             UseDefaultCommandErrorHandler = false
         });
-        
+
         // use custom error handler
         commands.CommandErrored += HandleError;
-        
+
         // create argument converters
         var dropboostStartModeArgumentConverter = new DropboostStartModeArgumentConverter
         {
@@ -62,27 +66,28 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
         };
         textCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(dropboostStartModeArgumentConverter);
         await commands.AddProcessorsAsync(textCommandProcessor);
-        
+
         // create slash processor
         var slashCommandProcessor = new SlashCommandProcessor();
         slashCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(dropboostStartModeArgumentConverter);
         await commands.AddProcessorAsync(slashCommandProcessor);
-        
+
         // add custom checks
         commands.AddCheck<RequirePalantirMemberCheck>();
-        
+
         // add command modules
         commands.AddCommands(typeof(DevelopmentCommands));
         commands.AddCommands(typeof(SpriteCommands));
         commands.AddCommands(typeof(SceneCommands));
         commands.AddCommands(typeof(LeagueCommands));
-        commands.AddCommands(typeof(SplitCommands)); 
+        commands.AddCommands(typeof(SplitCommands));
         commands.AddCommands(typeof(OutfitCommands));
         commands.AddCommands(typeof(AwardCommands));
         commands.AddCommands(typeof(EventCommands));
         commands.AddCommands(typeof(CalcCommands));
-        commands.AddCommands([typeof(MiscCommands)]);
-        
+        commands.AddCommands(typeof(MiscCommands));
+        commands.AddCommands(typeof(PatronCommands));
+
         await _client.ConnectAsync();
     }
 
@@ -95,7 +100,7 @@ public class DiscordBotClient(ILogger<DiscordBotClient> logger, IOptions<Discord
     private async Task HandleError(CommandsExtension extension, CommandErroredEventArgs args)
     {
         logger.LogWarning("HandleError({args})", args.Exception);
-        
+
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirErrorPresets(args.Context);
 
