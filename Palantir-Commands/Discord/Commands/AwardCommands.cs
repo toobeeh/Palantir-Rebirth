@@ -182,7 +182,7 @@ public class AwardCommands(
             .Select(award => new
             {
                 Awardee = award, Award = awardsDict[award.AwardId],
-                Image = award.LinkedImageId is { } id ? imageDict[id] : null
+                Image = award.LinkedImageId is { } id && imageDict.TryGetValue(id, out var value) ? value : null
             })
             .Select((item, index) =>
             {
