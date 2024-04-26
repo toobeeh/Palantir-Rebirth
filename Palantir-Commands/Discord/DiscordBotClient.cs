@@ -111,13 +111,9 @@ public class DiscordBotClient(
 
         switch (args.Exception)
         {
-            case CommandNotExecutableException cnee:
-                embedBuilder.WithTitle($"Command `{cnee.Command.FullName}` not found");
-                embedBuilder.WithDescription("Use the command `/help` to see a list of supported commands.");
-                break;
-
             case CommandNotFoundException cnfe:
-                embedBuilder.WithTitle($"Command `{cnfe.CommandName}` not found");
+            case CommandNotExecutableException cnee:
+                embedBuilder.WithTitle($"Command `{args.Context.Command.FullName}` not found");
                 embedBuilder.WithDescription("Use the command `/help` to see a list of supported commands.");
                 break;
 
