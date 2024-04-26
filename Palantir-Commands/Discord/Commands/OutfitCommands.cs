@@ -161,6 +161,25 @@ public class OutfitCommands(
             return;
         }
 
+        if (!member.MappedFlags.Any(flag => flag is MemberFlagMessage.Patron or MemberFlagMessage.Admin) &&
+            outfit.SpriteSlotConfiguration.Count(slot => slot.ColorShift != null) > 1)
+        {
+            await context.RespondAsync(embed: new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, $"Outfit `{name}` is too powerful",
+                    "This outfit has more than one rainbow sprite configured.\nTo use this outfit, you need a Patreon subscription."));
+            return;
+        }
+
+        var memberSlots =
+            await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
+        if (memberSlots.UnlockedSlots < outfit.SpriteSlotConfiguration.Count)
+        {
+            await context.RespondAsync(embed: new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, $"Outfit `{name}` is too powerful",
+                    $"This outfit has more too many sprite slots configured.\nCurrently, you have {memberSlots.UnlockedSlots} slots available."));
+            return;
+        }
+
         await outfitsClient.UseOutfitAsync(new UseOutfitRequest { Login = member.Login, OutfitName = name });
 
         var embed = new DiscordEmbedBuilder()
