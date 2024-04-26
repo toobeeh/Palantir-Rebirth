@@ -5,17 +5,16 @@ using tobeh.Valmar;
 
 namespace Palantir_Commands.Discord.Checks;
 
-public class RequirePalantirMemberCheck(MemberContext memberContext, Members.MembersClient membersClient) : 
+public class RequirePalantirMemberCheck(MemberContext memberContext, Members.MembersClient membersClient) :
     IContextCheck<RequirePalantirMemberAttribute>,
     IContextCheck
 {
-    
     public async ValueTask<string?> ExecuteCheckAsync(
         RequirePalantirMemberAttribute attribute,
         CommandContext context)
     {
         MemberReply member;
-        
+
         try
         {
             // attach member to context, if not already by parent check
@@ -34,7 +33,9 @@ public class RequirePalantirMemberCheck(MemberContext memberContext, Members.Mem
 
         var firstMissingFlag =
             attribute.RequiredFlags.FindIndex(flag => !member.MappedFlags.Contains(flag));
-        
-        return firstMissingFlag >= 0 ? $"You need the flag '{attribute.RequiredFlags[firstMissingFlag]}' to use this command." : null;
+
+        return firstMissingFlag >= 0
+            ? $"You need the role '{attribute.RequiredFlags[firstMissingFlag]}' to use this command."
+            : null;
     }
 }

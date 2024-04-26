@@ -258,7 +258,7 @@ public class MiscCommands(
 
             var graph = "```css\n";
 
-            int lastBubbles = 0;
+            var lastBubbles = 0;
             for (var i = 0; i < days.Count; i++)
             {
                 var day = days[i];

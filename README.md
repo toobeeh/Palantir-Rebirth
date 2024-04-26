@@ -60,24 +60,16 @@ Checklist for implementation:
 - [x] `>event gift [user] [amount] [eventId]` - Gift a user event drops of an event
 - [ ] ~~`>event redeem [amount] [sprite]` - Redeem event league credit for a sprite's event drop~~ Removed
 
-Needed grpc services:
-- getEvent(id:int) - event details
-- getEvents() - list of events
-- giftEventDrop(login:int, target:int, amount:int, spriteId:int) - return loss
-- redeemEventDrop(login:int, amount:int, spriteId:int) - return redeemed amount
-- getLossRate(login:int, eventId:int, eventDrop:int) - return lossrate
-- getEventCredits(login:int, eventId:int) - return list of event credits
-
 ### League
 - [x] `>league (month) (year)` - View the league overview for a month
 - [x] `>league board (month) (year)` - View the league board for a month
 - [x] `>league rank (month) (year)` - View the own league stats for a month
 
 ### Patreon
-- [ ] `>card` - View the user card
-- [ ] `>card customize [headercolor] [lighttext] [darktext] [bgopacity] [headeropacity] (imgurid)` - Customize the user card
-- [ ] `>patronize (user-id)` - Patronize a user or view/remove the patronized user
-- [ ] `>patronemoji (emoji)` - Set the patronemoji or view/remove the patronized user
+- [ ] `>card` / `>card view` - View the user card
+- [ ] `>card customize (headercolor) (lighttext) (darktext) (bgopacity) (headeropacity) (imgurid) (templateName)` - Customize the user card
+- [ ] `>patron gift (@user)` - Patronize a user or view/remove the patronized user
+- [ ] `>patron emoji (emoji)` - Set the patronemoji or view/remove the patronized user
 
 ### Splits
 - [x] `>boost inv` - Show an overview of the user splits
@@ -87,12 +79,9 @@ Needed grpc services:
 - [x] `>boost cooldown` - View a member's current split cooldowns
 
 ### Awards
-- [x] `>awards` / `>awards inventory` - Show an overview of the user's given/received awards'
-- [x] `>awards gallery` - Show the gallery of received awards
-- [x] `>awards view [id]` - View an received award with image
-
-### Admin
-(not necessary for first release)
+- [x] `>award` / `>awards inventory` - Show an overview of the user's given/received awards'
+- [x] `>award gallery` - Show the gallery of received awards
+- [x] `>award view [id]` - View an received award with image
 
 ### Misc
 - [ ] `>help (command)` - Show the help
@@ -101,6 +90,9 @@ Needed grpc services:
 - [x] `>leaderboard (bubbles / drops)` - View the server leaderboard of bubbles or drops
 - [x] `>stat (day/week/month)` - View the bubble stat graph for month/week/day
 - [x] `>inventory` - View the inventory of the user (no sprites/list) with stats of drops, bubbles, flags, current combo, patronemoji, splits
+
+### Admin
+(not necessary for first release)
 
 ## Lobbies
 Most likely there will be a separate Discord bot for lobbies to prevent ratelimit issues.  

@@ -109,25 +109,39 @@ public class DiscordBotClient(
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirErrorPresets(args.Context);
 
-        if (args.Exception is CommandNotFoundException cnfe)
+        switch (args.Exception)
         {
-            embedBuilder.WithTitle($"Command `{cnfe.CommandName}` not found");
-            embedBuilder.WithDescription("Help will arrive soon!");
-        }
-        else if (args.Exception is RpcException re)
-        {
-            embedBuilder.WithTitle($"Something does not seem right:");
-            embedBuilder.WithDescription(re.Status.Detail);
-        }
-        else if (args.Exception is ChecksFailedException cfe)
-        {
-            embedBuilder.WithTitle($"This command is not available");
-            embedBuilder.WithDescription(string.Join("\n", cfe.Errors.Select(e => $"- {e.ErrorMessage}")));
-        }
-        else
-        {
-            embedBuilder.WithTitle($"An unexpected error occurred");
-            embedBuilder.WithDescription(args.Exception.Message);
+            case CommandNotExecutableException cnee:
+                embedBuilder.WithTitle($"Command `{cnee.Command.FullName}` not found");
+                embedBuilder.WithDescription("Use the command `/help` to see a list of supported commands.");
+                break;
+
+            case CommandNotFoundException cnfe:
+                embedBuilder.WithTitle($"Command `{cnfe.CommandName}` not found");
+                embedBuilder.WithDescription("Use the command `/help` to see a list of supported commands.");
+                break;
+
+            case RpcException re:
+                embedBuilder.WithTitle($"Something broke during command execution:");
+                embedBuilder.WithDescription(
+                    $"{re.Status.Detail}\n\nPlease try the command again; or ask for help on the Typo Discord server if the error persists.");
+                break;
+
+            case ChecksFailedException cfe:
+                embedBuilder.WithTitle($"This command is locked for you.");
+                embedBuilder.WithDescription(string.Join("\n", cfe.Errors.Select(e => $"{e.ErrorMessage}")));
+                break;
+
+            case ArgumentParseException ape:
+                embedBuilder.WithTitle($"Incorrect command usage :(");
+                embedBuilder.WithDescription(
+                    $"The value for the parameter `{ape.Parameter.Name}` is invalid.\n Use the command `/help {args.Context.Command.FullName}` for more information.");
+                break;
+
+            default:
+                embedBuilder.WithTitle($"An unexpected error occurred:");
+                embedBuilder.WithDescription(args.Exception.Message);
+                break;
         }
 
         await args.Context.RespondAsync(embedBuilder.Build());
