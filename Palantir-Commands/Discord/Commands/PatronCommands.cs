@@ -1,75 +1,90 @@
+using DSharpPlus;
 using DSharpPlus.Commands;
-using DSharpPlus.Commands.Processors.SlashCommands;
 using DSharpPlus.Entities;
 using Microsoft.Extensions.Logging;
 using Palantir_Commands.Discord.Checks;
+using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Services;
-using tobeh.TypoImageGen;
-using tobeh.TypoImageGen.Client.Util;
 using tobeh.Valmar;
-using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
+[Command("patron")]
 public class PatronCommands(
     ILogger<PatronCommands> logger,
     MemberContext memberContext,
-    Inventory.InventoryClient inventoryClient,
-    Card.CardClient cardClient,
-    ImageGenerator.ImageGeneratorClient imageGeneratorClient,
-    Stats.StatsClient statsClient
-)
+    Inventory.InventoryClient inventoryClient)
 {
-    [Command("card"), RequirePalantirMember(MemberFlagMessage.Patron),
-     SlashCommandTypes(DiscordApplicationCommandType.SlashCommand, DiscordApplicationCommandType.MessageContextMenu)]
-    public async Task ShowUserCard(CommandContext context)
+    [Command("emoji"), RequirePalantirMember(MemberFlagMessage.Patron)]
+    public async Task SetPatronEmoji(CommandContext context, DiscordEmoji? emoji = null)
     {
-        logger.LogTrace("ShowUserCard()");
+        logger.LogTrace("SetPatronEmoji(emoji={emoji})", emoji);
 
         var member = memberContext.Member;
-        var spriteInv = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
-            .ToListAsync();
-        var firstSeen =
-            await inventoryClient.GetFirstSeenDateAsync(new GetFirstSeenDateRequest { Login = member.Login });
-        var dropCredit = await inventoryClient.GetDropCreditAsync(new GetDropCreditRequest { Login = member.Login });
-        var colorMaps = spriteInv
-            .Where(spt => spt.ColorShift != null && spt.Slot > 0)
-            .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
-        var dropLeaderboard =
-            await statsClient.GetLeaderboardAsync(new GetLeaderboardMessage { Mode = LeaderboardMode.Drops });
-        var bubbleLeaderboard =
-            await statsClient.GetLeaderboardAsync(new GetLeaderboardMessage { Mode = LeaderboardMode.Bubbles });
-        var dropRank = dropLeaderboard.Entries.ToList().FirstOrDefault(entry => entry.Login == member.Login)?.Rank ?? 0;
-        var bubbleRank =
-            bubbleLeaderboard.Entries.ToList().FirstOrDefault(entry => entry.Login == member.Login)?.Rank ?? 0;
 
-        var combo = spriteInv.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot).Select(slot => slot.SpriteId);
+        await inventoryClient.SetPatronEmojiAsync(new SetPatronEmojiMessage
+            { Login = member.Login, Emoji = emoji?.ToString() });
 
-        var card = await imageGeneratorClient.GenerateCard(new GenerateCardMessage
+        if (emoji is not null)
         {
-            SettingsOwnerLogin = member.Login,
-            Username = context.User.Username,
-            IsModerator = member.MappedFlags.Contains(MemberFlagMessage.Moderator),
-            IsPatron = member.MappedFlags.Contains(MemberFlagMessage.Patron),
-            IsEarlyUser = firstSeen.FirstSeen.ToDateTimeOffset() <
-                          new DateTimeOffset(2020, 9, 1, 0, 0, 0, TimeSpan.Zero),
-            ProfileImageUrl = context.User.AvatarUrl,
-            SpritesCount = spriteInv.Count,
-            ServersConnected = member.ServerConnections.Count,
-            FirstSeen = $"{firstSeen.FirstSeen.ToDateTimeOffset():d}",
-            Bubbles = member.Bubbles,
-            Drops = dropCredit.TotalCredit,
-            BubbleRank = bubbleRank,
-            DropRank = dropRank,
-            DropRatio = dropCredit.TotalCredit /
-                        Math.Max(1, member.Bubbles / 1000d), // TODO add total value incl event drops
-            EventsParticipated = 0,
-            Combo = new GenerateComboMessage { SpriteIds = { combo }, ColorMaps = { colorMaps } }
-        }).CollectFileChunksAsync();
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirPresets(context)
+                .WithAuthor("Prettyyyy!")
+                .WithTitle($"Emoji updated to `{emoji}`")
+                .WithDescription(
+                    $"This emoji will be displayed next to your score in the Palantir lobby message on Discord.\n" +
+                    $"You can use the command `/patron emoji` to remove it."));
+        }
+        else
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirPresets(context)
+                .WithAuthor("You're a commoner now")
+                .WithTitle($"Emoji removed")
+                .WithDescription(
+                    $"You removed your patron emoji.\n" +
+                    $"You can use the command `/patron emoji (emoji)` to choose a new one."));
+        }
+    }
 
-        var message = new DiscordMessageBuilder()
-            .AddFile(card.FileName, card.Data);
+    [Command("gift"), RequirePalantirMember(MemberFlagMessage.Admin)]
+    public async Task ChoosePatronize(CommandContext context, DiscordUser? user = null)
+    {
+        logger.LogTrace("ChoosePatronize(user={user})", user);
 
-        await context.RespondAsync(message);
+        var member = memberContext.Member;
+        if (member.NextPatronizeDate.ToDateTimeOffset() > DateTimeOffset.UtcNow)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context)
+                .WithTitle("Patronizer cooldown")
+                .WithDescription($"You can only change the patronized member every seven days. \n" +
+                                 $"You need to wait until {Formatter.Timestamp(member.NextPatronizeDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}."));
+            return;
+        }
+
+        await inventoryClient.PatronizeMemberAsync(new PatronizeMemberMessage
+            { Login = member.Login, PatronizedDiscordId = (long?)user?.Id });
+
+        if (user is not null)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirPresets(context)
+                .WithAuthor("Thanks for supporting typo <3")
+                .WithTitle($"You have patronized {Formatter.Mention(user, true)}")
+                .WithDescription(
+                    $"{Formatter.Mention(user, true)} will be a patron as long as you have the patronizer subscription.\n" +
+                    $"You can use the command `/patron gift` to remove it, or `/patron gift (@user)` to choose a new receiver.\n" +
+                    $"Patronized members can be switched every seven days."));
+        }
+        else
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirPresets(context)
+                .WithTitle($"Patronized member removed")
+                .WithDescription(
+                    $"You are now patronizing no one.\n" +
+                    $"To choose someone, use the command `/patron gift (@user)`."));
+        }
     }
 }

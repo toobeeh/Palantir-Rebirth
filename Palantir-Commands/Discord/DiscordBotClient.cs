@@ -67,10 +67,14 @@ public class DiscordBotClient(
         textCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(dropboostStartModeArgumentConverter);
         await commands.AddProcessorsAsync(textCommandProcessor);
 
-        // create slash processor
-        var slashCommandProcessor = new SlashCommandProcessor();
-        slashCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(dropboostStartModeArgumentConverter);
-        await commands.AddProcessorAsync(slashCommandProcessor);
+        // create slash processor, if configured
+        if (options.Value.UseSlash)
+        {
+            var slashCommandProcessor = new SlashCommandProcessor();
+            slashCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(
+                dropboostStartModeArgumentConverter);
+            await commands.AddProcessorAsync(slashCommandProcessor);
+        }
 
         // add custom checks
         commands.AddCheck<RequirePalantirMemberCheck>();
@@ -86,6 +90,7 @@ public class DiscordBotClient(
         commands.AddCommands(typeof(EventCommands));
         commands.AddCommands(typeof(CalcCommands));
         commands.AddCommands(typeof(MiscCommands));
+        commands.AddCommands(typeof(CardCommands));
         commands.AddCommands(typeof(PatronCommands));
 
         await _client.ConnectAsync();

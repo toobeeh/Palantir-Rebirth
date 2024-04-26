@@ -29,7 +29,7 @@
         <ProjectReference Include="$(LocalImageGenSource)" />
     </ItemGroup>
     <ItemGroup Condition=" '$(LocalImageGenSource)' == '' ">
-        <PackageReference Include="tobeh.TypoImageGen.Client" Version="0.1.1713864679" />
+        <PackageReference Include="tobeh.TypoImageGen.Client" Version="0.1.1714124026"/>
     </ItemGroup>
     
     <!-- toggle between local and nuget valmar client -->
@@ -37,7 +37,7 @@
         <ProjectReference Include="$(LocalValmarSource)"  />
     </ItemGroup>
     <ItemGroup Condition=" '$(LocalValmarSource)' == '' ">
-        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1713866097" />
+        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1714123687"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -47,6 +47,10 @@
         <Content Include="Configuration\*.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Util\"/>
     </ItemGroup>
 
 </Project>
