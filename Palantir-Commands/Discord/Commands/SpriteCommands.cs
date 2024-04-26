@@ -40,10 +40,12 @@ public class SpriteCommands(
             .ToListAsync();
 
         // get all sprites, likely more performance than each individually
-        var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
+        var sprites = await spritesClient.GetAllSprites(new Empty()).ToDictionaryAsync(sprite => sprite.Id);
         var ranks = await spritesClient.GetSpriteRanking(new Empty()).ToListAsync();
 
-        var userSprites = sprites.Where(sprite => inventory.Any(slot => slot.SpriteId == sprite.Id)).ToList();
+        var userSprites = inventory
+            .Select(sprite => sprites[sprite.SpriteId])
+            .OrderBy(spt => spt.Id).ToList();
         var eventSpriteCount = userSprites.Count(sprite => sprite.EventDropId > 0);
         var totalWorth = userSprites
             .Where(sprite => sprite.EventDropId is null)
@@ -57,10 +59,10 @@ public class SpriteCommands(
 
         // batch sprites to 45 per page
         const int batchSize = 45;
-        var pages = inventory.Chunk(batchSize).Select((batch, idx) => new
+        var pages = userSprites.Chunk(batchSize).Select((batch, idx) => new
         {
             Page = idx + 1,
-            Sprites = batch.Select(slot => slot.SpriteId)
+            Sprites = batch
         }).Select(page =>
         {
             var spriteNumberStart = batchSize * (page.Page - 1) + 1;
@@ -84,10 +86,9 @@ public class SpriteCommands(
 
             foreach (var fieldBatch in page.Sprites.Chunk(5))
             {
-                var fieldSprites = sprites.Where(sprite => fieldBatch.Contains(sprite.Id));
                 embed.AddField("_ _",
                     string.Join("\n",
-                        fieldSprites.Select(sprite =>
+                        fieldBatch.Select(sprite =>
                             $"`{sprite.Id.AsTypoId()}`{(sprite.IsRainbow ? " `🌈`" : "")}{(sprite.IsSpecial ? " `✨`" : "")} {sprite.Name}")),
                     true);
             }
