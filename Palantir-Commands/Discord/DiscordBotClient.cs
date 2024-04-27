@@ -41,6 +41,9 @@ public class DiscordBotClient(
         // use interactivity
         _client.UseInteractivity(new InteractivityConfiguration());
 
+        // use help command documentation mapper
+        _client.GuildDownloadCompleted += HelpCommandDocumentationMapperEventHandlers.OnGuildDownloadCompleted;
+
         // use commands extension
         var commands = _client.UseCommands(new CommandsConfiguration
         {
@@ -50,8 +53,6 @@ public class DiscordBotClient(
 
         // use custom error handler
         commands.CommandErrored += HandleError;
-
-        _client.GuildDownloadCompleted += HelpCommandDocumentationMapperEventHandlers.OnGuildDownloadCompleted;
 
         // create argument converters
         var dropboostStartModeArgumentConverter = new DropboostStartModeArgumentConverter

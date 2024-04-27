@@ -1,5 +1,6 @@
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.SlashCommands;
+using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
 using Google.Protobuf.WellKnownTypes;
@@ -32,7 +33,8 @@ public class CardCommands(
     Events.EventsClient eventsClient,
     Card.CardClient cardClient,
     ImageGenerator.ImageGeneratorClient imageGeneratorClient,
-    Stats.StatsClient statsClient
+    Stats.StatsClient statsClient,
+    Members.MembersClient membersClient
 )
 {
     /// <summary>
@@ -46,6 +48,15 @@ public class CardCommands(
         logger.LogTrace("ShowUserCard()");
 
         var member = memberContext.Member;
+        var userTarget = context.User;
+        if (context is TextCommandContext textContext && textContext.Message.Reference is { } reference)
+        {
+            userTarget = reference.Message.Author ?? throw new Exception("Referenced message has no author");
+            member =
+                await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest
+                    { Id = (long)userTarget.Id });
+        }
+
         var spriteInv = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
             .ToListAsync();
         var firstSeen =
@@ -74,12 +85,12 @@ public class CardCommands(
         var card = await imageGeneratorClient.GenerateCard(new GenerateCardMessage
         {
             SettingsOwnerLogin = member.Login,
-            Username = context.User.Username,
+            Username = userTarget.Username,
             IsModerator = member.MappedFlags.Contains(MemberFlagMessage.Moderator),
             IsPatron = member.MappedFlags.Contains(MemberFlagMessage.Patron),
             IsEarlyUser = firstSeen.FirstSeen.ToDateTimeOffset() <
                           new DateTimeOffset(2020, 9, 1, 0, 0, 0, TimeSpan.Zero),
-            ProfileImageUrl = context.User.AvatarUrl,
+            ProfileImageUrl = userTarget.AvatarUrl,
             SpritesCount = spriteInv.Count,
             ServersConnected = member.ServerConnections.Count,
             FirstSeen = $"{firstSeen.FirstSeen.ToDateTimeOffset():d}",
