@@ -13,6 +13,15 @@ using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
+/// <summary>
+/// View, buy and use sprites
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="memberContext"></param>
+/// <param name="spritesClient"></param>
+/// <param name="inventoryClient"></param>
+/// <param name="imageGeneratorClient"></param>
+/// <param name="eventsClient"></param>
 [Command("sprite")]
 [TextAlias("spt")]
 public class SpriteCommands(
@@ -190,6 +199,11 @@ public class SpriteCommands(
         await context.RespondAsync(embedBuilder.Build());
     }
 
+    /// <summary>
+    /// Buy a new sprite
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="spriteId">The ID of the sprite that will be added to your inventory</param>
     [Command("buy")]
     [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task BuySprite(CommandContext context, int spriteId)

@@ -11,6 +11,16 @@ using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
+/// <summary>
+/// View, buy and use scenes
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="memberContext"></param>
+/// <param name="scenesClient"></param>
+/// <param name="inventoryClient"></param>
+/// <param name="membersClient"></param>
+/// <param name="statsClient"></param>
+/// <param name="eventsClient"></param>
 [Command("scene")]
 [TextAlias("sc")]
 public class SceneCommands(
@@ -18,7 +28,6 @@ public class SceneCommands(
     MemberContext memberContext,
     Scenes.ScenesClient scenesClient,
     Inventory.InventoryClient inventoryClient,
-    Members.MembersClient membersClient,
     Stats.StatsClient statsClient,
     Events.EventsClient eventsClient)
 {
@@ -163,6 +172,11 @@ public class SceneCommands(
         await context.RespondAsync(embedBuilder.Build());
     }
 
+    /// <summary>
+    /// Buy a new scene
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="sceneId">The ID of the scene that will be added to your inventory</param>
     [Command("buy")]
     [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task BuyScene(CommandContext context, int sceneId)
@@ -249,7 +263,7 @@ public class SceneCommands(
     /// Choose a scene as your avatar background on skribbl.
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="sceneId">The ID of a scene, or none to remove it</param>
+    /// <param name="sceneId">The ID of a scene, or empty to choose no scene</param>
     [Command("use")]
     [RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task UseScene(CommandContext context, int? sceneId = null)

@@ -14,6 +14,17 @@ using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
+/// <summary>
+/// View your current event stats or browse past events
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="eventsClient"></param>
+/// <param name="inventoryClient"></param>
+/// <param name="spritesClient"></param>
+/// <param name="scenesClient"></param>
+/// <param name="statsClient"></param>
+/// <param name="membersClient"></param>
+/// <param name="memberContext"></param>
 [Command("event"), TextAlias("ev")]
 public class EventCommands(
     ILogger<EventCommands> logger,
@@ -26,6 +37,10 @@ public class EventCommands(
     MemberContext memberContext
 )
 {
+    /// <summary>
+    /// Show a list of all events that have ever happened
+    /// </summary>
+    /// <param name="context"></param>
     [Command("list"), TextAlias("ls")]
     public async Task ViewEventList(CommandContext context)
     {
@@ -57,6 +72,11 @@ public class EventCommands(
         await context.RespondPalantirPaginationAsync(pages);
     }
 
+    /// <summary>
+    /// View a summary of your current event progress
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="eventId">The ID of the event that will be shown</param>
     [Command("view"), TextAlias("vw"), DefaultGroupCommand, RequirePalantirMember]
     public async Task ViewEvent(CommandContext context, uint? eventId = null)
     {
@@ -149,6 +169,12 @@ public class EventCommands(
         await context.RespondAsync(embed);
     }
 
+    /// <summary>
+    /// Gift event drops to another member
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="receiver">The member that will receive your gift</param>
+    /// <exception cref="Exception"></exception>
     [Command("gift"), TextAlias("gf"), RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task GiftEventDrops(CommandContext context, DiscordMember receiver)
     {

@@ -16,6 +16,7 @@ using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Commands;
 using Palantir_Commands.Discord.Converters;
 using Palantir_Commands.Discord.Extensions;
+using Palantir_Commands.Discord.XmlDoc;
 
 namespace Palantir_Commands.Discord;
 
@@ -49,6 +50,8 @@ public class DiscordBotClient(
 
         // use custom error handler
         commands.CommandErrored += HandleError;
+
+        _client.GuildDownloadCompleted += HelpCommandDocumentationMapperEventHandlers.OnGuildDownloadCompleted;
 
         // create argument converters
         var dropboostStartModeArgumentConverter = new DropboostStartModeArgumentConverter
@@ -92,6 +95,7 @@ public class DiscordBotClient(
         commands.AddCommands(typeof(MiscCommands));
         commands.AddCommands(typeof(CardCommands));
         commands.AddCommands(typeof(PatronCommands));
+        commands.AddCommands(typeof(HelpCommand));
 
         await _client.ConnectAsync();
     }

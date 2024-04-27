@@ -14,6 +14,16 @@ using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
+/// <summary>
+/// Create and use outfits for quick switching between sprites and scenes
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="outfitsClient"></param>
+/// <param name="imageGeneratorClient"></param>
+/// <param name="memberContext"></param>
+/// <param name="inventoryClient"></param>
+/// <param name="spritesClient"></param>
+/// <param name="scenesClient"></param>
 [Command("outfit"), TextAlias("of")]
 public class OutfitCommands(
     ILogger<OutfitCommands> logger,
@@ -26,7 +36,7 @@ public class OutfitCommands(
 )
 {
     /// <summary>
-    /// Lists all saved outfits
+    /// List all saved outfits
     /// </summary>
     /// <param name="context"></param>
     [Command("list"), DefaultGroupCommand, RequirePalantirMember(MemberFlagMessage.Beta)]
@@ -74,6 +84,11 @@ public class OutfitCommands(
         await context.RespondPalantirPaginationAsync(pages);
     }
 
+    /// <summary>
+    /// Save your current scene, sprites and color customization as a new outfit
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="name">The new outfit name, or an existing outfit that will be overwritten</param>
     [Command("save"), TextAlias("sv"), RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task SaveOutfit(CommandContext context, string name)
     {
@@ -113,6 +128,11 @@ public class OutfitCommands(
             embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
 
+    /// <summary>
+    /// Delete an outfit from your outfit list
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="name">The name of the outfit that will be removed</param>
     [Command("delete"), TextAlias("dl"), RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task DeleteOutfit(CommandContext context, string name)
     {
@@ -140,6 +160,11 @@ public class OutfitCommands(
             .WithDescription("To save a new outfit with your current style, use `/outfit save (name)`"));
     }
 
+    /// <summary>
+    /// Load sprites, colors and scene from an outfit
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="name">The name of the outfit that will be loaded</param>
     [Command("use"), RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task UseOutfit(CommandContext context, string name)
     {
@@ -200,6 +225,11 @@ public class OutfitCommands(
             embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
     }
 
+    /// <summary>
+    /// View the configuration of saved outfit
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="name">The name of the outfit that will be shown</param>
     [Command("view"), TextAlias("vw"), RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task ViewOutfit(CommandContext context, string name)
     {

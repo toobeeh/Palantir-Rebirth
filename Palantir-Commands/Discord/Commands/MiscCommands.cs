@@ -27,6 +27,10 @@ public class MiscCommands(
     ImageGenerator.ImageGeneratorClient imageGeneratorClient
 )
 {
+    /// <summary>
+    /// View an overview of your typo account
+    /// </summary>
+    /// <param name="context"></param>
     [Command("inventory"), TextAlias("inv"), RequirePalantirMember]
     public async Task ViewInventory(CommandContext context)
     {
@@ -154,7 +158,7 @@ public class MiscCommands(
 
 
     /// <summary>
-    /// Views the leaderboard of the server
+    /// View the leaderboard of the current server
     /// </summary>
     /// <param name="context"></param>
     /// <param name="mode">The ranking mode - either bubble or drops</param>
@@ -205,10 +209,10 @@ public class MiscCommands(
     }
 
     /// <summary>
-    /// Shows a statistics of your bubble progress
+    /// Show a statistic of your bubble progress
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="mode">The display mode: either day, week or month</param>
+    /// <param name="mode">The display mode of the statistics</param>
     [Command("statistics"), TextAlias("stat"), RequirePalantirMember]
     public async Task ViewBubbleProgress(CommandContext context,
         BubbleProgressIntervalMode mode = BubbleProgressIntervalMode.Day)

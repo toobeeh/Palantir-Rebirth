@@ -11,6 +11,13 @@ using tobeh.Valmar;
 
 namespace Palantir_Commands.Discord.Commands;
 
+/// <summary>
+/// View your league stats or the overall season ranking
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="leaguesClient"></param>
+/// <param name="memberContext"></param>
+/// <param name="membersClient"></param>
 [Command("league")]
 [TextAlias("lg")]
 public class LeagueCommands(

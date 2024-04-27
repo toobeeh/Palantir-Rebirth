@@ -14,6 +14,16 @@ using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
+/// <summary>
+/// View your personalized card or change card settings
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="memberContext"></param>
+/// <param name="inventoryClient"></param>
+/// <param name="eventsClient"></param>
+/// <param name="cardClient"></param>
+/// <param name="imageGeneratorClient"></param>
+/// <param name="statsClient"></param>
 [Command("card")]
 public class CardCommands(
     ILogger<CardCommands> logger,
@@ -25,6 +35,10 @@ public class CardCommands(
     Stats.StatsClient statsClient
 )
 {
+    /// <summary>
+    /// View your personalized card with your stats and sprites
+    /// </summary>
+    /// <param name="context"></param>
     [Command("view"), TextAlias("vw"), DefaultGroupCommand, RequirePalantirMember(MemberFlagMessage.Patron),
      SlashCommandTypes(DiscordApplicationCommandType.SlashCommand, DiscordApplicationCommandType.MessageContextMenu)]
     public async Task ShowUserCard(CommandContext context)
@@ -86,6 +100,17 @@ public class CardCommands(
         await context.RespondAsync(message);
     }
 
+    /// <summary>
+    /// Customize your card with a theme color, text colors, background image, and more
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="themeColor">The primary color of your card</param>
+    /// <param name="lightTextColor">The color of the primary text</param>
+    /// <param name="darkTextColor">The color of the secondary text</param>
+    /// <param name="imgurBackgroundId">The background image ID, can be obtained with the card customize tool on the typo website.</param>
+    /// <param name="backgroundOpacity">The opacity of the card's background image</param>
+    /// <param name="headerOpacity">The opacity of the card's header</param>
+    /// <param name="cardTemplate">The card style - currently "classic" or "froggo" are available</param>
     [Command("customize"), TextAlias("cm"), RequirePalantirMember(MemberFlagMessage.Patron)]
     public async Task SetCardPresets(CommandContext context, string themeColor = "black",
         string lightTextColor = "white", string darkTextColor = "white", string? imgurBackgroundId = null,

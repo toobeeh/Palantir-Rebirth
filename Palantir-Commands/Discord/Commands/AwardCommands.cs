@@ -13,6 +13,14 @@ using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
+/// <summary>
+/// View award stats and your award gallery
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="memberContext"></param>
+/// <param name="awardsClient"></param>
+/// <param name="inventoryClient"></param>
+/// <param name="membersClient"></param>
 [Command("award"), TextAlias("aw")]
 public class AwardCommands(
     ILogger<AwardCommands> logger,
@@ -31,7 +39,7 @@ public class AwardCommands(
     };
 
     /// <summary>
-    /// Lists the award inventory
+    /// List the award inventory
     /// </summary>
     /// <param name="context"></param>
     [Command("inventory"), TextAlias("inv"), DefaultGroupCommand, RequirePalantirMember(MemberFlagMessage.Beta)]
@@ -152,7 +160,7 @@ public class AwardCommands(
     }
 
     /// <summary>
-    /// Views a listing of all  your awarded images
+    /// View a listing of all  your awarded images
     /// </summary>
     /// <param name="context"></param>
     [Command("gallery"), TextAlias("gl"), RequirePalantirMember]
@@ -214,7 +222,7 @@ public class AwardCommands(
     }
 
     /// <summary>
-    /// Views an awarded image from your gallery
+    /// View an awarded image from your gallery
     /// </summary>
     /// <param name="context"></param>
     /// <param name="id">The image id from the gallery</param>

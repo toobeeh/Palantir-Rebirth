@@ -14,6 +14,14 @@ using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Commands.Discord.Commands;
 
+/// <summary>
+/// View and manage your splits and dropboosts
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="memberContext"></param>
+/// <param name="dropsClient"></param>
+/// <param name="lobbiesClient"></param>
+/// <param name="splitsClient"></param>
 [Command("boost")]
 public class SplitCommands(
     ILogger<SplitCommands> logger,
@@ -23,7 +31,7 @@ public class SplitCommands(
     Splits.SplitsClient splitsClient)
 {
     /// <summary>
-    /// View your received splits
+    /// View all your received split rewards
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
@@ -94,7 +102,7 @@ public class SplitCommands(
     }
 
     /// <summary>
-    /// View a listing of your split cooldowns
+    /// View a list of your split cooldowns
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
@@ -142,7 +150,7 @@ public class SplitCommands(
     }
 
     /// <summary>
-    /// View a listing of currently active dropboosts
+    /// View a list of currently active dropboosts
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
@@ -190,13 +198,13 @@ public class SplitCommands(
     }
 
     /// <summary>
-    /// Starts a new dropboost
+    /// Start a new dropboost
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="factorSplits"></param>
-    /// <param name="durationSplits"></param>
-    /// <param name="cooldownSplits"></param>
-    /// <param name="startMode"></param>
+    /// <param name="factorSplits">The amount of splits that will be used to increase the droprate</param>
+    /// <param name="durationSplits">The amount of splits that will be used to increase the boost time duration</param>
+    /// <param name="cooldownSplits">The amount of splits that will be used to lower the cooldown of the used splits</param>
+    /// <param name="startMode">Choose "now" if you want to skip a review of your selected boost</param>
     /// <exception cref="Exception"></exception>
     [Command("start")]
     [DefaultGroupCommand]
@@ -220,10 +228,10 @@ public class SplitCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="boostId"></param>
-    /// <param name="factorSplitsIncrease"></param>
-    /// <param name="durationSplitsIncrease"></param>
-    /// <param name="cooldownSplitsIncrease"></param>
-    /// <param name="startMode"></param>
+    /// <param name="factorSplitsIncrease">The amount of splits that will be used to increase the droprate</param>
+    /// <param name="durationSplitsIncrease">The amount of splits that will be used to increase the boost time duration</param>
+    /// <param name="cooldownSplitsIncrease">The amount of splits that will be used to lower the cooldown of the used splits</param>
+    /// <param name="startMode">Choose "now" if you want to skip a review of your selected boost</param>
     /// <exception cref="Exception"></exception>
     [Command("upgrade")]
     [TextAlias("ug")]

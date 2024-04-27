@@ -9,12 +9,23 @@ using tobeh.Valmar;
 
 namespace Palantir_Commands.Discord.Commands;
 
+/// <summary>
+/// Commands to manage patreon subscription features
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="memberContext"></param>
+/// <param name="inventoryClient"></param>
 [Command("patron")]
 public class PatronCommands(
     ILogger<PatronCommands> logger,
     MemberContext memberContext,
     Inventory.InventoryClient inventoryClient)
 {
+    /// <summary>
+    /// Choose an emoji that will be shown instead of your bubbles in palantir
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="emoji">The emoji of your choice</param>
     [Command("emoji"), RequirePalantirMember(MemberFlagMessage.Patron)]
     public async Task SetPatronEmoji(CommandContext context, DiscordEmoji? emoji = null)
     {
@@ -47,12 +58,27 @@ public class PatronCommands(
         }
     }
 
+    /// <summary>
+    /// Gift patreon perks to another member
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="user">The member that will receive your gift</param>
     [Command("gift"), RequirePalantirMember(MemberFlagMessage.Admin)]
     public async Task ChoosePatronize(CommandContext context, DiscordUser? user = null)
     {
         logger.LogTrace("ChoosePatronize(user={user})", user);
 
         var member = memberContext.Member;
+
+        if (!member.MappedFlags.Contains(MemberFlagMessage.Patronizer))
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context)
+                .WithTitle("You are not a patronizer!")
+                .WithDescription($"Subscribe to the patronizer tier on patreon to gift a friend patreon perks."));
+            return;
+        }
+
         if (member.NextPatronizeDate.ToDateTimeOffset() > DateTimeOffset.UtcNow)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
