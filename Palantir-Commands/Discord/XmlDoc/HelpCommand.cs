@@ -8,9 +8,8 @@ using DSharpPlus.Commands.Trees;
 using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
 using Palantir_Commands.Discord.Extensions;
-using Palantir_Commands.Discord.XmlDoc;
 
-namespace Palantir_Commands.Discord.Commands
+namespace Palantir_Commands.Discord.XmlDoc
 {
     public static class HelpCommand
     {
@@ -20,7 +19,7 @@ namespace Palantir_Commands.Discord.Commands
         /// <param name="context"></param>
         /// <param name="command">A command name</param>
         /// <returns></returns>
-        [Command("help")]
+        [Command("help"), TextAlias("hp")]
         public static ValueTask ExecuteAsync(CommandContext context, [RemainingText] string? command = null)
         {
             if (string.IsNullOrWhiteSpace(command))
@@ -113,19 +112,18 @@ namespace Palantir_Commands.Discord.Commands
                     embed.AddField("Required Permissions", builder.ToString());
                 }
 
-                embed.AddField("`💳` Usage", command.GetUsage());
+                embed.AddField("`💳` Usage", $"<> = required, [] = optional\n{command.GetUsage()}");
                 foreach (var parameter in command.Parameters)
                 {
-                    embed.AddField(
-                        $"{parameter.Name} - {context.Extension.GetProcessor<TextCommandProcessor>().Converters[GetConverterFriendlyBaseType(parameter.Type)]}",
-                        HelpCommandDocumentationMapperEventHandlers.CommandParameterDocumentation.TryGetValue(parameter,
-                            out string? parameterDocumentation)
-                            ? parameterDocumentation
-                            : "No description provided.");
-                }
+                    var paramType = context.Extension.GetProcessor<TextCommandProcessor>()
+                        .Converters[GetConverterFriendlyBaseType(parameter.Type)].GetType();
+                    HelpCommandArgumentNameMapping.Names.TryGetValue(paramType, out var desc);
 
-                embed.WithImageUrl("https://files.forsaken-borders.net/transparent.png?cache-bust=1");
-                embed.WithFooter("<> = required, [] = optional");
+                    embed.AddField(
+                        $"{parameter.Name} - {desc ?? "Unknown argument type"}",
+                        HelpCommandDocumentationMapperEventHandlers.CommandParameterDocumentation.GetValueOrDefault(
+                            parameter, "No description provided."));
+                }
             }
 
             return new DiscordMessageBuilder().AddEmbed(embed);

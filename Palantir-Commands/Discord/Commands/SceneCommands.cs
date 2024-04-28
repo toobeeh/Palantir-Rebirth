@@ -18,7 +18,6 @@ namespace Palantir_Commands.Discord.Commands;
 /// <param name="memberContext"></param>
 /// <param name="scenesClient"></param>
 /// <param name="inventoryClient"></param>
-/// <param name="membersClient"></param>
 /// <param name="statsClient"></param>
 /// <param name="eventsClient"></param>
 [Command("scene")]
@@ -36,9 +35,7 @@ public class SceneCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
-    [Command("inventory")]
-    [TextAlias("inv")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("inventory"), TextAlias("inv"), RequirePalantirMember]
     public async Task ViewSceneInventory(CommandContext context)
     {
         logger.LogTrace("ViewSceneInventory(context)");
@@ -77,8 +74,8 @@ public class SceneCommands(
 
         if (inventory.SceneIds.Count < 2)
         {
-            embed.AddField("Command help:", "Use `/scene buy (id)` to buy a scene\n" +
-                                            "Use `/scene use (id)` to wear a scene");
+            embed.AddField("Command help:", "Use `/scene buy <id>` to buy a scene\n" +
+                                            "Use `/scene use <id>` to wear a scene");
         }
 
         foreach (var fieldScenes in userScenes.Chunk(5))
@@ -129,9 +126,7 @@ public class SceneCommands(
     /// <param name="context"></param>
     /// <param name="sceneId">The ID of the scene to show</param>
     /// <exception cref="Exception"></exception>
-    [DefaultGroupCommand]
-    [Command("view")]
-    [TextAlias("vw")]
+    [DefaultGroupCommand, Command("view"), TextAlias("vw")]
     public async Task ViewScene(CommandContext context, int sceneId)
     {
         logger.LogTrace("ViewScene(context, {sceneId})", sceneId);
@@ -177,8 +172,7 @@ public class SceneCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="sceneId">The ID of the scene that will be added to your inventory</param>
-    [Command("buy")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("buy"), RequirePalantirMember]
     public async Task BuyScene(CommandContext context, int sceneId)
     {
         logger.LogTrace("BuyScene(context, {sceneId})", sceneId);
@@ -264,8 +258,7 @@ public class SceneCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="sceneId">The ID of a scene, or empty to choose no scene</param>
-    [Command("use")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("use"), RequirePalantirMember]
     public async Task UseScene(CommandContext context, int? sceneId = null)
     {
         logger.LogTrace("UseScene(context, {sceneId})", sceneId);

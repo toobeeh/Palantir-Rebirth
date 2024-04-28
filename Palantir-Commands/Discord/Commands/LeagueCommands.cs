@@ -12,7 +12,7 @@ using tobeh.Valmar;
 namespace Palantir_Commands.Discord.Commands;
 
 /// <summary>
-/// View your league stats or the overall season ranking
+/// View the league stats or the overall season ranking
 /// </summary>
 /// <param name="logger"></param>
 /// <param name="leaguesClient"></param>
@@ -33,8 +33,7 @@ public class LeagueCommands(
     /// <param name="seasonMonth">The month (1-12) of the season</param>
     /// <param name="seasonYear">The year (eg 2023) of the season</param>
     /// <exception cref="Exception"></exception>
-    [DefaultGroupCommand]
-    [Command("season")]
+    [Command("season"), DefaultGroupCommand]
     public async Task ViewSeasonOverview(CommandContext context, int? seasonMonth = null, int? seasonYear = null)
     {
         logger.LogTrace("ViewSeasonOverview(context, {seasonMonth}, {seasonYear})", seasonMonth, seasonYear);
@@ -129,9 +128,7 @@ public class LeagueCommands(
     /// <param name="seasonMonth">The month (1-12) of the season</param>
     /// <param name="seasonYear">The year (eg 2023) of the season</param>
     /// <exception cref="Exception"></exception>
-    [Command("rank")]
-    [TextAlias("rk")]
-    [RequirePalantirMember]
+    [Command("rank"), TextAlias("rk"), RequirePalantirMember]
     public async Task ViewSeasonRank(CommandContext context, int? seasonMonth = null, int? seasonYear = null)
     {
         logger.LogTrace("ViewSeasonRank(context, {seasonMonth}, {seasonYear})", seasonMonth, seasonYear);
@@ -219,8 +216,7 @@ public class LeagueCommands(
     /// <param name="seasonMonth">The month (1-12) of the season</param>
     /// <param name="seasonYear">The year (eg 2023) of the season</param>
     /// <exception cref="Exception"></exception>
-    [Command("board")]
-    [TextAlias("bd")]
+    [Command("board"), TextAlias("bd")]
     public async Task ViewSeasonBoard(CommandContext context, int? seasonMonth = null, int? seasonYear = null)
     {
         logger.LogTrace("ViewSeasonBoard(context, {seasonMonth}, {seasonYear})", seasonMonth, seasonYear);

@@ -82,7 +82,6 @@ public class MiscCommands(
         {
             { MemberFlagMessage.Admin, "🛠️ Admin" },
             { MemberFlagMessage.Moderator, "🛡️ Moderator" },
-            { MemberFlagMessage.UnlimitedCloud, "🖼️ Unlimited Cloud" },
             { MemberFlagMessage.Beta, "🧪 Beta Tester" },
             { MemberFlagMessage.Booster, "🔥 Server Booster" },
             { MemberFlagMessage.BubbleFarming, "⚠️ Bubble Farming" },
@@ -137,10 +136,10 @@ public class MiscCommands(
         var packAvailable = member.NextAwardPackDate.ToDateTimeOffset() < DateTimeOffset.UtcNow;
         var boostText = boostAvailable
             ? "Dropboost available!"
-            : $@"Next boost in {(DateTimeOffset.UtcNow - splitInv.ActiveDropboosts.Select(boost => boost.CooldownEndDate).Order().First().ToDateTimeOffset()).AsCountdownTimespan()}";
+            : $"Next boost in {(DateTimeOffset.UtcNow - splitInv.ActiveDropboosts.Select(boost => boost.CooldownEndDate).Order().First().ToDateTimeOffset()).AsCountdownTimespan()}";
         var awardPackText = packAvailable
             ? "Award pack available!"
-            : $@"Next pack in {(member.NextAwardPackDate.ToDateTimeOffset() - DateTimeOffset.UtcNow).AsCountdownTimespan()}";
+            : $"Next pack in {(member.NextAwardPackDate.ToDateTimeOffset() - DateTimeOffset.UtcNow).AsCountdownTimespan()}";
         embed.AddField("Recent Activity",
             $"```md\n{(packAvailable ? ">" : "-")} {awardPackText}\n{(boostAvailable ? ">" : "-")} {boostText}\n- {awardPackInfo.CollectedBubbles} bubbles / last week```");
 
@@ -165,7 +164,7 @@ public class MiscCommands(
     /// <param name="searchValue">When a search value is provided, the leaderboard shows the page with the closest scores first.</param>
     [Command("leaderboard"), TextAlias("lb"), RequireGuild]
     public async Task ViewLeaderboard(CommandContext context, LeaderboardMode mode = LeaderboardMode.Bubbles,
-        int? searchValue = null)
+        uint? searchValue = null)
     {
         logger.LogTrace("ViewLeaderboard(context, mode={mode})", mode);
 

@@ -63,7 +63,7 @@ public class EventCommands(
                 .WithPalantirPresets(context)
                 .WithTitle("All Sprite Events")
                 .WithDescription("This listing contains all events - planned, active and passed.\n" +
-                                 "To view a single event and your progress, use the command `/event view (id)`.\n _ _ \n_ _")
+                                 "To view a single event and your progress, use the command `/event view [id]`.\n _ _ \n_ _")
                 .WithDualColumnFields(page, item => item.Title, item => item.Description);
 
             return embed;
@@ -175,7 +175,7 @@ public class EventCommands(
     /// <param name="context"></param>
     /// <param name="receiver">The member that will receive your gift</param>
     /// <exception cref="Exception"></exception>
-    [Command("gift"), TextAlias("gf"), RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("gift"), TextAlias("gf"), RequirePalantirMember]
     public async Task GiftEventDrops(CommandContext context, DiscordMember receiver)
     {
         logger.LogTrace("GiftEventDrops(receiver={receiver})", receiver);
@@ -233,7 +233,6 @@ public class EventCommands(
                                  $"When you do that, Palantir will keep a small amount of the gift to prevent shady business.\n" +
                                  $"Your current gift loss rate is `{lossRate.LossRateBase * 100:0.#}%` ({lossRate.CollectedDrops:0.#}/{lossRate.RequiredDrops} drops)\n_ _\n" +
                                  $"To send a gift, choose the event drop which you want to gift to {Formatter.Mention(receiver, true)}.");
-
 
             if (selectedDrop is not null)
             {

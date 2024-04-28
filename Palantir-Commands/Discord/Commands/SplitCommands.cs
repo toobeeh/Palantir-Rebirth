@@ -15,7 +15,7 @@ using tobeh.Valmar.Client.Util;
 namespace Palantir_Commands.Discord.Commands;
 
 /// <summary>
-/// View and manage your splits and dropboosts
+/// View and manage splits and dropboosts
 /// </summary>
 /// <param name="logger"></param>
 /// <param name="memberContext"></param>
@@ -31,13 +31,11 @@ public class SplitCommands(
     Splits.SplitsClient splitsClient)
 {
     /// <summary>
-    /// View all your received split rewards
+    /// View all received split rewards
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
-    [Command("inventory")]
-    [TextAlias("inv")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("inventory"), TextAlias("inv"), RequirePalantirMember]
     public async Task ViewSplitInventory(CommandContext context)
     {
         logger.LogTrace("ViewSplitInventory(context)");
@@ -106,9 +104,7 @@ public class SplitCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
-    [Command("cooldown")]
-    [TextAlias("cd")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("cooldown"), TextAlias("cd"), RequirePalantirMember]
     public async Task ViewSplitCooldowns(CommandContext context)
     {
         logger.LogTrace("ViewSplitCooldowns(context)");
@@ -121,7 +117,7 @@ public class SplitCommands(
             .WithPalantirPresets(context)
             .WithDescription(
                 "When you use splits to start a dropboost, they have a default cooldown of seven days.\n" +
-                "You can modify listed boosts with the command `/boost upgrade [id]`.\n" +
+                "You can modify listed boosts with the command `/boost upgrade <id>`.\n" +
                 "The splits listed here are currently in cooldown.")
             .WithTitle("Split Cooldowns");
 
@@ -154,9 +150,7 @@ public class SplitCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
-    [Command("rate")]
-    [TextAlias("rt")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("rate"), TextAlias("rt"), RequirePalantirMember]
     public async Task ViewCurrentDropboosts(CommandContext context)
     {
         logger.LogTrace("ViewCurrentDropboosts(context)");
@@ -206,9 +200,7 @@ public class SplitCommands(
     /// <param name="cooldownSplits">The amount of splits that will be used to lower the cooldown of the used splits</param>
     /// <param name="startMode">Choose "now" if you want to skip a review of your selected boost</param>
     /// <exception cref="Exception"></exception>
-    [Command("start")]
-    [DefaultGroupCommand]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("start"), DefaultGroupCommand, RequirePalantirMember]
     public async Task StartDropboost(CommandContext context, uint factorSplits = 2, uint durationSplits = 0,
         uint cooldownSplits = 0, DropboostStartMode startMode = DropboostStartMode.Check)
     {
@@ -233,9 +225,7 @@ public class SplitCommands(
     /// <param name="cooldownSplitsIncrease">The amount of splits that will be used to lower the cooldown of the used splits</param>
     /// <param name="startMode">Choose "now" if you want to skip a review of your selected boost</param>
     /// <exception cref="Exception"></exception>
-    [Command("upgrade")]
-    [TextAlias("ug")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("upgrade"), TextAlias("ug"), RequirePalantirMember]
     public async Task UpgradeDropboost(CommandContext context, uint boostId, uint factorSplitsIncrease = 0,
         uint durationSplitsIncrease = 0, uint cooldownSplitsIncrease = 0,
         DropboostStartMode startMode = DropboostStartMode.Check)

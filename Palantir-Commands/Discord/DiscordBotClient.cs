@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Palantir_Commands.Discord.Checks;
 using Palantir_Commands.Discord.Commands;
-using Palantir_Commands.Discord.Converters;
 using Palantir_Commands.Discord.Extensions;
 using Palantir_Commands.Discord.XmlDoc;
 
@@ -54,12 +53,6 @@ public class DiscordBotClient(
         // use custom error handler
         commands.CommandErrored += HandleError;
 
-        // create argument converters
-        var dropboostStartModeArgumentConverter = new DropboostStartModeArgumentConverter
-        {
-            ParameterType = DiscordApplicationCommandOptionType.String
-        };
-
         // create text processor
         var textCommandProcessor = new TextCommandProcessor
         {
@@ -68,15 +61,12 @@ public class DiscordBotClient(
                 PrefixResolver = new DefaultPrefixResolver(options.Value.Prefix).ResolvePrefixAsync
             }
         };
-        textCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(dropboostStartModeArgumentConverter);
         await commands.AddProcessorsAsync(textCommandProcessor);
 
         // create slash processor, if configured
         if (options.Value.UseSlash)
         {
             var slashCommandProcessor = new SlashCommandProcessor();
-            slashCommandProcessor.AddConverter<DropboostStartModeArgumentConverter>(
-                dropboostStartModeArgumentConverter);
             await commands.AddProcessorAsync(slashCommandProcessor);
         }
 
@@ -129,8 +119,18 @@ public class DiscordBotClient(
                 break;
 
             case ChecksFailedException cfe:
-                embedBuilder.WithTitle($"This command is locked for you.");
-                embedBuilder.WithDescription(string.Join("\n", cfe.Errors.Select(e => $"{e.ErrorMessage}")));
+                if (cfe.Errors.Any(err => err.ErrorMessage.Contains("Patron")))
+                {
+                    embedBuilder.WithTitle($"Uh oh, a wild paywall appeared.");
+                    embedBuilder.WithDescription(
+                        $"You need to be a {"Patron".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to use this command.\n");
+                }
+                else
+                {
+                    embedBuilder.WithTitle("You are not allowed to use this command :");
+                    embedBuilder.WithDescription(string.Join("\n", cfe.Errors.Select(e => $"{e.ErrorMessage}")));
+                }
+
                 break;
 
             case ArgumentParseException ape:

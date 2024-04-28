@@ -54,7 +54,7 @@ public class PatronCommands(
                 .WithTitle($"Emoji removed")
                 .WithDescription(
                     $"You removed your patron emoji.\n" +
-                    $"You can use the command `/patron emoji (emoji)` to choose a new one."));
+                    $"You can use the command `/patron emoji [emoji]` to choose a new one."));
         }
     }
 
@@ -63,21 +63,12 @@ public class PatronCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="user">The member that will receive your gift</param>
-    [Command("gift"), RequirePalantirMember(MemberFlagMessage.Admin)]
+    [Command("gift"), RequirePalantirMember(MemberFlagMessage.Patronizer)]
     public async Task ChoosePatronize(CommandContext context, DiscordUser? user = null)
     {
         logger.LogTrace("ChoosePatronize(user={user})", user);
 
         var member = memberContext.Member;
-
-        if (!member.MappedFlags.Contains(MemberFlagMessage.Patronizer))
-        {
-            await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context)
-                .WithTitle("You are not a patronizer!")
-                .WithDescription($"Subscribe to the patronizer tier on patreon to gift a friend patreon perks."));
-            return;
-        }
 
         if (member.NextPatronizeDate.ToDateTimeOffset() > DateTimeOffset.UtcNow)
         {

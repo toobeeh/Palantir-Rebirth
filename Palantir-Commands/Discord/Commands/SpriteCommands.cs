@@ -37,9 +37,7 @@ public class SpriteCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
-    [Command("inventory")]
-    [TextAlias("inv")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("inventory"), TextAlias("inv"), RequirePalantirMember]
     public async Task ViewSpriteInventory(CommandContext context)
     {
         logger.LogTrace("ViewSpriteInventory(context)");
@@ -88,9 +86,9 @@ public class SpriteCommands(
 
             if (inventory.Count < 5)
             {
-                embed.AddField("Command help:", "Use `/sprite buy (id)` to buy a sprite\n" +
-                                                "Use `/sprite use (id)` to wear a sprite\n" +
-                                                "Use `/sprite color (id) (color)` to colorize a rainbow sprite");
+                embed.AddField("Command help:", "Use `/sprite buy <id>` to buy a sprite\n" +
+                                                "Use `/sprite use <id>` to wear a sprite\n" +
+                                                "Use `/sprite color <id> [color]` to colorize a rainbow sprite");
             }
 
             foreach (var fieldBatch in page.Sprites.Chunk(5))
@@ -113,8 +111,7 @@ public class SpriteCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <exception cref="Exception"></exception>
-    [Command("list")]
-    [TextAlias("ls")]
+    [Command("list"), TextAlias("ls")]
     public async Task ListSprites(CommandContext context)
     {
         logger.LogTrace("ListSprites(context)");
@@ -148,9 +145,7 @@ public class SpriteCommands(
     /// <param name="context"></param>
     /// <param name="spriteId">The ID of the sprite to show</param>
     /// <exception cref="Exception"></exception>
-    [DefaultGroupCommand]
-    [Command("view")]
-    [TextAlias("vw")]
+    [DefaultGroupCommand, Command("view"), TextAlias("vw")]
     public async Task ViewSprite(CommandContext context, int spriteId)
     {
         logger.LogTrace("ViewSprite(context, {spriteId})", spriteId);
@@ -204,8 +199,7 @@ public class SpriteCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="spriteId">The ID of the sprite that will be added to your inventory</param>
-    [Command("buy")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("buy"), RequirePalantirMember]
     public async Task BuySprite(CommandContext context, int spriteId)
     {
         logger.LogTrace("BuySprite(context, {spriteId})", spriteId);
@@ -290,8 +284,7 @@ public class SpriteCommands(
     /// <param name="context"></param>
     /// <param name="spriteId">The ID of a sprite</param>
     /// <param name="slot">The sprite slot where the sprite will be used on</param>
-    [Command("use")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("use"), RequirePalantirMember]
     public async Task UseSprite(CommandContext context, int spriteId, uint slot = 1)
     {
         logger.LogTrace("UseSprite(context, {spriteId}, {slot})", spriteId, slot);
@@ -356,9 +349,7 @@ public class SpriteCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="combo">A sequence of sprite IDs, in order of slots</param>
-    [Command("combo")]
-    [TextAlias("cb")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("combo"), TextAlias("cb"), RequirePalantirMember]
     public async Task UseCombo(CommandContext context, params int[] combo)
     {
         logger.LogTrace("UseCombo(context, {combo})", combo);
@@ -366,8 +357,7 @@ public class SpriteCommands(
         var member = memberContext.Member;
         var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
             .ToListAsync();
-        var allSprites = await spritesClient.GetAllSprites(new Empty()).ToDictionaryAsync(sprite => sprite.Id);
-
+        
         // filter out 0 sprite
         combo = combo.Where(id => id != 0).ToArray();
 
@@ -430,9 +420,7 @@ public class SpriteCommands(
     /// <param name="context"></param>
     /// <param name="spriteId">The ID of the sprite which will be colorized.</param>
     /// <param name="shift">A number from 0-200 to modify your sprite color. 100 is the original color.</param>
-    [Command("color")]
-    [TextAlias("col")]
-    [RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("color"), TextAlias("col"), RequirePalantirMember(MemberFlagMessage.Beta)]
     public async Task UseSpriteColorConfig(CommandContext context, int spriteId, int? shift = null)
     {
         logger.LogTrace("UseSpriteColorConfig(context, {shift})", shift);

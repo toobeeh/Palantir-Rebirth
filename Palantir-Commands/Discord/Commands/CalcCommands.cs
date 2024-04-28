@@ -41,13 +41,13 @@ public class CalcCommands(
             .WithPalantirPresets(context)
             .WithTitle($"Time to reach {amount} bubbles")
             .WithDescription(
-                @$"To collect {amount} more bubbles, you have to spend `{time.AsCountdownTimespan()}` on skribbl.");
+                $"To collect {amount} more bubbles, you have to spend `{time.AsCountdownTimespan()}` on skribbl.");
 
         await context.RespondAsync(embed);
     }
 
     /// <summary>
-    /// Calculate the time needed to reach a certain position on the leaderboard.
+    /// Calculate the time needed to reach a certain position on the leaderboard
     /// </summary>
     /// <param name="context"></param>
     /// <param name="position">The position in the leaderboard that should be reached</param>
@@ -76,7 +76,7 @@ public class CalcCommands(
         {
             embed.WithTitle($"Time to become #{position}")
                 .WithDescription(
-                    @$"To reach #{position} ({rank?.Bubbles ?? 0} Bubbles) on the server leaderboard, you have to spend `{TimeSpan.FromSeconds(seconds).AsCountdownTimespan()}` on skribbl.");
+                    $"To reach #{position} ({rank?.Bubbles ?? 0} Bubbles) on the server leaderboard, you have to spend `{TimeSpan.FromSeconds(seconds).AsCountdownTimespan()}` on skribbl.");
         }
         else
         {

@@ -39,7 +39,7 @@ public class OutfitCommands(
     /// List all saved outfits
     /// </summary>
     /// <param name="context"></param>
-    [Command("list"), DefaultGroupCommand, RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("list"), DefaultGroupCommand, RequirePalantirMember]
     public async Task ListOutfits(CommandContext context)
     {
         logger.LogTrace("ListOutfits(context)");
@@ -63,9 +63,9 @@ public class OutfitCommands(
             if (page.Outfits.Count < 3)
             {
                 embed.AddField("Command help:",
-                    "Use `/outfit save (name)` to save your current appearance as a new outfit.\n" +
-                    "Use `/outfit use (name)` to activate one of your saved outfits.\n" +
-                    "Use `/outfit delete (name)` to remove an outfit.\n"
+                    "Use `/outfit save <name>` to save your current appearance as a new outfit.\n" +
+                    "Use `/outfit use <name>` to activate one of your saved outfits.\n" +
+                    "Use `/outfit delete <name>` to remove an outfit.\n"
                 );
             }
 
@@ -89,7 +89,7 @@ public class OutfitCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="name">The new outfit name, or an existing outfit that will be overwritten</param>
-    [Command("save"), TextAlias("sv"), RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("save"), TextAlias("sv"), RequirePalantirMember]
     public async Task SaveOutfit(CommandContext context, string name)
     {
         logger.LogTrace("SaveOutfit(context, name={name})", name);
@@ -114,7 +114,7 @@ public class OutfitCommands(
             .WithAuthor("What a drip")
             .WithTitle($"Outfit `{name}` saved")
             .WithDescription(
-                "This outfit contains your current sprites and scene.\n You can now use this outfit with `/outfit use (name)` or view details with `/outfit view (name)`");
+                "This outfit contains your current sprites and scene.\n You can now use this outfit with `/outfit use <name>` or view details with `/outfit view <name>`");
 
         var colorMaps = spriteInv
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
@@ -133,7 +133,7 @@ public class OutfitCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="name">The name of the outfit that will be removed</param>
-    [Command("delete"), TextAlias("dl"), RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("delete"), TextAlias("dl"), RequirePalantirMember]
     public async Task DeleteOutfit(CommandContext context, string name)
     {
         logger.LogTrace("DeleteOutfit(context, name={name})", name);
@@ -157,7 +157,7 @@ public class OutfitCommands(
         await context.RespondAsync(embed: new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithTitle($"Outfit `{name}` deleted")
-            .WithDescription("To save a new outfit with your current style, use `/outfit save (name)`"));
+            .WithDescription("To save a new outfit with your current style, use `/outfit save <name>`"));
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ public class OutfitCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="name">The name of the outfit that will be loaded</param>
-    [Command("use"), RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("use"), RequirePalantirMember]
     public async Task UseOutfit(CommandContext context, string name)
     {
         logger.LogTrace("UseOutfit(context, name={name})", name);
@@ -191,7 +191,7 @@ public class OutfitCommands(
         {
             await context.RespondAsync(embed: new DiscordEmbedBuilder()
                 .WithPalantirErrorPresets(context, $"Outfit `{name}` is too powerful",
-                    "This outfit has more than one rainbow sprite configured.\nTo use this outfit, you need a Patreon subscription."));
+                    $"This outfit has more than one rainbow sprite configured.\nTo use this outfit, you need a {"Patreon".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} subscription."));
             return;
         }
 
@@ -230,7 +230,7 @@ public class OutfitCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="name">The name of the outfit that will be shown</param>
-    [Command("view"), TextAlias("vw"), RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("view"), TextAlias("vw"), RequirePalantirMember]
     public async Task ViewOutfit(CommandContext context, string name)
     {
         logger.LogTrace("ViewOutfit(context, name={name})", name);

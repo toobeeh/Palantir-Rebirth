@@ -14,7 +14,7 @@ using tobeh.Valmar.Client.Util;
 namespace Palantir_Commands.Discord.Commands;
 
 /// <summary>
-/// View award stats and your award gallery
+/// View award stats and the award gallery
 /// </summary>
 /// <param name="logger"></param>
 /// <param name="memberContext"></param>
@@ -42,7 +42,7 @@ public class AwardCommands(
     /// List the award inventory
     /// </summary>
     /// <param name="context"></param>
-    [Command("inventory"), TextAlias("inv"), DefaultGroupCommand, RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("inventory"), TextAlias("inv"), DefaultGroupCommand, RequirePalantirMember]
     public async Task ViewAwardInventory(CommandContext context)
     {
         logger.LogTrace("ViewAwardInventory(context)");
@@ -212,7 +212,7 @@ public class AwardCommands(
                 .WithPalantirPresets(context)
                 .WithTitle("Award Gallery")
                 .WithDescription("Here you can see all the awards you have received from other players.\n" +
-                                 "To view a single award and its image, use the command `/award view (id)`.")
+                                 "To view a single award and its image, use the command `/award view <id>`.")
                 .WithDualColumnFields(page, item => item.Title, item => $"```md\n{item.Description}\n```");
 
             return embed;
