@@ -138,7 +138,7 @@ public class EventCommands(
                 $"From {Formatter.Timestamp(evt.StartDate.ToDateTimeOffset(), TimestampFormat.LongDate)} to {Formatter.Timestamp(evt.EndDate.ToDateTimeOffset(), TimestampFormat.LongDate)} ({evt.Length} days)\n" +
                 (evt.Progressive ? "This event is progressive. Event drops and sprites will reveal gradually!" : "") +
                 (giftLossRate.CollectedDrops > 0
-                    ? $"Your current gift loss rate is `{giftLossRate.LossRateBase * 100:0.#}%` ({giftLossRate.CollectedDrops:0.#}/{giftLossRate.RequiredDrops} drops)\nTo gift event drops, use `/event gift (@receiver)`\n"
+                    ? $"Your current gift loss rate is `{giftLossRate.LossRateBase * 100:0.#}%` ({giftLossRate.CollectedDrops:0.#}/{giftLossRate.RequiredDrops} drops)\nTo gift event drops, use `/event gift <@receiver>`\n"
                     : "") +
                 $"\n```\n{evt.Description}```");
 

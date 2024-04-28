@@ -323,7 +323,7 @@ public class SpriteCommands(
         await inventoryClient.UseSpriteComboAsync(new UseSpriteComboRequest
         {
             ClearOtherSlots = false,
-            Combo = { new SpriteSlotConfigurationRequest { SpriteId = spriteId, SlotId = (int)slot } },
+            Combo = { new SpriteSlotConfigurationRequest { SpriteId = sprite?.Id, SlotId = (int)slot } },
             Login = member.Login
         });
 
@@ -348,7 +348,7 @@ public class SpriteCommands(
     /// To quickly remove all sprites, use '0' as combo.
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="combo">A sequence of sprite IDs, in order of slots</param>
+    /// <param name="combo">A sequence of sprite IDs, in order of slots. To leave a slot empty, use 0</param>
     [Command("combo"), TextAlias("cb"), RequirePalantirMember]
     public async Task UseCombo(CommandContext context, params int[] combo)
     {
@@ -357,9 +357,6 @@ public class SpriteCommands(
         var member = memberContext.Member;
         var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
             .ToListAsync();
-        
-        // filter out 0 sprite
-        combo = combo.Where(id => id != 0).ToArray();
 
         // check if the user owns all sprites
         if (combo.Any(id => id > 0 && inventory.All(invSlot => invSlot.SpriteId != id)))
@@ -389,18 +386,19 @@ public class SpriteCommands(
             ClearOtherSlots = true,
             Combo =
             {
-                combo.Select((id, idx) => new SpriteSlotConfigurationRequest { SpriteId = id, SlotId = idx + 1 })
+                combo.Select((id, idx) => new SpriteSlotConfigurationRequest
+                    { SpriteId = id == 0 ? null : id, SlotId = idx + 1 })
             },
             Login = member.Login
         });
 
+        var comboIsEmpty = combo.All(c => c == 0);
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
-            .WithAuthor(combo?.Length == 0 ? "You cleared your sprite combo." : "You activated a sprite combo!")
-            .WithTitle(combo?.Length == 0 ? "Such empty 💨" : $"{combo?.Length ?? 0} Sprites selected")
+            .WithAuthor(comboIsEmpty ? "You cleared your sprite combo." : "You activated a sprite combo!")
+            .WithTitle(comboIsEmpty ? "Such empty 💨" : $"{combo.Length} slots filled")
             .WithDescription($"This sprite combo will now be displayed on your skribbl avatar.\n" +
                              $"To clear the combo, use the command `/sprite combo 0`.");
-
 
         var colorMaps = inventory
             .Where(spt => spt.ColorShift != null)

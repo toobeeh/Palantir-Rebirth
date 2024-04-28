@@ -1,4 +1,3 @@
-using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Entities;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,14 +21,15 @@ public static class EmbedBuilderExtensions
         {
             akaPalantir = null;
         }
-        
+
         builder.WithColor(DiscordColor.CornflowerBlue);
         builder.WithFooter($"{name}{akaPalantir}", "https://i.imgur.com/Smt9vsr.png");
         builder.WithTimestamp(DateTimeOffset.Now);
         return builder;
     }
-    
-    public static DiscordEmbedBuilder WithPalantirErrorPresets(this DiscordEmbedBuilder builder, CommandContext context, string? errorTitle = null, string? errorDescription = null)
+
+    public static DiscordEmbedBuilder WithPalantirErrorPresets(this DiscordEmbedBuilder builder, CommandContext context,
+        string? errorTitle = null, string? errorDescription = null)
     {
         var name = context.Member?.DisplayName ?? context.User.Username;
 
@@ -37,7 +37,7 @@ public static class EmbedBuilderExtensions
         try
         {
             var memberContext = context.ServiceProvider.GetRequiredService<MemberContext>();
-            akaPalantir = memberContext.Member.Username == name ? null : $" aka {memberContext.Member.Username}";
+            akaPalantir = memberContext.Member.Username == name ? null : $" (👤 {memberContext.Member.Username})";
         }
         catch
         {
@@ -52,26 +52,28 @@ public static class EmbedBuilderExtensions
         builder.WithTimestamp(DateTimeOffset.Now);
         return builder;
     }
-    
-    public static DiscordEmbedBuilder WithDualColumnFields<TItem>(this DiscordEmbedBuilder builder, IList<TItem> items, Func<TItem, string> titleSelector, Func<TItem, string> contentSelector)
+
+    public static DiscordEmbedBuilder WithDualColumnFields<TItem>(this DiscordEmbedBuilder builder, IList<TItem> items,
+        Func<TItem, string> titleSelector, Func<TItem, string> contentSelector)
     {
         var remaining = items.ToList();
         while (remaining.Count > 0)
         {
             var seq = remaining.Take(2).ToList();
             remaining = remaining.Skip(2).ToList();
-            
+
             seq.ForEach(item => builder.AddField(titleSelector.Invoke(item), contentSelector.Invoke(item), true));
-            if(remaining.Count > 0) builder.AddField("_ _", "_ _");
+            if (remaining.Count > 0) builder.AddField("_ _", "_ _");
         }
 
         return builder;
     }
-    
-    public static DiscordMessageBuilder ToMessageBuilderWithAttachmentImage(this DiscordEmbedBuilder builder, string fileName, Stream fileStream)
+
+    public static DiscordMessageBuilder ToMessageBuilderWithAttachmentImage(this DiscordEmbedBuilder builder,
+        string fileName, Stream fileStream)
     {
         builder.WithImageUrl($"attachment://{fileName}");
-        
+
         var messageBuilder = new DiscordMessageBuilder();
         messageBuilder.AddEmbed(builder);
         messageBuilder.AddFile(fileName, fileStream);
