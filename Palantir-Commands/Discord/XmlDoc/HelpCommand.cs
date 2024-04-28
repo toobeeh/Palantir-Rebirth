@@ -32,6 +32,8 @@ namespace Palantir_Commands.Discord.XmlDoc
             }
 
             return context.RespondAsync(new DiscordEmbedBuilder()
+                .AddField("Command suggestions",
+                    string.Join("\n", context.Extension.FindSimilarCommands(command).Take(10).Select(c => $"- `/{c}`")))
                 .WithPalantirErrorPresets(context, $"Command `{command}` not found",
                     "The command you are looking for does not exist.\nUse `/help` to view a list of all commands."));
         }
