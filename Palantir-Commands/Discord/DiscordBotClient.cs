@@ -127,7 +127,7 @@ public class DiscordBotClient(
                 }
                 else
                 {
-                    embedBuilder.WithTitle("You are not allowed to use this command :");
+                    embedBuilder.WithTitle("You are not allowed to use this commands:");
                     embedBuilder.WithDescription(string.Join("\n", cfe.Errors.Select(e => $"{e.ErrorMessage}")));
                 }
 
