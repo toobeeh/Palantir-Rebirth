@@ -20,7 +20,7 @@ namespace Palantir_Commands.Discord.XmlDoc
         /// <param name="command">A command name</param>
         /// <returns></returns>
         [Command("help"), TextAlias("hp")]
-        public static ValueTask ExecuteAsync(CommandContext context, [RemainingText] string? command = null)
+        public static ValueTask ShowHelp(CommandContext context, [RemainingText] string? command = null)
         {
             if (string.IsNullOrWhiteSpace(command))
             {
@@ -33,9 +33,25 @@ namespace Palantir_Commands.Discord.XmlDoc
 
             return context.RespondAsync(new DiscordEmbedBuilder()
                 .AddField("Command suggestions",
-                    string.Join("\n", context.Extension.FindSimilarCommands(command).Take(10).Select(c => $"- `/{c}`")))
+                    string.Join("\n", context.Extension.FindSimilarCommands(command).Take(5).Select(c => $"- `/{c}`")))
                 .WithPalantirErrorPresets(context, $"Command `{command}` not found",
                     "The command you are looking for does not exist.\nUse `/help` to view a list of all commands."));
+        }
+
+        /// <summary>
+        /// Search for similar commands
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="command">A command name</param>
+        /// <returns></returns>
+        [Command("find"), TextAlias("fd")]
+        public static ValueTask FindCommands(CommandContext context, [RemainingText] string? command = null)
+        {
+            return context.RespondAsync(new DiscordEmbedBuilder()
+                .AddField($"Commands matching `/{command}`",
+                    string.Join("\n", context.Extension.FindSimilarCommands(command).Take(20).Select(c => $"- `/{c}`")))
+                .WithPalantirPresets(context)
+                .WithTitle("Command search results"));
         }
 
         public static DiscordMessageBuilder GetHelpMessage(CommandContext context)
