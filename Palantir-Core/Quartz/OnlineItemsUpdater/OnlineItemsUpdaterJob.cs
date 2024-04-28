@@ -1,13 +1,19 @@
 using System.Diagnostics;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
+using Palantir_Core.Discord;
 using Quartz;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
 
 namespace Palantir_Core.Quartz.OnlineItemsUpdater;
 
-public class OnlineItemsUpdaterJob(ILogger<OnlineItemsUpdaterJob> logger, Admin.AdminClient adminClient, Lobbies.LobbiesClient lobbiesClient) : IJob
+public class OnlineItemsUpdaterJob(
+    ILogger<OnlineItemsUpdaterJob> logger,
+    Drops.DropsClient dropsClient,
+    DiscordApiClient discordClient,
+    Admin.AdminClient adminClient,
+    Lobbies.LobbiesClient lobbiesClient) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
     {
@@ -16,9 +22,12 @@ public class OnlineItemsUpdaterJob(ILogger<OnlineItemsUpdaterJob> logger, Admin.
         var sw = new Stopwatch();
         sw.Start();
         var onlineMembers = await lobbiesClient.GetOnlinePlayers(new Empty()).ToListAsync();
-        
+        var dropRate = await dropsClient.GetCurrentBoostFactorAsync(new Empty());
+
+        // set currently playing count
+        await discordClient.SetStatus(onlineMembers.Select(member => member.Login).Distinct().Count(), dropRate.Boost);
+
         // get sprite, scene, shift choices (add to onlineMembers data) - write them plus rewardee online items
-        
         var memberItems = onlineMembers.SelectMany(member =>
         {
             List<OnlineItemMessage> items = new List<OnlineItemMessage>();
@@ -35,7 +44,7 @@ public class OnlineItemsUpdaterJob(ILogger<OnlineItemsUpdaterJob> logger, Admin.
                         LobbyKey = lobby.Lobby.Key,
                         LobbyPlayerId = lobby.LobbyPlayerId
                     }));
-                
+
                 // add sprite shifts
                 items.AddRange(member.SpriteSlots
                     .Where(slot => slot.ColorShift is not null)
@@ -47,9 +56,9 @@ public class OnlineItemsUpdaterJob(ILogger<OnlineItemsUpdaterJob> logger, Admin.
                         LobbyKey = lobby.Lobby.Key,
                         LobbyPlayerId = lobby.LobbyPlayerId
                     }));
-                
+
                 // add scene
-                if(member.SceneId is {} sceneValue)
+                if (member.SceneId is { } sceneValue)
                 {
                     items.Add(new OnlineItemMessage
                     {
@@ -60,9 +69,10 @@ public class OnlineItemsUpdaterJob(ILogger<OnlineItemsUpdaterJob> logger, Admin.
                         LobbyPlayerId = lobby.LobbyPlayerId
                     });
                 }
-                
+
                 // add rewardee
-                items.Add(new OnlineItemMessage{
+                items.Add(new OnlineItemMessage
+                {
                     ItemType = OnlineItemType.Rewardee,
                     Slot = 1,
                     ItemId = 1,
@@ -73,9 +83,10 @@ public class OnlineItemsUpdaterJob(ILogger<OnlineItemsUpdaterJob> logger, Admin.
 
             return items;
         }).ToList();
-        
-        await adminClient.SetOnlineItemsAsync(new SetOnlineItemsRequest { Items = {memberItems}});
-        
-        logger.LogInformation("Added {count} items for {memberCount} members after {time}ms", memberItems.Count, onlineMembers.Count, sw.ElapsedMilliseconds);
+
+        await adminClient.SetOnlineItemsAsync(new SetOnlineItemsRequest { Items = { memberItems } });
+
+        logger.LogInformation("Added {count} items for {memberCount} members after {time}ms", memberItems.Count,
+            onlineMembers.Count, sw.ElapsedMilliseconds);
     }
 }

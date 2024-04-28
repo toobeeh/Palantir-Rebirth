@@ -1,4 +1,5 @@
 using DSharpPlus;
+using DSharpPlus.Entities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -22,10 +23,18 @@ public class DiscordApiClient(ILogger<DiscordApiClient> logger, IOptions<Discord
 
         await foreach (var member in guild.GetAllMembersAsync())
         {
-            if(member.Roles.Any(role => role.Id == options.Value.BetaRoleId)) betaMembers.Add(Convert.ToInt64(member.Id));
-            if(member.Roles.Any(role => role.Id == options.Value.BoostRoleId)) boostMembers.Add(Convert.ToInt64(member.Id));
+            if (member.Roles.Any(role => role.Id == options.Value.BetaRoleId))
+                betaMembers.Add(Convert.ToInt64(member.Id));
+            if (member.Roles.Any(role => role.Id == options.Value.BoostRoleId))
+                boostMembers.Add(Convert.ToInt64(member.Id));
         }
-        
+
         return new DiscordRoleMembers(betaMembers, boostMembers);
+    }
+
+    public async Task SetStatus(int onlinePlayerCount, double dropRate)
+    {
+        var status = dropRate > 0 ? $"{onlinePlayerCount} ppl ({dropRate:0.#} boost)" : $"{onlinePlayerCount} people";
+        await _client.UpdateStatusAsync(new DiscordActivity(status, DiscordActivityType.Watching));
     }
 }
