@@ -273,7 +273,7 @@ public class SplitCommands(
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
                 .WithPalantirErrorPresets(context, "Not enough splits",
-                    $"You do not have enough splits to {(boostModify is null ? "start" : "upgrade")} this boost.\n Use `/splits` to view your splits."));
+                    $"You do not have enough splits to {(boostModify is null ? "start" : "upgrade")} this boost.\n Use `/boost inventory` to view your splits."));
             return;
         }
 
@@ -294,7 +294,7 @@ public class SplitCommands(
 
         var description = $"You have `{availableSplits.AvailableSplits}` splits available.\n" +
                           $"Using splits, you can power up your boost.\n" +
-                          $"Use `/splits` to learn more about your splits.\n_ _ \n" +
+                          $"Use `/boost inventory` to learn more about your splits.\n_ _ \n" +
                           $"`🔥 Factor: +{splitsPrices.FactorSplitCost} splits => +{splitsPrices.FactorIncrease} factor`\n" +
                           $"`⌛ Duration: +{splitsPrices.DurationSplitCost} splits => +{splitsPrices.DurationIncreaseMinutes}min boost`\n" +
                           $"`💤 Cooldown: +{splitsPrices.CooldownSplitCost} splits => -{splitsPrices.CooldownIncreaseHours}h until next boost`\n";

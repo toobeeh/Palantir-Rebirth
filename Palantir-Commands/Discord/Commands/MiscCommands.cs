@@ -136,7 +136,7 @@ public class MiscCommands(
         var packAvailable = member.NextAwardPackDate.ToDateTimeOffset() < DateTimeOffset.UtcNow;
         var boostText = boostAvailable
             ? "Dropboost available!"
-            : $"Next boost in {(DateTimeOffset.UtcNow - splitInv.ActiveDropboosts.Select(boost => boost.CooldownEndDate).Order().First().ToDateTimeOffset()).AsCountdownTimespan()}";
+            : $"Next boost in {(splitInv.ActiveDropboosts.Select(boost => boost.CooldownEndDate).Order().First().ToDateTimeOffset() - DateTimeOffset.UtcNow).AsCountdownTimespan()}";
         var awardPackText = packAvailable
             ? "Award pack available!"
             : $"Next pack in {(member.NextAwardPackDate.ToDateTimeOffset() - DateTimeOffset.UtcNow).AsCountdownTimespan()}";
