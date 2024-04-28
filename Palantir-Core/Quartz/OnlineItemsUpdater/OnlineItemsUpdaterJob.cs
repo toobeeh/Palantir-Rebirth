@@ -22,10 +22,6 @@ public class OnlineItemsUpdaterJob(
         var sw = new Stopwatch();
         sw.Start();
         var onlineMembers = await lobbiesClient.GetOnlinePlayers(new Empty()).ToListAsync();
-        var dropRate = await dropsClient.GetCurrentBoostFactorAsync(new Empty());
-
-        // set currently playing count
-        await discordClient.SetStatus(onlineMembers.Select(member => member.Login).Distinct().Count(), dropRate.Boost);
 
         // get sprite, scene, shift choices (add to onlineMembers data) - write them plus rewardee online items
         var memberItems = onlineMembers.SelectMany(member =>

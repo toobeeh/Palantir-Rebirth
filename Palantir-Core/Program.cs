@@ -1,6 +1,6 @@
-﻿using System.Reflection;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Palantir_Core.Discord;
 using Palantir_Core.Patreon;
@@ -20,36 +20,35 @@ class Program
     static async Task Main(string[] args)
     {
         Console.WriteLine("Starting Palantir Core Service");
-        
+
         // register services
-        var serviceProvider = CreateServices();
-        var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+        var host = CreateHost();
+        var logger = host.Services.GetRequiredService<ILogger<Program>>();
         logger.LogDebug("Initialized service providers");
-        
-        // start scheduled jobs via DI
-        var schedulerFactory = serviceProvider.GetRequiredService<ISchedulerFactory>();
-        var scheduler = await schedulerFactory.GetScheduler();
-        await scheduler.Start();
-        
+
+        await host.RunAsync();
         await Task.Delay(-1);
     }
 
-    static ServiceProvider CreateServices()
+    static IHost CreateHost()
     {
-        var builder = new ConfigurationBuilder()
+        var host = Host.CreateApplicationBuilder();
+        var configBuilder = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "Configuration"))
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
         if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
         {
-            builder.AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true);
+            configBuilder.AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true);
         }
-        var configuration = builder.Build();
-        
-        return new ServiceCollection()
+
+        var configuration = configBuilder.Build();
+
+        host.Services
             .AddValmarGrpc(configuration.GetValue<string>("Grpc:Address"))
             .AddSingleton<PatreonApiClient>()
             .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
             .AddSingleton<DiscordApiClient>()
+            .AddHostedService<DiscordApiClient>(p => p.GetRequiredService<DiscordApiClient>())
             .Configure<DiscordApiClientOptions>(configuration.GetRequiredSection("Discord"))
             .AddLogging(builder => builder
                 .AddConfiguration(configuration.GetSection("Logging"))
@@ -60,6 +59,9 @@ class Program
             .AddQuartz(BubbleUpdaterConfiguration.Configure)
             .AddQuartz(VolatileDataClearerConfiguration.Configure)
             .AddQuartz(DropSchedulerConfiguration.Configure)
+            .AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; })
             .BuildServiceProvider();
+
+        return host.Build();
     }
 }

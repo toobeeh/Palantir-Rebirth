@@ -1,16 +1,21 @@
 using DSharpPlus;
 using DSharpPlus.Entities;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Palantir_Core.Discord;
 
-public class DiscordApiClient(ILogger<DiscordApiClient> logger, IOptions<DiscordApiClientOptions> options)
+public class DiscordApiClient(
+    ILogger<DiscordApiClient> logger,
+    IOptions<DiscordApiClientOptions> options,
+    ILoggerFactory loggerFactory) : IHostedService
 {
     private readonly DiscordClient _client = new(new DiscordConfiguration
     {
         Token = options.Value.DiscordToken,
-        TokenType = TokenType.Bot
+        TokenType = TokenType.Bot,
+        LoggerFactory = loggerFactory
     });
 
     public async Task<DiscordRoleMembers> GetRoleMembers()
@@ -34,7 +39,21 @@ public class DiscordApiClient(ILogger<DiscordApiClient> logger, IOptions<Discord
 
     public async Task SetStatus(int onlinePlayerCount, double dropRate)
     {
-        var status = dropRate > 0 ? $"{onlinePlayerCount} ppl ({dropRate:0.#} boost)" : $"{onlinePlayerCount} people";
+        var status = dropRate > 1
+            ? $"{onlinePlayerCount} ppl ({dropRate:0.#} boost)"
+            : $"{onlinePlayerCount} ppl on skribbl.io";
         await _client.UpdateStatusAsync(new DiscordActivity(status, DiscordActivityType.Watching));
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        logger.LogTrace("StartAsync()");
+        await _client.ConnectAsync();
+    }
+
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+        logger.LogTrace("StopAsync()");
+        await _client.DisconnectAsync();
     }
 }
