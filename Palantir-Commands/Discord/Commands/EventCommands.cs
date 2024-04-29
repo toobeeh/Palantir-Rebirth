@@ -83,9 +83,28 @@ public class EventCommands(
         logger.LogTrace("ViewEvent(eventId={eventId})", eventId);
 
         var member = memberContext.Member;
-        var evt = eventId is { } eventIdValue
-            ? await eventsClient.GetEventByIdAsync(new GetEventRequest { Id = (int)eventIdValue })
-            : await eventsClient.GetCurrentEventAsync(new Empty());
+
+        EventReply evt;
+        if (eventId is { } eventIdValue)
+        {
+            evt = await eventsClient.GetEventByIdAsync(new GetEventRequest { Id = (int)eventIdValue });
+        }
+        else
+        {
+            try
+            {
+                evt = await eventsClient.GetCurrentEventAsync(new Empty());
+            }
+            catch (RpcException)
+            {
+                await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                    "No active event",
+                    $"This command views the current event, if one is active.\n" +
+                    $"To view a list of all events, use the command `/event list`.\n" +
+                    $"To view a single event, use the command `/event view <id>`."));
+                return;
+            }
+        }
 
         var credit = await inventoryClient
             .GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = evt.Id })

@@ -45,7 +45,7 @@ namespace Palantir_Commands.Discord.XmlDoc
         /// <param name="command">A command name</param>
         /// <returns></returns>
         [Command("find"), TextAlias("fd")]
-        public static ValueTask FindCommands(CommandContext context, [RemainingText] string? command = null)
+        public static ValueTask FindCommands(CommandContext context, [RemainingText] string command)
         {
             return context.RespondAsync(new DiscordEmbedBuilder()
                 .AddField($"Commands matching `/{command}`",
