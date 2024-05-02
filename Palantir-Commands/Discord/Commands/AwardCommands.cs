@@ -174,6 +174,18 @@ public class AwardCommands(
         var inventory =
             await inventoryClient.GetAwardInventoryAsync(new GetAwardInventoryMessage { Login = member.Login });
 
+        if (inventory.ReceivedAwards.Count == 0)
+        {
+            var embed = new DiscordEmbedBuilder()
+                .WithPalantirPresets(context)
+                .WithTitle("Award Gallery")
+                .WithDescription("You have not received any awards yet. " +
+                                 "\nAs soon as someone has given you an award on skribbl,  you can see all the awards you have received from other players.\n");
+
+            await context.RespondAsync(embed);
+            return;
+        }
+
         var imageIds = inventory.ReceivedAwards.Select(award => award.LinkedImageId).OfType<long>();
         var images = await inventoryClient
             .GetGalleryItems(new GetGalleryItemsMessage { ImageIds = { imageIds }, Login = member.Login })
