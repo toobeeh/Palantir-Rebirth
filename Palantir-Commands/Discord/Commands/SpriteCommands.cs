@@ -418,7 +418,7 @@ public class SpriteCommands(
     /// <param name="context"></param>
     /// <param name="spriteId">The ID of the sprite which will be colorized.</param>
     /// <param name="shift">A number from 0-200 to modify your sprite color. 100 is the original color.</param>
-    [Command("color"), TextAlias("col"), RequirePalantirMember(MemberFlagMessage.Beta)]
+    [Command("color"), TextAlias("col"), RequirePalantirMember]
     public async Task UseSpriteColorConfig(CommandContext context, int spriteId, int? shift = null)
     {
         logger.LogTrace("UseSpriteColorConfig(context, {shift})", shift);
