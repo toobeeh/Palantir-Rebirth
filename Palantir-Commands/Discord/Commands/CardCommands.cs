@@ -59,12 +59,13 @@ public class CardCommands(
 
         var spriteInv = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
             .ToListAsync();
+        var combo = spriteInv.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot).Select(slot => slot.SpriteId);
         var firstSeen =
             await inventoryClient.GetFirstSeenDateAsync(new GetFirstSeenDateRequest { Login = member.Login });
-        var dropCredit = await inventoryClient.GetDropCreditAsync(new GetDropCreditRequest { Login = member.Login });
         var colorMaps = spriteInv
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
+
         var dropLeaderboard =
             await statsClient.GetLeaderboardAsync(new GetLeaderboardMessage { Mode = LeaderboardMode.Drops });
         var bubbleLeaderboard =
@@ -72,15 +73,15 @@ public class CardCommands(
         var dropRank = dropLeaderboard.Entries.ToList().FirstOrDefault(entry => entry.Login == member.Login)?.Rank ?? 0;
         var bubbleRank =
             bubbleLeaderboard.Entries.ToList().FirstOrDefault(entry => entry.Login == member.Login)?.Rank ?? 0;
-        var totalEventDropValue = dropCredit.LeagueEventDropValues.Sum(drop => drop.Value);
+
+        var totalEventProgress =
+            await inventoryClient.GetEventProgressAsync(new GetEventProgressRequest { Login = member.Login });
         var eventDrops = await eventsClient.GetAllEventDrops(new Empty()).ToListAsync();
         var eventsParticipated = eventDrops
-            .Where(drop => dropCredit.LeagueEventDropValues.Any(credit => credit.EventDropId == drop.Id))
+            .Where(drop => totalEventProgress.EventDropProgress.Any(credit => credit.EventDropId == drop.Id))
             .Select(drop => drop.EventId).Distinct().Count();
 
-        var totalDrops = dropCredit.TotalCredit + totalEventDropValue;
-
-        var combo = spriteInv.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot).Select(slot => slot.SpriteId);
+        var totalDrops = (int)Math.Floor(totalEventProgress.TotalCollected + member.Drops);
 
         var card = await imageGeneratorClient.GenerateCard(new GenerateCardMessage
         {
@@ -95,13 +96,13 @@ public class CardCommands(
             ServersConnected = member.ServerConnections.Count,
             FirstSeen = $"{firstSeen.FirstSeen.ToDateTimeOffset():d}",
             Bubbles = member.Bubbles,
-            Drops = dropCredit.TotalCredit,
+            Drops = (int)Math.Floor(member.Drops),
             BubbleRank = bubbleRank,
             DropRank = dropRank,
             DropRatio = totalDrops /
                         Math.Max(1, member.Bubbles / 1000d),
             EventsParticipated = eventsParticipated,
-            EventsDropValue = (int)totalEventDropValue,
+            EventsDropValue = (int)Math.Floor(totalEventProgress.TotalCollected),
             Combo = new GenerateComboMessage { SpriteIds = { combo }, ColorMaps = { colorMaps } }
         }).CollectFileChunksAsync();
 

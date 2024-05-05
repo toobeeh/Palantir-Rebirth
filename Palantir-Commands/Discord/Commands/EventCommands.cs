@@ -109,7 +109,6 @@ public class EventCommands(
         var credit = await inventoryClient
             .GetEventCredit(new GetEventCreditRequest { Login = member.Login, EventId = evt.Id })
             .ToDictionaryAsync(credit => credit.EventDropId);
-        var totalRedeemable = credit.Values.Sum(c => c.RedeemableAmount);
 
         var spriteInventory = await inventoryClient
             .GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
@@ -142,7 +141,7 @@ public class EventCommands(
                 Title = $"_ _",
                 Description = group.Drop.ReleaseStart.ToDateTimeOffset() < DateTimeOffset.UtcNow
                     ? $"```js\n💧 {group.Drop.Name} Drop```\n  " +
-                      $"> **Drop Credit:**\n>  {group.Credit.TotalCredit} collected, {group.Credit.AvailableCredit} available\n>   {(evt.Progressive ? group.Credit.RedeemableAmount : totalRedeemable):0.#} redeemable\n> **Sprites**:\n" +
+                      $"> **Drop Credit:**\n>  {group.Credit.TotalCredit} collected, {group.Credit.AvailableCredit} available\n> **Sprites**:\n" +
                       $"{string.Join("\n", group.Sprites.Select(sprite =>
                           $"> {(spriteInventory.Any(slot => slot.SpriteId == sprite.Id) ? "`📦`" : "")} {sprite.Id.AsTypoId()} {sprite.Name}: {sprite.Cost} Drops"))}"
                     : $"This drop will release on {Formatter.Timestamp(group.Drop.ReleaseStart.ToDateTimeOffset(), TimestampFormat.LongDate)}.\nStay tuned!"
