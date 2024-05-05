@@ -6,11 +6,16 @@ using tobeh.Valmar;
 
 namespace Palantir_Core.Quartz.DropScheduler;
 
-public class DropSchedulerJob(ILogger<DropSchedulerJob> logger, Events.EventsClient eventsClient, Drops.DropsClient dropsClient, Lobbies.LobbiesClient lobbiesClient) : IJob
+public class DropSchedulerJob(
+    ILogger<DropSchedulerJob> logger,
+    Events.EventsClient eventsClient,
+    Drops.DropsClient dropsClient,
+    Lobbies.LobbiesClient lobbiesClient) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
     {
         logger.LogTrace("Execute({context})", context);
+        return; // TODO REMOVE
 
         int delay;
         try
@@ -33,15 +38,15 @@ public class DropSchedulerJob(ILogger<DropSchedulerJob> logger, Events.EventsCli
     private async Task<int> ScheduleNextDrop()
     {
         logger.LogTrace("ScheduleNextDrop()");
-        
+
         // get current player count
         var playerCount = 0;
         var onlinePlayersStream = lobbiesClient.GetOnlinePlayers(new Empty()).ResponseStream;
-        while(await onlinePlayersStream.MoveNext())
+        while (await onlinePlayersStream.MoveNext())
         {
             playerCount++;
         }
-        
+
         // get current active boost factor
         var boostFactor = await dropsClient.GetCurrentBoostFactorAsync(new Empty());
 
@@ -62,7 +67,7 @@ public class DropSchedulerJob(ILogger<DropSchedulerJob> logger, Events.EventsCli
                 {
                     drops.Add(dropsStream.Current);
                 }
-                
+
                 eventDropId = drops[new Random().Next(drops.Count)].Id;
             }
         }
@@ -70,18 +75,22 @@ public class DropSchedulerJob(ILogger<DropSchedulerJob> logger, Events.EventsCli
         {
             // no event active
         }
-        
+
         // calc timeout for dro
         var bounds = await dropsClient.CalculateDropDelayBoundsAsync(new CalculateDelayRequest
         {
             OnlinePlayerCount = playerCount,
             BoostFactor = boostFactor.Boost
         });
-        var randomDelay = new Random().Next(bounds.MinDelaySeconds, bounds.MaxDelaySeconds);        
-        
+        var randomDelay = new Random().Next(bounds.MinDelaySeconds, bounds.MaxDelaySeconds);
+
         // schedule drop
-        logger.LogInformation("Current drop params: playerCount={playerCount}, boostFactor={boostFactor}, eventDropId={eventDropId}", playerCount, boostFactor.Boost, eventDropId);
-        logger.LogInformation("Scheduling drop with bounds {bounds.Item1} and {bounds.Item2} => {randomDelay} seconds delay.", bounds.MinDelaySeconds, bounds.MaxDelaySeconds, randomDelay);
+        logger.LogInformation(
+            "Current drop params: playerCount={playerCount}, boostFactor={boostFactor}, eventDropId={eventDropId}",
+            playerCount, boostFactor.Boost, eventDropId);
+        logger.LogInformation(
+            "Scheduling drop with bounds {bounds.Item1} and {bounds.Item2} => {randomDelay} seconds delay.",
+            bounds.MinDelaySeconds, bounds.MaxDelaySeconds, randomDelay);
         await dropsClient.ScheduleDropAsync(new ScheduleDropRequest
             { DelaySeconds = randomDelay, EventDropId = eventDropId });
 
