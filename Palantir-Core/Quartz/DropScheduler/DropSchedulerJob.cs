@@ -15,7 +15,6 @@ public class DropSchedulerJob(
     public async Task Execute(IJobExecutionContext context)
     {
         logger.LogTrace("Execute({context})", context);
-        return; // TODO REMOVE
 
         int delay;
         try
