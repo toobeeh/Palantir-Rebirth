@@ -120,7 +120,7 @@ public class MiscCommands(
             $"```asciidoc\n- {bubbleCredit.BubblesAmount} collected\n- {bubbleCredit.AvailableCredit} available\n- First seen {firstSeen.FirstSeen.ToDateTimeOffset():d}```\n_ _",
             true);
         embed.AddField("Drop Stats",
-            $"```asciidoc\n- {dropCredit.Credit} total value\n- {dropCredit.Count} drops caught```",
+            $"```asciidoc\n- {dropCredit.Credit:0.#} total value\n- {dropCredit.Count} drops caught```",
             true);
 
         var activeSprites = spriteInv.Where(slot => slot.Slot > 0 && slot.SpriteId > 0)
@@ -193,7 +193,7 @@ public class MiscCommands(
                 .WithTitle($"{(mode == LeaderboardMode.Bubbles ? "Bubble" : "Drop")} Leaderboard");
 
             page.Ranks.ForEach(rank => embed.AddField($"#{rank.Rank} _ _-_ _ {rank.Username}", $"```js\n" +
-                $"Bubbles: {rank.Bubbles}\nDrops: {rank.Drops}\n" +
+                $"Bubbles: {rank.Bubbles}\nDrops: {rank.Drops:0.#}\n" +
                 $"```\n_ _", true));
 
             return embed;
