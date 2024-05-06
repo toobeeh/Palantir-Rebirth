@@ -109,8 +109,10 @@ public class MiscCommands(
             embed.AddField("Badges", "```js\n" + string.Join("\n", userFlagMessages) + "\n```", true);
 
         var splitsTotalCount = splitRewards.Sum(reward => reward.ValueOverride ?? reward.Split.Value);
+        var splitsAvailableCount = splitRewards.Where(split => !split.Expired)
+            .Sum(reward => reward.ValueOverride ?? reward.Split.Value);
         embed.AddField("Collections",
-            $"```asciidoc\n- {spriteInv.Count} sprites\n- {sceneInv.SceneIds.Count} scenes\n- {awardInv.ReceivedAwards.Count} awards\n- {splitsTotalCount} splits\n- {spriteSlotCount.UnlockedSlots} slots unlocked\n```",
+            $"```asciidoc\n- {spriteInv.Count} sprites\n- {sceneInv.SceneIds.Count} scenes\n- {awardInv.ReceivedAwards.Count} awards\n- {splitsAvailableCount} splits ({splitsTotalCount} total)\n- {spriteSlotCount.UnlockedSlots} slots unlocked\n```",
             true);
 
         // field as spacer
