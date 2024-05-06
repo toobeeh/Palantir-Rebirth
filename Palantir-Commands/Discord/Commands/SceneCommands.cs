@@ -257,11 +257,13 @@ public class SceneCommands(
     /// Choose a scene as your avatar background on skribbl.
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="sceneId">The ID of a scene, or empty to choose no scene</param>
+    /// <param name="sceneId">The ID of a scene, or empty/0 to choose no scene</param>
     [Command("use"), RequirePalantirMember]
     public async Task UseScene(CommandContext context, uint? sceneId = null)
     {
         logger.LogTrace("UseScene(context, {sceneId})", sceneId);
+
+        if (sceneId == 0) sceneId = null;
 
         var scene = sceneId is { } sceneIdValue
             ? await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = (int)sceneIdValue })
