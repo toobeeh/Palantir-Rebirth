@@ -146,11 +146,11 @@ public class SpriteCommands(
     /// <param name="spriteId">The ID of the sprite to show</param>
     /// <exception cref="Exception"></exception>
     [DefaultGroupCommand, Command("view"), TextAlias("vw")]
-    public async Task ViewSprite(CommandContext context, int spriteId)
+    public async Task ViewSprite(CommandContext context, uint spriteId)
     {
         logger.LogTrace("ViewSprite(context, {spriteId})", spriteId);
 
-        var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
+        var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = (int)spriteId });
 
         if (!sprite.IsReleased)
         {
@@ -200,11 +200,11 @@ public class SpriteCommands(
     /// <param name="context"></param>
     /// <param name="spriteId">The ID of the sprite that will be added to your inventory</param>
     [Command("buy"), RequirePalantirMember]
-    public async Task BuySprite(CommandContext context, int spriteId)
+    public async Task BuySprite(CommandContext context, uint spriteId)
     {
         logger.LogTrace("BuySprite(context, {spriteId})", spriteId);
 
-        var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
+        var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = (int)spriteId });
 
         // unreleased sprites - eg progressive event sprites - may only be bought after a certain date
         if (!sprite.IsReleased)
@@ -285,13 +285,13 @@ public class SpriteCommands(
     /// <param name="spriteId">The ID of a sprite</param>
     /// <param name="slot">The sprite slot where the sprite will be used on</param>
     [Command("use"), RequirePalantirMember]
-    public async Task UseSprite(CommandContext context, int spriteId, uint slot = 1)
+    public async Task UseSprite(CommandContext context, uint spriteId, uint slot = 1)
     {
         logger.LogTrace("UseSprite(context, {spriteId}, {slot})", spriteId, slot);
 
         var sprite = spriteId == 0
             ? null
-            : await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
+            : await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = (int)spriteId });
         var member = memberContext.Member;
         var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
             .ToListAsync();
@@ -419,7 +419,7 @@ public class SpriteCommands(
     /// <param name="spriteId">The ID of the sprite which will be colorized.</param>
     /// <param name="shift">A number from 0-200 to modify your sprite color. 100 is the original color.</param>
     [Command("color"), TextAlias("col"), RequirePalantirMember]
-    public async Task UseSpriteColorConfig(CommandContext context, int spriteId, int? shift = null)
+    public async Task UseSpriteColorConfig(CommandContext context, uint spriteId, uint? shift = null)
     {
         logger.LogTrace("UseSpriteColorConfig(context, {shift})", shift);
 
@@ -436,7 +436,7 @@ public class SpriteCommands(
         }
 
         // check if the sprite can be color customized
-        var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = spriteId });
+        var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = (int)spriteId });
         if (!sprite.IsRainbow)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
@@ -462,7 +462,7 @@ public class SpriteCommands(
         await inventoryClient.SetSpriteColorConfigurationAsync(new SetSpriteColorRequest
         {
             Login = member.Login, ClearOtherConfigs = false,
-            ColorConfig = { new SpriteColorConfigurationRequest { SpriteId = sprite.Id, ColorShift = shift } }
+            ColorConfig = { new SpriteColorConfigurationRequest { SpriteId = sprite.Id, ColorShift = (int?)shift } }
         });
 
 

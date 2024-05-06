@@ -127,11 +127,11 @@ public class SceneCommands(
     /// <param name="sceneId">The ID of the scene to show</param>
     /// <exception cref="Exception"></exception>
     [DefaultGroupCommand, Command("view"), TextAlias("vw")]
-    public async Task ViewScene(CommandContext context, int sceneId)
+    public async Task ViewScene(CommandContext context, uint sceneId)
     {
         logger.LogTrace("ViewScene(context, {sceneId})", sceneId);
 
-        var scene = await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneId });
+        var scene = await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = (int)sceneId });
 
         var ranking = await scenesClient.GetSceneRanking(new Empty()).ToListAsync();
         var sceneRank = ranking.Find(s => s.Id == sceneId) ?? throw new Exception("Failed to calculate scene ranking");
@@ -173,11 +173,11 @@ public class SceneCommands(
     /// <param name="context"></param>
     /// <param name="sceneId">The ID of the scene that will be added to your inventory</param>
     [Command("buy"), RequirePalantirMember]
-    public async Task BuyScene(CommandContext context, int sceneId)
+    public async Task BuyScene(CommandContext context, uint sceneId)
     {
         logger.LogTrace("BuyScene(context, {sceneId})", sceneId);
 
-        var scene = await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneId });
+        var scene = await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = (int)sceneId });
 
         // check if the user has bought this scene already
         var member = memberContext.Member;
@@ -259,12 +259,12 @@ public class SceneCommands(
     /// <param name="context"></param>
     /// <param name="sceneId">The ID of a scene, or empty to choose no scene</param>
     [Command("use"), RequirePalantirMember]
-    public async Task UseScene(CommandContext context, int? sceneId = null)
+    public async Task UseScene(CommandContext context, uint? sceneId = null)
     {
         logger.LogTrace("UseScene(context, {sceneId})", sceneId);
 
         var scene = sceneId is { } sceneIdValue
-            ? await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneIdValue })
+            ? await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = (int)sceneIdValue })
             : null;
         var member = memberContext.Member;
         var inventory =
