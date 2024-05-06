@@ -128,7 +128,13 @@ public class DiscordBotClient(
                 break;
 
             case ChecksFailedException cfe:
-                if (cfe.Errors.Any(err => err.ErrorMessage.Contains("Patron")))
+                if (cfe.Errors.Any(err => err.ErrorMessage.Contains("Patronizer")))
+                {
+                    embedBuilder.WithTitle($"Uh oh, a wild paywall appeared.");
+                    embedBuilder.WithDescription(
+                        $"You need to be a {"Patronizer".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to use this command.\n");
+                }
+                else if (cfe.Errors.Any(err => err.ErrorMessage.Contains("Patron")))
                 {
                     embedBuilder.WithTitle($"Uh oh, a wild paywall appeared.");
                     embedBuilder.WithDescription(
