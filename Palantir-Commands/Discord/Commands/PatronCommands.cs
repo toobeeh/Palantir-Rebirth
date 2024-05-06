@@ -88,7 +88,7 @@ public class PatronCommands(
             await context.RespondAsync(new DiscordEmbedBuilder()
                 .WithPalantirPresets(context)
                 .WithAuthor("Thanks for supporting typo <3")
-                .WithTitle($"You have patronized {Formatter.Mention(user, true)}")
+                .WithTitle($"You have patronized your special someone!")
                 .WithDescription(
                     $"{Formatter.Mention(user, true)} will be a patron as long as you have the patronizer subscription.\n" +
                     $"You can use the command `/patron gift` to remove it, or `/patron gift (@user)` to choose a new receiver.\n" +
