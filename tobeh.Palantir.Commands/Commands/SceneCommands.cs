@@ -233,7 +233,7 @@ public class SceneCommands(
                 await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                     "Bubble credit too low",
                     $"You need {regularScenePrice.NextPrice} Bubbles to buy your next scene, but you only have {bubbleCredit.AvailableCredit} available.\n" +
-                    $"Collect more Bubbles by playing skribbl or catch drops to get bonus bubbles!"));
+                    $"Collect more Bubbles by playing skribbl or catch drops to get bonus bubbles!\nYou can see your bubble credit with `/inventory`."));
                 return;
             }
         }

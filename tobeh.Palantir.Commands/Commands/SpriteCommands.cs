@@ -238,7 +238,7 @@ public class SpriteCommands(
                 await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                     "Event credit too low",
                     $"You need {sprite.Cost} {drop.Name} Drop(s) to buy {sprite.Name} {sprite.Id.AsTypoId()}, but you only have {credit} available.\n" +
-                    $"Collect more {drop.Name} Drops on skribbl or check in `/event` if you have some league event drops to redeem!"));
+                    $"Collect more {drop.Name} Drops on skribbl or check in `/event view {drop.EventId}` if you have some league event drops to redeem!"));
                 return;
             }
         }
@@ -251,7 +251,7 @@ public class SpriteCommands(
                 await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                     "Bubble credit too low",
                     $"You need {sprite.Cost} Bubbles to buy {sprite.Name} {sprite.Id.AsTypoId()}, but you only have {bubbleCredit.AvailableCredit} available.\n" +
-                    $"Collect more Bubbles by playing skribbl or catch drops to get bonus bubbles!"));
+                    $"Collect more Bubbles by playing skribbl or catch drops to get bonus bubbles!\nYou can see your bubble credit with `/inventory`."));
                 return;
             }
         }
