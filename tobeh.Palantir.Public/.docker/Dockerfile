@@ -18,7 +18,7 @@ ARG BUILD_CONFIGURATION=Release
 # build command lib
 WORKDIR /src
 COPY ["tobeh.Palantir.Commands/tobeh.Palantir.Commands.csproj", "tobeh.Palantir.Commands/"]
-RUN dotnet restore "tobeh.Palantir.Public/tobeh.Palantir.Commands.csproj"
+RUN dotnet restore "tobeh.Palantir.Commands/tobeh.Palantir.Commands.csproj"
 COPY ./tobeh.Palantir.Commands ./tobeh.Palantir.Commands
 WORKDIR "/src/tobeh.Palantir.Commands"
 RUN dotnet build "tobeh.Palantir.Commands.csproj" -c $BUILD_CONFIGURATION -o /app/build
