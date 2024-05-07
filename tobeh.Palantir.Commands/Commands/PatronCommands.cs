@@ -1,5 +1,6 @@
 using DSharpPlus;
 using DSharpPlus.Commands;
+using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Entities;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands.Checks;
@@ -18,6 +19,7 @@ namespace tobeh.Palantir.Commands.Commands;
 public class PatronCommands(
     ILogger<PatronCommands> logger,
     MemberContext memberContext,
+    Workers.WorkersClient workersClient,
     Inventory.InventoryClient inventoryClient)
 {
     /// <summary>
@@ -102,5 +104,35 @@ public class PatronCommands(
                     $"You are now patronizing no one.\n" +
                     $"To choose someone, use the command `/patron gift (@user)`."));
         }
+    }
+
+    /// <summary>
+    /// Select this server as your home server and unlock the lobbies bot
+    /// </summary>
+    /// <param name="context"></param>
+    [Command("home"), RequirePalantirMember(MemberFlagMessage.Patron), RequireGuild]
+    public async Task ChooseHome(CommandContext context)
+    {
+        logger.LogTrace("ChooseHome()");
+
+        var member = memberContext.Member;
+
+        var instance = await workersClient.AssignInstanceToServerAsync(new AssignInstanceToServerMessage
+        {
+            Login = member.Login,
+            ServerId = (long)(context.Guild ?? throw new Exception("command was called without a guild")).Id
+        });
+
+        var invite = $"https://discord.com/oauth2/authorize?client_id={instance.BotId}&scope=bot&permissions=67439616";
+
+        await context.RespondAsync(new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithAuthor("Thanks for supporting typo <3")
+            .WithTitle($"You have set this server as your home server!")
+            .WithDescription(
+                $"This server has just received its very own Palantir lobbies bot!\n" +
+                $"The server admins can now {"invite the bot to the server".AsTypoLink(invite, "✨")}. \n\n" +
+                $"As soon as the bot is on the server, a server admin should create a new empty channel and use the command `/lobbies` in it to start the bot.\n\n" +
+                $"You can now also use the `>` prefix on the server to use all Palantir commands!"));
     }
 }

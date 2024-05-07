@@ -1,12 +1,11 @@
 # Palantir-Rebirth
 [![part of Typo ecosystem](https://img.shields.io/badge/Typo%20ecosystem-PalantirRebirth-blue?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAACV0lEQVR4nO3dPUrDYByA8UQ8g15AI+gsOOnmrufoIBT0DAUFB+/R3bFTobOCwQvoJSouNcObhHyZ9n2eHwiirW3Th79J2iaJJEmSJEmSJIC06iGu1+vgz9M0Df9CY6t8PkP2fMrYDADOAOAMAM4A4OrWGl3bj0Pp8+wEgDMAuP2uD//w7I6+DEf19fbc6eadAHAGAGcAcAYAZwBwnbcCTrIj+jL8Fx/55yA34wSAMwA4A4AzADgDgDMAOAOAMwC4zjuCzi+uN9+fZgeNrvuefw+69FfL10H/fgycAHAGAGcAcAYAZwBwnbcCioZeq2+quIVS5NbBHycAnAHARffRsOksr71Ml38Bi/mk9XVH5EfDFGYAcHVbAWWjw08NbyePEaRmDADOAOAMAM4A4Fq9FjCd5cG1zaeHrPeleXnzsvl+MZ802vooe4fSatn9ftUILp/iYxlCm51UTgA4A4Dr9eXgsv3wtJdfhx71fXICwBkAXGUAv+cLCH0pHk4AOAOAMwA4A4AzALhedwRpXBVneSu9X04AOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzALio3xG0bUcu3UZOADgDgDMAOAOAMwC4qLcCRjxG0M5wAsAZAJwBwBkAnAHAGQCcAcAZAJwBwBkAnAHA+Y4gOCcAnAHAGQCcAcAZAFyrrYDH++NGl7+6ZZ0yZpc4AeAMAC66HUFDnLwyZk4AOAOAKz+QfMXx58dScdz7se5o8A7t0HJzAtAZAJwBwBkAnAFIkiRJkiRJUtySJPkBweNXgRaWkYQAAAAASUVORK5CYII=)](https://github.com/topics/skribbl-typo)  
 
-### Still WIP
-Palantir-Rebirth is/will be a refactor of the current Palantir Bot.  
+Palantir Rebirth is the refactor of the Palantir Bot.  
 It consists of multiple components that can be deployed individually for scalability and maintainability (blah blah).  
 Palantir-Rebirth follows the new separation of business+data from application layer and uses toobeeh/Valmar as grpc backend.
 
-The components are split to Core, Commands and Lobbies modules.
+The components are split to Core, Commands, Public and Lobbies modules.
 
 ## gRPC Clients
 GRPC clients for Valmar and ImageGen are installed from their NuGet packages.  
@@ -27,7 +26,7 @@ Tasks of core module (planned and implemented):
 - [x] Set online items
 
 ## Commands
-Commands will use a DSharpPlus Bot to bring the functionality of the current Palantir Bot to Discord, using the gRPC backend.
+Commands is a class library and uses a DSharpPlus Bot to bring the functionality of the current Palantir Bot to Discord, using the gRPC backend.
 Commands are split into following categories.
 Checklist for implementation:
 
@@ -94,6 +93,16 @@ Checklist for implementation:
 ### Admin
 (not necessary for first release)
 
+## Public
+The public module is a simple bot wrapper around the commands module, to deploy the bot.  
+Anyone is able to add this bot to this server; the bot targets primary slash commands. 
+
 ## Lobbies
-Most likely there will be a separate Discord bot for lobbies to prevent ratelimit issues.  
-This might be deployed on-premise and per server, or at least in some way.
+The Lobbies module is used to bring the lobbies feature to selected servers.  
+A number of instances of the lobby module is deployed; each instance claims a dedicated discord bot from a database (distinct token/id).  
+Patrons can claim the dedicated bots for their server.  
+The Lobbies instance watches their claimed bot, joins servers, and refreshes lobbies each 20s if they are set up.
+Furthermore, it provides the command functionality via text commands.  
+
+Following graphic shows the schedule every instance is running on:  
+![Lobbies Schedule](https://i.imgur.com/VkT9wO5.png)

@@ -1,46 +1,42 @@
 using DSharpPlus;
 using DSharpPlus.Commands;
-using DSharpPlus.Commands.Processors.SlashCommands;
 using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Commands.Processors.TextCommands.Parsing;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Commands;
 using tobeh.Palantir.Commands.Handlers;
 using tobeh.Palantir.Commands.XmlDoc;
 
-namespace tobeh.Palantir.Public.Discord;
+namespace tobeh.Palantir.Lobbies.Discord;
 
-public class DiscordBotClient(
-    ILogger<DiscordBotClient> logger,
-    IOptions<DiscordBotClientOptions> options,
+public class DiscordClientFactory(
+    ILogger<DiscordClientFactory> logger,
     ILoggerFactory loggerFactory,
-    IServiceProvider serviceProvider) : IHostedService
+    IServiceProvider serviceProvider)
 {
-    private readonly DiscordClient _client = new(new DiscordConfiguration
+    public async Task<DiscordClient> CreateAndStartClientAsync(string discordToken, string prefix)
     {
-        Token = options.Value.DiscordToken,
-        TokenType = TokenType.Bot,
-        LoggerFactory = loggerFactory,
-        Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
-    });
+        logger.LogTrace("CreateAndStartClientAsync(discordToken={discordToken}", discordToken);
 
-    public async Task StartAsync(CancellationToken cancellationToken)
-    {
-        logger.LogInformation("Starting Discord Bot Client");
+        var client = new DiscordClient(new DiscordConfiguration
+        {
+            Token = discordToken,
+            TokenType = TokenType.Bot,
+            LoggerFactory = loggerFactory,
+            Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
+        });
 
         // use interactivity
-        _client.UseInteractivity(new InteractivityConfiguration());
+        client.UseInteractivity(new InteractivityConfiguration());
 
         // use help command documentation mapper
-        _client.GuildDownloadCompleted += HelpCommandDocumentationMapperEventHandlers.OnGuildDownloadCompleted;
+        client.GuildDownloadCompleted += HelpCommandDocumentationMapperEventHandlers.OnGuildDownloadCompleted;
 
         // use commands extension
-        var commands = _client.UseCommands(new CommandsConfiguration
+        var commands = client.UseCommands(new CommandsConfiguration
         {
             ServiceProvider = serviceProvider,
             UseDefaultCommandErrorHandler = false,
@@ -55,17 +51,10 @@ public class DiscordBotClient(
         {
             Configuration = new TextCommandConfiguration
             {
-                PrefixResolver = new DefaultPrefixResolver(options.Value.Prefix).ResolvePrefixAsync
+                PrefixResolver = new DefaultPrefixResolver(prefix).ResolvePrefixAsync
             }
         };
         await commands.AddProcessorsAsync(textCommandProcessor);
-
-        // create slash processor, if configured
-        if (options.Value.UseSlash)
-        {
-            var slashCommandProcessor = new SlashCommandProcessor();
-            await commands.AddProcessorAsync(slashCommandProcessor);
-        }
 
         // add custom checks
         commands.AddCheck<RequirePalantirMemberCheck>();
@@ -86,12 +75,7 @@ public class DiscordBotClient(
         commands.AddCommands(typeof(HelpCommand));
         commands.AddCommands(typeof(ServerCommands));
 
-        await _client.ConnectAsync();
-    }
-
-    public async Task StopAsync(CancellationToken cancellationToken)
-    {
-        logger.LogInformation("Stopping Discord Bot Client");
-        await _client.DisconnectAsync();
+        await client.ConnectAsync();
+        return client;
     }
 }
