@@ -12,4 +12,3 @@ services:
     environment:
       - GRPC_VALMAR_URL=http://localhost:5175
       - GRPC_IMAGEGEN_URL=http://localhost:5176
-      - DISCORD_TOKEN=token
