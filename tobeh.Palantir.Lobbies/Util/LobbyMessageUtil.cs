@@ -74,9 +74,11 @@ public class LobbyMessageUtil
                $"Refreshed: {Formatter.Timestamp(DateTimeOffset.UtcNow)}\nClick to connect: https://www.typo.rip/invite/{serverInvite}";
     }
 
-    public static List<string> BuildLobbies(List<LobbyReply> lobbies, List<MemberReply> memberDetails, long guildId)
+    public static List<string> BuildLobbies(List<LobbyReply> lobbies, List<MemberReply> memberDetails, long guildId,
+        int serverInvite)
     {
-        var memberDict = memberDetails.ToDictionary(member => member.Login);
+        var memberDict = memberDetails.Where(m => m.ServerConnections.Contains(serverInvite))
+            .ToDictionary(member => member.Login);
 
         return lobbies.OrderBy(lobby => lobby.PalantirDetails.Id).Select((lobby, index) =>
         {
@@ -113,11 +115,14 @@ public class LobbyMessageUtil
 
             var lobbyEmote = LobbyEmojis[(Convert.ToInt64(lobby.PalantirDetails.Id) % LobbyEmojis.Length) - 1];
 
-            var palantirPlayers = lobby.Players.Select(player => player.LobbyPlayerId is not { } id
-                ? ""
-                : $"{playerDict[id].Name,-20} {playerDict[id].Score + " pts " + ranks[id],-15} {
-                    (string.IsNullOrWhiteSpace(members[id].PatronEmoji) ? "🔮 " + members[id].Bubbles : members[id].PatronEmoji)
-                } {(playerDict[id].Drawing ? "✏️" : "")}").ToList();
+            var palantirPlayers = lobby.Players
+                .Where(p => memberDict.ContainsKey(p.Login))
+                .Select(player => player.LobbyPlayerId is not { } id
+                    ? ""
+                    : $"{playerDict[id].Name,-20} {playerDict[id].Score + " pts " + ranks[id],-15} {
+                        (string.IsNullOrWhiteSpace(members[id].PatronEmoji) ? "🔮 " + members[id].Bubbles : members[id].PatronEmoji)
+                    } {(playerDict[id].Drawing ? "✏️" : "")}")
+                .ToList();
 
             if (palantirPlayers.Count == 0) return "";
 

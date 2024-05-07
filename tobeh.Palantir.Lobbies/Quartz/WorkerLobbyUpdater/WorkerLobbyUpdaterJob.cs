@@ -117,7 +117,8 @@ public class WorkerLobbyUpdaterJob(
                     .ToListAsync();
 
             var header = LobbyMessageUtil.BuildHeader(guildAssignment.GuildOptions.Invite);
-            var lobbiesContent = LobbyMessageUtil.BuildLobbies(lobbies, memberDetails, guildOptions.GuildId);
+            var lobbiesContent =
+                LobbyMessageUtil.BuildLobbies(lobbies, memberDetails, guildOptions.GuildId, guildOptions.Invite);
             var availableMessages = await LobbyMessageUtil.GetMessageCandidatesInChannel(
                 channel, guildAssignment.BotClient.CurrentUser.Id);
             var splits = LobbyMessageUtil.SplitContentToMessages(availableMessages, header, lobbiesContent);
