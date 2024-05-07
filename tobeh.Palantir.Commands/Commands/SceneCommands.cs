@@ -215,7 +215,7 @@ public class SceneCommands(
                     "Too few bubbles collected",
                     $"You need to collect {eventScenePrice.Price} Bubbles during the {sceneEvent.Name} event to buy {scene.Name} {scene.Id.AsTypoId()}.\n" +
                     $"So far, you have {bubblesCollected} Bubbles collected.\n" +
-                    $"Play a few more hours on skribbl and check `/event` to see your progress."));
+                    $"Play a few more hours on skribbl and check `/event view {scene.EventId}` to see your progress."));
                 return;
             }
         }
