@@ -1,8 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Palantir-Core", "Palantir-Core\Palantir-Core.csproj", "{BA77AA9C-08B7-41FE-A97B-AE2A603428FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tobeh.Palantir.Core", "tobeh.Palantir.Core\tobeh.Palantir.Core.csproj", "{BA77AA9C-08B7-41FE-A97B-AE2A603428FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Palantir-Commands", "Palantir-Commands\Palantir-Commands.csproj", "{0389F545-03E6-484C-A222-D7D8F9A476A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tobeh.Palantir.Public", "tobeh.Palantir.Public\tobeh.Palantir.Public.csproj", "{0389F545-03E6-484C-A222-D7D8F9A476A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tobeh.Palantir.Commands", "tobeh.Palantir.Commands\tobeh.Palantir.Commands.csproj", "{765617FB-C356-40D5-B1F2-BE7415799F8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +20,9 @@ Global
 		{0389F545-03E6-484C-A222-D7D8F9A476A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0389F545-03E6-484C-A222-D7D8F9A476A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0389F545-03E6-484C-A222-D7D8F9A476A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{765617FB-C356-40D5-B1F2-BE7415799F8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{765617FB-C356-40D5-B1F2-BE7415799F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{765617FB-C356-40D5-B1F2-BE7415799F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{765617FB-C356-40D5-B1F2-BE7415799F8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

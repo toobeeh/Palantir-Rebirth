@@ -1,0 +1,14 @@
+version: "3.0"
+
+services:
+  palantir-public:
+    container_name: palantir-public
+    build:
+      context: ../../
+      dockerfile: tobeh.Palantir.Public/.docker/Dockerfile
+    # image: "ghcr.io/toobeeh/palantir-rebirth/palantir-core:latest"
+    restart: unless-stopped
+    environment:
+      - GRPC_VALMAR_URL=http://localhost:5175
+      - GRPC_IMAGEGEN_URL=http://localhost:5176
+      - DISCORD_TOKEN=token

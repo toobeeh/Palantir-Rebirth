@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02217"/>
+        <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02217"/>
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.10.0-2.final"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.2.24128.5"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0-preview.2.24128.5"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.2.24128.5"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0-preview.2.24128.5"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0-preview.2.24128.5"/>
+        <PackageReference Include="Ulid" Version="1.3.3"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include=".docker\docker-compose.yml"/>
+        <Content Include=".docker\Dockerfile"/>
+        <Content Include=".docker\entrypoint.sh"/>
+        <Content Include="Configuration\*.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\tobeh.Palantir.Commands\tobeh.Palantir.Commands.csproj"/>
+    </ItemGroup>
+
+</Project>
