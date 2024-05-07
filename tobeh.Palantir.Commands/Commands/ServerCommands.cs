@@ -52,7 +52,7 @@ public class ServerCommands(
         {
             await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                 "This server has no Lobby Bot",
-                "To add the Lobby Bot, a patron user can choose this server as their home with the command `/patron home`."));
+                "To add the Lobby Bot, a Patreon subscriber can choose this server as their home server with the command `/patron home`."));
             return;
         }
 
@@ -64,7 +64,7 @@ public class ServerCommands(
             .WithPalantirPresets(context)
             .WithTitle($"Bot Prefix Updated")
             .WithDescription(
-                $"You can use the bot commands now with `{prefix}` in front of the command names.\nIt can take a few seconds until the changes take effect.");
+                $"You can now use the bot commands with `{prefix}` in front of the command names.\nIt can take a few seconds until the changes take effect.");
 
         await context.RespondAsync(embed);
     }
@@ -75,7 +75,7 @@ public class ServerCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="channel">The channel where the bot will list lobbies. Leave empty to stop the lobby updates.</param>
-    [Command("channel"), TextAlias("ch"), RequireGuild,
+    [Command("lobbies"), TextAlias("ch"), RequireGuild,
      RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
     public async Task SetLobbyChannel(CommandContext context, DiscordChannel? channel)
     {
@@ -131,14 +131,15 @@ public class ServerCommands(
         {
             embed.WithTitle("Lobby Channel Removed");
             embed.WithDescription("The bot will no longer list lobbies of this server.\n" +
-                                  "To activate lobbies again, use the command `/server channel <channel>`.");
+                                  "To activate lobbies again, use the command `/server lobbies <#channel>`.");
         }
         else
         {
             embed.WithTitle("Lobby Channel Updated");
             embed.WithDescription($"The bot will now list lobbies in {channel.Mention}.\n" +
                                   "It can take a few seconds until the changes take effect.\n" +
-                                  "Users can now connect to this server with the link in the lobby message, and as soon as they are playing on skribbl.io, they will be listed!");
+                                  "Users can now connect to this server with the link in the lobby message, and as soon as they are playing on skribbl.io, they will be listed!\n" +
+                                  "To stop refreshing lobbies, use the command `/server lobbies` without a channel.");
         }
 
         await context.RespondAsync(embed);

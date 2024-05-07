@@ -132,7 +132,8 @@ public class PatronCommands(
             .WithDescription(
                 $"This server has just received its very own Palantir lobbies bot!\n" +
                 $"The server admins can now {"invite the bot to the server".AsTypoLink(invite, "✨")}. \n\n" +
-                $"As soon as the bot is on the server, a server admin should create a new empty channel and use the command `/lobbies` in it to start the bot.\n\n" +
-                $"You can now also use the `>` prefix on the server to use all Palantir commands!"));
+                $"As soon as the bot is on the server, a server admin should create a new empty channel and use the command `/server lobbies <#channel>` to start the bot in it.\n\n" +
+                $"You can now also use the `.` prefix on the server to use all Palantir commands!\n" +
+                $"If you would like to set another prefix, a server admin can change the prefix with the command `/server prefix <prefix>`."));
     }
 }
