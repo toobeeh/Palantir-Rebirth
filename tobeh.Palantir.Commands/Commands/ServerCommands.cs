@@ -45,7 +45,7 @@ public class ServerCommands(
 
         try
         {
-            currentOptions = await workersClient.GetGuildOptionsByIdAsync(new GetGuildOptionsByIdMessage
+            currentOptions = await guildsClient.GetGuildOptionsByIdAsync(new GetGuildOptionsByIdMessage
                 { GuildId = (long)context.Guild!.Id });
         }
         catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
@@ -58,7 +58,7 @@ public class ServerCommands(
 
         currentOptions.Prefix = prefix.Trim();
         currentOptions.Name = context.Guild!.Name;
-        await workersClient.SetGuildOptionsAsync(currentOptions);
+        await guildsClient.SetGuildOptionsAsync(currentOptions);
 
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
@@ -85,7 +85,7 @@ public class ServerCommands(
 
         try
         {
-            currentOptions = await workersClient.GetGuildOptionsByIdAsync(new GetGuildOptionsByIdMessage
+            currentOptions = await guildsClient.GetGuildOptionsByIdAsync(new GetGuildOptionsByIdMessage
                 { GuildId = (long)context.Guild!.Id });
         }
         catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
@@ -122,7 +122,7 @@ public class ServerCommands(
 
         currentOptions.ChannelId = (long?)channel?.Id;
         currentOptions.Name = context.Guild!.Name;
-        await workersClient.SetGuildOptionsAsync(currentOptions);
+        await guildsClient.SetGuildOptionsAsync(currentOptions);
 
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context);

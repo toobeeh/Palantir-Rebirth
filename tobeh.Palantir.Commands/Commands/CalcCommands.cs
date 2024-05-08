@@ -55,11 +55,9 @@ public class CalcCommands(
     {
         logger.LogTrace("CalculateLeaderboard(position={position})", position);
 
-        var guild = await guildsClient.GetGuildByDiscordIdAsync(new GetGuildByIdMessage
-            { DiscordId = (long)context.Guild!.Id });
         var leaderboard = await statsClient.GetLeaderboardAsync(new GetLeaderboardMessage
         {
-            GuildToken = guild.ObserveToken,
+            GuildId = (long)context.Guild!.Id,
             Mode = LeaderboardMode.Bubbles
         });
         var member = memberContext.Member;

@@ -14,6 +14,6 @@ public static class WorkerLobbyUpdaterConfiguration
         configurator.AddTrigger(trigger => trigger
             .ForJob(jobId)
             .StartNow()
-            .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(20).RepeatForever()));
+            .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(10).RepeatForever()));
     }
 }

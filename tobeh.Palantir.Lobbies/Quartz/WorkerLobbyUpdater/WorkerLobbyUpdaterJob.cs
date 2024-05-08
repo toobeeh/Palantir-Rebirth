@@ -22,6 +22,7 @@ public class WorkerLobbyUpdaterJob(
         logger.LogTrace("Execute({context})", context);
 
         var instance = workerState.Instance;
+        logger.LogInformation("Instance {id} triggered refresh", workerState.WorkerUlid.ToString());
 
         // claim a new instance if none set
         if (instance is null)
