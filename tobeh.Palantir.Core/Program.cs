@@ -27,7 +27,6 @@ class Program
         logger.LogDebug("Initialized service providers");
 
         await host.RunAsync();
-        await Task.Delay(-1);
     }
 
     static IHost CreateHost()

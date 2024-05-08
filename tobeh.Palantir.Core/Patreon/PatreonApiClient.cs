@@ -37,6 +37,7 @@ public class PatreonApiClient
         // add default headers
         _client.DefaultRequestHeaders.Accept.Add(
             new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/vnd.api+json"));
+        _client.DefaultRequestHeaders.Add("User-Agent", "Palantir Core Patron Updater");
         _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {options.Value.CreatorAccessToken}");
     }
 
