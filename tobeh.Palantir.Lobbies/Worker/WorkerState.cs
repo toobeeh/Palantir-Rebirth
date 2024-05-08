@@ -1,5 +1,6 @@
 using DSharpPlus;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using tobeh.Palantir.Lobbies.Discord;
 using tobeh.Valmar;
 
@@ -9,7 +10,11 @@ public record InstanceClaim(InstanceDetailsMessage InstanceDetails, Ulid Claim);
 
 public record GuildAssignment(GuildOptionsMessage GuildOptions, DiscordClient BotClient);
 
-public class WorkerState(DiscordClientFactory discordClientFactory, ILogger<WorkerState> logger)
+public class WorkerState(
+    DiscordClientFactory discordClientFactory,
+    ILogger<WorkerState> logger,
+    IOptions<DiscordOptions> discordOptions
+)
 {
     private readonly Ulid _workerUlid = Ulid.NewUlid();
 
@@ -49,6 +54,7 @@ public class WorkerState(DiscordClientFactory discordClientFactory, ILogger<Work
         {
             foreach (var guild in args.Guilds.Values)
             {
+                if (discordOptions.Value.WhitelistedServers.Contains((long)guild.Id)) continue;
                 if (guild.Id != (ulong)guildOptions.GuildId)
                 {
                     logger.LogInformation($"Leaving guild {guild.Name}");
@@ -64,6 +70,7 @@ public class WorkerState(DiscordClientFactory discordClientFactory, ILogger<Work
         // listen to guild join event and leave if its the wrong guild, or set nickname accordingly
         client.GuildCreated += async (c, args) =>
         {
+            if (discordOptions.Value.WhitelistedServers.Contains((long)args.Guild.Id)) return;
             if (args.Guild.Id != (ulong)guildOptions.GuildId)
             {
                 await args.Guild.LeaveAsync();
