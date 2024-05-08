@@ -45,6 +45,9 @@ public class LobbyMessageUtil
     {
         const int limit = 2000;
 
+        if (lobbies.Count == 0)
+            lobbies.Add("No one is playing right now :(\nJoin a lobby on skribbl to show your friends you're around!");
+
         var splits = new List<string> { header };
         while (lobbies.Count > 0)
         {
@@ -113,7 +116,7 @@ public class LobbyMessageUtil
                 }
                 : $"[Join Lobby](<{lobby.SkribblDetails.Link}>)";
 
-            var lobbyEmote = LobbyEmojis[(Convert.ToInt64(lobby.PalantirDetails.Id) % LobbyEmojis.Length) - 1];
+            var lobbyEmote = LobbyEmojis[Convert.ToInt64(lobby.PalantirDetails.Id) % LobbyEmojis.Length];
 
             var palantirPlayers = lobby.Players
                 .Where(p => memberDict.ContainsKey(p.Login))
@@ -130,7 +133,7 @@ public class LobbyMessageUtil
                 .Where(p => !members.ContainsKey(p.LobbyPlayerId))
                 .Select(p => $"{
                     (string.IsNullOrWhiteSpace(ranks[p.LobbyPlayerId]) ? "" : $"`{ranks[p.LobbyPlayerId]}`")
-                } {Formatter.Sanitize(p.Name)} {(p.Drawing ? "`✏️`" : "")}").ToList();
+                } {Formatter.Sanitize(p.Name)} {(p.Drawing ? "`🖌️`" : "")}").ToList();
 
             return
                 $">   **#{index + 1}**  `{lobbyEmote}`     {lobby.SkribblDetails.Language}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
