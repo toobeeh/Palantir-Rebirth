@@ -143,7 +143,8 @@ public class EventCommands(
                       $"> **Drop Credit:**\n>  {group.Credit.TotalCredit} collected, {group.Credit.AvailableCredit} available\n> **Sprites**:\n" +
                       $"{string.Join("\n", group.Sprites.Select(sprite =>
                           $"> {(spriteInventory.Any(slot => slot.SpriteId == sprite.Id) ? "`📦`" : "")} {sprite.Id.AsTypoId()} {sprite.Name}: {sprite.Cost} Drops"))}"
-                    : $"This drop will release on {Formatter.Timestamp(group.Drop.ReleaseStart.ToDateTimeOffset(), TimestampFormat.LongDate)}.\nStay tuned!"
+                    : $"```js\n💧 Unreleased Drop```\n  " +
+                      $"This drop will release on {Formatter.Timestamp(group.Drop.ReleaseStart.ToDateTimeOffset(), TimestampFormat.LongDate)}.\nStay tuned!"
             }).ToList();
 
 
