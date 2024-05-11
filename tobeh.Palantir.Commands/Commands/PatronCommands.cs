@@ -138,7 +138,7 @@ public class PatronCommands(
         await context.RespondAsync(new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor("Thanks for supporting typo <3")
-            .WithTitle($"You have selected this server!")
+            .WithTitle($"You are now supporting this server!")
             .WithDescription(
                 $"This server is now able to be used as typo server home.\n" +
                 $"A server admin can now {"add the lobby bot to the server".AsTypoLink(invite, "✨")}. \n\n" +

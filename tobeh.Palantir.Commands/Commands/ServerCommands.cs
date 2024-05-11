@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Extensions;
 using tobeh.Valmar;
+using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Commands.Commands;
 
@@ -18,6 +19,7 @@ namespace tobeh.Palantir.Commands.Commands;
 public class ServerCommands(
     ILogger<ServerCommands> logger,
     Guilds.GuildsClient guildsClient,
+    Members.MembersClient membersClient,
     ServerHomeContext serverHomeContext)
 {
     /// <summary>
@@ -87,6 +89,38 @@ public class ServerCommands(
                                   "Users can now connect to this server with the link in the lobby message, and as soon as they are playing on skribbl.io, they will be listed!\n" +
                                   "To stop refreshing lobbies, use the command `/server lobbies` without a channel.");
         }
+
+        await context.RespondAsync(embed);
+    }
+
+    /// <summary>
+    /// View details about this server's settings.
+    /// </summary>
+    /// <param name="context"></param>
+    [Command("info"), TextAlias("if")]
+    public async Task ViewServerDetails(CommandContext context)
+    {
+        logger.LogTrace("ViewServerDetails()");
+
+        var currentOptions = serverHomeContext.Server;
+        var info = await guildsClient.GetGuildByIdAsync(new GetGuildByIdMessage { DiscordId = currentOptions.GuildId });
+
+        var supporters = await membersClient
+            .GetMembersByLogin(new GetMembersByLoginMessage { Logins = { info.Supporters } }).ToListAsync();
+        var supportersList = string.Join(", ", supporters.Select(s => s.Username));
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle("Server Info")
+            .WithDescription(
+                $"This server is a typo home server.\nYou can find out more about it in {"this help article".AsTypoLink("https://www.typo.rip/help/lobby-bot", "📑")}.")
+            .AddField("Supporters", $"`🫂` {supporters.Count} server supporters: {supportersList}")
+            .AddField("Prefix", $"`💬` You can use all commands with the prefix `{currentOptions.Prefix}`")
+            .AddField("Connection Invite",
+                $"`🏠` People can connect their typo account with {"this invite".AsTypoLink("https://www.typo.rip/invite/" + currentOptions.Invite, "🌍")}.")
+            .AddField("Lobby Channel", currentOptions.ChannelId is null
+                ? "`📃` No channel set"
+                : $"`📃` Lobbies are listed in <#{currentOptions.ChannelId}>");
 
         await context.RespondAsync(embed);
     }
