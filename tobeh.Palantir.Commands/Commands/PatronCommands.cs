@@ -123,7 +123,7 @@ public class PatronCommands(
                 .WithPalantirErrorPresets(context)
                 .WithTitle("Home server cooldown")
                 .WithDescription($"You can only set a home server every seven days. \n" +
-                                 $"You need to wait until {Formatter.Timestamp(member.NextHomeChooseDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}."));
+                                 $"You need to wait until {Formatter.Timestamp(member.NextHomeChooseDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)} to select another server."));
             return;
         }
 
@@ -133,7 +133,7 @@ public class PatronCommands(
             ServerId = (long)(context.Guild ?? throw new Exception("command was called without a guild")).Id
         });
 
-        var invite = $"https://discord.com/oauth2/authorize?client_id={instance.BotId}&scope=bot&permissions=67439616";
+        var invite = $"https://discord.com/oauth2/authorize?client_id={instance.BotId}&scope=bot&permissions=604310528";
 
         await context.RespondAsync(new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
