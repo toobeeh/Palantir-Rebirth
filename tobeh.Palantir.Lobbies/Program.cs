@@ -51,6 +51,7 @@ class Program
             .AddQuartzHostedService()
             .AddQuartz(WorkerLobbyUpdaterConfiguration.Configure)
             .AddScoped<MemberContext>()
+            .AddScoped<ServerHomeContext>()
             .AddSingleton<DiscordClientFactory>()
             .AddSingleton<WorkerState>()
             .AddLogging(builder => builder

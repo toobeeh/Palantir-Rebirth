@@ -69,6 +69,7 @@ public class DiscordBotClient(
 
         // add custom checks
         commands.AddCheck<RequirePalantirMemberCheck>();
+        commands.AddCheck<RequireServerHomeCheck>();
 
         // add command modules
         commands.AddCommands(typeof(DevelopmentCommands));
@@ -85,6 +86,7 @@ public class DiscordBotClient(
         commands.AddCommands(typeof(PatronCommands));
         commands.AddCommands(typeof(HelpCommand));
         commands.AddCommands(typeof(ServerCommands));
+        commands.AddCommands(typeof(WebhookCommands));
 
         await _client.ConnectAsync();
     }

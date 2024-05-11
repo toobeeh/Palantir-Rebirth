@@ -117,6 +117,16 @@ public class PatronCommands(
 
         var member = memberContext.Member;
 
+        if (member.NextHomeChooseDate.ToDateTimeOffset() > DateTimeOffset.UtcNow)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context)
+                .WithTitle("Home server cooldown")
+                .WithDescription($"You can only set a home server every seven days. \n" +
+                                 $"You need to wait until {Formatter.Timestamp(member.NextHomeChooseDate.ToDateTimeOffset(), TimestampFormat.ShortDateTime)}."));
+            return;
+        }
+
         var instance = await workersClient.AssignInstanceToServerAsync(new AssignInstanceToServerMessage
         {
             Login = member.Login,
@@ -128,12 +138,10 @@ public class PatronCommands(
         await context.RespondAsync(new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor("Thanks for supporting typo <3")
-            .WithTitle($"You have set this server as your home server!")
+            .WithTitle($"You have selected this server!")
             .WithDescription(
-                $"This server has just received its very own Palantir lobbies bot!\n" +
-                $"The server admins can now {"invite the bot to the server".AsTypoLink(invite, "✨")}. \n\n" +
-                $"As soon as the bot is on the server, a server admin should create a new empty channel and use the command `/server lobbies <#channel>` to start the bot in it.\n\n" +
-                $"You can now also use the `.` prefix on the server to use all Palantir commands!\n" +
-                $"If you would like to set another prefix, a server admin can change the prefix with the command `/server prefix <prefix>`."));
+                $"This server is now able to be used as typo server home.\n" +
+                $"A server admin can now {"add the lobby bot to the server".AsTypoLink(invite, "✨")}. \n\n" +
+                $"To set up the all features of a typo server home, have a look at {"this article".AsTypoLink("https://www.typo.rip/help/lobby-bot", "📑")}."));
     }
 }

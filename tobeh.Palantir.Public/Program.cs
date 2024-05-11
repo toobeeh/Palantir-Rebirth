@@ -49,6 +49,7 @@ class Program
             .Configure<DiscordBotClientOptions>(configuration.GetRequiredSection("Discord"))
             .AddHostedService<DiscordBotClient>()
             .AddScoped<MemberContext>()
+            .AddScoped<ServerHomeContext>()
             .BuildServiceProvider();
 
         return builder.Build();

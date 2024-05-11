@@ -31,4 +31,5 @@ public class DropboostStartModeArgumentConverter : ITextArgumentConverter<Dropbo
 
     public bool RequiresText { get; init; }
     public DiscordApplicationCommandOptionType ParameterType { get; init; }
+    public string ReadableName => "Dropboost Start Mode";
 }

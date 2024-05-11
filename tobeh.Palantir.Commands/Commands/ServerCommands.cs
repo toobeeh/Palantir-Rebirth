@@ -2,8 +2,8 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
-using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Extensions;
 using tobeh.Valmar;
 
@@ -13,14 +13,12 @@ namespace tobeh.Palantir.Commands.Commands;
 /// Change the settings of the bot on this server
 /// </summary>
 /// <param name="logger"></param>
-/// <param name="memberContext"></param>
 /// <param name="guildsClient"></param>
-[Command("server"), TextAlias("sv")]
+[Command("server"), TextAlias("sv"), RequireGuild, RequireServerHome]
 public class ServerCommands(
     ILogger<ServerCommands> logger,
-    MemberContext memberContext,
     Guilds.GuildsClient guildsClient,
-    Workers.WorkersClient workersClient)
+    ServerHomeContext serverHomeContext)
 {
     /// <summary>
     /// Change the prefix of the bot on this server
@@ -28,8 +26,7 @@ public class ServerCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="prefix">The new prefix for text commands on this server</param>
-    [Command("prefix"), TextAlias("pf"), RequireGuild,
-     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    [Command("prefix"), TextAlias("pf"), RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
     public async Task SetPrefix(CommandContext context, string prefix)
     {
         logger.LogTrace("SetPrefix(prefix={prefix})", prefix);
@@ -41,20 +38,7 @@ public class ServerCommands(
                 "The prefix must not be empty."));
         }
 
-        GuildOptionsMessage currentOptions;
-
-        try
-        {
-            currentOptions = await guildsClient.GetGuildOptionsByIdAsync(new GetGuildOptionsByIdMessage
-                { GuildId = (long)context.Guild!.Id });
-        }
-        catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
-        {
-            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
-                "This server has no Lobby Bot",
-                "To add the Lobby Bot, a Patreon subscriber can choose this server as their home server with the command `/patron home`."));
-            return;
-        }
+        var currentOptions = serverHomeContext.Server;
 
         currentOptions.Prefix = prefix.Trim();
         currentOptions.Name = context.Guild!.Name;
@@ -75,50 +59,12 @@ public class ServerCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="channel">The channel where the bot will list lobbies. Leave empty to stop the lobby updates.</param>
-    [Command("lobbies"), TextAlias("ch"), RequireGuild,
-     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    [Command("lobbies"), TextAlias("ch"), RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
     public async Task SetLobbyChannel(CommandContext context, DiscordChannel? channel)
     {
         logger.LogTrace("SetLobbyChannel(channel={channel})", channel);
 
-        GuildOptionsMessage currentOptions;
-
-        try
-        {
-            currentOptions = await guildsClient.GetGuildOptionsByIdAsync(new GetGuildOptionsByIdMessage
-                { GuildId = (long)context.Guild!.Id });
-        }
-        catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
-        {
-            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
-                "This server has no dedicated bot",
-                "You can only change the prefix of the Palantir Lobby Bot.\n" +
-                "To get the lobby bot, a patron user can choose this server as their home with the command `/patron home`."));
-            return;
-        }
-
-        // check if the channel has the right permissions
-        /*if (channel is not null && context.Guild is not null && context.Member is not null)
-        {
-            var botPermissions = channel.PermissionsFor(context.Member!);
-
-            DiscordPermissions[] requiredPermissionsBot = [DiscordPermissions.SendMessages, DiscordPermissions.ReadMessageHistory];
-            if (!requiredPermissionsBot.All(p => botPermissions.HasPermission(p)))
-            {
-                await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
-                    "The channel has wrong permissions",
-                    "Make sure that the Lobby Bot can .\n" +
-                    "To get the lobby bot, a patron user can choose this server as their home with the command `/patron home`."));
-                return;
-            }
-
-            var everyonePermissions = channel.PermissionsFor(context.Guild.EveryoneRole);
-            DiscordPermissions[] blacklistedPermissions = [DiscordPermissions.SendMessages];
-            if (blacklistedPermissions.Any(p => everyonePermissions.HasPermission(p)))
-            {
-
-            }
-        }*/
+        var currentOptions = serverHomeContext.Server;
 
         currentOptions.ChannelId = (long?)channel?.Id;
         currentOptions.Name = context.Guild!.Name;

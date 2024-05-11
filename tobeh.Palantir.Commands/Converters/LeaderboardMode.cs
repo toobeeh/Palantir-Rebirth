@@ -27,4 +27,5 @@ public class LeaderboardModeArgumentConverter : ITextArgumentConverter<Leaderboa
 
     public bool RequiresText { get; init; }
     public DiscordApplicationCommandOptionType ParameterType { get; init; }
+    public string ReadableName => "Leaderboard Order";
 }

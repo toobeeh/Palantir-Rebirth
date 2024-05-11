@@ -58,6 +58,7 @@ public class DiscordClientFactory(
 
         // add custom checks
         commands.AddCheck<RequirePalantirMemberCheck>();
+        commands.AddCheck<RequireServerHomeCheck>();
 
         // add command modules
         commands.AddCommands(typeof(DevelopmentCommands));
@@ -74,6 +75,7 @@ public class DiscordClientFactory(
         commands.AddCommands(typeof(PatronCommands));
         commands.AddCommands(typeof(HelpCommand));
         commands.AddCommands(typeof(ServerCommands));
+        commands.AddCommands(typeof(WebhookCommands));
 
         await client.ConnectAsync();
         return client;

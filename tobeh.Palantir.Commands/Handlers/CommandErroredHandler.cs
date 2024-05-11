@@ -1,4 +1,7 @@
+using System.Text;
+using DSharpPlus;
 using DSharpPlus.Commands;
+using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Commands.EventArgs;
 using DSharpPlus.Commands.Exceptions;
 using DSharpPlus.Entities;
@@ -49,6 +52,35 @@ public static class CommandErroredHandler
                     embedBuilder.WithTitle($"Uh oh, a wild paywall appeared.");
                     embedBuilder.WithDescription(
                         $"You need to be a {"Patron".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to use this command.\n");
+                }
+                else if (cfe.Errors.Any(err => err.ErrorMessage.Contains("permission")) &&
+                         cfe.Command.Attributes.FirstOrDefault(x => x is RequirePermissionsAttribute) is
+                             RequirePermissionsAttribute permissions)
+                {
+                    var commonPermissions = permissions.BotPermissions & permissions.UserPermissions;
+                    var botUniquePermissions = permissions.BotPermissions ^ commonPermissions;
+                    var userUniquePermissions = permissions.UserPermissions ^ commonPermissions;
+                    StringBuilder builder = new();
+                    if (commonPermissions != default)
+                    {
+                        builder.AppendLine(commonPermissions.ToPermissionString());
+                    }
+
+                    if (botUniquePermissions != default)
+                    {
+                        builder.Append("**Bot:** ");
+                        builder.AppendLine((permissions.BotPermissions ^ commonPermissions).ToPermissionString());
+                    }
+
+                    if (userUniquePermissions != default)
+                    {
+                        builder.Append("**User:** ");
+                        builder.AppendLine(permissions.UserPermissions.ToPermissionString());
+                    }
+
+                    embedBuilder.WithTitle($"You or the bot don't have the required permissions.");
+                    embedBuilder.WithDescription(
+                        $"Following permissions are required to use this command.\n{builder}");
                 }
                 else
                 {
