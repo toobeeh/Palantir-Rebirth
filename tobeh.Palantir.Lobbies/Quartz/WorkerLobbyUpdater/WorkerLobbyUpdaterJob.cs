@@ -15,6 +15,7 @@ public class WorkerLobbyUpdaterJob(
     Workers.WorkersClient workersClient,
     Valmar.Lobbies.LobbiesClient lobbiesClient,
     Members.MembersClient membersClient,
+    Events.EventsClient eventsClient,
     ILogger<WorkerLobbyUpdaterJob> logger) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
@@ -117,7 +118,17 @@ public class WorkerLobbyUpdaterJob(
                 membersClient.GetMembersByLogin(new GetMembersByLoginMessage { Logins = { memberLogins } })
                     .ToListAsync();
 
-            var header = LobbyMessageUtil.BuildHeader(guildAssignment.GuildOptions.Invite);
+            EventReply? activeEvent = null;
+            try
+            {
+                activeEvent = await eventsClient.GetCurrentEventAsync(new Empty());
+            }
+            catch
+            {
+                /*when no event active*/
+            }
+
+            var header = LobbyMessageUtil.BuildHeader(guildAssignment.GuildOptions.Invite, activeEvent);
             var lobbiesContent =
                 LobbyMessageUtil.BuildLobbies(lobbies, memberDetails, guildOptions.GuildId, guildOptions.Invite);
             var availableMessages = await LobbyMessageUtil.GetMessageCandidatesInChannel(

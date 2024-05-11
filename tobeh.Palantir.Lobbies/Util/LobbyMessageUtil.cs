@@ -10,10 +10,44 @@ public class LobbyMessageUtil
 {
     private static readonly string[] LobbyEmojis =
     [
-        "💎", "✨", "🐈", "🌄", "⛈️", "🌈", "🍔", "🍟", "😂", "❤️", "😍", "🤣", "🙏", "😊", "🚀", "🎉", "💕", "🔥", "😁",
-        "👍", "🎂", "📷", "👀", "🌸", "💪", "🌟", "🎁", "🐶", "👏", "🎄", "💖", "✈️", "🍰", "👌", "🥰", "🏖️", "🍕",
-        "👻", "🌼", "🌍", "🐱", "🥳", "📚", "🌧️", "⏰", "🍓", "🏀", "👠", "🍦", "🍾", "🏡", "🍂", "🔒", "👼", "🧡", "⚽",
-        "🎵", "🎮"
+        "<a:l1:1238936190313566280>",
+        "<a:l10:1238936193329270865>",
+        "<a:l11:1238936196436983828>",
+        "<a:l12:1238936200258261124>",
+        "<a:l13:1238936202468393022>",
+        "<a:l14:1238936206168035338>",
+        "<a:l22:1238936215181332593>",
+        "<a:l21:1238936218369261618>",
+        "<a:l20:1238936220684390543>",
+        "<a:l2:1238936224207470692>",
+        "<a:l19:1238936226955006003>",
+        "<a:l18:1238936229186375761>",
+        "<a:l17:1238936231618936862>",
+        "<a:l16:1238936234525720648>",
+        "<a:l15:1238936208961179819>",
+        "<a:l23:1238936212094586920>",
+        "<a:l24:1238936237134446722>",
+        "<a:l25:1238936240204812370>",
+        "<a:l26:1238936243195220079>",
+        "<a:l27:1238936246328361104>",
+        "<a:l28:1238936249637666977>",
+        "<a:l29:1238936252041138318>",
+        "<a:l3:1238936255400644660>",
+        "<a:l30:1238936257996783707>",
+        "<a:l43:1238936289802326037>",
+        "<a:l42:1238936293212426420>",
+        "<a:l41:1238936295938592923>",
+        "<a:l40:1238936299956604979>",
+        "<a:l4:1238936271863414786>",
+        "<a:l36:1238936275302748230>",
+        "<a:l33:1238936278653866015>",
+        "<a:l32:1238936281556320278>",
+        "<a:l31:1238936261050499172>",
+        "<a:l5:1238936269027803207>",
+        "<a:l6:1238936266490511523>",
+        "<a:l7:1238936263571148942>",
+        "<a:l8:1238936284035285114>",
+        "<a:l9:1238936287537401930>"
     ];
 
     public static async Task<List<DiscordMessage>> GetMessageCandidatesInChannel(DiscordChannel channel, ulong authorId,
@@ -71,9 +105,16 @@ public class LobbyMessageUtil
         return messages;
     }
 
-    public static string BuildHeader(int serverInvite)
+    public static string BuildHeader(int serverInvite, EventReply? activeEvent)
     {
-        return $"\n_ _```ansi\n{Formatter.Colorize("Who's around on skribbl?", AnsiColor.Blue)}\n```\n" +
+        var eventInfo = activeEvent is null
+            ? ""
+            : $"\n_ _```ansi\n{Formatter.Colorize($"{activeEvent.Name} Event", AnsiColor.Magenta)}\n```\n" +
+              $"From {Formatter.Timestamp(activeEvent.StartDate.ToDateTimeOffset())} - {Formatter.Timestamp(activeEvent.EndDate.ToDateTimeOffset())}\n" +
+              $"View your progress with `/event view {activeEvent.Id}`" +
+              $"`{activeEvent.Description}`\n_ _ \n";
+
+        return $"{eventInfo}\n_ _```ansi\n{Formatter.Colorize("Who's around on skribbl?", AnsiColor.Blue)}\n```\n" +
                $"Refreshed: {Formatter.Timestamp(DateTimeOffset.UtcNow)}\nClick to connect: https://www.typo.rip/invite/{serverInvite}";
     }
 
