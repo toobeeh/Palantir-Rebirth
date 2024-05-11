@@ -161,7 +161,7 @@ public class MiscCommands(
     /// View the leaderboard of the current server
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="mode">The ranking mode - either bubble or drops</param>
+    /// <param name="mode">The ranking mode - either bubbles, awards or drops</param>
     /// <param name="searchValue">When a search value is provided, the leaderboard shows the page with the closest scores first.</param>
     [Command("leaderboard"), TextAlias("lb"), RequireGuild]
     public async Task ViewLeaderboard(CommandContext context, LeaderboardMode mode = LeaderboardMode.Bubbles,
@@ -192,7 +192,7 @@ public class MiscCommands(
                 .WithTitle($"{(mode == LeaderboardMode.Bubbles ? "Bubble" : "Drop")} Leaderboard");
 
             page.Ranks.ForEach(rank => embed.AddField($"#{rank.Rank} _ _-_ _ {rank.Username}", $"```js\n" +
-                $"Bubbles: {rank.Bubbles}\nDrops: {rank.Drops:0.#}\n" +
+                $"Bubbles: {rank.Bubbles}\nAward Score: {rank.AwardScore}\nDrops: {rank.Drops:0.#}\n" +
                 $"```\n_ _", true));
 
             return embed;
