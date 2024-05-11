@@ -177,7 +177,7 @@ public class LobbyMessageUtil
                 } {Formatter.Sanitize(p.Name)} {(p.Drawing ? "`🖌️`" : "")}").ToList();
 
             return
-                $">   **#{index + 1}**  `{lobbyEmote}`     {lobby.SkribblDetails.Language}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
+                $">   **#{index + 1}**  {lobbyEmote}     {lobby.SkribblDetails.Language}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
                 $"{(lobby.SkribblDetails.Private ? "Private" : "Public")}     **|**     {lobby.SkribblDetails.Players.Count} Players\n" +
                 (!string.IsNullOrWhiteSpace(lobby.PalantirDetails.Description)
                     ? $"> `{lobby.PalantirDetails.Description}`\n"
