@@ -188,8 +188,18 @@ public class MiscCommands(
                 .WithPalantirPresets(context)
                 .WithAuthor("Viewing the leaderboard of this server")
                 .WithDescription(
-                    $"This leaderboard lists all members which are connected to this server, ranked by their {(mode == LeaderboardMode.Bubbles ? "bubble" : "drop")} score.")
-                .WithTitle($"{(mode == LeaderboardMode.Bubbles ? "Bubble" : "Drop")} Leaderboard");
+                    $"This leaderboard lists all members which are connected to this server, ranked by their {(mode switch
+                    {
+                        LeaderboardMode.Bubbles => "bubble",
+                        LeaderboardMode.Awards => "award",
+                        _ => "drop"
+                    })} score.")
+                .WithTitle($"{(mode switch
+                {
+                    LeaderboardMode.Bubbles => "Bubble",
+                    LeaderboardMode.Awards => "Award",
+                    _ => "Drop"
+                })} Leaderboard");
 
             page.Ranks.ForEach(rank => embed.AddField($"#{rank.Rank} _ _-_ _ {rank.Username}", $"```js\n" +
                 $"Bubbles: {rank.Bubbles}\nAward Score: {rank.AwardScore}\nDrops: {rank.Drops:0.#}\n" +
