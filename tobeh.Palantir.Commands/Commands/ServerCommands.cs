@@ -20,6 +20,7 @@ public class ServerCommands(
     ILogger<ServerCommands> logger,
     Guilds.GuildsClient guildsClient,
     Members.MembersClient membersClient,
+    MemberContext memberContext,
     ServerHomeContext serverHomeContext)
 {
     /// <summary>
@@ -117,11 +118,77 @@ public class ServerCommands(
             .AddField("Supporters", $"`🫂` {supporters.Count} server supporters: {supportersList}")
             .AddField("Prefix", $"`💬` You can use all commands with the prefix `{currentOptions.Prefix}`")
             .AddField("Connection Invite",
-                $"`🏠` People can connect their typo account with {"this invite".AsTypoLink("https://www.typo.rip/invite/" + currentOptions.Invite, "🌍")}.")
+                $"`🏠` People can connect their typo account with the command `/server connect` or using {"this invite".AsTypoLink("https://www.typo.rip/invite/" + currentOptions.Invite, "🌍")}.")
             .AddField("Lobby Channel", currentOptions.ChannelId is null
                 ? "`📃` No channel set"
                 : $"`📃` Lobbies are listed in <#{currentOptions.ChannelId}>");
 
+        await context.RespondAsync(embed);
+    }
+
+    /// <summary>
+    /// Connect your typo account to this server home.
+    /// </summary>
+    /// <param name="context"></param>
+    [Command("connect"), TextAlias("cn"), RequirePalantirMember]
+    public async Task ConnectToServer(CommandContext context)
+    {
+        logger.LogTrace("ConnectToServer()");
+
+        var currentOptions = serverHomeContext.Server;
+        var member = memberContext.Member;
+
+        if (member.ServerConnections.Contains(currentOptions.Invite))
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Already Connected",
+                "You are already connected to this server home.\n" +
+                "You can disconnect with the command `/server disconnect`."));
+            return;
+        }
+
+        await membersClient.AddMemberServerConnectionAsync(new ModifyServerConnectionRequest
+            { ServerToken = currentOptions.Invite, Login = member.Login });
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle("Connected to Server")
+            .WithDescription(
+                $"You are now connected to this server home!\n" +
+                $"As soon as you start playing on skribbl, you will show up in <#{currentOptions.ChannelId}>");
+        await context.RespondAsync(embed);
+    }
+
+    /// <summary>
+    /// Disconnect your typo account from this server home.
+    /// </summary>
+    /// <param name="context"></param>
+    [Command("disconnect"), TextAlias("dc"), RequirePalantirMember]
+    public async Task DisconnectFromServer(CommandContext context)
+    {
+        logger.LogTrace("DisconnectFromServer()");
+
+        var currentOptions = serverHomeContext.Server;
+        var member = memberContext.Member;
+
+        if (!member.ServerConnections.Contains(currentOptions.Invite))
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Not Connected",
+                "You are not connected to this server home.\n" +
+                "You can connect with the command `/server connect`."));
+            return;
+        }
+
+        await membersClient.RemoveMemberServerConnectionAsync(new ModifyServerConnectionRequest
+            { ServerToken = currentOptions.Invite, Login = member.Login });
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle("Disconnected from Server")
+            .WithDescription(
+                $"You are now no longer connected to this server home.\n" +
+                $"To connect again, use the command `/server connect`.");
         await context.RespondAsync(embed);
     }
 }
