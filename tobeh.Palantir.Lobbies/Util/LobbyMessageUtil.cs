@@ -63,11 +63,11 @@ public class LobbyMessageUtil
             reversedMessages.Insert(0, message);
         }
 
-        foreach (var message in reversedMessages)
+        foreach (var message in reversedMessages) // reversed messages: new (0) to old
         {
             if (message.Author?.Id == authorId)
             {
-                candidates.Add(message);
+                candidates.Insert(0, message);
             }
             else break;
         }
