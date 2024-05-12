@@ -63,7 +63,7 @@ public class ServerCommands(
     /// <param name="context"></param>
     /// <param name="channel">The channel where the bot will list lobbies. Leave empty to stop the lobby updates.</param>
     [Command("lobbies"), TextAlias("ch"), RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
-    public async Task SetLobbyChannel(CommandContext context, DiscordChannel? channel)
+    public async Task SetLobbyChannel(CommandContext context, DiscordChannel? channel = null)
     {
         logger.LogTrace("SetLobbyChannel(channel={channel})", channel);
 

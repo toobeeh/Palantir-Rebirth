@@ -342,7 +342,7 @@ public class SplitCommands(
 
         UpdateComponents($"{(boostModify is null ? "Start" : "Upgrade")} Dropboost", false);
         await context.RespondAsync(messageBuilder);
-        var response = await context.GetResponseAsync();
+        var response = await context.GetResponseAsync() ?? throw new Exception("no response but expected");
         var interactivity = context.Client.GetInteractivity();
 
         async Task SubmitBoost()
