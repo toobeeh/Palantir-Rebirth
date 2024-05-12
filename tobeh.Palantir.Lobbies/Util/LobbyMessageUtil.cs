@@ -55,9 +55,15 @@ public class LobbyMessageUtil
     {
         const int limit = 10;
         var candidates = new List<DiscordMessage>();
+        var reversedMessages = new List<DiscordMessage>();
         var messages = startMessage is { } id ? channel.GetMessagesBeforeAsync(id) : channel.GetMessagesAsync(limit);
 
         await foreach (var message in messages)
+        {
+            reversedMessages.Insert(0, message);
+        }
+
+        foreach (var message in reversedMessages)
         {
             if (message.Author?.Id == authorId)
             {
