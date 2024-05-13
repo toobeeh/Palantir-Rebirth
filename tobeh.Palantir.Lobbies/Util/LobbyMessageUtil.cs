@@ -116,9 +116,8 @@ public class LobbyMessageUtil
         var eventInfo = activeEvent is null
             ? ""
             : $"\n_ _```ansi\n{Formatter.Colorize($"{activeEvent.Name} Event", AnsiColor.Magenta)}\n```\n" +
-              $"From {Formatter.Timestamp(activeEvent.StartDate.ToDateTimeOffset())} - {Formatter.Timestamp(activeEvent.EndDate.ToDateTimeOffset())}\n" +
-              $"View your progress with `/event view {activeEvent.Id}`\n" +
-              $"`{activeEvent.Description}`\n_ _";
+              $"> Until {Formatter.Timestamp(activeEvent.EndDate.ToDateTimeOffset())}   **|**   `/event view {activeEvent.Id}`\n" +
+              $"> `{activeEvent.Description}`\n_ _";
 
         return $"{eventInfo}\n_ _```ansi\n{Formatter.Colorize("Who's around on skribbl?", AnsiColor.Blue)}\n```\n" +
                $"Refreshed: {Formatter.Timestamp(DateTimeOffset.UtcNow)}\nClick to connect: https://www.typo.rip/invite/{serverInvite}";
