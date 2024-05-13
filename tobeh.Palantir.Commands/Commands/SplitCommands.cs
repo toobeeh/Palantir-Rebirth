@@ -200,7 +200,7 @@ public class SplitCommands(
     /// <param name="cooldownSplits">The amount of splits that will be used to lower the cooldown of the used splits</param>
     /// <param name="startMode">Choose "now" if you want to skip a review of your selected boost</param>
     /// <exception cref="Exception"></exception>
-    [Command("start"), DefaultGroupCommand, RequirePalantirMember, RequireGuild]
+    [Command("start"), DefaultGroupCommand, RequirePalantirMember]
     public async Task StartDropboost(CommandContext context, uint factorSplits = 2, uint durationSplits = 0,
         uint cooldownSplits = 0, DropboostStartMode startMode = DropboostStartMode.Check)
     {
