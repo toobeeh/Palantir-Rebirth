@@ -56,7 +56,7 @@ public class DropSchedulerJob(
             var currentEvent = await eventsClient.GetCurrentEventAsync(new Empty());
 
             // for a chance of 50%, show an event drop
-            if (new Random().Next(10) > 5)
+            if (new Random().Next(10) >= 5)
             {
                 var dropsStream = eventsClient.GetEventDropsOfEvent(new GetEventRequest { Id = currentEvent.Id })
                     .ResponseStream;
