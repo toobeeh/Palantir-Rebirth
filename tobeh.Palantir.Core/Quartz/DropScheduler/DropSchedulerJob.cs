@@ -64,7 +64,11 @@ public class DropSchedulerJob(
 
                 while (await dropsStream.MoveNext())
                 {
-                    drops.Add(dropsStream.Current);
+                    if (dropsStream.Current.ReleaseEnd.ToDateTimeOffset() > DateTimeOffset.UtcNow
+                        && dropsStream.Current.ReleaseStart.ToDateTimeOffset() < DateTimeOffset.UtcNow)
+                    {
+                        drops.Add(dropsStream.Current);
+                    }
                 }
 
                 eventDropId = drops[new Random().Next(drops.Count)].Id;

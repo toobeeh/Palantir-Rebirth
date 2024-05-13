@@ -1,5 +1,6 @@
 using DSharpPlus;
 using DSharpPlus.Commands;
+using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
@@ -199,7 +200,7 @@ public class SplitCommands(
     /// <param name="cooldownSplits">The amount of splits that will be used to lower the cooldown of the used splits</param>
     /// <param name="startMode">Choose "now" if you want to skip a review of your selected boost</param>
     /// <exception cref="Exception"></exception>
-    [Command("start"), DefaultGroupCommand, RequirePalantirMember]
+    [Command("start"), DefaultGroupCommand, RequirePalantirMember, RequireGuild]
     public async Task StartDropboost(CommandContext context, uint factorSplits = 2, uint durationSplits = 0,
         uint cooldownSplits = 0, DropboostStartMode startMode = DropboostStartMode.Check)
     {
@@ -224,7 +225,7 @@ public class SplitCommands(
     /// <param name="cooldownSplitsIncrease">The amount of splits that will be used to lower the cooldown of the used splits</param>
     /// <param name="startMode">Choose "now" if you want to skip a review of your selected boost</param>
     /// <exception cref="Exception"></exception>
-    [Command("upgrade"), TextAlias("ug"), RequirePalantirMember]
+    [Command("upgrade"), TextAlias("ug"), RequirePalantirMember, RequireGuild]
     public async Task UpgradeDropboost(CommandContext context, uint boostId, uint factorSplitsIncrease = 0,
         uint durationSplitsIncrease = 0, uint cooldownSplitsIncrease = 0,
         DropboostStartMode startMode = DropboostStartMode.Check)
