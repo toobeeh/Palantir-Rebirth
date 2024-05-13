@@ -152,67 +152,74 @@ public class LobbyMessageUtil
         var memberDict = memberDetails.Where(m => m.ServerConnections.Contains(serverInvite))
             .ToDictionary(member => member.Login);
 
-        return lobbies.OrderBy(lobby => lobby.PalantirDetails.Id).Select((lobby, index) =>
-        {
-            var playerDict = lobby.SkribblDetails.Players.ToDictionary(player => player.LobbyPlayerId);
-            var ranks = lobby.SkribblDetails.Players
-                .OrderByDescending(p => p.Score)
-                .Select((p, idx) => new
-                {
-                    Rank = idx switch
+        return lobbies
+            .Select(lobby => new
+            {
+                lobby.PalantirDetails, lobby.SkribblDetails,
+                ConnectedPlayers = lobby.Players.Where(p =>
+                        memberDict.ContainsKey(p.Login) && memberDict[p.Login].ServerConnections.Contains(serverInvite))
+                    .ToList()
+            })
+            .Where(lobby => lobby.ConnectedPlayers.Count > 0)
+            .OrderBy(lobby => lobby.PalantirDetails.Id).Select((lobby, index) =>
+            {
+                var playerDict = lobby.SkribblDetails.Players.ToDictionary(player => player.LobbyPlayerId);
+                var ranks = lobby.SkribblDetails.Players
+                    .OrderByDescending(p => p.Score)
+                    .Select((p, idx) => new
                     {
-                        0 => "🏆",
-                        1 => "🥈",
-                        2 => "🥉",
-                        _ => ""
-                    },
-                    Id = p.LobbyPlayerId
-                })
-                .ToDictionary(p => p.Id, p => p.Rank);
-            var members = lobby.Players
-                .Where(p => p.LobbyPlayerId is not null && memberDict.ContainsKey(p.Login))
-                .ToDictionary(p => p.LobbyPlayerId!.Value, p => memberDict[p.Login]);
+                        Rank = idx switch
+                        {
+                            0 => "🏆",
+                            1 => "🥈",
+                            2 => "🥉",
+                            _ => ""
+                        },
+                        Id = p.LobbyPlayerId
+                    })
+                    .ToDictionary(p => p.Id, p => p.Rank);
 
-            var link = lobby.SkribblDetails.Private
-                ? lobby.PalantirDetails.Restriction switch
-                {
-                    "#nojoin" => "`Closed private game`",
-                    "restricted" => "`Restricted private game`",
-                    "unrestricted" => $"[Join Lobby](<{lobby.SkribblDetails.Link}>)",
-                    _ => lobby.PalantirDetails.Restriction == guildId.ToString()
-                        ? $"[Join Lobby](<{lobby.SkribblDetails.Link}>)"
-                        : "`Server restricted private game`"
-                }
-                : $"[Join Lobby](<{lobby.SkribblDetails.Link}>)";
+                var members = lobby.ConnectedPlayers
+                    .ToDictionary(p => p.LobbyPlayerId!.Value, p => memberDict[p.Login]);
 
-            var lobbyEmote = LobbyEmojis[Convert.ToInt64(lobby.PalantirDetails.Id) % LobbyEmojis.Length];
+                var link = lobby.SkribblDetails.Private
+                    ? lobby.PalantirDetails.Restriction switch
+                    {
+                        "#nojoin" => "`Closed private game`",
+                        "restricted" => "`Restricted private game`",
+                        "unrestricted" => $"[Join Lobby](<{lobby.SkribblDetails.Link}>)",
+                        _ => lobby.PalantirDetails.Restriction == guildId.ToString()
+                            ? $"[Join Lobby](<{lobby.SkribblDetails.Link}>)"
+                            : "`Server restricted private game`"
+                    }
+                    : $"[Join Lobby](<{lobby.SkribblDetails.Link}>)";
 
-            var palantirPlayers = lobby.Players
-                .Where(p => memberDict.ContainsKey(p.Login))
-                .Select(player => player.LobbyPlayerId is not { } id
-                    ? ""
-                    : $"{playerDict[id].Name,-20} {playerDict[id].Score + " pts " + ranks[id],-15} {
-                        (string.IsNullOrWhiteSpace(members[id].PatronEmoji) ? "🔮 " + members[id].Bubbles : members[id].PatronEmoji)
-                    } {(playerDict[id].Drawing ? "🖌️" : "")}")
-                .ToList();
+                var lobbyEmote = LobbyEmojis[Convert.ToInt64(lobby.PalantirDetails.Id) % LobbyEmojis.Length];
 
-            if (palantirPlayers.Count == 0) return "";
+                var palantirPlayers = lobby.ConnectedPlayers
+                    .OrderBy(player => player.LobbyPlayerId)
+                    .Select(player => player.LobbyPlayerId is not { } id
+                        ? ""
+                        : $"{playerDict[id].Name,-20} {playerDict[id].Score + " pts " + ranks[id],-15} {
+                            (string.IsNullOrWhiteSpace(members[id].PatronEmoji) ? "🔮 " + members[id].Bubbles : members[id].PatronEmoji)
+                        } {(playerDict[id].Drawing ? "🖌️" : "")}")
+                    .ToList();
 
-            var skribblPlayers = lobby.SkribblDetails.Players
-                .Where(p => !members.ContainsKey(p.LobbyPlayerId))
-                .Select(p => $"{
-                    (string.IsNullOrWhiteSpace(ranks[p.LobbyPlayerId]) ? "" : $"`{ranks[p.LobbyPlayerId]}`")
-                } {Formatter.Sanitize(p.Name)} {(p.Drawing ? "`🖌️`" : "")}").ToList();
+                var skribblPlayers = lobby.SkribblDetails.Players
+                    .Where(p => !members.ContainsKey(p.LobbyPlayerId))
+                    .Select(p => $"{
+                        (string.IsNullOrWhiteSpace(ranks[p.LobbyPlayerId]) ? "" : $"`{ranks[p.LobbyPlayerId]}`")
+                    } {Formatter.Sanitize(p.Name)} {(p.Drawing ? "`🖌️`" : "")}").ToList();
 
-            return
-                $">   **#{index + 1}**  {lobbyEmote}     {lobby.SkribblDetails.Language}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
-                $"{(lobby.SkribblDetails.Private ? "Private" : "Public")}     **|**     {lobby.SkribblDetails.Players.Count} Players\n" +
-                (!string.IsNullOrWhiteSpace(lobby.PalantirDetails.Description)
-                    ? $"> `{lobby.PalantirDetails.Description}`\n"
-                    : "") +
-                $"> {link}\n" +
-                (palantirPlayers.Count > 0 ? $"```fix\n{string.Join("\n", palantirPlayers)}```" : "") +
-                $" {string.Join(", ", skribblPlayers)} ";
-        }).ToList();
+                return
+                    $">   **#{index + 1}**  {lobbyEmote}     {lobby.SkribblDetails.Language}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
+                    $"{(lobby.SkribblDetails.Private ? "Private" : "Public")}     **|**     {lobby.SkribblDetails.Players.Count} Players\n" +
+                    (!string.IsNullOrWhiteSpace(lobby.PalantirDetails.Description)
+                        ? $"> `{lobby.PalantirDetails.Description}`\n"
+                        : "") +
+                    $"> {link}\n" +
+                    (palantirPlayers.Count > 0 ? $"```fix\n{string.Join("\n", palantirPlayers)}```" : "") +
+                    $" {string.Join(", ", skribblPlayers)} ";
+            }).ToList();
     }
 }
