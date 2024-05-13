@@ -82,6 +82,12 @@ public static class CommandErroredHandler
                     embedBuilder.WithDescription(
                         $"Following permissions are required to use this command.\n{builder}");
                 }
+                else if (cfe.Errors.Any(err => err.ErrorMessage.Contains("executed in a guild")))
+                {
+                    embedBuilder.WithTitle($"Not allowed in DMs");
+                    embedBuilder.WithDescription(
+                        $"This command cannot be used in DMs.\nGo to a server with palantir and use it there!");
+                }
                 else
                 {
                     embedBuilder.WithTitle("You are not allowed to use this command:");
