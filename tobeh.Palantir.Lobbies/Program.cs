@@ -48,6 +48,7 @@ class Program
             .AddTypoImageGeneratorGrpc(configuration.GetValue<string>("Grpc:ImageGenAddress"))
             .AddValmarGrpc(configuration.GetValue<string>("Grpc:ValmarAddress"))
             .Configure<DiscordOptions>(configuration.GetRequiredSection("Discord"))
+            .Configure<WorkerOptions>(configuration.GetSection("Worker"))
             .AddQuartzHostedService()
             .AddQuartz(WorkerLobbyUpdaterConfiguration.Configure)
             .AddScoped<MemberContext>()

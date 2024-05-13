@@ -1,6 +1,7 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Quartz;
 using tobeh.Palantir.Lobbies.Util;
 using tobeh.Palantir.Lobbies.Util.GuildOptionsExtensions;
@@ -16,6 +17,7 @@ public class WorkerLobbyUpdaterJob(
     Valmar.Lobbies.LobbiesClient lobbiesClient,
     Members.MembersClient membersClient,
     Events.EventsClient eventsClient,
+    IOptions<WorkerOptions> workerOptions,
     ILogger<WorkerLobbyUpdaterJob> logger) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
@@ -28,27 +30,36 @@ public class WorkerLobbyUpdaterJob(
         // claim a new instance if none set
         if (instance is null)
         {
-            InstanceDetailsMessage unclaimedInstance;
-            try
+            int targetInstanceId;
+
+            if (workerOptions.Value.ForceBotInstanceId is { } forcedId) // if forced, use it
             {
-                unclaimedInstance = await workersClient.GetUnclaimedInstanceAsync(new Empty());
+                logger.LogInformation("Forced instance #{forcedId}", forcedId);
+                targetInstanceId = forcedId;
             }
-            catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
+            else // else, get unclaimed instance
             {
-                logger.LogInformation("No unclaimed instance available");
-                return;
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Failed to fetch unclaimed instance");
-                return;
+                try
+                {
+                    targetInstanceId = (await workersClient.GetUnclaimedInstanceAsync(new Empty())).Id;
+                }
+                catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
+                {
+                    logger.LogInformation("No unclaimed instance available");
+                    return;
+                }
+                catch (Exception e)
+                {
+                    logger.LogError(e, "Failed to fetch unclaimed instance");
+                    return;
+                }
             }
 
             var claim = Ulid.NewUlid();
             var confirmedInstance = await workersClient.ClaimInstanceAsync(new ClaimInstanceMessage
             {
                 WorkerUlid = workerState.WorkerUlid.ToString(),
-                InstanceId = unclaimedInstance.Id,
+                InstanceId = targetInstanceId,
                 ClaimUlid = claim.ToString()
             });
 
@@ -72,7 +83,7 @@ public class WorkerLobbyUpdaterJob(
             }
             catch (Exception e)
             {
-                logger.LogDebug(e, "Failed to re-claim instance {instanceId}", instance.InstanceDetails.Id);
+                logger.LogError(e, "Failed to re-claim instance {instanceId}", instance.InstanceDetails.Id);
                 return;
             }
 
@@ -146,8 +157,14 @@ public class WorkerLobbyUpdaterJob(
                     if (split.Message.Content != split.Content) await split.Message.ModifyAsync(split.Content);
                 }
             }
+
+            // set guild lobby links
+            var links = LobbyMessageUtil.BuildGuildLinks(lobbies, memberDetails, guildOptions.GuildId,
+                guildOptions.Invite);
+            await lobbiesClient.SetGuildLobbyLinksAsync(new SetGuildLobbyLinksMessage
+                { GuildId = guildOptions.GuildId, Links = { links } });
         }
 
-        logger.LogInformation("Finished");
+        logger.LogInformation("Finished loop for server {guildId}", guildOptions.GuildId);
     }
 }

@@ -123,6 +123,29 @@ public class LobbyMessageUtil
                $"Refreshed: {Formatter.Timestamp(DateTimeOffset.UtcNow)}\nClick to connect: https://www.typo.rip/invite/{serverInvite}";
     }
 
+    public static List<GuildLobbyLinkMessage> BuildGuildLinks(List<LobbyReply> lobbies, List<MemberReply> memberDetails,
+        long guildId, int serverInvite)
+    {
+        var memberDict = memberDetails.Where(m => m.ServerConnections.Contains(serverInvite))
+            .ToDictionary(member => member.Login);
+
+        var links = lobbies
+            .SelectMany(lobby => lobby.Players.Select(player => new { Player = player, Lobby = lobby }))
+            .Where(item => memberDict.ContainsKey(item.Player.Login) &&
+                           memberDict[item.Player.Login].ServerConnections.Contains(serverInvite))
+            .Select(item => new GuildLobbyLinkMessage
+            {
+                GuildId = guildId,
+                Login = item.Player.Login,
+                Username = item.Player.Name,
+                Link = item.Lobby.SkribblDetails.Link,
+                SlotAvailable = item.Lobby.SkribblDetails.Private || item.Lobby.SkribblDetails.Players.Count < 8
+            })
+            .ToList();
+
+        return links;
+    }
+
     public static List<string> BuildLobbies(List<LobbyReply> lobbies, List<MemberReply> memberDetails, long guildId,
         int serverInvite)
     {
