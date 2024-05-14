@@ -105,6 +105,9 @@ public class ServerCommands(
 
         var currentOptions = serverHomeContext.Server;
         var info = await guildsClient.GetGuildByIdAsync(new GetGuildByIdMessage { DiscordId = currentOptions.GuildId });
+        var webhooks = await guildsClient
+            .GetGuildWebhooks(new GetGuildWebhooksMessage { GuildId = currentOptions.GuildId }).ToListAsync();
+        var containerId = Environment.GetEnvironmentVariable("HOSTNAME");
 
         var supporters = await membersClient
             .GetMembersByLogin(new GetMembersByLoginMessage { Logins = { info.Supporters } }).ToListAsync();
@@ -122,6 +125,24 @@ public class ServerCommands(
             .AddField("Lobby Channel", currentOptions.ChannelId is null
                 ? "`📃` No channel set"
                 : $"`📃` Lobbies are listed in <#{currentOptions.ChannelId}>");
+
+        if (webhooks.Count > 0)
+        {
+            var serverWebhooks = await context.Guild!.GetWebhooksAsync();
+            var postsWithChannel = webhooks
+                .Select(post => new
+                    { Post = post, Webhook = serverWebhooks.FirstOrDefault(hook => hook.Url == post.Url) })
+                .ToList();
+            embed.AddField("Image Post Channels",
+                string.Join("\n",
+                    postsWithChannel.Select(post =>
+                        $"- `{post.Post.Name}` in {(post.Webhook is null ? "`⚠️ Corrupted`" : $"<#{post.Webhook.ChannelId}>")}")));
+        }
+
+        if (containerId is not null)
+        {
+            embed.AddField("_ _", "||Container ID: " + containerId + "||");
+        }
 
         await context.RespondAsync(embed);
     }
