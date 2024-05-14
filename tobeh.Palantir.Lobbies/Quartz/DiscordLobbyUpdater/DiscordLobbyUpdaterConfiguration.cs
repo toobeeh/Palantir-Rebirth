@@ -1,14 +1,14 @@
 using Quartz;
 
-namespace tobeh.Palantir.Lobbies.Quartz.WorkerLobbyUpdater;
+namespace tobeh.Palantir.Lobbies.Quartz.DiscordLobbyUpdater;
 
-public static class WorkerLobbyUpdaterConfiguration
+public static class DiscordLobbyUpdaterConfiguration
 {
     public static void Configure(IServiceCollectionQuartzConfigurator configurator)
     {
-        var jobId = new JobKey($"Worker Lobby Updater");
+        var jobId = new JobKey($"Discord Lobby Updater");
 
-        configurator.AddJob<WorkerLobbyUpdaterJob>(job => job
+        configurator.AddJob<DiscordLobbyUpdaterJob>(job => job
             .WithIdentity(jobId));
 
         configurator.AddTrigger(trigger => trigger

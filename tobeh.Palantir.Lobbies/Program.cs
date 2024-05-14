@@ -6,7 +6,8 @@ using Microsoft.Extensions.Logging;
 using Quartz;
 using tobeh.Palantir.Commands;
 using tobeh.Palantir.Lobbies.Discord;
-using tobeh.Palantir.Lobbies.Quartz.WorkerLobbyUpdater;
+using tobeh.Palantir.Lobbies.Quartz.DiscordLobbyUpdater;
+using tobeh.Palantir.Lobbies.Quartz.LobbyLinksUpdater;
 using tobeh.Palantir.Lobbies.Worker;
 using tobeh.TypoImageGen.Client.Util;
 using tobeh.Valmar.Client.Util;
@@ -49,12 +50,14 @@ class Program
             .AddValmarGrpc(configuration.GetValue<string>("Grpc:ValmarAddress"))
             .Configure<DiscordOptions>(configuration.GetRequiredSection("Discord"))
             .Configure<WorkerOptions>(configuration.GetSection("Worker"))
+            .AddSingleton<WorkerState>()
+            .AddScoped<WorkerService>()
             .AddQuartzHostedService()
-            .AddQuartz(WorkerLobbyUpdaterConfiguration.Configure)
+            .AddQuartz(DiscordLobbyUpdaterConfiguration.Configure)
+            .AddQuartz(LobbyLinksUpdaterConfiguration.Configure)
             .AddScoped<MemberContext>()
             .AddScoped<ServerHomeContext>()
             .AddSingleton<DiscordClientFactory>()
-            .AddSingleton<WorkerState>()
             .AddLogging(builder => builder
                 .AddConfiguration(configuration.GetSection("Logging"))
                 .AddConsole())

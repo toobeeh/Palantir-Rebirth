@@ -2,6 +2,7 @@ using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity.Extensions;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Extensions;
@@ -116,7 +117,6 @@ public class PatronCommands(
         logger.LogTrace("ChooseHome()");
 
         var member = memberContext.Member;
-
         if (member.NextHomeChooseDate.ToDateTimeOffset() > DateTimeOffset.UtcNow)
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
@@ -127,21 +127,58 @@ public class PatronCommands(
             return;
         }
 
-        var instance = await workersClient.AssignInstanceToServerAsync(new AssignInstanceToServerMessage
-        {
-            Login = member.Login,
-            ServerId = (long)(context.Guild ?? throw new Exception("command was called without a guild")).Id
-        });
+        var hintMessage = new DiscordMessageBuilder()
+            .AddEmbed(new DiscordEmbedBuilder()
+                .WithPalantirPresets(context)
+                .WithAuthor("Quick heads up")
+                .WithTitle($"Do you want to support this server as your home server?")
+                .WithDescription(
+                    $"You can only select one server at a time.\n" +
+                    $"When you do that, the server can set up a typo home server - you can learn more about that in {"this article".AsTypoLink("https://www.typo.rip/help/lobby-bot", "📑")}.\n\n" +
+                    $"If you should change your mind later, you can select another server after seven days.")
+            )
+            .AddComponents(new DiscordButtonComponent(DiscordButtonStyle.Success, "select", "Support this server",
+                false, new DiscordComponentEmoji("✨")));
 
-        var invite = $"https://discord.com/oauth2/authorize?client_id={instance.BotId}&scope=bot&permissions=604310528";
+        await context.RespondAsync(hintMessage);
+        var response = await context.GetResponseAsync() ?? throw new Exception("Could not retrieve response");
 
-        await context.RespondAsync(new DiscordEmbedBuilder()
-            .WithPalantirPresets(context)
-            .WithAuthor("Thanks for supporting typo <3")
-            .WithTitle($"You are now supporting this server!")
-            .WithDescription(
-                $"This server is now able to be used as typo server home.\n" +
-                $"A server admin can now {"add the lobby bot to the server".AsTypoLink(invite, "✨")}. \n\n" +
-                $"To set up the all features of a typo server home, have a look at {"this article".AsTypoLink("https://www.typo.rip/help/lobby-bot", "📑")}."));
+        var buttonHandler = new InteractivityHandler<bool>(
+            async interactivity => await interactivity.WaitForButtonAsync(response, context.User),
+            async result =>
+            {
+                var instance = await workersClient.AssignInstanceToServerAsync(new AssignInstanceToServerMessage
+                {
+                    Login = member.Login,
+                    ServerId = (long)(context.Guild ?? throw new Exception("command was called without a guild")).Id
+                });
+
+                var invite =
+                    $"https://discord.com/oauth2/authorize?client_id={instance.BotId}&scope=bot&permissions=604310528";
+
+                var cconfirmation = new DiscordEmbedBuilder()
+                    .WithPalantirPresets(context)
+                    .WithAuthor("Thanks for supporting typo <3")
+                    .WithTitle($"You are now supporting this server!")
+                    .WithDescription(
+                        $"This server is now able to be used as typo server home.\n" +
+                        $"A server admin can now {"add the lobby bot to the server".AsTypoLink(invite, "✨")}. \n\n" +
+                        $"To set up the all features of a typo server home, have a look at {"this article".AsTypoLink("https://www.typo.rip/help/lobby-bot", "📑")}.");
+
+                await result.Result.Interaction.CreateResponseAsync(
+                    DiscordInteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
+                        .AddEmbed(cconfirmation.Build()));
+
+                return false;
+            },
+            false
+        );
+
+        await context.Client.GetInteractivity().HandleNextInteraction([buttonHandler]);
+        hintMessage.ClearComponents();
+        hintMessage.AddComponents(new DiscordButtonComponent(DiscordButtonStyle.Success, "select",
+            "Support this server", true, new DiscordComponentEmoji("✨")));
+
+        await response.ModifyAsync(hintMessage);
     }
 }
