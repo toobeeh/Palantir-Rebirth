@@ -33,7 +33,9 @@ namespace tobeh.Palantir.Commands.XmlDoc
 
             return context.RespondAsync(new DiscordEmbedBuilder()
                 .AddField("Command suggestions",
-                    string.Join("\n", context.Extension.FindSimilarCommands(command).Take(5).Select(c => $"- `/{c}`")))
+                    string.Join("\n",
+                        context.Extension.FindSimilarCommands(command).Take(5)
+                            .Select(c => $"- `/{c.Command}` {c.Description}")))
                 .WithPalantirErrorPresets(context, $"Command `{command}` not found",
                     "The command you are looking for does not exist.\nUse `/help` to view a list of all commands."));
         }
@@ -49,7 +51,9 @@ namespace tobeh.Palantir.Commands.XmlDoc
         {
             return context.RespondAsync(new DiscordEmbedBuilder()
                 .AddField($"Commands matching `/{command}`",
-                    string.Join("\n", context.Extension.FindSimilarCommands(command).Take(20).Select(c => $"- `/{c}`")))
+                    string.Join("\n",
+                        context.Extension.FindSimilarCommands(command).Take(20)
+                            .Select(c => $"- `/{c.Command}` {c.Description}")))
                 .WithPalantirPresets(context)
                 .WithTitle("Command search results"));
         }

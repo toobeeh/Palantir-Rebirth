@@ -2,22 +2,25 @@ using System.Text.RegularExpressions;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.Trees;
 using DSharpPlus.Commands.Trees.Metadata;
+using tobeh.Palantir.Commands.XmlDoc;
 
 namespace tobeh.Palantir.Commands.Extensions;
 
-record CommandFinderRecord(string Command, Command CommandObject);
+public record CommandFinderRecord(string Command, Command CommandObject, string Description);
 
 public static class CommandFinderExtension
 {
-    public static List<string> FindSimilarCommands(this CommandsExtension extension, string command)
+    public static List<CommandFinderRecord> FindSimilarCommands(this CommandsExtension extension, string command)
     {
         var commands = ResolveSubcommands(
-            ResolveAliases(extension.Commands.Values.Select(c => new CommandFinderRecord(c.Name, c)).ToList()));
+            ResolveAliases(extension.Commands.Values.Select(c => new CommandFinderRecord(c.Name, c,
+                HelpCommandDocumentationMapperEventHandlers.CommandDocumentation.GetValueOrDefault(c,
+                    "No description provided."))).ToList()));
 
         var scores = commands
-            .Select(name => new { Name = name.Command, Score = ComputeSimilarity(command, name.Command) })
+            .Select(name => new { Command = name, Score = ComputeSimilarity(command, name.Command) })
             .OrderByDescending(item => item.Score)
-            .Select(item => item.Name)
+            .Select(item => item.Command)
             .ToList();
 
         return scores;
@@ -31,13 +34,25 @@ public static class CommandFinderExtension
                 .SelectMany(attr => attr is TextAliasAttribute tAttr ? tAttr.Aliases : [])
                 .ToList();
 
-            if (aliases.Count() == 0)
+            if (aliases.Count == 0)
             {
-                return new List<CommandFinderRecord> { new(c.Command, c.CommandObject) };
+                return new List<CommandFinderRecord>
+                {
+                    new(
+                        c.Command,
+                        c.CommandObject,
+                        HelpCommandDocumentationMapperEventHandlers.CommandDocumentation.GetValueOrDefault(
+                            c.CommandObject, "No description provided.")
+                    )
+                };
             }
 
-            return aliases.Select(alias => new CommandFinderRecord(alias, c.CommandObject))
-                .Append(new CommandFinderRecord(c.Command, c.CommandObject));
+            return aliases.Select(alias => new CommandFinderRecord(alias, c.CommandObject,
+                    HelpCommandDocumentationMapperEventHandlers.CommandDocumentation.GetValueOrDefault(c.CommandObject,
+                        "No description provided.")))
+                .Append(new CommandFinderRecord(c.Command, c.CommandObject,
+                    HelpCommandDocumentationMapperEventHandlers.CommandDocumentation.GetValueOrDefault(c.CommandObject,
+                        "No description provided.")));
         }).ToList();
     }
 
@@ -46,21 +61,32 @@ public static class CommandFinderExtension
         return records.SelectMany(c =>
         {
             var subcommands = c.CommandObject.Subcommands
-                .Select(sub => new CommandFinderRecord(sub.Name, sub))
+                .Select(sub => new CommandFinderRecord(sub.Name, sub,
+                    HelpCommandDocumentationMapperEventHandlers.CommandDocumentation.GetValueOrDefault(c.CommandObject,
+                        "No description provided.")))
                 .ToList();
-            if (subcommands.Count() == 0)
+            if (subcommands.Count == 0)
             {
-                return new List<CommandFinderRecord> { new(c.Command, c.CommandObject) };
+                return new List<CommandFinderRecord>
+                {
+                    new(c.Command, c.CommandObject,
+                        HelpCommandDocumentationMapperEventHandlers.CommandDocumentation.GetValueOrDefault(
+                            c.CommandObject, "No description provided."))
+                };
             }
 
             var subAliases = ResolveAliases(subcommands);
             var subSub = ResolveSubcommands(subAliases);
             var appendedSub = subSub
-                .Select(sub => new CommandFinderRecord($"{c.Command} {sub.Command}", sub.CommandObject))
+                .Select(sub => new CommandFinderRecord($"{c.Command} {sub.Command}", sub.CommandObject,
+                    HelpCommandDocumentationMapperEventHandlers.CommandDocumentation.GetValueOrDefault(
+                        sub.CommandObject, "No description provided.")))
                 .ToList();
 
             return appendedSub
-                .Append(new CommandFinderRecord(c.Command, c.CommandObject));
+                .Append(new CommandFinderRecord(c.Command, c.CommandObject,
+                    HelpCommandDocumentationMapperEventHandlers.CommandDocumentation.GetValueOrDefault(c.CommandObject,
+                        "No description provided.")));
         }).ToList();
     }
 

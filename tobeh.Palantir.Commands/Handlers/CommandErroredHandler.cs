@@ -24,14 +24,16 @@ public static class CommandErroredHandler
                 embedBuilder.WithDescription("Use the command `/help` to see a list of supported commands.");
                 embedBuilder.AddField("Command suggestions",
                     string.Join("\n",
-                        extension.FindSimilarCommands(cnfe.CommandName).Take(5).Select(c => $"- `/{c}`")));
+                        extension.FindSimilarCommands(cnfe.CommandName).Take(5)
+                            .Select(c => $"- `/{c.Command}` {c.Description}")));
                 break;
             case CommandNotExecutableException cnee:
                 embedBuilder.WithTitle($"Command `{cnee.Command.FullName}` not found");
                 embedBuilder.WithDescription("Use the command `/help` to see a list of supported commands.");
                 embedBuilder.AddField("Command suggestions",
                     string.Join("\n",
-                        extension.FindSimilarCommands(cnee.Command.FullName).Take(5).Select(c => $"- `/{c}`")));
+                        extension.FindSimilarCommands(cnee.Command.FullName).Take(5)
+                            .Select(c => $"- `/{c.Command}` {c.Description}")));
                 break;
 
             case RpcException re:
