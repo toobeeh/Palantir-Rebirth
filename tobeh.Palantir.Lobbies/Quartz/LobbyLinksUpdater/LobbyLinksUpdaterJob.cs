@@ -1,3 +1,4 @@
+using DSharpPlus.Entities;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using Quartz;
@@ -10,7 +11,7 @@ using tobeh.Valmar.Client.Util;
 namespace tobeh.Palantir.Lobbies.Quartz.LobbyLinksUpdater;
 
 public class LobbyLinksUpdaterJob(
-    WorkerState workerState,
+    Guilds.GuildsClient guildsClient,
     Valmar.Lobbies.LobbiesClient lobbiesClient,
     Members.MembersClient membersClient,
     WorkerService workerService,
@@ -41,11 +42,22 @@ public class LobbyLinksUpdaterJob(
 
             logger.LogInformation("Updated lobby links for server {guildId} in instance {instance}",
                 guildOptions.GuildId, instance.InstanceDetails.Id);
+
+            // set bot status
+            var guildInfo =
+                await guildsClient.GetGuildByIdAsync(new GetGuildByIdMessage { DiscordId = guildOptions.GuildId });
+            await guildAssignment.BotClient.UpdateStatusAsync(new DiscordActivity(
+                $"{links.Count} online, {guildInfo.ConnectedMemberCount} connected",
+                DiscordActivityType.Custom
+            ));
         }
         else
         {
             logger.LogInformation("No lobbies channel set for server {guildId} in instance {instance}",
                 guildOptions.GuildId, instance.InstanceDetails.Id);
+
+            // clear status
+            await guildAssignment.BotClient.UpdateStatusAsync();
         }
     }
 }
