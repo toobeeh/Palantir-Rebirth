@@ -22,7 +22,7 @@ namespace tobeh.Palantir.Commands.Commands;
 /// <param name="dropsClient"></param>
 /// <param name="lobbiesClient"></param>
 /// <param name="splitsClient"></param>
-[Command("boost")]
+[Command("boost"), TextAlias("bs")]
 public class SplitCommands(
     ILogger<SplitCommands> logger,
     MemberContext memberContext,

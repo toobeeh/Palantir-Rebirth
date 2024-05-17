@@ -119,6 +119,7 @@ public class ServerCommands(
             .WithDescription(
                 $"This server is a typo home server.\nYou can find out more about it in {"this help article".AsTypoLink("https://www.typo.rip/help/lobby-bot", "📑")}.")
             .AddField("Supporters", $"`🫂` {supporters.Count} server supporters: {supportersList}")
+            .AddField("Members", $"`🔗` {info.ConnectedMemberCount} members connected")
             .AddField("Prefix", $"`💬` You can use all commands with the prefix `{currentOptions.Prefix}`")
             .AddField("Connection Invite",
                 $"`🏠` People can connect their typo account with the command `/server connect` or using {"this invite".AsTypoLink("https://www.typo.rip/invite/" + currentOptions.Invite, "🌍")}.")

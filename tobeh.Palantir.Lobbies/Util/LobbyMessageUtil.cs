@@ -133,7 +133,8 @@ public class LobbyMessageUtil
             .SelectMany(lobby => lobby.Players.Select(player => new { Player = player, Lobby = lobby }))
             .Where(item => memberDict.ContainsKey(item.Player.Login) &&
                            memberDict[item.Player.Login].ServerConnections.Contains(serverInvite))
-            .Where(item => item.Lobby.PalantirDetails.Restriction == "unrestricted" ||
+            .Where(item => !item.Lobby.SkribblDetails.Private ||
+                           item.Lobby.PalantirDetails.Restriction == "unrestricted" ||
                            item.Lobby.PalantirDetails.Restriction == guildId.ToString())
             .Select(item => new GuildLobbyLinkMessage
             {

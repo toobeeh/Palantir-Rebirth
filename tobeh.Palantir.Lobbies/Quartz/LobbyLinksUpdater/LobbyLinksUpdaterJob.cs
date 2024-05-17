@@ -2,7 +2,6 @@ using DSharpPlus.Entities;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using tobeh.Palantir.Lobbies.Quartz.DiscordLobbyUpdater;
 using tobeh.Palantir.Lobbies.Util;
 using tobeh.Palantir.Lobbies.Worker;
 using tobeh.Valmar;
@@ -15,7 +14,7 @@ public class LobbyLinksUpdaterJob(
     Valmar.Lobbies.LobbiesClient lobbiesClient,
     Members.MembersClient membersClient,
     WorkerService workerService,
-    ILogger<DiscordLobbyUpdaterJob> logger) : IJob
+    ILogger<LobbyLinksUpdaterJob> logger) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
     {
@@ -47,7 +46,7 @@ public class LobbyLinksUpdaterJob(
             var guildInfo =
                 await guildsClient.GetGuildByIdAsync(new GetGuildByIdMessage { DiscordId = guildOptions.GuildId });
             await guildAssignment.BotClient.UpdateStatusAsync(new DiscordActivity(
-                $"{links.Count} online, {guildInfo.ConnectedMemberCount} connected",
+                $"{links.Count} playing, {guildInfo.ConnectedMemberCount} connected",
                 DiscordActivityType.Custom
             ));
         }
