@@ -26,7 +26,7 @@ public class DiscordBotClient(
         Token = options.Value.DiscordToken,
         TokenType = TokenType.Bot,
         LoggerFactory = loggerFactory,
-        Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
+        Intents = DiscordIntents.AllUnprivileged
     });
 
     public async Task StartAsync(CancellationToken cancellationToken)
