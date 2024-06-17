@@ -218,7 +218,7 @@ public class LobbyMessageUtil
                     $">   **#{index + 1}**  {lobbyEmote}     {lobby.SkribblDetails.Language}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
                     $"{(lobby.SkribblDetails.Private ? "Private" : "Public")}     **|**     {lobby.SkribblDetails.Players.Count} Players\n" +
                     (!string.IsNullOrWhiteSpace(lobby.PalantirDetails.Description)
-                        ? $"> `{lobby.PalantirDetails.Description}`\n"
+                        ? $"> `{lobby.PalantirDetails.Description.Replace("\n", "  ")}`\n"
                         : "") +
                     $"> {link}\n" +
                     (palantirPlayers.Count > 0 ? $"```fix\n{string.Join("\n", palantirPlayers)}```" : "") +
