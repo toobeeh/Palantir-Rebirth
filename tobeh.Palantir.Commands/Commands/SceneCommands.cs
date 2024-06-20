@@ -351,9 +351,10 @@ public class SceneCommands(
         var scene = sceneId is { } sceneIdValue
             ? await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = (int)sceneIdValue })
             : null;
-        var sceneThemes =
-            await scenesClient.GetThemesOfScene(new GetSceneRequest { Id = scene?.Id ?? 0 }).ToListAsync();
-        var theme = sceneThemes.FirstOrDefault(theme => theme.Shift == shift);
+        var sceneThemes = scene is not null
+            ? await scenesClient.GetThemesOfScene(new GetSceneRequest { Id = scene.Id }).ToListAsync()
+            : null;
+        var theme = sceneThemes?.FirstOrDefault(theme => theme.Shift == shift);
 
         if (scene is not null && shift is { } shiftValue && theme is null)
         {
