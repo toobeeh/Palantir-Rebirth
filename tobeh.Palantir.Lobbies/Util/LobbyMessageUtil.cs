@@ -183,6 +183,7 @@ public class LobbyMessageUtil
                     .ToDictionary(p => p.Id, p => p.Rank);
 
                 var members = lobby.ConnectedPlayers
+                    .Where(p => p.LobbyPlayerId.HasValue)
                     .ToDictionary(p => p.LobbyPlayerId!.Value, p => memberDict[p.Login]);
 
                 var link = lobby.SkribblDetails.Private
