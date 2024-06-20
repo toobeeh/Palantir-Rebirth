@@ -46,9 +46,10 @@ public class CardCommands(
     {
         logger.LogTrace("ShowUserCard()");
 
+        await context.DeferResponseAsync();
         var member = memberContext.Member;
         var userTarget = context.User;
-        if (context is TextCommandContext textContext && textContext.Message.Reference is { } reference)
+        if (context is TextCommandContext { Message.Reference: { } reference })
         {
             userTarget = reference.Message.Author ?? throw new Exception("Referenced message has no author");
             member =

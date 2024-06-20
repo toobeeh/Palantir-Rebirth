@@ -64,6 +64,19 @@ public class OnlineItemsUpdaterJob(
                         LobbyKey = lobby.Lobby.Key,
                         LobbyPlayerId = lobby.LobbyPlayerId
                     });
+
+                    // add scene theme
+                    if (member.SceneShift is { } sceneShiftValue)
+                    {
+                        items.Add(new OnlineItemMessage
+                        {
+                            ItemType = OnlineItemType.SceneTheme,
+                            Slot = sceneValue,
+                            ItemId = sceneShiftValue,
+                            LobbyKey = lobby.Lobby.Key,
+                            LobbyPlayerId = lobby.LobbyPlayerId
+                        });
+                    }
                 }
 
                 // add rewardee

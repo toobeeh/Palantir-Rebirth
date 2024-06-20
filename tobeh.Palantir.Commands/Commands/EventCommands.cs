@@ -170,7 +170,7 @@ public class EventCommands(
             dropGroups.Add(new
             {
                 Title = "_ _", Description = $"```prolog\n🖼️ Event Scene```\n" +
-                                             $"> **Scene:**\n> {(sceneInventory.SceneIds.Contains(scene.Scene.Id) ? "`📦`" : "")} {scene.Scene.Id.AsTypoId()} {scene.Scene.Name}\n" +
+                                             $"> **Scene:**\n> {(sceneInventory.Scenes.Any(invScene => invScene.SceneId == scene.Scene.Id) ? "`📦`" : "")} {scene.Scene.Id.AsTypoId()} {scene.Scene.Name}\n" +
                                              $"> This scene can be unlocked by collecting bubbles during the event.\n" +
                                              $"> **Progress:**\n>  {bubblesCollected} / {scene.Price} bubbles\n"
             });

@@ -30,7 +30,7 @@
         <ProjectReference Include="$(LocalValmarSource)" />
     </ItemGroup>
     <ItemGroup Condition=" '$(LocalValmarSource)' == '' ">
-        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1715606000"/>
+        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1718896364"/>
     </ItemGroup>
 
     <ItemGroup>

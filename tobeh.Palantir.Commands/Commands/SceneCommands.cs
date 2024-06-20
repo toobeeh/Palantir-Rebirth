@@ -45,23 +45,32 @@ public class SceneCommands(
 
         // get all scenes, likely more performance than each individually
         var scenes = await scenesClient.GetAllScenes(new Empty()).ToListAsync();
+        var sceneThemes = await scenesClient.GetAllSceneThemes(new Empty()).ToListAsync();
         var ranks = await scenesClient.GetSceneRanking(new Empty()).ToListAsync();
 
-        var userScenes = scenes.Where(scene => inventory.SceneIds.Contains(scene.Id)).ToList();
-        var eventSceneCount = userScenes.Count(scene => scene.EventId > 0);
-        var priceInformation = await inventoryClient.GetScenePriceAsync(new ScenePriceRequest
-            { BoughtSceneCount = userScenes.Count(scene => !scene.Exclusive && scene.EventId is null) });
+        var userScenes = scenes.Where(scene => inventory.Scenes.Any(inv => inv.SceneId == scene.Id)).Select(scene => new
+        {
+            Scene = scene,
+            Themes = sceneThemes.Where(theme =>
+                theme.SceneId == scene.Id &&
+                inventory.Scenes.Any(inv => inv.SceneId == scene.Id && inv.SceneShift == theme.Shift)).ToList()
+        }).ToList();
+        var eventSceneCount = userScenes.Count(scene => scene.Scene.EventId > 0);
+        var regularSceneCount = userScenes
+            .Select(inv => inv.Scene.EventId == null && !inv.Scene.Exclusive ? 1 + inv.Themes.Count : 0).Sum();
+        var priceInformation =
+            await inventoryClient.GetScenePriceAsync(new ScenePriceRequest { BoughtSceneCount = regularSceneCount });
 
         var uniquenessMaxUsers = ranks.Max(rank => rank.TotalBought);
         var uniquenessUserScore = ranks
-            .Where(rank => inventory.SceneIds.Contains(rank.Id))
+            .Where(rank => inventory.Scenes.Any(scene => scene.SceneId == rank.Id))
             .Select(rank => rank.TotalBought * 100 / uniquenessMaxUsers)
             .Average();
 
 
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
-            .WithAuthor($"Viewing {inventory.SceneIds.Count} scenes")
+            .WithAuthor($"Viewing {userScenes.Count} scenes")
             .WithTitle("Scene Inventory");
 
         embed.AddField("Total worth:", $"`🫧` {priceInformation.TotalBubblesSpent} Bubbles");
@@ -71,7 +80,7 @@ public class SceneCommands(
         embed.AddField("Uniqueness:",
             $"`💎` Your inventory has an uniqueness score of {100 - Math.Round(uniquenessUserScore)}%");
 
-        if (inventory.SceneIds.Count < 2)
+        if (inventory.Scenes.Count < 2)
         {
             embed.AddField("Command help:", "Use `/scene buy <id>` to buy a scene\n" +
                                             "Use `/scene use <id>` to wear a scene");
@@ -80,7 +89,9 @@ public class SceneCommands(
         foreach (var fieldScenes in userScenes.Chunk(5))
         {
             embed.AddField("_ _",
-                string.Join("\n", fieldScenes.Select(scene => $"`{scene.Id.AsTypoId()}` {scene.Name}")), true);
+                string.Join("\n", fieldScenes.Select(scene =>
+                    $"`{scene.Scene.Id.AsTypoId()}` {scene.Scene.Name} {(scene.Themes.Count > 0 ? $" ({string.Join(", ", scene.Themes.Select(theme => theme.Name))})" : "")}")),
+                true);
         }
 
         await context.RespondAsync(embed.Build());
@@ -97,6 +108,7 @@ public class SceneCommands(
         logger.LogTrace("ListScenes(context)");
 
         var scenes = await scenesClient.GetAllScenes(new Empty()).ToListAsync();
+        var sceneThemes = await scenesClient.GetAllSceneThemes(new Empty()).ToListAsync();
         var ranks = await scenesClient.GetSceneRanking(new Empty()).ToListAsync();
 
         var ranked = scenes
@@ -112,7 +124,9 @@ public class SceneCommands(
 
         foreach (var scene in ranked.Take(10))
         {
-            embedBuilder.AddField($"**#{scene.Rank?.Rank}** {scene.Scene.Id.AsTypoId()} _ _ {scene.Scene.Name}",
+            var themeCount = sceneThemes.Count(theme => theme.SceneId == scene.Scene.Id);
+            embedBuilder.AddField(
+                $"**#{scene.Rank?.Rank}** {scene.Scene.Id.AsTypoId()} _ _ {scene.Scene.Name} {(themeCount > 0 ? $" (has themes)" : "")}",
                 $"{scene.Rank?.TotalBought} bought, {scene.Rank?.ActiveUsers} active");
         }
 
@@ -124,21 +138,35 @@ public class SceneCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="sceneId">The ID of the scene to show</param>
+    /// <param name="shift">The theme shift, if a scene theme should be selected</param>
     /// <exception cref="Exception"></exception>
     [DefaultGroupCommand, Command("view"), TextAlias("vw")]
-    public async Task ViewScene(CommandContext context, uint sceneId)
+    public async Task ViewScene(CommandContext context, uint sceneId, uint? shift = null)
     {
         logger.LogTrace("ViewScene(context, {sceneId})", sceneId);
 
         var scene = await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = (int)sceneId });
+        var themes = await scenesClient.GetThemesOfScene(new GetSceneRequest { Id = scene.Id }).ToListAsync();
 
         var ranking = await scenesClient.GetSceneRanking(new Empty()).ToListAsync();
         var sceneRank = ranking.Find(s => s.Id == sceneId) ?? throw new Exception("Failed to calculate scene ranking");
 
+        var theme = themes.FirstOrDefault(theme => theme.Shift == shift);
+        if (theme is null && shift is { } shiftValue)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Scene theme not found",
+                $"A theme with shift {shiftValue} for scene {scene.Name} {scene.Id.AsTypoId()} was not found.\n" +
+                $"You can see all available themes with `/scene view {scene.Id}`."));
+            return;
+        }
+
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
-            .WithTitle($"{scene.Id.AsTypoId()} _ _ {scene.Name}")
-            .WithImageUrl(scene.Url);
+            .WithTitle($"{scene.Id.AsTypoId()} _ _ {theme?.Name ?? scene.Name}")
+            .WithImageUrl(theme is not null
+                ? $"https://static.typo.rip/sprites/rainbow/modulate.php?url={scene.Url}&hue={theme.Shift}"
+                : scene.Url);
 
         if (scene.EventId is { } eventId)
         {
@@ -158,6 +186,20 @@ public class SceneCommands(
             embedBuilder.AddField("Exclusive:", "`🔒` This scene is exclusive and can't be bought.");
         }
 
+        if (themes.Count > 0 && shift == null)
+        {
+            var content = $"`🎨` This scene has color themes.\n" +
+                          $"You can view a theme with the command `/scene view {scene.Id} <shiftId>`\n" +
+                          string.Join("\n", themes.Select(theme => $"- {theme.Shift.AsTypoId()} {theme.Name}"));
+            embedBuilder.AddField("Themes:", content);
+        }
+
+        if (theme is { } themeValue)
+        {
+            embedBuilder.AddField("Theme:", $"`🎨` This scene is a theme of the {scene.Name}.\n" +
+                                            $"You can buy it with the command `/scene buy {scene.Id} {themeValue.Shift}`.");
+        }
+
         embedBuilder.AddField("Artist:", $"`🖌️` Created by {scene.Artist ?? "tobeh"}");
         embedBuilder.AddField("Ranking:",
             $"`📈` #{sceneRank.Rank}: {sceneRank.TotalBought} bought, {sceneRank.ActiveUsers} active \n" +
@@ -171,22 +213,49 @@ public class SceneCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="sceneId">The ID of the scene that will be added to your inventory</param>
+    /// <param name="shift">The theme shift, if a scene theme should be selected</param>
     [Command("buy"), RequirePalantirMember]
-    public async Task BuyScene(CommandContext context, uint sceneId)
+    public async Task BuyScene(CommandContext context, uint sceneId, uint? shift = null)
     {
         logger.LogTrace("BuyScene(context, {sceneId})", sceneId);
 
         var scene = await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = (int)sceneId });
 
-        // check if the user has bought this scene already
         var member = memberContext.Member;
         var inventory =
             await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
-        if (inventory.SceneIds.Contains(scene.Id))
+        var sceneThemes = await scenesClient.GetThemesOfScene(new GetSceneRequest { Id = scene.Id }).ToListAsync();
+        var sceneTheme = sceneThemes.FirstOrDefault(theme => theme.Shift == shift);
+
+        // check if theme exists
+        if (shift is { } shiftValue && sceneTheme is null)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Scene theme not found",
+                $"A theme with shift {shiftValue} for scene {scene.Name} {scene.Id.AsTypoId()} was not found.\n" +
+                $"You can see all available themes with `/scene view {scene.Id}`."));
+            return;
+        }
+
+        // check if the user has bought this scene already
+        if (inventory.Scenes.Any(inv => inv.SceneId == sceneId && inv.SceneShift == shift))
         {
             await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                 "Scene already bought",
-                $"You already own {scene.Name} {scene.Id.AsTypoId()}. You can use it with `/scene use {scene.Id}`."));
+                sceneTheme is { } theme
+                    ? $"You already own the theme {theme.Name} of the scene {scene.Name} {scene.Id.AsTypoId()}. You can use it with `/scene use {scene.Id} {theme.Shift}`."
+                    : $"You already own the scene {scene.Name} {scene.Id.AsTypoId()}. You can use it with `/scene use {scene.Id}`."));
+            return;
+        }
+
+        // if theme, check if user owns base scene
+        if (sceneTheme is not null &&
+            !inventory.Scenes.Any(inv => inv.SceneId == sceneTheme.SceneId && inv.SceneShift is null))
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, "Scene not in inventory",
+                    $"Before you can use the theme {sceneTheme.Name} of scene {scene.Name} {scene.Id.AsTypoId()}, you need to own the regular scene.\n" +
+                    $"You can buy the scene with `/scene buy {sceneTheme.SceneId}`."));
             return;
         }
 
@@ -224,8 +293,15 @@ public class SceneCommands(
             var bubbleCredit =
                 await inventoryClient.GetBubbleCreditAsync(new GetBubbleCreditRequest { Login = member.Login });
             var scenes = await scenesClient.GetAllScenes(new Empty()).ToListAsync();
-            var regularSceneCount = scenes.Count(scene =>
-                inventory.SceneIds.Contains(scene.Id) && !scene.Exclusive && scene.EventId is null);
+            var userScenes = scenes.Where(scene => inventory.Scenes.Any(inv => inv.SceneId == scene.Id)).Select(scene =>
+                new
+                {
+                    Scene = scene,
+                    Themes = sceneThemes.Where(theme => theme.SceneId == scene.Id).ToList()
+                }).ToList();
+
+            var regularSceneCount = userScenes
+                .Select(inv => inv.Scene.EventId == null && !inv.Scene.Exclusive ? 1 + inv.Themes.Count : 0).Sum();
             var regularScenePrice = await inventoryClient.GetScenePriceAsync(new ScenePriceRequest
                 { BoughtSceneCount = regularSceneCount });
             if (bubbleCredit.AvailableCredit < regularScenePrice.NextPrice)
@@ -239,15 +315,18 @@ public class SceneCommands(
         }
 
         // buy scene
-        await inventoryClient.BuySceneAsync(new BuySceneRequest { Login = member.Login, SceneId = scene.Id });
+        await inventoryClient.BuySceneAsync(new BuySceneRequest
+            { Login = member.Login, SceneId = scene.Id, SceneShift = sceneTheme?.Shift });
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor("You unlocked a new scene!")
-            .WithTitle($"{scene.Id.AsTypoId()} _ _ {scene.Name}")
-            .WithImageUrl(scene.Url);
+            .WithTitle($"{scene.Id.AsTypoId()} _ _ {sceneTheme?.Name ?? scene.Name}")
+            .WithImageUrl(sceneTheme is not null
+                ? $"https://static.typo.rip/sprites/rainbow/modulate.php?url={scene.Url}&hue={sceneTheme.Shift}"
+                : scene.Url);
 
         embedBuilder.AddField("Use it:",
-            $"`🌄` Use the command `/scene use {scene.Id}` to use this scene as your skribbl avatar background.");
+            $"`🌄` Use the command `/scene use {scene.Id}{(sceneTheme is not null ? $" {sceneTheme.Shift}" : "")}` to use this scene as your skribbl avatar background.");
 
         await context.RespondAsync(embedBuilder.Build());
     }
@@ -257,38 +336,70 @@ public class SceneCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="sceneId">The ID of a scene, or empty/0 to choose no scene</param>
+    /// <param name="shift">The theme shift, if a scene theme should be selected</param>
     [Command("use"), RequirePalantirMember]
-    public async Task UseScene(CommandContext context, uint? sceneId = null)
+    public async Task UseScene(CommandContext context, uint? sceneId = null, uint? shift = null)
     {
         logger.LogTrace("UseScene(context, {sceneId})", sceneId);
 
-        if (sceneId == 0) sceneId = null;
+        if (sceneId is null or 0)
+        {
+            sceneId = null;
+            shift = null;
+        }
 
         var scene = sceneId is { } sceneIdValue
             ? await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = (int)sceneIdValue })
             : null;
+        var sceneThemes =
+            await scenesClient.GetThemesOfScene(new GetSceneRequest { Id = scene?.Id ?? 0 }).ToListAsync();
+        var theme = sceneThemes.FirstOrDefault(theme => theme.Shift == shift);
+
+        if (scene is not null && shift is { } shiftValue && theme is null)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Scene theme not found",
+                $"A theme with shift {shiftValue} for scene {scene.Name} {scene.Id.AsTypoId()} was not found.\n" +
+                $"You can see all available themes with `/scene view {scene.Id}`."));
+            return;
+        }
+
         var member = memberContext.Member;
         var inventory =
             await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
 
         // check if the user owns this scene
-        if (scene is not null && !inventory.SceneIds.Contains(scene.Id))
+        if (scene is not null && !inventory.Scenes.Any(inv => inv.SceneId == scene.Id && inv.SceneShift == shift))
         {
-            await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "Scene not in inventory",
-                    $"You don't own the scene {scene.Name} {scene.Id.AsTypoId()} yet.\n" +
-                    $"You can buy it with `/scene buy {sceneId}`."));
+            if (theme is not null)
+            {
+                await context.RespondAsync(new DiscordEmbedBuilder()
+                    .WithPalantirErrorPresets(context, "Scene not in inventory",
+                        $"You don't own the scene {scene.Name} {scene.Id.AsTypoId()} with theme {theme.Name} yet.\n" +
+                        $"You can buy the theme with `/scene buy {sceneId} {theme.Shift}`."));
+            }
+            else
+            {
+                await context.RespondAsync(new DiscordEmbedBuilder()
+                    .WithPalantirErrorPresets(context, "Scene not in inventory",
+                        $"You don't own the scene {scene.Name} {scene.Id.AsTypoId()} yet.\n" +
+                        $"You can buy the it with `/scene buy {sceneId}`."));
+            }
+
             return;
         }
 
         // activate new scene
-        await inventoryClient.UseSceneAsync(new UseSceneRequest { Login = member.Login, SceneId = scene?.Id });
+        await inventoryClient.UseSceneAsync(new UseSceneRequest
+            { Login = member.Login, SceneId = scene?.Id, SceneShift = theme?.Shift });
 
         var embedBuilder = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor(scene is null ? "You removed your avatar background." : "You chose your avatar background!")
-            .WithTitle(scene is null ? "Such empty 💨" : $"{scene.Id.AsTypoId()} _ _ {scene.Name}")
-            .WithImageUrl(scene?.Url ?? "");
+            .WithTitle(scene is null ? "Such empty 💨" : $"{scene.Id.AsTypoId()} _ _ {theme?.Name ?? scene.Name}")
+            .WithImageUrl(theme is not null
+                ? $"https://static.typo.rip/sprites/rainbow/modulate.php?url={scene!.Url}&hue={theme.Shift}"
+                : scene?.Url ?? "");
 
         if (scene is not null)
             embedBuilder.WithDescription(
