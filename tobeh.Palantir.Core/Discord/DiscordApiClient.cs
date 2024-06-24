@@ -11,18 +11,50 @@ public class DiscordApiClient(
     IOptions<DiscordApiClientOptions> options,
     ILoggerFactory loggerFactory) : IHostedService
 {
-    private readonly DiscordClient _client = new(new DiscordConfiguration
+    protected readonly DiscordClient Client = new(new DiscordConfiguration
     {
         Token = options.Value.DiscordToken,
         TokenType = TokenType.Bot,
         LoggerFactory = loggerFactory
     });
 
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        logger.LogTrace("StartAsync()");
+        await Client.ConnectAsync();
+    }
+
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+        logger.LogTrace("StopAsync()");
+        await Client.DisconnectAsync();
+    }
+}
+
+public class PalantirApiClient(
+    ILogger<PalantirApiClient> logger,
+    IOptions<PalantirApiClientOptions> options,
+    ILoggerFactory loggerFactory) : DiscordApiClient(logger, options, loggerFactory)
+{
+    public async Task SetStatus(int onlinePlayerCount, double dropRate)
+    {
+        var status = dropRate > 1
+            ? $"{onlinePlayerCount} ppl ({dropRate:0.#} boost)"
+            : $"{onlinePlayerCount} ppl on skribbl.io";
+        await Client.UpdateStatusAsync(new DiscordActivity(status, DiscordActivityType.Watching));
+    }
+}
+
+public class ServantApiClient(
+    ILogger<ServantApiClient> logger,
+    IOptions<ServantApiClientOptions> options,
+    ILoggerFactory loggerFactory) : DiscordApiClient(logger, options, loggerFactory)
+{
     public async Task<DiscordRoleMembers> GetRoleMembers()
     {
         logger.LogTrace("GetRoleMembers()");
 
-        var guild = await _client.GetGuildAsync(options.Value.ServerId);
+        var guild = await Client.GetGuildAsync(options.Value.ServerId);
         var betaMembers = new List<long>();
         var boostMembers = new List<long>();
 
@@ -35,25 +67,5 @@ public class DiscordApiClient(
         }
 
         return new DiscordRoleMembers(betaMembers, boostMembers);
-    }
-
-    public async Task SetStatus(int onlinePlayerCount, double dropRate)
-    {
-        var status = dropRate > 1
-            ? $"{onlinePlayerCount} ppl ({dropRate:0.#} boost)"
-            : $"{onlinePlayerCount} ppl on skribbl.io";
-        await _client.UpdateStatusAsync(new DiscordActivity(status, DiscordActivityType.Watching));
-    }
-
-    public async Task StartAsync(CancellationToken cancellationToken)
-    {
-        logger.LogTrace("StartAsync()");
-        await _client.ConnectAsync();
-    }
-
-    public async Task StopAsync(CancellationToken cancellationToken)
-    {
-        logger.LogTrace("StopAsync()");
-        await _client.DisconnectAsync();
     }
 }

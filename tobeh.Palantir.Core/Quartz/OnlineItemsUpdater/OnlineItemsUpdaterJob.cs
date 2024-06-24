@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using tobeh.Palantir.Core.Discord;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
 
@@ -10,8 +9,6 @@ namespace tobeh.Palantir.Core.Quartz.OnlineItemsUpdater;
 
 public class OnlineItemsUpdaterJob(
     ILogger<OnlineItemsUpdaterJob> logger,
-    Drops.DropsClient dropsClient,
-    DiscordApiClient discordClient,
     Admin.AdminClient adminClient,
     Lobbies.LobbiesClient lobbiesClient) : IJob
 {

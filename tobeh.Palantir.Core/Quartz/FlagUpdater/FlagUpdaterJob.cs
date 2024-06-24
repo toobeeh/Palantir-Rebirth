@@ -10,7 +10,7 @@ namespace tobeh.Palantir.Core.Quartz.FlagUpdater;
 public class FlagUpdaterJob(
     ILogger<FlagUpdaterJob> logger,
     PatreonApiClient patreonClient,
-    DiscordApiClient discordClient,
+    ServantApiClient discordClient,
     Members.MembersClient membersClient,
     Admin.AdminClient adminClient) : IJob
 {

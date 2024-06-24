@@ -11,7 +11,7 @@ namespace tobeh.Palantir.Core.Quartz.BubbleUpdater;
 public class BubbleUpdaterJob(
     ILogger<BubbleUpdaterJob> logger,
     Drops.DropsClient dropsClient,
-    DiscordApiClient discordApiClient,
+    PalantirApiClient discordApiClient,
     Admin.AdminClient adminClient,
     Lobbies.LobbiesClient lobbiesClient) : IJob
 {
