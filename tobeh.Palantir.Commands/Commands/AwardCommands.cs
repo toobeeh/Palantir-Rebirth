@@ -65,16 +65,22 @@ public class AwardCommands(
             .Select(award => awardsDict[award.AwardId])
             .GroupBy(award => award.Rarity)
             .OrderBy(group => group.Key)
-            .Select(group => $"{group.Key}: x{group.Count()}");
+            .Select(group => $"{group.Key}: x{group.Count()}")
+            .ToList();
 
         var givenGrouping = inventory.GivenAwards
             .Select(award => awardsDict[award.AwardId])
             .GroupBy(award => award.Rarity)
             .OrderBy(group => group.Key)
-            .Select(group => $"{group.Key}: x{group.Count()}");
+            .Select(group => $"{group.Key}: x{group.Count()}")
+            .ToList();
 
-        embed.AddField("Received Awards", $"```js\n{string.Join("\n", receivedList)}\n```", true);
-        embed.AddField("Given Awards", $"```js\n{string.Join("\n", givenGrouping)}\n```", true);
+        embed.AddField("Received Awards",
+            $"```js\n{(receivedList.Count > 0 ? string.Join("\n", receivedList) : "No awards received yet :(")}\n```",
+            true);
+        embed.AddField("Given Awards",
+            $"```js\n{(givenGrouping.Count > 0 ? string.Join("\n", givenGrouping) : "No awards given yet :(")}\n```",
+            true);
 
         embed.AddField("**Available Awards**",
             "When a palantir member draws on skribbl, you can click the star icon and choose one of your available awards to gift it to the drawer.");
@@ -99,6 +105,10 @@ public class AwardCommands(
                 };
             })
             .ToList();
+
+        if (rarities.Count == 0)
+            rarities.Add(new
+                { Title = "No awards available", Description = "You can get new awards by opening an award pack." });
 
         // add embed fields so that there are only two inline next to each other
         embed.WithDualColumnFields(rarities, rarity => rarity.Title, rarity => rarity.Description);
