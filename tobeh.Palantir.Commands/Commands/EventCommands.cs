@@ -337,6 +337,7 @@ public class EventCommands(
 
                 await result.Result.Interaction.CreateResponseAsync(
                     DiscordInteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
+                        .AddMention(new UserMention(receiver.Id))
                         .AddEmbed(new DiscordEmbedBuilder()
                             .WithPalantirPresets(context)
                             .WithTitle("`🎉` Gift sent")
