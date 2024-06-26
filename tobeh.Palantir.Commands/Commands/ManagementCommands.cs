@@ -13,7 +13,7 @@ namespace tobeh.Palantir.Commands.Commands;
 /// </summary>
 [Command("manage")]
 [TextAlias("mg")]
-[RequirePalantirMember(MemberFlagMessage.Admin)]
+[RequirePalantirMember(MemberFlagMessage.Moderator)]
 public class ManagementCommands(
     Members.MembersClient membersClient,
     Admin.AdminClient adminClient)
