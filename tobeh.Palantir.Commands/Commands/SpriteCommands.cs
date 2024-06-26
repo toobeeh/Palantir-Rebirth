@@ -448,19 +448,12 @@ public class SpriteCommands(
         var moreThanOneUnlocked =
             member.MappedFlags.Any(flag => flag is MemberFlagMessage.Admin or MemberFlagMessage.Patron);
         var otherConfig = inventory.FirstOrDefault(slot => slot.SpriteId != spriteId && slot.ColorShift is not null);
-        if (shift is not null && !moreThanOneUnlocked && otherConfig is not null)
-        {
-            await context.RespondAsync(new DiscordEmbedBuilder()
-                .WithPalantirErrorPresets(context, "Rainbow Sprite Limit",
-                    $"You need to be a {"Patron".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to colorize more than one sprite at once.\n" +
-                    $"Use `/sprite color {otherConfig.SpriteId}` to reset the color of your current rainbow sprite."));
-            return;
-        }
+        bool clearOther = shift is not null && !moreThanOneUnlocked && otherConfig is not null;
 
         // apply rainbow config
         await inventoryClient.SetSpriteColorConfigurationAsync(new SetSpriteColorRequest
         {
-            Login = member.Login, ClearOtherConfigs = false,
+            Login = member.Login, ClearOtherConfigs = clearOther,
             ColorConfig = { new SpriteColorConfigurationRequest { SpriteId = sprite.Id, ColorShift = (int?)shift } }
         });
 
@@ -472,6 +465,12 @@ public class SpriteCommands(
             .WithImageUrl(shift is null
                 ? sprite.Url
                 : $"https://static.typo.rip/sprites/rainbow/modulate.php?url={sprite.Url}&hue={shift}");
+
+        if (clearOther)
+        {
+            embedBuilder.AddField("Color limit", "Your other color configurations have been reset.\n" +
+                                                 $"Become a {"Patron".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} to colorize unlimited sprites!");
+        }
 
         if (shift is not null)
         {
