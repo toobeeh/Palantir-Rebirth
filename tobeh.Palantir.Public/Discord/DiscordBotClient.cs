@@ -72,7 +72,7 @@ public class DiscordBotClient(
         commands.AddCheck<RequireServerHomeCheck>();
 
         // add command modules
-        commands.AddCommands(typeof(DevelopmentCommands));
+        commands.AddCommands(typeof(ManagementCommands));
         commands.AddCommands(typeof(SpriteCommands));
         commands.AddCommands(typeof(SceneCommands));
         commands.AddCommands(typeof(LeagueCommands));
