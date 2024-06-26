@@ -207,6 +207,7 @@ public class LobbyMessageUtil
                         : $"{playerDict[id].Name,-20} {playerDict[id].Score + " pts " + ranks[id],-15} {
                             (string.IsNullOrWhiteSpace(members[id].PatronEmoji) ? "🔮 " + members[id].Bubbles : members[id].PatronEmoji)
                         } {(playerDict[id].Drawing ? "🖌️" : "")}")
+                    .Where(player => !string.IsNullOrWhiteSpace(player))
                     .ToList();
 
                 var skribblPlayers = lobby.SkribblDetails.Players
