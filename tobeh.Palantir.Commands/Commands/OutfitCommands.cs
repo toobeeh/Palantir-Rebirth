@@ -6,8 +6,8 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Extensions;
-using tobeh.TypoImageGen;
-using tobeh.TypoImageGen.Client.Util;
+using tobeh.TypoContentService;
+using tobeh.TypoContentService.Client.Util;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
 

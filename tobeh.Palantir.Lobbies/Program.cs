@@ -9,7 +9,7 @@ using tobeh.Palantir.Lobbies.Discord;
 using tobeh.Palantir.Lobbies.Quartz.DiscordLobbyUpdater;
 using tobeh.Palantir.Lobbies.Quartz.LobbyLinksUpdater;
 using tobeh.Palantir.Lobbies.Worker;
-using tobeh.TypoImageGen.Client.Util;
+using tobeh.TypoContentService.Client.Util;
 using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Lobbies;
@@ -46,7 +46,7 @@ class Program
         var configuration = configBuilder.Build();
 
         builder.Services
-            .AddTypoImageGeneratorGrpc(configuration.GetValue<string>("Grpc:ImageGenAddress"))
+            .AddTypoContentServiceGrpc(configuration.GetValue<string>("Grpc:ImageGenAddress"))
             .AddValmarGrpc(configuration.GetValue<string>("Grpc:ValmarAddress"))
             .Configure<DiscordOptions>(configuration.GetRequiredSection("Discord"))
             .Configure<WorkerOptions>(configuration.GetSection("Worker"))

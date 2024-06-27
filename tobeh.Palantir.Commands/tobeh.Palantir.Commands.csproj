@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <!--<LocalImageGenSource>C:\Users\tobeh\repos\TypoImageGen\tobeh.TypoImageGen.Client\tobeh.TypoImageGen.Client.csproj</LocalImageGenSource>-->
+        <!--<LocalContentServiceSource>C:\Users\tobeh\repos\TypoImageGen\tobeh.TypoImageGen.Client\tobeh.TypoContentService.Client.csproj</LocalContentServiceSource>-->
         <!--<LocalValmarSource>C:\Users\tobeh\repos\Valmar\tobeh.Valmar.Client\tobeh.Valmar.Client.csproj</LocalValmarSource>-->
     </PropertyGroup>
 
@@ -22,11 +22,11 @@
     </ItemGroup>
 
     <!--toggle between local and nuget imagegen-->
-    <ItemGroup Condition=" '$(LocalImageGenSource)' != '' ">
-        <ProjectReference Include="$(LocalImageGenSource)"/>
+    <ItemGroup Condition=" '$(LocalContentServiceSource)' != '' ">
+        <ProjectReference Include="$(LocalContentServiceSource)"/>
     </ItemGroup>
-    <ItemGroup Condition=" '$(LocalImageGenSource)' == '' ">
-        <PackageReference Include="tobeh.TypoImageGen.Client" Version="0.1.1714124026"/>
+    <ItemGroup Condition=" '$(LocalContentServiceSource)' == '' ">
+        <PackageReference Include="tobeh.TypoContentService.Client" Version="0.1.1719437920"/>
     </ItemGroup>
 
     <!-- toggle between local and nuget valmar client -->
@@ -34,7 +34,7 @@
         <ProjectReference Include="$(LocalValmarSource)"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(LocalValmarSource)' == '' ">
-        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1718896364"/>
+        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1719436702"/>
     </ItemGroup>
     <ItemGroup>
         <Reference Include="XmlDocs.NET">

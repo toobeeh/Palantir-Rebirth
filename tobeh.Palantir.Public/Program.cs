@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands;
 using tobeh.Palantir.Public.Discord;
-using tobeh.TypoImageGen.Client.Util;
+using tobeh.TypoContentService.Client.Util;
 using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Public;
@@ -41,7 +41,7 @@ class Program
         var configuration = configBuilder.Build();
 
         builder.Services
-            .AddTypoImageGeneratorGrpc(configuration.GetValue<string>("Grpc:ImageGenAddress"))
+            .AddTypoContentServiceGrpc(configuration.GetValue<string>("Grpc:ImageGenAddress"))
             .AddValmarGrpc(configuration.GetValue<string>("Grpc:ValmarAddress"))
             .AddLogging(builder => builder
                 .AddConfiguration(configuration.GetSection("Logging"))
