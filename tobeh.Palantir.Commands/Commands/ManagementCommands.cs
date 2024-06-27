@@ -191,7 +191,7 @@ public class ManagementCommands(
             .WithPalantirPresets(context)
             .WithTitle($"{sprite.Id.AsTypoId()} _ _ {sprite.Name}")
             .WithAuthor("Looking great!")
-            .WithImageUrl(sprite.Url)
+            .WithImageUrl(url)
             .WithDescription("This new sprite has been added!\n" +
                              $"You can view it with the command `/sprite view {sprite.Id}`"));
     }
