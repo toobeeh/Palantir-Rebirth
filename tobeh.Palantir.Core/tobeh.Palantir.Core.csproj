@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02246"/>
+        <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02270"/>
       <PackageReference Include="Hypermedia.JsonApi.Client" Version="3.1.3" />
       <PackageReference Include="Hypermedia.JsonApi.WebApi" Version="3.1.0" />
       <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
