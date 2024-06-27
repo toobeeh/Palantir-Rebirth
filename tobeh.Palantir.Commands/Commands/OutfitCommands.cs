@@ -196,12 +196,18 @@ public class OutfitCommands(
 
         var memberSlots =
             await inventoryClient.GetSpriteSlotCountAsync(new GetSpriteSlotCountRequest { Login = member.Login });
-        if (memberSlots.UnlockedSlots < outfit.SpriteSlotConfiguration.Count)
+        var tooManySlots = memberSlots.UnlockedSlots < outfit.SpriteSlotConfiguration.Count;
+        if (tooManySlots)
         {
-            await context.RespondAsync(embed: new DiscordEmbedBuilder()
+            foreach (var slot in outfit.SpriteSlotConfiguration.ToList()
+                         .Where(slot => slot.Slot > memberSlots.UnlockedSlots))
+            {
+                outfit.SpriteSlotConfiguration.Remove(slot);
+            }
+            /*await context.RespondAsync(embed: new DiscordEmbedBuilder()
                 .WithPalantirErrorPresets(context, $"Outfit `{name}` is too powerful",
                     $"This outfit has more too many sprite slots configured.\nCurrently, you have {memberSlots.UnlockedSlots} slots available."));
-            return;
+            return;*/
         }
 
         await outfitsClient.UseOutfitAsync(new UseOutfitRequest { Login = member.Login, OutfitName = name });
@@ -210,6 +216,13 @@ public class OutfitCommands(
             .WithPalantirPresets(context)
             .WithTitle($"Outfit `{name}` set")
             .WithDescription("Sprites and scenes from this outfit have been loaded!");
+
+        if (tooManySlots)
+        {
+            embed.AddField("`⚠️` Warning",
+                $"This outfit has more sprite slots than you have unlocked.\n" +
+                $"Some slots have been skipped to fit your current inventory.");
+        }
 
         var colorMaps = outfit.SpriteSlotConfiguration
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
