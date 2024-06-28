@@ -103,6 +103,7 @@ public class OutfitCommands(
         {
             Name = name,
             SceneId = sceneInv.ActiveId,
+            SceneShift = sceneInv.ActiveShift,
             SpriteSlotConfiguration = { spriteInv.Where(slot => slot.Slot > 0) }
         };
 
@@ -262,11 +263,17 @@ public class OutfitCommands(
             return;
         }
 
-        var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
-        var scene = outfit.SceneId is { } sceneValue
-            ? await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneValue })
-            : null;
+        SceneReply? scene = null;
+        SceneThemeReply? theme = null;
+        if (outfit.SceneId is { } sceneIdVal)
+        {
+            var themes = await scenesClient.GetThemesOfScene(new GetSceneRequest { Id = sceneIdVal })
+                .ToDictionaryAsync(scene => scene.Shift);
+            theme = outfit.SceneShift is { } sceneShiftVal ? themes[sceneShiftVal] : null;
+            scene = await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = sceneIdVal });
+        }
 
+        var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
         var combo = string.Join("\n", outfit.SpriteSlotConfiguration.Select(slot =>
         {
             var sprite = sprites.First(spt => spt.Id == slot.SpriteId);
@@ -282,7 +289,7 @@ public class OutfitCommands(
                              $"To update it to your current style, use `/outfit save {name}`.\n" +
                              $"To delete the outfit, use `/outfit delete {name}`.\n_ _\n" +
                              $"**Combo:**\n{(combo.Length == 0 ? "Empty" : combo)}\n_ _\n" +
-                             $"**Scene:**\n{(scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name})")}");
+                             $"**Scene:**\n{(scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name} {(theme is not null ? $"(Theme: {theme.Name})" : "")}")}");
 
         var colorMaps = outfit.SpriteSlotConfiguration
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
