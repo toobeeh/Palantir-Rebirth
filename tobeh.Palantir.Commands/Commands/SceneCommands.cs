@@ -67,7 +67,6 @@ public class SceneCommands(
             .Select(rank => rank.TotalBought * 100 / uniquenessMaxUsers)
             .Average();
 
-
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor($"Viewing {userScenes.Count} scenes")
@@ -297,7 +296,9 @@ public class SceneCommands(
                 new
                 {
                     Scene = scene,
-                    Themes = sceneThemes.Where(theme => theme.SceneId == scene.Id).ToList()
+                    Themes = sceneThemes.Where(theme =>
+                        theme.SceneId == scene.Id &&
+                        inventory.Scenes.Any(inv => inv.SceneId == scene.Id && inv.SceneShift == theme.Shift)).ToList()
                 }).ToList();
 
             var regularSceneCount = userScenes
