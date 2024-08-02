@@ -189,7 +189,7 @@ public class SpriteCommands(
         {
             var enumValues = Enum.GetValues<MemberFlagMessage>().ToList();
             var requiredFlags = sprite.RequiredFlags.Select(flag => enumValues.First(v => v == flag).ToString());
-            embedBuilder.AddField("Requirements:", $"`🔒` One of the flags {string.Join(", ", requiredFlags)}");
+            embedBuilder.AddField("Requirements:", $"`🔒` {string.Join(" or ", requiredFlags)}");
         }
 
         embedBuilder.AddField("Artist:", $"`🖌️` Created by {sprite.Artist ?? "tobeh"}");
@@ -233,7 +233,7 @@ public class SpriteCommands(
         }
 
         // check if the user is eligible to buy the sprite
-        if (sprite.RequiredFlags.Any(flag => !member.MappedFlags.Contains(flag)))
+        if (sprite.RequiredFlags.All(flag => !member.MappedFlags.Contains(flag)))
         {
             var enumValues = Enum.GetValues<MemberFlagMessage>().ToList();
             var requiredFlags = sprite.RequiredFlags.Select(flag => enumValues.First(v => v == flag).ToString());
