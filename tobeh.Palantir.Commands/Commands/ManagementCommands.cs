@@ -18,6 +18,7 @@ namespace tobeh.Palantir.Commands.Commands;
 [TextAlias("mg")]
 public class ManagementCommands(
     Members.MembersClient membersClient,
+    MemberContext memberContext,
     StaticFiles.StaticFilesClient staticFilesClient,
     Sprites.SpritesClient spritesClient,
     Admin.AdminClient adminClient)
@@ -28,8 +29,9 @@ public class ManagementCommands(
     /// <param name="context"></param>
     [Command("flag")]
     [RequirePalantirMember(MemberFlagMessage.Moderator)]
-    public async Task ResetCommands(CommandContext context, ulong userId)
+    public async Task ModifyFlags(CommandContext context, ulong userId)
     {
+        var flagOperator = memberContext.Member;
         MemberReply member =
             await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest { Id = (long)userId });
 
@@ -67,6 +69,9 @@ public class ManagementCommands(
                 disable);
 
             var currentFlagState = flags.Any(flag => flag == selectedFlag);
+            var flagNotAllowed =
+                (selectedFlag == MemberFlagMessage.Admin || selectedFlag == MemberFlagMessage.Moderator) &&
+                !flagOperator.MappedFlags.Contains(MemberFlagMessage.Admin);
 
             var flagStateSelect = new DiscordSelectComponent(
                 "flagState",
@@ -76,7 +81,7 @@ public class ManagementCommands(
                     new("✔️ Flag Active", "1", isDefault: currentFlagState),
                     new("❌ Flag Inactive", "0", isDefault: !currentFlagState)
                 },
-                disable);
+                disable || flagNotAllowed);
 
             msg.AddComponents(flagSelect);
             msg.AddComponents(flagStateSelect);
