@@ -70,7 +70,8 @@ public class ManagementCommands(
 
             var currentFlagState = flags.Any(flag => flag == selectedFlag);
             var flagNotAllowed =
-                (selectedFlag == MemberFlagMessage.Admin || selectedFlag == MemberFlagMessage.Moderator) &&
+                selectedFlag is MemberFlagMessage.Admin or MemberFlagMessage.Moderator
+                    or MemberFlagMessage.ContentModerator &&
                 !flagOperator.MappedFlags.Contains(MemberFlagMessage.Admin);
 
             var flagStateSelect = new DiscordSelectComponent(
