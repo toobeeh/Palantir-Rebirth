@@ -9,6 +9,7 @@ using tobeh.TypoContentService;
 using tobeh.TypoContentService.Client.Util;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
+using Enum = System.Enum;
 
 namespace tobeh.Palantir.Commands.Commands;
 
@@ -184,6 +185,12 @@ public class SpriteCommands(
 
         if (sprite.IsRainbow) embedBuilder.AddField("Rainbow Sprite:", $"`🌈` This sprite is color-customizable");
         if (sprite.IsSpecial) embedBuilder.AddField("Background Sprite:", $"`✨` This sprite replaces the avatar");
+        if (sprite.RequiredFlags.Count > 0)
+        {
+            var enumValues = Enum.GetValues<MemberFlagMessage>().ToList();
+            var requiredFlags = sprite.RequiredFlags.Select(flag => enumValues.First(v => v == flag).ToString());
+            embedBuilder.AddField("Requirements:", $"`🔒` One of the flags {string.Join(", ", requiredFlags)}");
+        }
 
         embedBuilder.AddField("Artist:", $"`🖌️` Created by {sprite.Artist ?? "tobeh"}");
         embedBuilder.AddField("Ranking:",
@@ -222,6 +229,17 @@ public class SpriteCommands(
             await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                 "Sprite already bought",
                 $"You already own {sprite.Name} {sprite.Id.AsTypoId()}. You can use it with `/sprite use {sprite.Id}`."));
+            return;
+        }
+
+        // check if the user is eligible to buy the sprite
+        if (sprite.RequiredFlags.Any(flag => !member.MappedFlags.Contains(flag)))
+        {
+            var enumValues = Enum.GetValues<MemberFlagMessage>().ToList();
+            var requiredFlags = sprite.RequiredFlags.Select(flag => enumValues.First(v => v == flag).ToString());
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Sprite is locked",
+                $"You need one of the following flags to buy {sprite.Name} {sprite.Id.AsTypoId()}:\n {string.Join(", ", requiredFlags)}"));
             return;
         }
 
