@@ -57,6 +57,38 @@ public class ServerCommands(
     }
 
     /// <summary>
+    /// Customize the name of the Lobby Bot on the server
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="name">The new name for the LObby Bot. Empty to use the default name.</param>
+    [Command("botname"), TextAlias("bn"), RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    public async Task SetBotName(CommandContext context, string? name = null)
+    {
+        logger.LogTrace("SetBotName(name={name})", name);
+
+        if (name?.Length is 0 or > 20)
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Invalid name",
+                "The name must not be empty or longer than 20 characters."));
+        }
+
+        var currentOptions = serverHomeContext.Server;
+
+        currentOptions.BotName = name;
+        currentOptions.Name = context.Guild!.Name;
+        await guildsClient.SetGuildOptionsAsync(currentOptions);
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"Bot Name Updated")
+            .WithDescription(
+                $"The Lobby Bot will now use your custom name!\nIt can take a few seconds until the changes take effect.");
+
+        await context.RespondAsync(embed);
+    }
+
+    /// <summary>
     /// Select the channel where to list lobbies of this server
     /// Only servers who have a lobby bot can show lobbies.
     /// </summary>
@@ -121,6 +153,10 @@ public class ServerCommands(
             .AddField("Supporters", $"`🫂` {supporters.Count} server supporters: {supportersList}")
             .AddField("Members", $"`🔗` {info.ConnectedMemberCount} members connected")
             .AddField("Prefix", $"`💬` You can use all commands with the prefix `{currentOptions.Prefix}`")
+            .AddField("Bot Name",
+                currentOptions.BotName is null
+                    ? $"`🤖` The Lobby Bot has the default name"
+                    : $"`🤖` The Lobby Bot is named {currentOptions.BotName}")
             .AddField("Connection Invite",
                 $"`🏠` People can connect their typo account with the command `/server connect` or using {"this invite".AsTypoLink("https://www.typo.rip/invite/" + currentOptions.Invite, "🌍")}.")
             .AddField("Lobby Channel", currentOptions.ChannelId is null
