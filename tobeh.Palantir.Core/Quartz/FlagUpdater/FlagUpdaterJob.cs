@@ -49,7 +49,8 @@ public class FlagUpdaterJob(
         var temporaryPatronMembers = await membersClient.GetMembersByLogin(new GetMembersByLoginMessage
                 { Logins = { temporaryPatrons.Select(p => p.Login) } })
             .ToListAsync();
-        var temporaryPatronIds = temporaryPatronMembers.Select(member => member.DiscordId);
+        var temporaryPatronIds = temporaryPatronMembers.Select(member => member.DiscordId).ToList();
+        logger.LogInformation("Found {temporaryCount} temporary patron members", temporaryPatronIds.Count);
 
         // update patron flags
         await adminClient.UpdateMemberFlagsAsync(new()

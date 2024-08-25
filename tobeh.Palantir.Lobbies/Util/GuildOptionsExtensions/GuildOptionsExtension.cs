@@ -8,5 +8,6 @@ public static class GuildOptionsExtension
         => options.GuildId == other.GuildId
            && options.ChannelId == other.ChannelId
            && options.Name == other.Name
+           && options.BotName == other.BotName
            && options.Prefix == other.Prefix;
 }

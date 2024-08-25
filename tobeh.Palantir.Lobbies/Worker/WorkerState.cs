@@ -62,7 +62,8 @@ public class WorkerState(
                 }
                 else
                 {
-                    await guild.CurrentMember.ModifyAsync(member => member.Nickname = $"{GuildOptions.Name} Lobbies");
+                    await guild.CurrentMember.ModifyAsync(member =>
+                        member.Nickname = guildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
                 }
             }
         };
@@ -77,7 +78,8 @@ public class WorkerState(
             }
             else
             {
-                await args.Guild.CurrentMember.ModifyAsync(member => member.Nickname = $"{GuildOptions.Name} Lobbies");
+                await args.Guild.CurrentMember.ModifyAsync(member =>
+                    member.Nickname = guildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
             }
         };
 
