@@ -18,6 +18,7 @@ public class WorkerService(
         logger.LogTrace("ReclaimInstance()");
 
         await workerState.ReclaimSemaphore.WaitAsync();
+        logger.LogDebug($"in sem, remaining: {workerState.ReclaimSemaphore.CurrentCount}");
 
         var instance = workerState.Instance;
 
@@ -50,12 +51,21 @@ public class WorkerService(
             }
 
             var claim = Ulid.NewUlid();
-            var confirmedInstance = await workersClient.ClaimInstanceAsync(new ClaimInstanceMessage
+            InstanceDetailsMessage confirmedInstance;
+            try
             {
-                WorkerUlid = workerState.WorkerUlid.ToString(),
-                InstanceId = targetInstanceId,
-                ClaimUlid = claim.ToString()
-            });
+                confirmedInstance = await workersClient.ClaimInstanceAsync(new ClaimInstanceMessage
+                {
+                    WorkerUlid = workerState.WorkerUlid.ToString(),
+                    InstanceId = targetInstanceId,
+                    ClaimUlid = claim.ToString()
+                });
+            }
+            catch (Exception e)
+            {
+                workerState.ReclaimSemaphore.Release();
+                throw;
+            }
 
             instance = workerState.AssignInstance(confirmedInstance, claim);
         }
@@ -111,12 +121,14 @@ public class WorkerService(
         }
 
         // get discord client, create if not exists or settings changed
+        await workerState.DiscordRecreateSemaphore.WaitAsync();
         var guildAssignment = workerState.GuildAssignment;
         if (guildAssignment is null || !guildAssignment.GuildOptions.HasSameOptions(guildOptions))
         {
             guildAssignment = await workerState.AssignGuild(guildOptions, instance.InstanceDetails.BotToken);
         }
 
+        workerState.DiscordRecreateSemaphore.Release();
         return guildAssignment;
     }
 }

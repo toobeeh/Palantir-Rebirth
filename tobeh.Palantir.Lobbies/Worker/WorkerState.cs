@@ -24,6 +24,7 @@ public class WorkerState(
     public GuildAssignment? GuildAssignment { get; private set; }
 
     public SemaphoreSlim ReclaimSemaphore { get; } = new(1);
+    public SemaphoreSlim DiscordRecreateSemaphore { get; } = new(1);
 
     public InstanceClaim AssignInstance(InstanceDetailsMessage instanceDetails, Ulid claim)
     {
