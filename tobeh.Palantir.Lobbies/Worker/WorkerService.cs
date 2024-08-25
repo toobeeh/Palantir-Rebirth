@@ -13,13 +13,11 @@ public class WorkerService(
     IOptions<WorkerOptions> workerOptions,
     Workers.WorkersClient workersClient)
 {
-    private readonly SemaphoreSlim _reclaimSemaphore = new(1);
-
     public async Task<InstanceClaim> ReclaimInstance()
     {
         logger.LogTrace("ReclaimInstance()");
 
-        await _reclaimSemaphore.WaitAsync();
+        await workerState.ReclaimSemaphore.WaitAsync();
 
         var instance = workerState.Instance;
 
@@ -41,12 +39,12 @@ public class WorkerService(
                 }
                 catch (RpcException e) when (e.StatusCode == StatusCode.NotFound)
                 {
-                    _reclaimSemaphore.Release();
+                    workerState.ReclaimSemaphore.Release();
                     throw new ApplicationException("No unclaimed instance available");
                 }
                 catch (Exception e)
                 {
-                    _reclaimSemaphore.Release();
+                    workerState.ReclaimSemaphore.Release();
                     throw new ApplicationException("Failed to fetch unclaimed instance");
                 }
             }
@@ -79,14 +77,14 @@ public class WorkerService(
             }
             catch (Exception e)
             {
-                _reclaimSemaphore.Release();
+                workerState.ReclaimSemaphore.Release();
                 throw new ApplicationException($"Failed to re-claim instance {instance.InstanceDetails.Id}");
             }
 
             instance = workerState.AssignInstance(updatedInstance, newClaim);
         }
 
-        _reclaimSemaphore.Release();
+        workerState.ReclaimSemaphore.Release();
         return instance;
     }
 

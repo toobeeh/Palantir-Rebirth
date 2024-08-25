@@ -23,6 +23,8 @@ public class WorkerState(
     public GuildOptionsMessage? GuildOptions { get; private set; }
     public GuildAssignment? GuildAssignment { get; private set; }
 
+    public SemaphoreSlim ReclaimSemaphore { get; } = new(1);
+
     public InstanceClaim AssignInstance(InstanceDetailsMessage instanceDetails, Ulid claim)
     {
         if (instanceDetails.Id != Instance?.InstanceDetails.Id)
@@ -33,7 +35,7 @@ public class WorkerState(
 
     public async Task<GuildAssignment> AssignGuild(GuildOptionsMessage guildOptions, string botToken)
     {
-        logger.LogInformation("Assigned guild {guildOptions.GuildId}", guildOptions.GuildId);
+        logger.LogTrace("AssignGuild({guildOptions}, {botToken})", guildOptions, botToken);
 
         // if a client with different bot is assigned, dispose it
         if (GuildAssignment is not null)
