@@ -1,9 +1,11 @@
 using System.Collections.Concurrent;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using tobeh.Palantir.Core.Discord;
 using tobeh.Palantir.Core.Patreon;
 using tobeh.Valmar;
+using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Core.Quartz.FlagUpdater;
 
@@ -42,11 +44,18 @@ public class FlagUpdaterJob(
         });
         logger.LogInformation("Found {patronizedCount} patronized members", patronizedMembers.Count);
 
+        // get temporary patrons
+        var temporaryPatrons = await adminClient.GetTemporaryPatrons(new Empty()).ToListAsync();
+        var temporaryPatronMembers = await membersClient.GetMembersByLogin(new GetMembersByLoginMessage
+                { Logins = { temporaryPatrons.Select(p => p.Login) } })
+            .ToListAsync();
+        var temporaryPatronIds = temporaryPatronMembers.Select(member => member.DiscordId);
+
         // update patron flags
         await adminClient.UpdateMemberFlagsAsync(new()
         {
             FlagId = 4, // patron
-            MemberIds = { subs.Patrons, patronizedMembers, subs.Patronizer },
+            MemberIds = { subs.Patrons, patronizedMembers, subs.Patronizer, temporaryPatronIds },
             InvertOthers = true,
             State = true
         });
