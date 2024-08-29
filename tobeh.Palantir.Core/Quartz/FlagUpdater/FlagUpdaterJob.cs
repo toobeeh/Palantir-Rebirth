@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Quartz;
 using tobeh.Palantir.Core.Discord;
 using tobeh.Palantir.Core.Patreon;
+using tobeh.Palantir.Core.Quartz.RoleUpdater;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
 
@@ -14,6 +15,7 @@ public class FlagUpdaterJob(
     PatreonApiClient patreonClient,
     ServantApiClient discordClient,
     Members.MembersClient membersClient,
+    MemberRoleUpdateCollector roleUpdateCollector,
     Admin.AdminClient adminClient) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
@@ -87,5 +89,11 @@ public class FlagUpdaterJob(
             InvertOthers = true,
             State = true
         });
+
+        // mark to update roles
+        temporaryPatronIds.ForEach(roleUpdateCollector.MarkIdForUpdate);
+        subs.Patrons.ToList().ForEach(roleUpdateCollector.MarkIdForUpdate);
+        patronizedMembers.ToList().ForEach(roleUpdateCollector.MarkIdForUpdate);
+        subs.Patronizer.ToList().ForEach(roleUpdateCollector.MarkIdForUpdate);
     }
 }

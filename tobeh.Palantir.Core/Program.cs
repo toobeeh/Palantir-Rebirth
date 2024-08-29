@@ -10,7 +10,9 @@ using tobeh.Palantir.Core.Quartz.BubbleUpdater;
 using tobeh.Palantir.Core.Quartz.DropScheduler;
 using tobeh.Palantir.Core.Quartz.FlagUpdater;
 using tobeh.Palantir.Core.Quartz.OnlineItemsUpdater;
+using tobeh.Palantir.Core.Quartz.RoleUpdater;
 using tobeh.Palantir.Core.Quartz.VolatileDataClearer;
+using tobeh.TypoLinkedRolesService.Client.Util;
 using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Core;
@@ -44,10 +46,12 @@ class Program
 
         host.Services
             .AddValmarGrpc(configuration.GetValue<string>("Grpc:Address"))
+            .AddTypoLinkedRolesServiceGrpc(configuration.GetValue<string>("Grpc:LinkedRolesAddress"))
             .AddSingleton<PatreonApiClient>()
             .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
             .AddSingleton<ServantApiClient>()
             .AddSingleton<PalantirApiClient>()
+            .AddScoped<MemberRoleUpdateCollector>()
             .AddHostedService<PalantirApiClient>(p => p.GetRequiredService<PalantirApiClient>())
             .AddHostedService<ServantApiClient>(p => p.GetRequiredService<ServantApiClient>())
             .Configure<PalantirApiClientOptions>(configuration.GetRequiredSection("Palantir"))
@@ -61,6 +65,7 @@ class Program
             .AddQuartz(BubbleUpdaterConfiguration.Configure)
             .AddQuartz(VolatileDataClearerConfiguration.Configure)
             .AddQuartz(DropSchedulerConfiguration.Configure)
+            .AddQuartz(RoleUpdaterConfiguration.Configure)
             .AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; })
             .BuildServiceProvider();
 

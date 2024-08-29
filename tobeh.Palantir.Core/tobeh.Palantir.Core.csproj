@@ -23,6 +23,7 @@
       <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.8.1" />
       <PackageReference Include="Quartz.Extensions.Hosting" Version="3.8.1" />
       <PackageReference Include="System.Net.Http" Version="4.3.4" />
+        <PackageReference Include="tobeh.TypoLinkedRolesService.Client" Version="0.1.1724974062"/>
     </ItemGroup>
 
     <!-- toggle between local and nuget valmar client -->

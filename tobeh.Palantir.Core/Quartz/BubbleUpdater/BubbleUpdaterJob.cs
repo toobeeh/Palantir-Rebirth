@@ -3,6 +3,7 @@ using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using tobeh.Palantir.Core.Discord;
+using tobeh.Palantir.Core.Quartz.RoleUpdater;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
 
@@ -13,6 +14,7 @@ public class BubbleUpdaterJob(
     Drops.DropsClient dropsClient,
     PalantirApiClient discordApiClient,
     Admin.AdminClient adminClient,
+    MemberRoleUpdateCollector roleUpdateCollector,
     Lobbies.LobbiesClient lobbiesClient) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
@@ -28,6 +30,9 @@ public class BubbleUpdaterJob(
         // set currently playing count
         await discordApiClient.SetStatus(onlineMembers.Select(member => member.Login).Distinct().Count(),
             dropRate.Boost);
+
+        // set logins to update in role updater
+        memberLogins.ForEach(member => roleUpdateCollector.MarkLoginForUpdate(member));
 
         // increment member bubbles
         await adminClient.IncrementMemberBubblesAsync(new IncrementMemberBubblesRequest

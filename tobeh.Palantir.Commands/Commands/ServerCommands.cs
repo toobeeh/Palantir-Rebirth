@@ -156,7 +156,7 @@ public class ServerCommands(
             .AddField("Bot Name",
                 currentOptions.BotName is null
                     ? $"`🤖` The Lobby Bot has the default name"
-                    : $"`🤖` The Lobby Bot is named {currentOptions.BotName}")
+                    : $"`🤖` The Lobby Bot is named `{currentOptions.BotName}`")
             .AddField("Connection Invite",
                 $"`🏠` People can connect their typo account with the command `/server connect` or using {"this invite".AsTypoLink("https://www.typo.rip/invite/" + currentOptions.Invite, "🌍")}.")
             .AddField("Lobby Channel", currentOptions.ChannelId is null
