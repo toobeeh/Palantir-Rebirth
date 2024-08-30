@@ -30,23 +30,13 @@ class Program
     {
         var builder = Host.CreateApplicationBuilder(args);
 
-        var configBuilder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "Configuration"))
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-        {
-            configBuilder.AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true);
-        }
-
-        var configuration = configBuilder.Build();
-
         builder.Services
-            .AddTypoContentServiceGrpc(configuration.GetValue<string>("Grpc:ImageGenAddress"))
-            .AddValmarGrpc(configuration.GetValue<string>("Grpc:ValmarAddress"))
-            .AddLogging(builder => builder
-                .AddConfiguration(configuration.GetSection("Logging"))
+            .AddTypoContentServiceGrpc(builder.Configuration.GetValue<string>("Grpc:ImageGenAddress"))
+            .AddValmarGrpc(builder.Configuration.GetValue<string>("Grpc:ValmarAddress"))
+            .AddLogging(loggingBuilder => loggingBuilder
+                .AddConfiguration(builder.Configuration.GetSection("Logging"))
                 .AddConsole())
-            .Configure<DiscordBotClientOptions>(configuration.GetRequiredSection("Discord"))
+            .Configure<DiscordBotClientOptions>(builder.Configuration.GetRequiredSection("Discord"))
             .AddHostedService<DiscordBotClient>()
             .AddScoped<MemberContext>()
             .AddScoped<ServerHomeContext>()
