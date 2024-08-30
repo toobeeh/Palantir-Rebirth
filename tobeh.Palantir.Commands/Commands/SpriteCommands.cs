@@ -256,7 +256,7 @@ public class SpriteCommands(
                 await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                     "Event credit too low",
                     $"You need {sprite.Cost} {drop.Name} Drop(s) to buy {sprite.Name} {sprite.Id.AsTypoId()}, but you only have {credit} available.\n" +
-                    $"Collect more {drop.Name} Drops on skribbl or check in `/event view {drop.EventId}` if you have some league event drops to redeem!"));
+                    $"Collect more {drop.Name} Drops on skribbl or ask some friends if they can gift you some!"));
                 return;
             }
         }
