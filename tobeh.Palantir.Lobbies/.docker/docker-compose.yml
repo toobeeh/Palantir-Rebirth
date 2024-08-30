@@ -2,13 +2,12 @@ version: "3.0"
 
 services:
   palantir-lobbies:
-    build:
-      context: ../../
-      dockerfile: tobeh.Palantir.Lobbies/.docker/Dockerfile
-    # image: "ghcr.io/toobeeh/palantir-rebirth/palantir-core:latest"
+    #build:
+    #  context: ../../
+    #  dockerfile: tobeh.Palantir.Lobbies/.docker/Dockerfile
+    image: "ghcr.io/toobeeh/palantir-rebirth/palantir-core:latest"
     deploy:
       replicas: 5
     restart: unless-stopped
-    environment:
-      - GRPC_VALMAR_URL=http://localhost:5175
-      - GRPC_IMAGEGEN_URL=http://localhost:5176
+    #volumes:
+    #  - path-to-appsettings.json:/app/appsettings.json

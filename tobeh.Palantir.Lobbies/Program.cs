@@ -34,22 +34,11 @@ class Program
     {
         var builder = Host.CreateApplicationBuilder(args);
 
-        var configBuilder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "Configuration"))
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-        {
-            configBuilder.AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true);
-        }
-
-        var configuration = configBuilder.Build();
-
         builder.Services
-            .AddTypoContentServiceGrpc(configuration.GetValue<string>("Grpc:ImageGenAddress"))
-            .AddValmarGrpc(configuration.GetValue<string>("Grpc:ValmarAddress"))
-            .Configure<DiscordOptions>(configuration.GetRequiredSection("Discord"))
-            .Configure<WorkerOptions>(configuration.GetSection("Worker"))
+            .AddTypoContentServiceGrpc(builder.Configuration.GetValue<string>("Grpc:ContentServiceAddress"))
+            .AddValmarGrpc(builder.Configuration.GetValue<string>("Grpc:ValmarAddress"))
+            .Configure<DiscordOptions>(builder.Configuration.GetRequiredSection("Discord"))
+            .Configure<WorkerOptions>(builder.Configuration.GetSection("Worker"))
             .AddSingleton<WorkerState>()
             .AddScoped<WorkerService>()
             .AddQuartzHostedService()
@@ -58,8 +47,8 @@ class Program
             .AddScoped<MemberContext>()
             .AddScoped<ServerHomeContext>()
             .AddSingleton<DiscordClientFactory>()
-            .AddLogging(builder => builder
-                .AddConfiguration(configuration.GetSection("Logging"))
+            .AddLogging(loggingBuilder => loggingBuilder
+                .AddConfiguration(builder.Configuration.GetSection("Logging"))
                 .AddConsole())
             .BuildServiceProvider();
 

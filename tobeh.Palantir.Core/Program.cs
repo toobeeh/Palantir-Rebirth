@@ -34,30 +34,21 @@ class Program
     static IHost CreateHost()
     {
         var host = Host.CreateApplicationBuilder();
-        var configBuilder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "Configuration"))
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-        {
-            configBuilder.AddJsonFile("appsettings.dev.json", optional: true, reloadOnChange: true);
-        }
-
-        var configuration = configBuilder.Build();
 
         host.Services
-            .AddValmarGrpc(configuration.GetValue<string>("Grpc:Address"))
-            .AddTypoLinkedRolesServiceGrpc(configuration.GetValue<string>("Grpc:LinkedRolesAddress"))
+            .AddValmarGrpc(host.Configuration.GetValue<string>("Grpc:ValmarAddress"))
+            .AddTypoLinkedRolesServiceGrpc(host.Configuration.GetValue<string>("Grpc:LinkedRolesAddress"))
             .AddSingleton<PatreonApiClient>()
-            .Configure<PatreonApiClientOptions>(configuration.GetRequiredSection("Patreon"))
+            .Configure<PatreonApiClientOptions>(host.Configuration.GetRequiredSection("Patreon"))
             .AddSingleton<ServantApiClient>()
             .AddSingleton<PalantirApiClient>()
             .AddScoped<MemberRoleUpdateCollector>()
             .AddHostedService<PalantirApiClient>(p => p.GetRequiredService<PalantirApiClient>())
             .AddHostedService<ServantApiClient>(p => p.GetRequiredService<ServantApiClient>())
-            .Configure<PalantirApiClientOptions>(configuration.GetRequiredSection("Palantir"))
-            .Configure<ServantApiClientOptions>(configuration.GetRequiredSection("Servant"))
+            .Configure<PalantirApiClientOptions>(host.Configuration.GetRequiredSection("Palantir"))
+            .Configure<ServantApiClientOptions>(host.Configuration.GetRequiredSection("Servant"))
             .AddLogging(builder => builder
-                .AddConfiguration(configuration.GetSection("Logging"))
+                .AddConfiguration(host.Configuration.GetSection("Logging"))
                 .AddConsole())
             .AddQuartz(OnlineItemsUpdaterConfiguration.Configure)
             .AddQuartz(FlagUpdaterConfiguration.Configure)
