@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using Quartz;
-using tobeh.Palantir.Core.Quartz.BubbleUpdater;
 using tobeh.TypoLinkedRolesService;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
@@ -8,7 +7,7 @@ using tobeh.Valmar.Client.Util;
 namespace tobeh.Palantir.Core.Quartz.RoleUpdater;
 
 public class RoleUpdaterJob(
-    ILogger<BubbleUpdaterJob> logger,
+    ILogger<RoleUpdaterJob> logger,
     MemberRoleUpdateCollector collector,
     Members.MembersClient membersClient,
     LinkedRoles.LinkedRolesClient linkedRolesClient) : IJob
@@ -19,7 +18,7 @@ public class RoleUpdaterJob(
 
         var ids = collector.CollectIds();
         var logins = collector.CollectLogins();
-        logger.LogInformation("Found {nId} ids and {nLogin} to update", ids.Count, logins.Count);
+        logger.LogInformation("Found {nId} ids and {nLogin} logins to update", ids.Count, logins.Count);
 
         var members = await membersClient.GetMembersByLogin(new GetMembersByLoginMessage { Logins = { logins } })
             .ToListAsync();
