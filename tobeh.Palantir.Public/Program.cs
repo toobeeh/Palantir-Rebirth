@@ -31,7 +31,7 @@ class Program
         var builder = Host.CreateApplicationBuilder(args);
 
         builder.Services
-            .AddTypoContentServiceGrpc(builder.Configuration.GetValue<string>("Grpc:ImageGenAddress"))
+            .AddTypoContentServiceGrpc(builder.Configuration.GetValue<string>("Grpc:ContentServiceAddress"))
             .AddValmarGrpc(builder.Configuration.GetValue<string>("Grpc:ValmarAddress"))
             .AddLogging(loggingBuilder => loggingBuilder
                 .AddConfiguration(builder.Configuration.GetSection("Logging"))
