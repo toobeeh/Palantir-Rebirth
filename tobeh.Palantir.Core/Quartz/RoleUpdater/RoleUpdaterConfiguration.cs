@@ -14,6 +14,6 @@ public static class RoleUpdaterConfiguration
         configurator.AddTrigger(trigger => trigger
             .ForJob(jobId)
             .StartNow()
-            .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(30).RepeatForever()));
+            .WithSimpleSchedule(schedule => schedule.WithIntervalInMinutes(2).RepeatForever()));
     }
 }
