@@ -19,6 +19,7 @@ public class RoleUpdaterJob(
 
         var ids = collector.CollectIds();
         var logins = collector.CollectLogins();
+        logger.LogInformation("Found {nId} ids and {nLogin} to update", ids.Count, logins.Count);
 
         var members = await membersClient.GetMembersByLogin(new GetMembersByLoginMessage { Logins = { logins } })
             .ToListAsync();

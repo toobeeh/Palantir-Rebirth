@@ -2,29 +2,29 @@ namespace tobeh.Palantir.Core.Quartz.RoleUpdater;
 
 public class MemberRoleUpdateCollector
 {
-    private static List<long> _memberIds = new();
-    private static List<int> _memberLogins = new();
+    private static Dictionary<long, bool> _memberIds = new();
+    private static Dictionary<int, bool> _memberLogins = new();
 
     public void MarkIdForUpdate(long id)
     {
-        _memberIds.Add(id);
+        _memberIds.TryAdd(id, true);
     }
 
-    public void MarkLoginForUpdate(long id)
+    public void MarkLoginForUpdate(int id)
     {
-        _memberIds.Add(id);
+        _memberLogins.TryAdd(id, true);
     }
 
     public List<long> CollectIds()
     {
-        var newList = new List<long>(_memberIds);
+        var newList = _memberIds.Keys.ToList();
         _memberIds.Clear();
         return newList;
     }
 
     public List<int> CollectLogins()
     {
-        var newList = new List<int>(_memberLogins);
+        var newList = _memberLogins.Keys.ToList();
         _memberLogins.Clear();
         return newList;
     }
