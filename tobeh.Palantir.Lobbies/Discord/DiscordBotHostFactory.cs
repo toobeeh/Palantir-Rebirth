@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands;
+using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Commands;
 using tobeh.Palantir.Commands.Handlers;
 using tobeh.Palantir.Commands.XmlDoc;
@@ -64,7 +65,13 @@ public class DiscordBotHostFactory(
                             }
                         };
                         extension.AddProcessors(textCommandProcessor);
+
+                        // add command error handler
                         extension.CommandErrored += CommandErroredHandler.OnCommandErrored;
+
+                        // add checks
+                        extension.AddCheck<RequirePalantirMemberCheck>();
+                        extension.AddCheck<RequireServerHomeCheck>();
                     }, new CommandsConfiguration
                     {
                         UseDefaultCommandErrorHandler = false,

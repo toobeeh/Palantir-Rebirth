@@ -6,6 +6,7 @@ using DSharpPlus.Commands.Processors.TextCommands.Parsing;
 using DSharpPlus.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using tobeh.Palantir.Commands;
+using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Commands;
 using tobeh.Palantir.Commands.Handlers;
 using tobeh.Palantir.Commands.XmlDoc;
@@ -59,6 +60,10 @@ public static class AddPalantirPublicExtension
 
                 // add command error handler
                 extension.CommandErrored += CommandErroredHandler.OnCommandErrored;
+
+                // add checks
+                extension.AddCheck<RequirePalantirMemberCheck>();
+                extension.AddCheck<RequireServerHomeCheck>();
             }, new CommandsConfiguration
             {
                 UseDefaultCommandErrorHandler = false,
