@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using tobeh.Palantir.Commands;
 
 namespace tobeh.Palantir.Core.Discord;
 
@@ -20,7 +19,7 @@ public abstract class DiscordApiClient(
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         logger.LogTrace("StartAsync()");
-        await ClientHost.Services.GetRequiredService<DiscordHostedBot>().StartAsync(cancellationToken);
+        await ClientHost.StartAsync(cancellationToken);
     }
 
     /// <summary>
@@ -30,7 +29,7 @@ public abstract class DiscordApiClient(
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         logger.LogTrace("StopAsync()");
-        await ClientHost.Services.GetRequiredService<DiscordHostedBot>().StopAsync(cancellationToken);
+        await ClientHost.StartAsync(cancellationToken);
         ClientHost.Dispose();
     }
 }

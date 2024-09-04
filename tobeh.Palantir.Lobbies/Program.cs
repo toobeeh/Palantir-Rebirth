@@ -4,12 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using tobeh.Palantir.Commands;
 using tobeh.Palantir.Lobbies.Discord;
 using tobeh.Palantir.Lobbies.Quartz.DiscordLobbyUpdater;
 using tobeh.Palantir.Lobbies.Quartz.LobbyLinksUpdater;
 using tobeh.Palantir.Lobbies.Worker;
-using tobeh.TypoContentService.Client.Util;
 using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Lobbies;
@@ -35,7 +33,6 @@ class Program
         var builder = Host.CreateApplicationBuilder(args);
 
         builder.Services
-            .AddTypoContentServiceGrpc(builder.Configuration.GetValue<string>("Grpc:ContentServiceAddress"))
             .AddValmarGrpc(builder.Configuration.GetValue<string>("Grpc:ValmarAddress"))
             .Configure<DiscordOptions>(builder.Configuration.GetRequiredSection("Discord"))
             .Configure<WorkerOptions>(builder.Configuration.GetSection("Worker"))
@@ -44,8 +41,6 @@ class Program
             .AddQuartzHostedService()
             .AddQuartz(DiscordLobbyUpdaterConfiguration.Configure)
             .AddQuartz(LobbyLinksUpdaterConfiguration.Configure)
-            .AddScoped<MemberContext>()
-            .AddScoped<ServerHomeContext>()
             .AddSingleton<DiscordBotHostFactory>()
             .AddLogging(loggingBuilder => loggingBuilder
                 .AddConfiguration(builder.Configuration.GetSection("Logging"))

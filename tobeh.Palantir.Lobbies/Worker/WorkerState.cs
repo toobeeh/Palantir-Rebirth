@@ -1,8 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using tobeh.Palantir.Commands;
 using tobeh.Palantir.Lobbies.Discord;
 using tobeh.Valmar;
 
@@ -43,8 +41,7 @@ public class WorkerState(
         // if a client is already assigned, dispose it
         if (GuildAssignment is not null)
         {
-            await GuildAssignment.DiscordBotHost.Services.GetRequiredService<DiscordHostedBot>()
-                .StopAsync(CancellationToken.None);
+            await GuildAssignment.DiscordBotHost.StopAsync();
             GuildAssignment.DiscordBotHost.Dispose();
             GuildAssignment = null;
         }
@@ -90,7 +87,7 @@ public class WorkerState(
             });
         });
 
-        await host.Services.GetRequiredService<DiscordHostedBot>().StartAsync(CancellationToken.None);
+        await host.StartAsync();
 
         GuildAssignment = new GuildAssignment(guildOptions, host);
         return GuildAssignment;

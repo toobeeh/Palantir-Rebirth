@@ -1,5 +1,6 @@
 using DSharpPlus;
 using DSharpPlus.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -9,10 +10,10 @@ namespace tobeh.Palantir.Core.Discord;
 
 public class DiscordClientHostFactory(
     ILogger<DiscordClientHostFactory> logger,
-    IServiceProvider serviceProvider)
+    IConfiguration configuration)
 {
     /// <summary>
-    /// Create a host which copies the existing services from the serviceProvider and adds a Discord client
+    /// Create a host which contains a Discord client
     /// </summary>
     /// <param name="discordToken"></param>
     /// <param name="intents"></param>
@@ -25,15 +26,12 @@ public class DiscordClientHostFactory(
         var builder = new HostBuilder()
             .ConfigureServices(services =>
             {
-                // Register existing services from the serviceProvider
-                foreach (var serviceDescriptor in serviceProvider.GetService<IEnumerable<ServiceDescriptor>>() ?? [])
-                {
-                    services.Add(serviceDescriptor);
-                }
-
                 services.AddDiscordClient(discordToken,
                         intents)
-                    .AddSingleton<DiscordHostedBot>();
+                    .AddHostedService<DiscordHostedBot>()
+                    .AddLogging(loggingBuilder => loggingBuilder
+                        .AddConfiguration(configuration.GetSection("Logging"))
+                        .AddConsole());
             })
             .Build();
 

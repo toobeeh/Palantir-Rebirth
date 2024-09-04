@@ -3,6 +3,7 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Commands.Processors.TextCommands.Parsing;
 using DSharpPlus.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -11,12 +12,14 @@ using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Commands;
 using tobeh.Palantir.Commands.Handlers;
 using tobeh.Palantir.Commands.XmlDoc;
+using tobeh.TypoContentService.Client.Util;
+using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Lobbies.Discord;
 
 public class DiscordBotHostFactory(
     ILogger<DiscordBotHostFactory> logger,
-    IServiceProvider serviceProvider)
+    IConfiguration configuration)
 {
     public IHost CreateBotHost(string discordToken, string prefix,
         Action<EventHandlingBuilder> discordEventhandlerBuilder)
@@ -27,12 +30,6 @@ public class DiscordBotHostFactory(
         var builder = new HostBuilder()
             .ConfigureServices(services =>
             {
-                // Register existing services from the serviceProvider
-                foreach (var serviceDescriptor in serviceProvider.GetService<IEnumerable<ServiceDescriptor>>() ?? [])
-                {
-                    services.Add(serviceDescriptor);
-                }
-
                 services.AddDiscordClient(discordToken,
                         DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents)
                     .AddCommandsExtension(extension =>
@@ -78,7 +75,15 @@ public class DiscordBotHostFactory(
                         RegisterDefaultCommandProcessors = true
                     })
                     .ConfigureEventHandlers(discordEventhandlerBuilder.Invoke)
-                    .AddSingleton<DiscordHostedBot>();
+                    .AddHostedService<DiscordHostedBot>()
+                    .AddScoped<MemberContext>()
+                    .AddScoped<ServerHomeContext>()
+                    .AddLogging(loggingBuilder => loggingBuilder
+                        .AddConfiguration(configuration.GetSection("Logging"))
+                        .AddConsole())
+                    .AddTypoContentServiceGrpc(configuration.GetValue<string>("Grpc:ContentServiceAddress"))
+                    .AddValmarGrpc(configuration.GetValue<string>("Grpc:ValmarAddress"))
+                    .BuildServiceProvider();
             })
             .Build();
 
