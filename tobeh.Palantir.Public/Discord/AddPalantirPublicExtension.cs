@@ -4,6 +4,7 @@ using DSharpPlus.Commands.Processors.SlashCommands;
 using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Commands.Processors.TextCommands.Parsing;
 using DSharpPlus.Extensions;
+using DSharpPlus.Interactivity.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using tobeh.Palantir.Commands;
 using tobeh.Palantir.Commands.Checks;
@@ -20,6 +21,7 @@ public static class AddPalantirPublicExtension
     {
         services.AddDiscordClient(options.DiscordToken,
                 DiscordIntents.AllUnprivileged)
+            .AddInteractivityExtension()
             .AddCommandsExtension(extension =>
             {
                 // add commands

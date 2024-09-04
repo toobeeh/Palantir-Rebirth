@@ -3,6 +3,7 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Commands.Processors.TextCommands.Parsing;
 using DSharpPlus.Extensions;
+using DSharpPlus.Interactivity.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -74,6 +75,7 @@ public class DiscordBotHostFactory(
                         UseDefaultCommandErrorHandler = false,
                         RegisterDefaultCommandProcessors = false
                     })
+                    .AddInteractivityExtension()
                     .ConfigureEventHandlers(discordEventhandlerBuilder.Invoke)
                     .AddHostedService<DiscordHostedBot>(s => s.GetRequiredService<DiscordHostedBot>())
                     .AddSingleton<DiscordHostedBot>()
