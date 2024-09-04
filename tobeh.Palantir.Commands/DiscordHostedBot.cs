@@ -6,6 +6,8 @@ namespace tobeh.Palantir.Commands;
 
 public class DiscordHostedBot(DiscordClient discordClient, ILogger<DiscordHostedBot> logger) : IHostedService
 {
+    public DiscordClient DiscordClient => discordClient;
+
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         logger.LogTrace("StartAsync()");

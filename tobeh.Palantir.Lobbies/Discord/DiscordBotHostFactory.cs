@@ -72,10 +72,11 @@ public class DiscordBotHostFactory(
                     }, new CommandsConfiguration
                     {
                         UseDefaultCommandErrorHandler = false,
-                        RegisterDefaultCommandProcessors = true
+                        RegisterDefaultCommandProcessors = false
                     })
                     .ConfigureEventHandlers(discordEventhandlerBuilder.Invoke)
-                    .AddHostedService<DiscordHostedBot>()
+                    .AddHostedService<DiscordHostedBot>(s => s.GetRequiredService<DiscordHostedBot>())
+                    .AddSingleton<DiscordHostedBot>()
                     .AddScoped<MemberContext>()
                     .AddScoped<ServerHomeContext>()
                     .AddLogging(loggingBuilder => loggingBuilder

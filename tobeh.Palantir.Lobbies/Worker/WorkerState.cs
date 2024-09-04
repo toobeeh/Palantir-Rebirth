@@ -1,3 +1,5 @@
+using DSharpPlus;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -87,7 +89,11 @@ public class WorkerState(
             });
         });
 
+        // start host containing bot
         await host.StartAsync();
+
+        // reset all slash commands
+        await host.Services.GetRequiredService<DiscordClient>().BulkOverwriteGlobalApplicationCommandsAsync([]);
 
         GuildAssignment = new GuildAssignment(guildOptions, host);
         return GuildAssignment;

@@ -4,6 +4,7 @@ using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz;
+using tobeh.Palantir.Commands;
 using tobeh.Palantir.Lobbies.Util;
 using tobeh.Palantir.Lobbies.Worker;
 using tobeh.Valmar;
@@ -47,11 +48,12 @@ public class LobbyLinksUpdaterJob(
             // set bot status
             var guildInfo =
                 await guildsClient.GetGuildByIdAsync(new GetGuildByIdMessage { DiscordId = guildOptions.GuildId });
-            await guildAssignment.DiscordBotHost.Services.GetRequiredService<DiscordClient>().UpdateStatusAsync(
-                new DiscordActivity(
-                    $"{links.Count} playing, {guildInfo.ConnectedMemberCount} connected",
-                    DiscordActivityType.Custom
-                ));
+            await guildAssignment.DiscordBotHost.Services.GetRequiredService<DiscordHostedBot>().DiscordClient
+                .UpdateStatusAsync(
+                    new DiscordActivity(
+                        $"{links.Count} playing, {guildInfo.ConnectedMemberCount} connected",
+                        DiscordActivityType.Custom
+                    ));
         }
         else
         {

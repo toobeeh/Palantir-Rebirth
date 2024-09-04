@@ -29,6 +29,7 @@ public class DiscordClientHostFactory(
                 services.AddDiscordClient(discordToken,
                         intents)
                     .AddHostedService<DiscordHostedBot>()
+                    .AddHostedService<DiscordHostedBot>(s => s.GetRequiredService<DiscordHostedBot>())
                     .AddLogging(loggingBuilder => loggingBuilder
                         .AddConfiguration(configuration.GetSection("Logging"))
                         .AddConsole());

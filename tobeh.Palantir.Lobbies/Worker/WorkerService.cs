@@ -18,7 +18,6 @@ public class WorkerService(
         logger.LogTrace("ReclaimInstance()");
 
         await workerState.ReclaimSemaphore.WaitAsync();
-        logger.LogDebug($"in sem, remaining: {workerState.ReclaimSemaphore.CurrentCount}");
 
         var instance = workerState.Instance;
 

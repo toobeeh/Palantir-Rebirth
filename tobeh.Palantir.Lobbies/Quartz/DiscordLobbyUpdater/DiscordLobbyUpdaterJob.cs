@@ -1,10 +1,10 @@
-using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.Exceptions;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz;
+using tobeh.Palantir.Commands;
 using tobeh.Palantir.Lobbies.Util;
 using tobeh.Palantir.Lobbies.Worker;
 using tobeh.Valmar;
@@ -27,12 +27,12 @@ public class DiscordLobbyUpdaterJob(
         var instance = await workerService.ReclaimInstance();
         var guildAssignment = await workerService.GetAssignedGuild(instance);
         var guildOptions = guildAssignment.GuildOptions;
+        var client = guildAssignment.DiscordBotHost.Services.GetRequiredService<DiscordHostedBot>().DiscordClient;
 
         // build lobbies, if enabled
         if (guildOptions.ChannelId is not null)
         {
-            var channel = await guildAssignment.DiscordBotHost.Services.GetRequiredService<DiscordClient>()
-                .GetChannelAsync((ulong)guildOptions.ChannelId);
+            var channel = await client.GetChannelAsync((ulong)guildOptions.ChannelId);
             var lobbies = await lobbiesClient.GetCurrentLobbies(new Empty()).ToListAsync();
             var memberLogins = lobbies.SelectMany(lobby => lobby.Players.Select(player => player.Login));
             var memberDetails = await
@@ -53,7 +53,7 @@ public class DiscordLobbyUpdaterJob(
             var lobbiesContent =
                 LobbyMessageUtil.BuildLobbies(lobbies, memberDetails, guildOptions.GuildId, guildOptions.Invite);
             var availableMessages = await LobbyMessageUtil.GetMessageCandidatesInChannel(
-                channel, guildAssignment.DiscordBotHost.Services.GetRequiredService<DiscordClient>().CurrentUser.Id);
+                channel, client.CurrentUser.Id);
             var splits = LobbyMessageUtil.SplitContentToMessages(availableMessages, header, lobbiesContent);
 
             await SendMessageSplits(splits, channel);
