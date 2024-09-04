@@ -2,9 +2,10 @@ using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
-using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.Interactivity;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Extensions;
@@ -400,11 +401,12 @@ public class EventCommands(
 
         while (true)
         {
-            var continueInteractions = await context.Client.GetInteractivity().HandleNextInteraction(
-            [
-                confirmInteractionHandler, dropSelectInteractionHandler, eventSelectInteractionHandler,
-                amountSelectInteractionHandler
-            ]);
+            var continueInteractions = await context.Client.ServiceProvider.GetRequiredService<InteractivityExtension>()
+                .HandleNextInteraction(
+                [
+                    confirmInteractionHandler, dropSelectInteractionHandler, eventSelectInteractionHandler,
+                    amountSelectInteractionHandler
+                ]);
             if (!continueInteractions) break;
         }
 

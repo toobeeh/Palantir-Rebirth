@@ -4,8 +4,8 @@ using DSharpPlus.Interactivity;
 namespace tobeh.Palantir.Commands.Extensions;
 
 public record InteractivityHandler<TInteractionResult>(
-    Func<InteractivityExtension, Task<InteractivityResult<ComponentInteractionCreateEventArgs>>> InteractionListener,
-    Func<InteractivityResult<ComponentInteractionCreateEventArgs>, Task<TInteractionResult>> InteractionHandler,
+    Func<InteractivityExtension, Task<InteractivityResult<ComponentInteractionCreatedEventArgs>>> InteractionListener,
+    Func<InteractivityResult<ComponentInteractionCreatedEventArgs>, Task<TInteractionResult>> InteractionHandler,
     TInteractionResult CancelledResult);
 
 public static class InteractivityExtensions

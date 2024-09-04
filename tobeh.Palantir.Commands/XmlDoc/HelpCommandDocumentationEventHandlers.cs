@@ -5,6 +5,7 @@ using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.Trees;
 using DSharpPlus.EventArgs;
+using Microsoft.Extensions.DependencyInjection;
 using OoLunar.XmlDocsNET;
 using OoLunar.XmlDocsNET.Members;
 using OoLunar.XmlDocsNET.Tags;
@@ -97,7 +98,7 @@ namespace tobeh.Palantir.Commands.XmlDoc
         {
             Dictionary<Command, string> commandDocumentation = [];
             Dictionary<CommandParameter, string> commandParameterDocumentation = [];
-            foreach (Command command in client.GetExtension<CommandsExtension>().Commands.Values
+            foreach (var command in client.ServiceProvider.GetRequiredService<CommandsExtension>().Commands.Values
                          .SelectMany(GetAllCommands))
             {
                 ICustomAttributeProvider? memberInfo = command.Method;

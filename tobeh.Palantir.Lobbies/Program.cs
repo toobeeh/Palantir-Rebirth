@@ -46,7 +46,7 @@ class Program
             .AddQuartz(LobbyLinksUpdaterConfiguration.Configure)
             .AddScoped<MemberContext>()
             .AddScoped<ServerHomeContext>()
-            .AddSingleton<DiscordClientFactory>()
+            .AddSingleton<DiscordBotHostFactory>()
             .AddLogging(loggingBuilder => loggingBuilder
                 .AddConfiguration(builder.Configuration.GetSection("Logging"))
                 .AddConsole())

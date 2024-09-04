@@ -10,10 +10,10 @@ public class BubbleProgressIntervalModeArgumentConverter : ITextArgumentConverte
     ISlashArgumentConverter<BubbleProgressIntervalMode>
 {
     public Task<Optional<BubbleProgressIntervalMode>> ConvertAsync(TextConverterContext context,
-        MessageCreateEventArgs eventArgs) => Parse(context.Argument);
+        MessageCreatedEventArgs eventArgs) => Parse(context.Argument);
 
     public Task<Optional<BubbleProgressIntervalMode>> ConvertAsync(InteractionConverterContext context,
-        InteractionCreateEventArgs eventArgs) => Parse(context.Argument.RawValue);
+        InteractionCreatedEventArgs eventArgs) => Parse(context.Argument.RawValue);
 
     private Task<Optional<BubbleProgressIntervalMode>> Parse(string input)
     {

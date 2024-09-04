@@ -36,8 +36,7 @@ class Program
             .AddLogging(loggingBuilder => loggingBuilder
                 .AddConfiguration(builder.Configuration.GetSection("Logging"))
                 .AddConsole())
-            .Configure<DiscordBotClientOptions>(builder.Configuration.GetRequiredSection("Discord"))
-            .AddHostedService<DiscordBotClient>()
+            .AddPalantirPublic(builder.Configuration.GetRequiredSection("Discord").Get<DiscordBotClientOptions>())
             .AddScoped<MemberContext>()
             .AddScoped<ServerHomeContext>()
             .BuildServiceProvider();

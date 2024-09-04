@@ -1,6 +1,8 @@
-using DSharpPlus;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using tobeh.Palantir.Commands;
 using tobeh.Palantir.Lobbies.Discord;
 using tobeh.Valmar;
 
@@ -8,10 +10,10 @@ namespace tobeh.Palantir.Lobbies.Worker;
 
 public record InstanceClaim(InstanceDetailsMessage InstanceDetails, Ulid Claim);
 
-public record GuildAssignment(GuildOptionsMessage GuildOptions, DiscordClient BotClient);
+public record GuildAssignment(GuildOptionsMessage GuildOptions, IHost DiscordBotHost);
 
 public class WorkerState(
-    DiscordClientFactory discordClientFactory,
+    DiscordBotHostFactory discordBotHostFactory,
     ILogger<WorkerState> logger,
     IOptions<DiscordOptions> discordOptions
 )
@@ -38,55 +40,59 @@ public class WorkerState(
     {
         logger.LogTrace("AssignGuild({guildOptions}, {botToken})", guildOptions, botToken);
 
-        // if a client with different bot is assigned, dispose it
+        // if a client is already assigned, dispose it
         if (GuildAssignment is not null)
         {
-            await GuildAssignment.BotClient.DisconnectAsync();
-            GuildAssignment.BotClient.Dispose();
+            await GuildAssignment.DiscordBotHost.Services.GetRequiredService<DiscordHostedBot>()
+                .StopAsync(CancellationToken.None);
+            GuildAssignment.DiscordBotHost.Dispose();
             GuildAssignment = null;
         }
 
         // set new guild options
         GuildOptions = guildOptions;
 
-        // create new client
-        var client = await discordClientFactory.CreateAndStartClientAsync(botToken, guildOptions.Prefix);
-
-        // leave all guilds except the assigned one
-        client.GuildDownloadCompleted += async (c, args) =>
+        // create new host which contains the discord bot
+        var host = discordBotHostFactory.CreateBotHost(botToken, guildOptions.Prefix, builder =>
         {
-            foreach (var guild in args.Guilds.Values)
+            // leave all guilds except the assigned one
+            builder.HandleGuildDownloadCompleted(async (c, args) =>
             {
-                if (discordOptions.Value.WhitelistedServers.Contains((long)guild.Id)) continue;
-                if (guild.Id != (ulong)guildOptions.GuildId)
+                foreach (var guild in args.Guilds.Values)
                 {
-                    logger.LogInformation($"Leaving guild {guild.Name}");
-                    await guild.LeaveAsync();
+                    if (discordOptions.Value.WhitelistedServers.Contains((long)guild.Id)) continue;
+                    if (guild.Id != (ulong)guildOptions.GuildId)
+                    {
+                        logger.LogInformation($"Leaving guild {guild.Name}");
+                        await guild.LeaveAsync();
+                    }
+                    else
+                    {
+                        await guild.CurrentMember.ModifyAsync(member =>
+                            member.Nickname = guildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
+                    }
+                }
+            });
+
+            // listen to guild join event and leave if its the wrong guild, or set nickname accordingly
+            builder.HandleGuildCreated(async (c, args) =>
+            {
+                if (discordOptions.Value.WhitelistedServers.Contains((long)args.Guild.Id)) return;
+                if (args.Guild.Id != (ulong)guildOptions.GuildId)
+                {
+                    await args.Guild.LeaveAsync();
                 }
                 else
                 {
-                    await guild.CurrentMember.ModifyAsync(member =>
+                    await args.Guild.CurrentMember.ModifyAsync(member =>
                         member.Nickname = guildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
                 }
-            }
-        };
+            });
+        });
 
-        // listen to guild join event and leave if its the wrong guild, or set nickname accordingly
-        client.GuildCreated += async (c, args) =>
-        {
-            if (discordOptions.Value.WhitelistedServers.Contains((long)args.Guild.Id)) return;
-            if (args.Guild.Id != (ulong)guildOptions.GuildId)
-            {
-                await args.Guild.LeaveAsync();
-            }
-            else
-            {
-                await args.Guild.CurrentMember.ModifyAsync(member =>
-                    member.Nickname = guildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
-            }
-        };
+        await host.Services.GetRequiredService<DiscordHostedBot>().StartAsync(CancellationToken.None);
 
-        GuildAssignment = new GuildAssignment(guildOptions, client);
+        GuildAssignment = new GuildAssignment(guildOptions, host);
         return GuildAssignment;
     }
 }
