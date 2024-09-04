@@ -1,8 +1,8 @@
-using DSharpPlus;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using tobeh.Palantir.Commands;
 using tobeh.Palantir.Lobbies.Discord;
 using tobeh.Valmar;
 
@@ -93,7 +93,8 @@ public class WorkerState(
         await host.StartAsync();
 
         // reset all slash commands
-        await host.Services.GetRequiredService<DiscordClient>().BulkOverwriteGlobalApplicationCommandsAsync([]);
+        await host.Services.GetRequiredService<DiscordHostedBot>().DiscordClient
+            .BulkOverwriteGlobalApplicationCommandsAsync([]);
 
         GuildAssignment = new GuildAssignment(guildOptions, host);
         return GuildAssignment;
