@@ -18,7 +18,7 @@ public static class AddPalantirPublicExtension
         DiscordBotClientOptions options)
     {
         services.AddDiscordClient(options.DiscordToken,
-                DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents)
+                DiscordIntents.AllUnprivileged)
             .AddCommandsExtension(extension =>
             {
                 // add commands
