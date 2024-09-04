@@ -2,7 +2,8 @@ using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Entities;
-using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.Interactivity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Extensions;
@@ -174,7 +175,8 @@ public class PatronCommands(
             false
         );
 
-        await context.Client.GetInteractivity().HandleNextInteraction([buttonHandler]);
+        await context.Client.ServiceProvider.GetRequiredService<InteractivityExtension>()
+            .HandleNextInteraction([buttonHandler]);
         hintMessage.ClearComponents();
         hintMessage.AddComponents(new DiscordButtonComponent(DiscordButtonStyle.Success, "select",
             "Support this server", true, new DiscordComponentEmoji("✨")));

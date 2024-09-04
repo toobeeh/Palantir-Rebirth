@@ -3,8 +3,9 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
-using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.Interactivity;
 using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Converters;
@@ -344,7 +345,7 @@ public class SplitCommands(
         UpdateComponents($"{(boostModify is null ? "Start" : "Upgrade")} Dropboost", false);
         await context.RespondAsync(messageBuilder);
         var response = await context.GetResponseAsync() ?? throw new Exception("no response but expected");
-        var interactivity = context.Client.GetInteractivity();
+        var interactivity = context.Client.ServiceProvider.GetRequiredService<InteractivityExtension>();
 
         async Task SubmitBoost()
         {

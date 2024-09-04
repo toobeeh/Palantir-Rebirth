@@ -1,6 +1,7 @@
 using DSharpPlus.Commands;
 using DSharpPlus.Entities;
-using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.Interactivity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace tobeh.Palantir.Commands.Extensions;
 
@@ -9,7 +10,7 @@ public static class PalantirPaginationExtension
     public static async Task RespondPalantirPaginationAsync(this CommandContext context,
         List<DiscordEmbedBuilder> pages, string pageListingName = "Page", int? startPage = null)
     {
-        var interactivity = context.Client.GetInteractivity();
+        var interactivity = context.Client.ServiceProvider.GetRequiredService<InteractivityExtension>();
 
         var currentPage = startPage - 1 ?? 0;
         const string nextPageId = "nextPage";

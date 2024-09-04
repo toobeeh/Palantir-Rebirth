@@ -10,10 +10,10 @@ public class LeaderboardModeArgumentConverter : ITextArgumentConverter<Leaderboa
     ISlashArgumentConverter<LeaderboardMode>
 {
     public Task<Optional<LeaderboardMode>> ConvertAsync(TextConverterContext context,
-        MessageCreateEventArgs eventArgs) => Parse(context.Argument);
+        MessageCreatedEventArgs eventArgs) => Parse(context.Argument);
 
     public Task<Optional<LeaderboardMode>> ConvertAsync(InteractionConverterContext context,
-        InteractionCreateEventArgs eventArgs) => Parse(context.Argument.RawValue);
+        InteractionCreatedEventArgs eventArgs) => Parse(context.Argument.RawValue);
 
     private Task<Optional<LeaderboardMode>> Parse(string input)
     {

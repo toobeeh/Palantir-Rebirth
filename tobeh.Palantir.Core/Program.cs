@@ -17,23 +17,23 @@ using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Core;
 
-class Program
+public class Program
 {
-    static async Task Main(string[] args)
+    private static async Task Main(string[] args)
     {
         Console.WriteLine("Starting Palantir Core Service");
 
         // register services
-        var host = CreateHost();
+        var host = CreateHost(args);
         var logger = host.Services.GetRequiredService<ILogger<Program>>();
         logger.LogDebug("Initialized service providers");
 
         await host.RunAsync();
     }
 
-    static IHost CreateHost()
+    private static IHost CreateHost(string[] args)
     {
-        var host = Host.CreateApplicationBuilder();
+        var host = Host.CreateApplicationBuilder(args);
 
         host.Services
             .AddValmarGrpc(host.Configuration.GetValue<string>("Grpc:ValmarAddress"))
@@ -42,6 +42,7 @@ class Program
             .Configure<PatreonApiClientOptions>(host.Configuration.GetRequiredSection("Patreon"))
             .AddSingleton<ServantApiClient>()
             .AddSingleton<PalantirApiClient>()
+            .AddSingleton<DiscordClientHostFactory>()
             .AddScoped<MemberRoleUpdateCollector>()
             .AddHostedService<PalantirApiClient>(p => p.GetRequiredService<PalantirApiClient>())
             .AddHostedService<ServantApiClient>(p => p.GetRequiredService<ServantApiClient>())

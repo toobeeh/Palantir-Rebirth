@@ -6,6 +6,14 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 
+# build command lib
+WORKDIR /src
+COPY ["tobeh.Palantir.Commands/tobeh.Palantir.Commands.csproj", "tobeh.Palantir.Commands/"]
+RUN dotnet restore "tobeh.Palantir.Commands/tobeh.Palantir.Commands.csproj"
+COPY ./tobeh.Palantir.Commands ./tobeh.Palantir.Commands
+WORKDIR "/src/tobeh.Palantir.Commands"
+RUN dotnet build "tobeh.Palantir.Commands.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
 # build core
 WORKDIR /src
 COPY ["tobeh.Palantir.Core/tobeh.Palantir.Core.csproj", "tobeh.Palantir.Core/"]

@@ -3,7 +3,8 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
-using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.Interactivity;
+using Microsoft.Extensions.DependencyInjection;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Extensions;
 using tobeh.TypoContentService;
@@ -134,10 +135,11 @@ public class ManagementCommands(
 
         while (true)
         {
-            var continueInteractions = await context.Client.GetInteractivity().HandleNextInteraction(
-            [
-                selectedFlagHandler, selectedStateHandler
-            ]);
+            var continueInteractions = await context.Client.ServiceProvider.GetRequiredService<InteractivityExtension>()
+                .HandleNextInteraction(
+                [
+                    selectedFlagHandler, selectedStateHandler
+                ]);
             if (!continueInteractions) break;
         }
 

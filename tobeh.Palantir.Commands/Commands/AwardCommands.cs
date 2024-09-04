@@ -2,8 +2,9 @@ using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
-using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.Interactivity;
 using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Extensions;
@@ -144,7 +145,7 @@ public class AwardCommands(
             throw new Exception("Could not get response");
         }
 
-        var result = await context.Client.GetInteractivity()
+        var result = await context.Client.ServiceProvider.GetRequiredService<InteractivityExtension>()
             .WaitForButtonAsync(sent, context.User, TimeSpan.FromMinutes(1));
         if (!result.TimedOut)
         {

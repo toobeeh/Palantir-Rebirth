@@ -15,10 +15,10 @@ public class DropboostStartModeArgumentConverter : ITextArgumentConverter<Dropbo
     ISlashArgumentConverter<DropboostStartMode>
 {
     public Task<Optional<DropboostStartMode>> ConvertAsync(TextConverterContext context,
-        MessageCreateEventArgs eventArgs) => Parse(context.Argument);
+        MessageCreatedEventArgs eventArgs) => Parse(context.Argument);
 
     public Task<Optional<DropboostStartMode>> ConvertAsync(InteractionConverterContext context,
-        InteractionCreateEventArgs eventArgs) => Parse(context.Argument.RawValue);
+        InteractionCreatedEventArgs eventArgs) => Parse(context.Argument.RawValue);
 
     private Task<Optional<DropboostStartMode>> Parse(string input)
     {
