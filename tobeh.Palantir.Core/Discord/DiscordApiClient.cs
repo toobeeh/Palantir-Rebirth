@@ -58,7 +58,7 @@ public class ServantApiClient(
     IOptions<ServantApiClientOptions> options) : DiscordApiClient(logger)
 {
     protected override IHost ClientHost { get; } = clientHostFactory
-        .CreateClientHost(options.Value.DiscordToken, DiscordIntents.GuildMembers);
+        .CreateClientHost(options.Value.DiscordToken, DiscordIntents.GuildMembers | DiscordIntents.Guilds);
 
     public async Task<DiscordRoleMembers> GetRoleMembers()
     {
@@ -71,9 +71,13 @@ public class ServantApiClient(
 
         await foreach (var member in guild.GetAllMembersAsync())
         {
-            if (member.Roles.Any(role => role.Id == options.Value.BetaRoleId))
+            var roles = member.Roles.Select(r => r.Id).ToList();
+            if (roles.Count == 0)
+                continue;
+
+            if (roles.Any(role => role == options.Value.BetaRoleId))
                 betaMembers.Add(Convert.ToInt64(member.Id));
-            if (member.Roles.Any(role => role.Id == options.Value.BoostRoleId))
+            if (roles.Any(role => role == options.Value.BoostRoleId))
                 boostMembers.Add(Convert.ToInt64(member.Id));
         }
 
