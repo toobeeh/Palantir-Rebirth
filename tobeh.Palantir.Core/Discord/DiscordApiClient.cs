@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using tobeh.Palantir.Commands;
 
 namespace tobeh.Palantir.Core.Discord;
 
@@ -65,7 +64,7 @@ public class ServantApiClient(
     {
         logger.LogTrace("GetRoleMembers()");
 
-        var guild = await ClientHost.Services.GetRequiredService<DiscordHostedBot>().DiscordClient
+        var guild = await ClientHost.Services.GetRequiredService<DiscordClient>()
             .GetGuildAsync(options.Value.ServerId);
         var betaMembers = new List<long>();
         var boostMembers = new List<long>();
