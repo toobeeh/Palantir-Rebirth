@@ -59,7 +59,7 @@ public class ServantApiClient(
     IOptions<ServantApiClientOptions> options) : DiscordApiClient(logger)
 {
     protected override IHost ClientHost { get; } = clientHostFactory
-        .CreateClientHost(options.Value.DiscordToken, DiscordIntents.None);
+        .CreateClientHost(options.Value.DiscordToken, DiscordIntents.GuildMembers);
 
     public async Task<DiscordRoleMembers> GetRoleMembers()
     {
