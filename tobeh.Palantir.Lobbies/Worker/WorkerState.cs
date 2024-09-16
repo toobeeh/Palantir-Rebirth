@@ -44,6 +44,8 @@ public class WorkerState(
         if (GuildAssignment is not null)
         {
             await GuildAssignment.DiscordBotHost.StopAsync();
+            GuildAssignment.DiscordBotHost.Services.GetRequiredService<DiscordHostedBot>().DiscordClient
+                .Dispose();
             GuildAssignment = null;
         }
 
@@ -51,7 +53,7 @@ public class WorkerState(
         GuildOptions = guildOptions;
 
         // create new host which contains the discord bot
-        var host = discordBotHostFactory.CreateBotHost(botToken, guildOptions.Prefix, builder =>
+        var host = discordBotHostFactory.CreateBotHost(botToken, GuildOptions.Prefix, builder =>
         {
             // leave all guilds except the assigned one
             builder.HandleGuildDownloadCompleted(async (c, args) =>
@@ -59,16 +61,16 @@ public class WorkerState(
                 foreach (var guild in args.Guilds.Values)
                 {
                     if (discordOptions.Value.WhitelistedServers.Contains((long)guild.Id)) continue;
-                    if (guild.Id != (ulong)guildOptions.GuildId)
+                    if (guild.Id != (ulong)GuildOptions.GuildId)
                     {
                         logger.LogInformation(
-                            $"Leaving guild {guild.Name} because ID did not match: {guild.Id} != {guildOptions.GuildId}");
+                            $"Leaving guild {guild.Name} because ID did not match: {guild.Id} != {GuildOptions.GuildId}");
                         await guild.LeaveAsync();
                     }
                     else
                     {
                         await guild.CurrentMember.ModifyAsync(member =>
-                            member.Nickname = guildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
+                            member.Nickname = GuildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
                     }
                 }
             });
@@ -77,16 +79,16 @@ public class WorkerState(
             builder.HandleGuildCreated(async (c, args) =>
             {
                 if (discordOptions.Value.WhitelistedServers.Contains((long)args.Guild.Id)) return;
-                if (args.Guild.Id != (ulong)guildOptions.GuildId)
+                if (args.Guild.Id != (ulong)GuildOptions.GuildId)
                 {
                     logger.LogInformation(
-                        $"Leaving guild {args.Guild.Name} because ID did not match: {args.Guild.Id} != {guildOptions.GuildId}");
+                        $"Leaving guild {args.Guild.Name} because ID did not match: {args.Guild.Id} != {GuildOptions.GuildId}");
                     await args.Guild.LeaveAsync();
                 }
                 else
                 {
                     await args.Guild.CurrentMember.ModifyAsync(member =>
-                        member.Nickname = guildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
+                        member.Nickname = GuildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
                 }
             });
         });
@@ -98,7 +100,7 @@ public class WorkerState(
         await host.Services.GetRequiredService<DiscordHostedBot>().DiscordClient
             .BulkOverwriteGlobalApplicationCommandsAsync([]);
 
-        GuildAssignment = new GuildAssignment(guildOptions, host);
+        GuildAssignment = new GuildAssignment(GuildOptions, host);
         return GuildAssignment;
     }
 }
