@@ -44,7 +44,6 @@ public class WorkerState(
         if (GuildAssignment is not null)
         {
             await GuildAssignment.DiscordBotHost.StopAsync();
-            GuildAssignment.DiscordBotHost.Dispose();
             GuildAssignment = null;
         }
 
