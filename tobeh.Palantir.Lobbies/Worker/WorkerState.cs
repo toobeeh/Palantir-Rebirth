@@ -61,7 +61,8 @@ public class WorkerState(
                     if (discordOptions.Value.WhitelistedServers.Contains((long)guild.Id)) continue;
                     if (guild.Id != (ulong)guildOptions.GuildId)
                     {
-                        logger.LogInformation($"Leaving guild {guild.Name}");
+                        logger.LogInformation(
+                            $"Leaving guild {guild.Name} because ID did not match: {guild.Id} != {guildOptions.GuildId}");
                         await guild.LeaveAsync();
                     }
                     else
