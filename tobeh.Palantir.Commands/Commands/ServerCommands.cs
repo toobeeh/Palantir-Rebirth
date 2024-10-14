@@ -2,6 +2,7 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Commands.Trees.Metadata;
 using DSharpPlus.Entities;
+using DSharpPlus.Exceptions;
 using Microsoft.Extensions.Logging;
 using tobeh.Palantir.Commands.Checks;
 using tobeh.Palantir.Commands.Extensions;
@@ -165,15 +166,28 @@ public class ServerCommands(
 
         if (webhooks.Count > 0)
         {
-            var serverWebhooks = await context.Guild!.GetWebhooksAsync();
-            var postsWithChannel = webhooks
-                .Select(post => new
-                    { Post = post, Webhook = serverWebhooks.FirstOrDefault(hook => hook.Url == post.Url) })
-                .ToList();
-            embed.AddField("Image Post Channels",
-                string.Join("\n",
-                    postsWithChannel.Select(post =>
-                        $"- `{post.Post.Name}` in {(post.Webhook is null ? "`⚠️ Corrupted`" : $"<#{post.Webhook.ChannelId}>")}")));
+            IReadOnlyList<DiscordWebhook>? serverWebhooks = null;
+            try
+            {
+                serverWebhooks = await context.Guild!.GetWebhooksAsync();
+            }
+            catch (UnauthorizedException)
+            {
+                embed.AddField("Image Post Channels",
+                    "⚠️ Palantir requires manage webhook permission to manage image posts.");
+            }
+
+            if (serverWebhooks is not null)
+            {
+                var postsWithChannel = webhooks
+                    .Select(post => new
+                        { Post = post, Webhook = serverWebhooks.FirstOrDefault(hook => hook.Url == post.Url) })
+                    .ToList();
+                embed.AddField("Image Post Channels",
+                    string.Join("\n",
+                        postsWithChannel.Select(post =>
+                            $"- `{post.Post.Name}` in {(post.Webhook is null ? "`⚠️ Corrupted`" : $"<#{post.Webhook.ChannelId}>")}")));
+            }
         }
 
         if (containerId is not null)
