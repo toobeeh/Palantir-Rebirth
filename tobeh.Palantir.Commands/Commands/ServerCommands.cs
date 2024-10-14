@@ -21,6 +21,7 @@ public class ServerCommands(
     ILogger<ServerCommands> logger,
     Guilds.GuildsClient guildsClient,
     Members.MembersClient membersClient,
+    Workers.WorkersClient workersClient,
     MemberContext memberContext,
     ServerHomeContext serverHomeContext)
 {
@@ -141,6 +142,8 @@ public class ServerCommands(
         var webhooks = await guildsClient
             .GetGuildWebhooks(new GetGuildWebhooksMessage { GuildId = currentOptions.GuildId }).ToListAsync();
         var containerId = Environment.GetEnvironmentVariable("HOSTNAME");
+        var invite =
+            $"https://discord.com/oauth2/authorize?client_id={info.BotId}&scope=bot&permissions=604310528";
 
         var supporters = await membersClient
             .GetMembersByLogin(new GetMembersByLoginMessage { Logins = { info.Supporters } }).ToListAsync();
@@ -158,6 +161,8 @@ public class ServerCommands(
                 currentOptions.BotName is null
                     ? $"`🤖` The Lobby Bot has the default name"
                     : $"`🤖` The Lobby Bot is named `{currentOptions.BotName}`")
+            .AddField("Bot Invite",
+                $"If the bot is not yet on your server, you can invite it with {"this link".AsTypoLink(invite, "🌍")}")
             .AddField("Connection Invite",
                 $"`🏠` People can connect their typo account with the command `/server connect` or using {"this invite".AsTypoLink("https://www.typo.rip/invite/" + currentOptions.Invite, "🌍")}.")
             .AddField("Lobby Channel", currentOptions.ChannelId is null
