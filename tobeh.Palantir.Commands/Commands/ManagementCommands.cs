@@ -45,7 +45,7 @@ public class ManagementCommands(
             MemberFlagMessage.BubbleFarming, MemberFlagMessage.Admin, MemberFlagMessage.Moderator,
             MemberFlagMessage.UnlimitedCloud, MemberFlagMessage.Patron, MemberFlagMessage.PermaBan,
             MemberFlagMessage.DropBan, MemberFlagMessage.Patronizer, MemberFlagMessage.Booster, MemberFlagMessage.Beta,
-            MemberFlagMessage.ContentModerator
+            MemberFlagMessage.ContentModerator, MemberFlagMessage.EmojiManagement
         }.ToList();
 
         DiscordMessageBuilder BuildMessageFromFlags(bool disable = false)
