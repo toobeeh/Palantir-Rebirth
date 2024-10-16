@@ -22,7 +22,7 @@ public static class AddPalantirPublicExtension
         services.AddDiscordClient(options.DiscordToken,
                 DiscordIntents.AllUnprivileged)
             .AddInteractivityExtension()
-            .AddCommandsExtension(extension =>
+            .AddCommandsExtension((provider, extension) =>
             {
                 // add commands
                 extension.AddCommands([

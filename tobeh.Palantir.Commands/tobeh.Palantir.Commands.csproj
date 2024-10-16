@@ -14,9 +14,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02361"/>
-        <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02361"/>
-        <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02361"/>
+        <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02386"/>
+        <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02386"/>
+        <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02386"/>
         <PackageReference Include="Grpc.AspNetCore" Version="2.62.0-pre1"/>
         <PackageReference Include="Microsoft.CodeAnalysis" Version="4.10.0-2.final"/>
     </ItemGroup>
@@ -34,7 +34,7 @@
         <ProjectReference Include="$(LocalValmarSource)"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(LocalValmarSource)' == '' ">
-        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1728935306"/>
+        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1729071612"/>
     </ItemGroup>
     <ItemGroup>
         <Reference Include="XmlDocs.NET">

@@ -33,7 +33,7 @@ public class DiscordBotHostFactory(
             {
                 services.AddDiscordClient(discordToken,
                         DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents | DiscordIntents.Guilds)
-                    .AddCommandsExtension(extension =>
+                    .AddCommandsExtension((provider, extension) =>
                     {
                         // add commands
                         extension.AddCommands([

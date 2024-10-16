@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02361"/>
+        <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02386"/>
       <PackageReference Include="Hypermedia.JsonApi.Client" Version="3.1.3" />
       <PackageReference Include="Hypermedia.JsonApi.WebApi" Version="3.1.0" />
       <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
@@ -31,7 +31,7 @@
         <ProjectReference Include="$(LocalValmarSource)" />
     </ItemGroup>
     <ItemGroup Condition=" '$(LocalValmarSource)' == '' ">
-        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1728935306"/>
+        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1729071612"/>
     </ItemGroup>
 
     <ItemGroup>
