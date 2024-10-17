@@ -18,8 +18,28 @@ using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Lobbies.Discord;
 
+internal class LoggerFactoryAdapter : ILoggerProvider
+{
+    private readonly ILoggerFactory _loggerFactory;
+
+    public LoggerFactoryAdapter(ILoggerFactory loggerFactory)
+    {
+        _loggerFactory = loggerFactory;
+    }
+
+    public ILogger CreateLogger(string categoryName)
+    {
+        return _loggerFactory.CreateLogger(categoryName);
+    }
+
+    public void Dispose()
+    {
+    }
+}
+
 public class DiscordBotHostFactory(
     ILogger<DiscordBotHostFactory> logger,
+    ILoggerFactory loggerFactory,
     IConfiguration configuration)
 {
     public IHost CreateBotHost(string discordToken, string prefix,
@@ -31,7 +51,9 @@ public class DiscordBotHostFactory(
         var builder = new HostBuilder()
             .ConfigureServices(services =>
             {
-                services.AddDiscordClient(discordToken,
+                services
+                    .AddLogging(builder => builder.AddProvider(new LoggerFactoryAdapter(loggerFactory)))
+                    .AddDiscordClient(discordToken,
                         DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents | DiscordIntents.Guilds)
                     .AddCommandsExtension((provider, extension) =>
                     {

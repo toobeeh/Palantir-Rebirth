@@ -66,7 +66,8 @@ public class WorkerState(
                     if (guild.Id != (ulong)GuildOptions.GuildId)
                     {
                         logger.LogInformation(
-                            $"Leaving guild {guild.Name} because ID did not match: {guild.Id} != {GuildOptions.GuildId}");
+                            "Leaving guild {name} because ID did not match: {id} != {gid}", guild.Name, guild.Id,
+                            GuildOptions.GuildId);
                         await guild.LeaveAsync();
                     }
                     else
