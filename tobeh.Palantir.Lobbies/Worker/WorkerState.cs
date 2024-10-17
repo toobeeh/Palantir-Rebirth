@@ -58,6 +58,8 @@ public class WorkerState(
             // leave all guilds except the assigned one
             builder.HandleGuildDownloadCompleted(async (c, args) =>
             {
+                logger.LogInformation("Current guilds: {guilds}",
+                    string.Join(", ", args.Guilds.Values.Select(g => g.Id)));
                 foreach (var guild in args.Guilds.Values)
                 {
                     if (discordOptions.Value.WhitelistedServers.Contains((long)guild.Id)) continue;
