@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using tobeh.Palantir.Commands;
+using tobeh.Palantir.Commands.XmlDoc;
 using tobeh.Palantir.Lobbies.Discord;
 using tobeh.Valmar;
 
@@ -76,6 +77,8 @@ public class WorkerState(
                             member.Nickname = GuildOptions.BotName ?? $"{GuildOptions.Name} Lobbies");
                     }
                 }
+
+                await HelpCommandDocumentationMapperEventHandlers.OnGuildDownloadCompleted(c, args);
             });
 
             // listen to guild join event and leave if its the wrong guild, or set nickname accordingly
@@ -103,7 +106,7 @@ public class WorkerState(
         await host.Services.GetRequiredService<DiscordHostedBot>().DiscordClient
             .BulkOverwriteGlobalApplicationCommandsAsync([]);
 
-        var guilds = host.Services.GetRequiredService<DiscordHostedBot>().DiscordClient.GetGuildsAsync(100);
+        var guilds = host.Services.GetRequiredService<DiscordHostedBot>().DiscordClient.GetGuildsAsync();
         await foreach (var g in guilds)
         {
             logger.LogInformation("In guild: {id}", g.Id);
