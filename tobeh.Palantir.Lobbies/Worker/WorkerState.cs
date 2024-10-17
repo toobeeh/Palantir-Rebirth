@@ -103,6 +103,12 @@ public class WorkerState(
         await host.Services.GetRequiredService<DiscordHostedBot>().DiscordClient
             .BulkOverwriteGlobalApplicationCommandsAsync([]);
 
+        var guilds = host.Services.GetRequiredService<DiscordHostedBot>().DiscordClient.GetGuildsAsync(100);
+        await foreach (var g in guilds)
+        {
+            logger.LogInformation("In guild: {id}", g.Id);
+        }
+
         GuildAssignment = new GuildAssignment(GuildOptions, host);
         return GuildAssignment;
     }
