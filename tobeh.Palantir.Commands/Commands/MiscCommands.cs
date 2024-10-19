@@ -122,7 +122,7 @@ public class MiscCommands(
             $"```asciidoc\n- {bubbleCredit.BubblesAmount} collected\n- {bubbleCredit.AvailableCredit} available\n- First seen {firstSeen.FirstSeen.ToDateTimeOffset():d}```\n_ _",
             true);
         embed.AddField("Drop Stats",
-            $"```asciidoc\n- {dropCredit.Credit:0.#} total value\n- {dropCredit.Count} drops caught```",
+            $"```asciidoc\n- {dropCredit.Credit:0.#} total value\n- {dropCredit.Count} drops caught\n- {spriteSlotCount.DropsUntilNextSlot:0.#} until next slot```",
             true);
 
         var activeSprites = spriteInv.Where(slot => slot.Slot > 0 && slot.SpriteId > 0)

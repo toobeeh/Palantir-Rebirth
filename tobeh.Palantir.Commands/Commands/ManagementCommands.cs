@@ -23,6 +23,7 @@ public class ManagementCommands(
     StaticFiles.StaticFilesClient staticFilesClient,
     Sprites.SpritesClient spritesClient,
     Events.EventsClient eventsClient,
+    Awards.AwardsClient awardsClient,
     Admin.AdminClient adminClient)
 {
     /// <summary>
@@ -252,7 +253,9 @@ public class ManagementCommands(
     /// Add a new event drop
     /// </summary>
     /// <param name="context"></param>
+    /// <param name="eventId">The id of the associated event</param>
     /// <param name="name">The name of the new event drop</param>
+    /// <param name="sourceUrl">The url of the sprite, if no attachment provided</param>
     [Command("newdrop")]
     [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
     [TextAlias("nd")]
@@ -269,7 +272,7 @@ public class ManagementCommands(
         }
         else
         {
-            url = sourceUrl ?? throw new NullReferenceException("No attachment present and no sprite url provided");
+            url = sourceUrl ?? throw new NullReferenceException("No attachment present and no drop url provided");
         }
 
         var response = await new HttpClient().GetAsync(url);
@@ -293,5 +296,56 @@ public class ManagementCommands(
             .WithImageUrl(url)
             .WithDescription("This new event drop has been added!\n" +
                              $"You can add sprites to it by specifying the event drop ID in the `/manage newsprite` command."));
+    }
+
+    /// <summary>
+    /// Add a new award
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="name">The name of the new award</param>
+    /// <param name="rarity">The rarity (0=common, 3=legendary) of the award</param>
+    /// <param name="sourceUrl">The url of the image, if no attachment provided</param>
+    /// <param name="description">The award description text</param>
+    [Command("newaward")]
+    [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
+    [TextAlias("na")]
+    public async Task AddNewAward(CommandContext context, string name, string description, AwardRarityMessage rarity,
+        string? sourceUrl = null)
+    {
+        var safeName = Regex.Replace(name, "[^a-zA-Z0-9]", "_");
+        var awardUrl = $"https://static.typo.rip/drops/{safeName}.gif";
+
+        string url;
+        if (context is TextCommandContext { Message.Attachments.Count: > 0 } ctx)
+        {
+            url = ctx.Message.Attachments[0].Url ?? throw new NullReferenceException("Invalid attachment present");
+        }
+        else
+        {
+            url = sourceUrl ?? throw new NullReferenceException("No attachment present and no award url provided");
+        }
+
+        var response = await new HttpClient().GetAsync(url);
+        if (!response.IsSuccessStatusCode || response.Content.Headers.ContentType?.MediaType != "image/gif")
+            throw new InvalidOperationException("Invalid image");
+
+        var award = await awardsClient.CreateAwardAsync(new CreateAwardRequest()
+        {
+            Name = name,
+            Url = awardUrl,
+            Rarity = rarity,
+            Description = description
+        });
+
+        await staticFilesClient.AddFileFromBytes(await response.Content.ReadAsByteArrayAsync(), safeName, "gif",
+            FileType.Award);
+
+        await context.RespondAsync(new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"{award.Id.AsTypoId()} _ _ {award.Name} (Rarity: {award.Rarity})")
+            .WithAuthor("Looking great!")
+            .WithImageUrl(url)
+            .WithDescription("This new award has been added!\n" +
+                             $"> {award.Description}"));
     }
 }

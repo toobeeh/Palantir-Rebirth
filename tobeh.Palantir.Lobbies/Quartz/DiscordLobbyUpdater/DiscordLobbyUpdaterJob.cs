@@ -13,7 +13,6 @@ using tobeh.Valmar.Client.Util;
 namespace tobeh.Palantir.Lobbies.Quartz.DiscordLobbyUpdater;
 
 public class DiscordLobbyUpdaterJob(
-    WorkerState workerState,
     Valmar.Lobbies.LobbiesClient lobbiesClient,
     Members.MembersClient membersClient,
     Events.EventsClient eventsClient,
@@ -38,6 +37,17 @@ public class DiscordLobbyUpdaterJob(
             var memberDetails = await
                 membersClient.GetMembersByLogin(new GetMembersByLoginMessage { Logins = { memberLogins } })
                     .ToListAsync();
+
+            foreach (var lobby in lobbies)
+            {
+                var encryptedLink = await lobbiesClient.EncryptLobbyLinkTokenAsync(new PlainLobbyLinkMessage
+                {
+                    Link = lobby.SkribblDetails.Link,
+                    GuildId = guildAssignment.GuildOptions.GuildId
+                });
+                lobby.SkribblDetails.Link =
+                    $"https://www.typo.rip/join?token={Uri.EscapeDataString(encryptedLink.Token)}";
+            }
 
             EventReply? activeEvent = null;
             try

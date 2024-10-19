@@ -26,7 +26,7 @@
         <ProjectReference Include="$(LocalContentServiceSource)"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(LocalContentServiceSource)' == '' ">
-        <PackageReference Include="tobeh.TypoContentService.Client" Version="0.1.1719437920"/>
+        <PackageReference Include="tobeh.TypoContentService.Client" Version="0.1.1729357262"/>
     </ItemGroup>
 
     <!-- toggle between local and nuget valmar client -->
@@ -34,7 +34,7 @@
         <ProjectReference Include="$(LocalValmarSource)"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(LocalValmarSource)' == '' ">
-        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1729356225"/>
+        <PackageReference Include="tobeh.Valmar.Client" Version="0.1.1729373960"/>
     </ItemGroup>
     <ItemGroup>
         <Reference Include="XmlDocs.NET">
