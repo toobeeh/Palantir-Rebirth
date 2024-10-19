@@ -290,8 +290,10 @@ public class ServerCommands(
                 $"Banned members are not able to connect again, use the lobby links or to see lobby buttons on skribbl.\n" +
                 $"To ban a member, use the command `/server ban <user-id>`.\n" +
                 $"To unban a member, use the command `/server unban <user-id>`.\n" +
-                string.Join("\n",
-                    bannedMembers.Select(m => $"- {m.Username} (<@{m.DiscordId}> / ID: `{m.DiscordId}`)")));
+                (bannedMembers.Count == 0
+                    ? "> No banned members found"
+                    : string.Join("\n",
+                        bannedMembers.Select(m => $"- {m.Username} (<@{m.DiscordId}> / ID: `{m.DiscordId}`)"))));
         await context.RespondAsync(embed);
     }
 
