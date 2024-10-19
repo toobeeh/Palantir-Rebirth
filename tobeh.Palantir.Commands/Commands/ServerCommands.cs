@@ -268,4 +268,110 @@ public class ServerCommands(
                 $"To connect again, use the command `/server connect`.");
         await context.RespondAsync(embed);
     }
+
+    /// <summary>
+    /// View a list of all members that have been banned from this server home.
+    /// </summary>
+    /// <param name="context"></param>
+    [Command("bans"), RequirePalantirMember]
+    public async Task ViewBannedMembers(CommandContext context)
+    {
+        logger.LogTrace("ViewBannedMembers()");
+
+        var currentOptions = serverHomeContext.Server;
+        var bannedMembers = await guildsClient
+            .GetGuildBans(new GetGuildBansMessage { GuildId = currentOptions.GuildId }).ToListAsync();
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle("Banned Members")
+            .WithDescription(
+                $"Following members are banned from this server home.\n" +
+                $"Banned members are not able to connect again, use the lobby links or to see lobby buttons on skribbl.\n" +
+                $"To ban a member, use the command `/server ban <user-id>`.\n" +
+                $"To unban a member, use the command `/server unban <user-id>`.\n" +
+                string.Join("\n",
+                    bannedMembers.Select(m => $"- {m.Username} (<@{m.DiscordId}> / ID: `{m.DiscordId}`)")));
+        await context.RespondAsync(embed);
+    }
+
+    /// <summary>
+    /// Ban a member from this server home
+    /// </summary>
+    /// <param name="userId">The discord ID of the user to ban</param>
+    /// <param name="context"></param>
+    [Command("ban"), RequirePalantirMember,
+     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    public async Task BanMember(CommandContext context, long userId)
+    {
+        logger.LogTrace("BanMember(userId={userId})", userId);
+
+        var currentOptions = serverHomeContext.Server;
+        var bannedMembers = await guildsClient
+            .GetGuildBans(new GetGuildBansMessage { GuildId = currentOptions.GuildId }).ToListAsync();
+
+        if (bannedMembers.Any(m => m.DiscordId == userId))
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Already Banned",
+                "This member is already banned from this server home.\n" +
+                $"You can unban them with the command `/server unban {userId}`."));
+            return;
+        }
+
+        var member =
+            await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest { Id = userId });
+        await guildsClient.BanGuildMemberAsync(new BanGuildMemberMessage
+            { GuildId = currentOptions.GuildId, MemberId = member.DiscordId, Ban = true });
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle("Member Banned")
+            .WithDescription(
+                $"{member.Username} (<@{member.DiscordId}>) has been banned from this server home.\n" +
+                $"They are not able to connect again, use the lobby links or to see lobby buttons on skribbl.\n" +
+                $"To unban them, use the command `/server unban {userId}`.\n" +
+                $"You can view all banned members with the command `/server bans`.");
+        await context.RespondAsync(embed);
+    }
+
+    /// <summary>
+    /// Unban a member from this server home
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="userId">The discord ID of the user to unban</param>
+    [Command("unban"), RequirePalantirMember,
+     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    public async Task UnbanMember(CommandContext context, long userId)
+    {
+        logger.LogTrace("UnbanMember(userId={userId})", userId);
+
+        var currentOptions = serverHomeContext.Server;
+        var bannedMembers = await guildsClient
+            .GetGuildBans(new GetGuildBansMessage { GuildId = currentOptions.GuildId }).ToListAsync();
+
+        if (bannedMembers.All(m => m.DiscordId != userId))
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                "Not Banned",
+                "This member is not banned from this server home.\n" +
+                $"You can ban them with the command `/server ban {userId}`."));
+            return;
+        }
+
+        var member =
+            await membersClient.GetMemberByDiscordIdAsync(new IdentifyMemberByDiscordIdRequest { Id = userId });
+        await guildsClient.BanGuildMemberAsync(new BanGuildMemberMessage
+            { GuildId = currentOptions.GuildId, MemberId = member.DiscordId, Ban = false });
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle("Member Unbanned")
+            .WithDescription(
+                $"{member.Username} (<@{member.DiscordId}>) has been unbanned from this server home.\n" +
+                $"They can now reconnect to this server.\n" +
+                $"To ban them again, use the command `/server ban {userId}`.\n" +
+                $"You can view all banned members with the command `/server bans`.");
+        await context.RespondAsync(embed);
+    }
 }

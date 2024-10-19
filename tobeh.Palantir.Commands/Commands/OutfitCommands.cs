@@ -129,6 +129,40 @@ public class OutfitCommands(
     }
 
     /// <summary>
+    /// Show a preview of your current skribbl outfit
+    /// </summary>
+    /// <param name="context"></param>
+    [Command("preview"), TextAlias("pv"), RequirePalantirMember]
+    public async Task PreviewOutfit(CommandContext context)
+    {
+        logger.LogTrace("PreviewOutfit(context)");
+
+        var member = memberContext.Member;
+        var spriteInv = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
+            .ToListAsync();
+        var sceneInv =
+            await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithAuthor("What a drip")
+            .WithTitle($"Showing your current outfit")
+            .WithDescription(
+                "To save this outfit for quick access, use the command `/outfit save <name>`.");
+
+        var colorMaps = spriteInv
+            .Where(spt => spt.ColorShift != null && spt.Slot > 0)
+            .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
+
+        var combo = spriteInv.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot).Select(slot => slot.SpriteId);
+        var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
+            { SpriteIds = { combo }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
+
+        await context.RespondAsync(
+            embed.ToMessageBuilderWithAttachmentImage(imageFile.FileName, imageFile.Data));
+    }
+
+    /// <summary>
     /// Delete an outfit from your outfit list
     /// </summary>
     /// <param name="context"></param>

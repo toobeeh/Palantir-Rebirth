@@ -22,6 +22,7 @@ public class ManagementCommands(
     MemberContext memberContext,
     StaticFiles.StaticFilesClient staticFilesClient,
     Sprites.SpritesClient spritesClient,
+    Events.EventsClient eventsClient,
     Admin.AdminClient adminClient)
 {
     /// <summary>
@@ -147,7 +148,7 @@ public class ManagementCommands(
     }
 
     /// <summary>
-    /// Modify the flags of an user
+    /// Add a new sprite
     /// </summary>
     /// <param name="context"></param>
     /// <param name="name">The name of the sprite</param>
@@ -178,6 +179,10 @@ public class ManagementCommands(
             url = sourceUrl ?? throw new NullReferenceException("No attachment present and no sprite url provided");
         }
 
+        var response = await new HttpClient().GetAsync(url);
+        if (!response.IsSuccessStatusCode || response.Content.Headers.ContentType?.MediaType != "image/gif")
+            throw new InvalidOperationException("Invalid image");
+
         var sprite = await spritesClient.AddSpriteAsync(new AddSpriteMessage
         {
             Name = name,
@@ -187,10 +192,6 @@ public class ManagementCommands(
             Url = spriteUrl,
             IsRainbow = rainbow
         });
-
-        var response = await new HttpClient().GetAsync(url);
-        if (!response.IsSuccessStatusCode || response.Content.Headers.ContentType?.MediaType != "image/gif")
-            throw new InvalidOperationException("Invalid image");
 
         await staticFilesClient.AddFileFromBytes(await response.Content.ReadAsByteArrayAsync(), fileName, "gif",
             eventDropId is null ? FileType.Sprite : FileType.EventSprite);
@@ -202,5 +203,95 @@ public class ManagementCommands(
             .WithImageUrl(url)
             .WithDescription("This new sprite has been added!\n" +
                              $"You can view it with the command `/sprite view {sprite.Id}`"));
+    }
+
+    /// <summary>
+    /// Add a new event
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="name"></param>
+    [Command("newevent")]
+    [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
+    [TextAlias("ns")]
+    public async Task AddNewEvent(CommandContext context, string name, string description, int startInDays,
+        int durationDays, bool progressive)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, "Invalid name", "The event name cannot be empty."));
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            await context.RespondAsync(new DiscordEmbedBuilder()
+                .WithPalantirErrorPresets(context, "Invalid description", "The event description cannot be empty."));
+            return;
+        }
+
+        var evt = await eventsClient.CreateEventAsync(new CreateEventMessage
+        {
+            Name = name,
+            Description = description,
+            StartInDays = startInDays,
+            DurationDays = durationDays,
+            Progressive = progressive
+        });
+
+        await context.RespondAsync(new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"{evt.Id.AsTypoId()} _ _ {evt.Name}")
+            .WithAuthor("The hype is real!")
+            .WithDescription("This new event has been added!\n" +
+                             $"You can view details using the command `/event view {evt.Id}`.\n" +
+                             $"Event drops can be added with the command `/manage newdrop {evt.Id} <name> (url)`."));
+    }
+
+    /// <summary>
+    /// Add a new event drop
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="name">The name of the new event drop</param>
+    [Command("newdrop")]
+    [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
+    [TextAlias("ns")]
+    public async Task AddNewEventDrop(CommandContext context, int eventId, string name, string? sourceUrl = null)
+    {
+        var safeName = Regex.Replace(name, "[^a-zA-Z0-9]", "_");
+        var fileName = $"ev{eventId}-{safeName}";
+        var dropurl = $"https://static.typo.rip/drops/{fileName}.gif";
+
+        string url;
+        if (context is TextCommandContext { Message.Attachments.Count: > 0 } ctx)
+        {
+            url = ctx.Message.Attachments[0].Url ?? throw new NullReferenceException("Invalid attachment present");
+        }
+        else
+        {
+            url = sourceUrl ?? throw new NullReferenceException("No attachment present and no sprite url provided");
+        }
+
+        var response = await new HttpClient().GetAsync(url);
+        if (!response.IsSuccessStatusCode || response.Content.Headers.ContentType?.MediaType != "image/gif")
+            throw new InvalidOperationException("Invalid image");
+
+        var drop = await eventsClient.CreateEventDropAsync(new CreateEventDropMessage()
+        {
+            Name = name,
+            Url = dropurl,
+            EventId = eventId
+        });
+
+        await staticFilesClient.AddFileFromBytes(await response.Content.ReadAsByteArrayAsync(), fileName, "gif",
+            FileType.Drop);
+
+        await context.RespondAsync(new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"{drop.Id.AsTypoId()} _ _ {drop.Name}")
+            .WithAuthor("Looking great!")
+            .WithImageUrl(url)
+            .WithDescription("This new event drop has been added!\n" +
+                             $"You can add sprites to it by specifying the event drop ID in the `/manage newsprite` command."));
     }
 }
