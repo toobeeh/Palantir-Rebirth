@@ -376,4 +376,61 @@ public class ServerCommands(
                 $"You can view all banned members with the command `/server bans`.");
         await context.RespondAsync(embed);
     }
+
+    /// <summary>
+    /// Sets whether lobby links in the lobby message should be protected.
+    /// Only users who have connected to the server can use the links.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="protectEnabled">Whether to enable lobby link protection</param>
+    [Command("useprotection"), TextAlias("up"), RequirePalantirMember,
+     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    public async Task UseLinkProtectio(CommandContext context, bool protectEnabled)
+    {
+        logger.LogTrace("UseLinkProtectionMember(protectEnabled={protectEnabled})", protectEnabled);
+
+        var currentOptions = serverHomeContext.Server;
+
+        currentOptions.ProxyLinks = protectEnabled;
+        currentOptions.Name = context.Guild!.Name;
+        await guildsClient.SetGuildOptionsAsync(currentOptions);
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"Lobby Link Protection updated")
+            .WithDescription(
+                $"Lobby link protection is now {(protectEnabled ? "enabled" : "disabled")}.\n" +
+                $"When protection is enabled, only users who are connected to this server can use the lobby links.\n" +
+                "To make full use of protection, it is recommended to hide the server connect link using `/server showconnect true`, and display it in a channel where only verified members can see it instead.");
+
+        await context.RespondAsync(embed);
+    }
+
+    /// <summary>
+    /// Sets whether to display the typo server connection link in the lobby message.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="connectEnabled">Whether to enable server connection link in the lobby message</param>
+    [Command("showconnect"), TextAlias("sc"), RequirePalantirMember,
+     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    public async Task ShowInviteLink(CommandContext context, bool connectEnabled)
+    {
+        logger.LogTrace("UseLinkProtectionMember(connectEnabled={connectEnabled})", connectEnabled);
+
+        var currentOptions = serverHomeContext.Server;
+
+        currentOptions.ShowInvite = connectEnabled;
+        currentOptions.Name = context.Guild!.Name;
+        await guildsClient.SetGuildOptionsAsync(currentOptions);
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"Connection Link visibility updated")
+            .WithDescription(
+                $"The connection link is now {(connectEnabled ? "visible" : "hidden")}.\n" +
+                $"When the link is invisible, it will not be shown in the lobby message.\n" +
+                "This prevents that players with throwaway accounts can join the server and grab lobby links.");
+
+        await context.RespondAsync(embed);
+    }
 }
