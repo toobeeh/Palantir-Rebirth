@@ -111,7 +111,7 @@ public class LobbyMessageUtil
         return messages;
     }
 
-    public static string BuildHeader(int serverInvite, EventReply? activeEvent)
+    public static string BuildHeader(int? serverInvite, EventReply? activeEvent)
     {
         var eventInfo = activeEvent is null
             ? ""
@@ -120,7 +120,8 @@ public class LobbyMessageUtil
               $"> `{activeEvent.Description}`\n_ _";
 
         return $"{eventInfo}\n_ _```ansi\n{Formatter.Colorize("Who's around on skribbl?", AnsiColor.Blue)}\n```\n" +
-               $"Refreshed: {Formatter.Timestamp(DateTimeOffset.UtcNow)}\nClick to connect: https://www.typo.rip/invite/{serverInvite}";
+               $"Refreshed: {Formatter.Timestamp(DateTimeOffset.UtcNow)}" +
+               (serverInvite is null ? "" : $"\nClick to connect: https://www.typo.rip/invite/{serverInvite}");
     }
 
     public static List<GuildLobbyLinkMessage> BuildGuildLinks(List<LobbyReply> lobbies, List<MemberReply> memberDetails,

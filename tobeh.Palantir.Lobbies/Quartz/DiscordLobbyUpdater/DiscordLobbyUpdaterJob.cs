@@ -38,15 +38,19 @@ public class DiscordLobbyUpdaterJob(
                 membersClient.GetMembersByLogin(new GetMembersByLoginMessage { Logins = { memberLogins } })
                     .ToListAsync();
 
-            foreach (var lobby in lobbies)
+            // repalce links if proxy enabled
+            if (guildOptions.ProxyLinks)
             {
-                var encryptedLink = await lobbiesClient.EncryptLobbyLinkTokenAsync(new PlainLobbyLinkMessage
+                foreach (var lobby in lobbies)
                 {
-                    Link = lobby.SkribblDetails.Link,
-                    GuildId = guildAssignment.GuildOptions.GuildId
-                });
-                lobby.SkribblDetails.Link =
-                    $"https://www.typo.rip/join?token={Uri.EscapeDataString(encryptedLink.Token)}";
+                    var encryptedLink = await lobbiesClient.EncryptLobbyLinkTokenAsync(new PlainLobbyLinkMessage
+                    {
+                        Link = lobby.SkribblDetails.Link,
+                        GuildId = guildAssignment.GuildOptions.GuildId
+                    });
+                    lobby.SkribblDetails.Link =
+                        $"https://www.typo.rip/join?token={Uri.EscapeDataString(encryptedLink.Token)}";
+                }
             }
 
             EventReply? activeEvent = null;
@@ -59,7 +63,8 @@ public class DiscordLobbyUpdaterJob(
                 /* when no event active */
             }
 
-            var header = LobbyMessageUtil.BuildHeader(guildOptions.Invite, activeEvent);
+            var header =
+                LobbyMessageUtil.BuildHeader(guildOptions.ShowInvite ? guildOptions.Invite : null, activeEvent);
             var lobbiesContent =
                 LobbyMessageUtil.BuildLobbies(lobbies, memberDetails, guildOptions.GuildId, guildOptions.Invite);
             var availableMessages = await LobbyMessageUtil.GetMessageCandidatesInChannel(

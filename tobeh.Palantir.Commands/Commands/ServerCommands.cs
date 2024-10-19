@@ -164,10 +164,17 @@ public class ServerCommands(
             .AddField("Bot Invite",
                 $"If the bot is not yet on your server, you can invite it with {"this link".AsTypoLink(invite, "🌍")}")
             .AddField("Connection Invite",
-                $"`🏠` People can connect their typo account with the command `/server connect` or using {"this invite".AsTypoLink("https://www.typo.rip/invite/" + currentOptions.Invite, "🌍")}.")
+                $"`🏠` People can connect their typo account with the command `/server connect` " +
+                (currentOptions.ShowInvite
+                    ? $" or using {"this invite".AsTypoLink("https://www.typo.rip/invite/" + currentOptions.Invite, "🌍")}"
+                    : "."))
             .AddField("Lobby Channel", currentOptions.ChannelId is null
                 ? "`📃` No channel set"
-                : $"`📃` Lobbies are listed in <#{currentOptions.ChannelId}>");
+                : $"`📃` Lobbies are listed in <#{currentOptions.ChannelId}>")
+            .AddField("Invite visibility",
+                $"`📨` The server invite link is `{(currentOptions.ShowInvite ? "visible" : "hidden")}`.")
+            .AddField("Lobby Link protection",
+                $"`📨` Lobby invite links are `{(currentOptions.ShowInvite ? "protected" : "public")}`.");
 
         if (webhooks.Count > 0)
         {
