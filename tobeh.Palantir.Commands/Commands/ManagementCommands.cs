@@ -212,7 +212,7 @@ public class ManagementCommands(
     /// <param name="name"></param>
     [Command("newevent")]
     [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
-    [TextAlias("ns")]
+    [TextAlias("ne")]
     public async Task AddNewEvent(CommandContext context, string name, string description, int startInDays,
         int durationDays, bool progressive)
     {
@@ -255,7 +255,7 @@ public class ManagementCommands(
     /// <param name="name">The name of the new event drop</param>
     [Command("newdrop")]
     [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
-    [TextAlias("ns")]
+    [TextAlias("nd")]
     public async Task AddNewEventDrop(CommandContext context, int eventId, string name, string? sourceUrl = null)
     {
         var safeName = Regex.Replace(name, "[^a-zA-Z0-9]", "_");
