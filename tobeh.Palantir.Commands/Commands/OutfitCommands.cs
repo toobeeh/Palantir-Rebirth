@@ -155,7 +155,7 @@ public class OutfitCommands(
 
         var sprites = await spritesClient.GetAllSprites(new Empty()).ToListAsync();
 
-        var combo = string.Join("\n", spriteInv.Select(slot =>
+        var combo = string.Join("\n", spriteInv.Where(s => s.Slot > 0).OrderBy(s => s.Slot).Select(slot =>
         {
             var sprite = sprites.First(spt => spt.Id == slot.SpriteId);
             var shift = slot.ColorShift is not null ? $"(color shift: {slot.ColorShift})" : "";
