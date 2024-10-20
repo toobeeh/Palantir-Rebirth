@@ -260,11 +260,20 @@ public class MiscCommands(
             const int width = 30;
             var start = days.First().Bubbles;
             var diff = start - days.Last().Bubbles;
+
+            if (diff <= 0)
+            {
+                await context.RespondAsync(new DiscordEmbedBuilder()
+                    .WithPalantirErrorPresets(context, "No bubbles collected",
+                        "You have not collected any bubbles in that timespan."));
+                return;
+            }
+
             var bubblesPerSpace = diff / width;
             var dayDiff = (statStart - DateTimeOffset.UtcNow).TotalDays;
 
             embed.AddField("Total collected:",
-                $"{Math.Abs(diff)} Bubbles ({Math.Abs(TimeSpan.FromSeconds(diff * 10).TotalHours):0.##}h)\n");
+                $"{diff} Bubbles ({Math.Abs(TimeSpan.FromSeconds(diff * 10).TotalHours):0.##}h)\n");
 
             embed.AddField("Average per day:",
                 $"{diff / dayDiff:0} Bubbles ({TimeSpan.FromSeconds((diff / dayDiff) * 10).TotalHours:0.#}h)\n");

@@ -142,11 +142,25 @@ public class OutfitCommands(
             .ToListAsync();
         var sceneInv =
             await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
+        var combo = spriteInv.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot).Select(slot => slot.SpriteId)
+            .ToList();
+        var sprites = await spritesClient.GetAllSprites(new Empty()).ToDictionaryAsync(s => s.Id);
+        var scene = sceneInv.ActiveId is { } scid ? scenesClient.GetSceneById(new GetSceneRequest { Id = scid }) : null;
+        var spriteInvColorDict = spriteInv.Where(s => s.ColorShift is not null)
+            .ToDictionary(spt => spt.SpriteId, spt => spt.ColorShift);
 
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor("What a drip")
             .WithTitle($"Showing your current outfit")
+            .AddField("Sprite Combo",
+                string.Join("\n",
+                    combo.Select(id =>
+                        $"- {id.AsTypoId()} {sprites[id]} {(spriteInvColorDict.TryGetValue(id, out var value) ? $"- Shift: {value}" : "")}")))
+            .AddField("Scene",
+                scene is not null
+                    ? $"{scene.Id.AsTypoId()} {scene.Name} {(sceneInv.ActiveShift is not null ? $"- Theme: {sceneInv.ActiveShift}" : "")}"
+                    : "")
             .WithDescription(
                 "To save this outfit for quick access, use the command `/outfit save <name>`.");
 
@@ -154,7 +168,6 @@ public class OutfitCommands(
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
             .Select(slot => new ColorMapMessage { HueShift = slot.ColorShift ?? 100, SpriteId = slot.SpriteId });
 
-        var combo = spriteInv.Where(slot => slot.Slot > 0).OrderBy(slot => slot.Slot).Select(slot => slot.SpriteId);
         var imageFile = await imageGeneratorClient.GenerateSpriteCombo(new GenerateComboMessage()
             { SpriteIds = { combo }, ColorMaps = { colorMaps } }).CollectFileChunksAsync();
 
