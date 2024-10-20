@@ -392,7 +392,7 @@ public class ServerCommands(
     /// <param name="protectEnabled">Whether to enable lobby link protection</param>
     [Command("useprotection"), TextAlias("up"), RequirePalantirMember,
      RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
-    public async Task UseLinkProtectio(CommandContext context, bool protectEnabled)
+    public async Task UseLinkProtection(CommandContext context, bool protectEnabled)
     {
         logger.LogTrace("UseLinkProtectionMember(protectEnabled={protectEnabled})", protectEnabled);
 
@@ -408,7 +408,7 @@ public class ServerCommands(
             .WithDescription(
                 $"Lobby Link protection is now {(protectEnabled ? "enabled" : "disabled")}.\n" +
                 $"When protection is enabled, only users who are connected to this server can use the lobby links.\n" +
-                "To make full use of protection, it is recommended to hide the server connect link using `/server showconnect true`, and display it in a channel where only verified members can see it instead.");
+                "To make full use of protection, it is recommended to hide the server connect link using `/server showconnect false`, and display it in a channel where only verified members can see it instead.");
 
         await context.RespondAsync(embed);
     }
