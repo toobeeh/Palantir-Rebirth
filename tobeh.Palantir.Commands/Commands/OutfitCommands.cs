@@ -166,9 +166,10 @@ public class OutfitCommands(
             .WithPalantirPresets(context)
             .WithAuthor("Viewing your current outfit")
             .WithTitle("Outfit Preview")
-            .WithDescription($"You can save this outfit with `/outfit save <name>`. \n" +
-                             $"**Combo:**\n{(combo.Length == 0 ? "Empty" : combo)}\n_ _\n" +
-                             $"**Scene:**\n{(scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name} {(theme is not null ? $"(Theme: {theme.Name})" : "")}")}");
+            .AddField("Combo", $"{(combo.Length == 0 ? "Empty" : combo)}")
+            .AddField("Scene",
+                $"{(scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name} {(theme is not null ? $"(Theme: {theme.Name})" : "")}")}")
+            .WithDescription($"You can save this outfit with `/outfit save <name>`.");
 
         var colorMaps = spriteInv
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
@@ -341,11 +342,12 @@ public class OutfitCommands(
             .WithPalantirPresets(context)
             .WithAuthor("Viewing an user outfit")
             .WithTitle(name)
+            .AddField("Combo", $"{(combo.Length == 0 ? "Empty" : combo)}")
+            .AddField("Scene",
+                $"{(scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name} {(theme is not null ? $"(Theme: {theme.Name})" : "")}")}")
             .WithDescription($"You can use this outfit with `/outfit use {name}`. \n" +
                              $"To update it to your current style, use `/outfit save {name}`.\n" +
-                             $"To delete the outfit, use `/outfit delete {name}`.\n_ _\n" +
-                             $"**Combo:**\n{(combo.Length == 0 ? "Empty" : combo)}\n_ _\n" +
-                             $"**Scene:**\n{(scene is null ? "None" : $"{scene.Id.AsTypoId()} {scene.Name} {(theme is not null ? $"(Theme: {theme.Name})" : "")}")}");
+                             $"To delete the outfit, use `/outfit delete {name}`.");
 
         var colorMaps = outfit.SpriteSlotConfiguration
             .Where(spt => spt.ColorShift != null && spt.Slot > 0)
