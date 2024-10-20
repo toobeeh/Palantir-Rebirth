@@ -284,7 +284,7 @@ public class MiscCommands(
             for (var i = 0; i < days.Count; i++)
             {
                 var day = days[i];
-                var position = 1 + Convert.ToInt16((start - day.Bubbles) / bubblesPerSpace);
+                var position = 1 + Convert.ToInt16((day.Bubbles - start) / bubblesPerSpace);
                 graph += $"{day.Date:d} {new string('█', position)}";
 
                 if (i == 0 || i == days.Count - 1)
