@@ -9,5 +9,7 @@ public static class GuildOptionsExtension
            && options.ChannelId == other.ChannelId
            && options.Name == other.Name
            && options.BotName == other.BotName
+           && options.ShowInvite == other.ShowInvite
+           && options.ProxyLinks == other.ProxyLinks
            && options.Prefix == other.Prefix;
 }
