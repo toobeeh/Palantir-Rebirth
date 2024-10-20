@@ -270,7 +270,7 @@ public class MiscCommands(
             }
 
             var bubblesPerSpace = diff / width;
-            var dayDiff = (statStart - DateTimeOffset.UtcNow).TotalDays;
+            var dayDiff = (DateTimeOffset.UtcNow - statStart).TotalDays;
 
             embed.AddField("Total collected:",
                 $"{diff} Bubbles ({Math.Abs(TimeSpan.FromSeconds(diff * 10).TotalHours):0.##}h)\n");
