@@ -19,7 +19,7 @@ namespace tobeh.Palantir.Commands.XmlDoc
         /// <param name="context"></param>
         /// <param name="command">A command name</param>
         /// <returns></returns>
-        [Command("help"), TextAlias("hp")]
+        [Command("help"), TextAlias("hp", "manual", "man")]
         public static ValueTask ShowHelp(CommandContext context, [RemainingText] string? command = null)
         {
             if (string.IsNullOrWhiteSpace(command))

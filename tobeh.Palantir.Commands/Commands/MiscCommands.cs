@@ -259,7 +259,7 @@ public class MiscCommands(
 
             const int width = 30;
             var start = days.First().Bubbles;
-            var diff = start - days.Last().Bubbles;
+            var diff = days.Last().Bubbles - start;
 
             if (diff <= 0)
             {
