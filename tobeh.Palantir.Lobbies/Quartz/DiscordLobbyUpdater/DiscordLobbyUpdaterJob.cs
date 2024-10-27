@@ -32,16 +32,35 @@ public class DiscordLobbyUpdaterJob(
         if (guildOptions.ChannelId is not null)
         {
             var channel = await client.GetChannelAsync((ulong)guildOptions.ChannelId);
-            var lobbies = await lobbiesClient.GetCurrentLobbies(new Empty()).ToListAsync();
-            var memberLogins = lobbies.SelectMany(lobby => lobby.Players.Select(player => player.Login));
-            var memberDetails = await
-                membersClient.GetMembersByLogin(new GetMembersByLoginMessage { Logins = { memberLogins } })
+
+            var lobbyMembers = await lobbiesClient
+                .GetOnlineLobbyPlayers(new GetOnlinePlayersRequest { GuildId = guildOptions.GuildId }).ToListAsync();
+            var lobbies = await lobbiesClient.GetLobbiesById(new GetLobbiesByIdRequest
+                { LobbyIds = { lobbyMembers.Select(lobby => lobby.LobbyId) } }).ToListAsync();
+
+            var legacyLobbies = await lobbiesClient.GetCurrentLobbies(new Empty()).ToListAsync();
+            var legacyMemberLogins = legacyLobbies.SelectMany(lobby => lobby.Players.Select(player => player.Login));
+
+            var legacyMemberDetails = await
+                membersClient.GetMembersByLogin(new GetMembersByLoginMessage { Logins = { legacyMemberLogins } })
                     .ToListAsync();
 
-            // repalce links if proxy enabled
+            // replace links if proxy enabled
+            var proxyLinks = new Dictionary<string, string>();
             if (guildOptions.ProxyLinks)
             {
                 foreach (var lobby in lobbies)
+                {
+                    var encryptedLink = await lobbiesClient.EncryptLobbyLinkTokenAsync(new PlainLobbyLinkMessage
+                    {
+                        Link = $"https://skribbl.io?{lobby.SkribblState.LobbyId}",
+                        GuildId = guildAssignment.GuildOptions.GuildId
+                    });
+                    proxyLinks[lobby.SkribblState.LobbyId] =
+                        $"https://www.typo.rip/join?token={Uri.EscapeDataString(encryptedLink.Token)}";
+                }
+
+                foreach (var lobby in legacyLobbies)
                 {
                     var encryptedLink = await lobbiesClient.EncryptLobbyLinkTokenAsync(new PlainLobbyLinkMessage
                     {
@@ -65,11 +84,15 @@ public class DiscordLobbyUpdaterJob(
 
             var header =
                 LobbyMessageUtil.BuildHeader(guildOptions.ShowInvite ? guildOptions.Invite : null, activeEvent);
-            var lobbiesContent =
-                LobbyMessageUtil.BuildLobbies(lobbies, memberDetails, guildOptions.GuildId, guildOptions.Invite);
+            var lobbyContent = LobbyMessageUtil.BuildLobbies(lobbies, lobbyMembers, proxyLinks, guildOptions.GuildId);
+
+            var legacyLobbyContent =
+                LobbyMessageUtil.BuildLegacyLobbies(legacyLobbies, legacyMemberDetails, guildOptions.GuildId,
+                    guildOptions.Invite);
             var availableMessages = await LobbyMessageUtil.GetMessageCandidatesInChannel(
                 channel, client.CurrentUser.Id);
-            var splits = LobbyMessageUtil.SplitContentToMessages(availableMessages, header, lobbiesContent);
+            var splits = LobbyMessageUtil.SplitContentToMessages(availableMessages, header,
+                legacyLobbyContent.Concat(lobbyContent).ToList());
 
             await SendMessageSplits(splits, channel);
 

@@ -222,7 +222,7 @@ public class ServerCommands(
         var currentOptions = serverHomeContext.Server;
         var member = memberContext.Member;
 
-        if (member.ServerConnections.Contains(currentOptions.Invite))
+        if (member.ServerConnections.Contains(currentOptions.GuildId))
         {
             await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                 "Already Connected",
@@ -255,7 +255,7 @@ public class ServerCommands(
         var currentOptions = serverHomeContext.Server;
         var member = memberContext.Member;
 
-        if (!member.ServerConnections.Contains(currentOptions.Invite))
+        if (!member.ServerConnections.Contains(currentOptions.GuildId))
         {
             await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                 "Not Connected",
