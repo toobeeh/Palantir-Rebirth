@@ -157,7 +157,7 @@ public class PatronCommands(
                 var invite =
                     $"https://discord.com/oauth2/authorize?client_id={instance.BotId}&scope=bot&permissions=604310528";
 
-                var cconfirmation = new DiscordEmbedBuilder()
+                var confirmation = new DiscordEmbedBuilder()
                     .WithPalantirPresets(context)
                     .WithAuthor("Thanks for supporting typo <3")
                     .WithTitle($"You are now supporting this server!")
@@ -166,9 +166,8 @@ public class PatronCommands(
                         $"A server admin can now {"add the lobby bot to the server".AsTypoLink(invite, "✨")}. \n\n" +
                         $"To set up the all features of a typo server home, have a look at {"this article".AsTypoLink("https://www.typo.rip/help/lobby-bot", "📑")}.");
 
-                await result.Result.Interaction.CreateResponseAsync(
-                    DiscordInteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
-                        .AddEmbed(cconfirmation.Build()));
+                await result.Result.Interaction.CreateFollowupMessageAsync(new DiscordFollowupMessageBuilder()
+                    .AddEmbed(confirmation.Build()));
 
                 return false;
             },
