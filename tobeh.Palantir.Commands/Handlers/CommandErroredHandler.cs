@@ -110,6 +110,13 @@ public static class CommandErroredHandler
                 break;
         }
 
-        await args.Context.RespondAsync(embedBuilder.Build());
+        try
+        {
+            await args.Context.RespondAsync(embedBuilder.Build());
+        }
+        catch (InvalidOperationException e)
+        {
+            await args.Context.FollowupAsync(embedBuilder.Build());
+        }
     }
 }

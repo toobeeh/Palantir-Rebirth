@@ -166,16 +166,18 @@ public class PatronCommands(
                         $"A server admin can now {"add the lobby bot to the server".AsTypoLink(invite, "✨")}. \n\n" +
                         $"To set up the all features of a typo server home, have a look at {"this article".AsTypoLink("https://www.typo.rip/help/lobby-bot", "📑")}.");
 
-                await result.Result.Interaction.CreateFollowupMessageAsync(new DiscordFollowupMessageBuilder()
-                    .AddEmbed(confirmation.Build()));
+                await result.Result.Interaction.CreateResponseAsync(
+                    DiscordInteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
+                        .AddEmbed(confirmation.Build()));
 
-                return false;
+                return true;
             },
             false
         );
 
-        await context.Client.ServiceProvider.GetRequiredService<InteractivityExtension>()
+        var result = await context.Client.ServiceProvider.GetRequiredService<InteractivityExtension>()
             .HandleNextInteraction([buttonHandler]);
+
         hintMessage.ClearComponents();
         hintMessage.AddComponents(new DiscordButtonComponent(DiscordButtonStyle.Success, "select",
             "Support this server", true, new DiscordComponentEmoji("✨")));
