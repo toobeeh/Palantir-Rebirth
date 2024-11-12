@@ -61,7 +61,11 @@ public static class AddPalantirPublicExtension
                 }
 
                 // add command error handler
-                extension.CommandErrored += CommandErroredHandler.OnCommandErrored;
+                extension.CommandErrored += async (ext, args) =>
+                {
+                    await CommandErroredHandler.OnCommandErrored(ext, args);
+                    throw args.Exception;
+                };
 
                 // add checks
                 extension.AddCheck<RequirePalantirMemberCheck>();
