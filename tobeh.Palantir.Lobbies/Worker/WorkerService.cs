@@ -116,7 +116,8 @@ public class WorkerService(
         }
         catch (Exception e)
         {
-            throw new ApplicationException($"Failed to get guild options for instance {instance.InstanceDetails.Id}");
+            throw new ApplicationException(
+                $"Failed to get guild options for instance {instance.InstanceDetails.Id}:\n{e.Message}");
         }
 
         // get discord client, create if not exists or settings changed
