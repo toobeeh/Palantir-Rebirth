@@ -306,6 +306,7 @@ public class LobbyMessageUtil
                     ? ""
                     : lobby.LobbyState.TypoSettings.Description;
                 description = Formatter.Sanitize(description.Substring(0, Math.Min(150, description.Length)))
+                    .Replace("`", "")
                     .Replace("\n", " ~ ");
 
                 return
