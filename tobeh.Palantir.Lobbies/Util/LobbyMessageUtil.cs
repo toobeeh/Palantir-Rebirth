@@ -302,12 +302,16 @@ public class LobbyMessageUtil
                     } {Formatter.Sanitize(p.Name)} {(lobby.LobbyState.SkribblState.DrawerId == p.PlayerId ? "`🖌️`" : "")}")
                     .ToList();
 
+                var description = !string.IsNullOrWhiteSpace(lobby.LobbyState.TypoSettings.Description)
+                    ? ""
+                    : lobby.LobbyState.TypoSettings.Description;
+                description = Formatter.Sanitize(description.Substring(0, Math.Min(150, description.Length)))
+                    .Replace("\n", " ~ ");
+
                 return
                     $">   **#{index + 1}**  {lobbyEmote}     {Formatter.Sanitize(lobby.LobbyState.SkribblState.Settings.Language)}     **|**     Round {lobby.LobbyState.SkribblState.Round} / {lobby.LobbyState.SkribblState.Settings.Rounds}     **|**     " +
                     $"{(lobby.LobbyState.SkribblState.OwnerId is not null ? "Custom" : "Public")}     **|**     {lobby.LobbyState.SkribblState.Players.Count} / {lobby.LobbyState.SkribblState.Settings.Players} Players     **|**     Since {Formatter.Timestamp(lobby.LobbyState.TypoSettings.FirstSeen.ToDateTimeOffset())}\n" +
-                    (!string.IsNullOrWhiteSpace(lobby.LobbyState.TypoSettings.Description)
-                        ? $"> `{Formatter.Sanitize(lobby.LobbyState.TypoSettings.Description)[..150].Replace("\n", " ~ ")}`\n"
-                        : "") +
+                    description +
                     $"> {(lobbyClosedReason is null ? $"[Join Lobby](<{lobby.LobbyLink}>)" : $"`{lobbyClosedReason}`")}\n" +
                     (palantirPlayers.Count > 0 ? $"```fix\n{string.Join("\n", palantirPlayers)}```" : "") +
                     $" {string.Join(", ", skribblPlayers)} ";
