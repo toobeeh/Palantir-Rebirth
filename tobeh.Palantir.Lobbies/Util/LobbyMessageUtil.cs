@@ -219,14 +219,14 @@ public class LobbyMessageUtil
                     } {Formatter.Sanitize(p.Name)} {(p.Drawing ? "`🖌️`" : "")}").ToList();
 
                 return
-                    $">   **#{index + 1}**  {lobbyEmote}     {Formatter.Sanitize(lobby.SkribblDetails.Language)}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
+                    $">   **#{index + 1}**  {lobbyEmote}     {lobby.SkribblDetails.Language}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
                     $"{(lobby.SkribblDetails.Private ? "Private" : "Public")}     **|**     {lobby.SkribblDetails.Players.Count} Players\n" +
-                    (!string.IsNullOrWhiteSpace(Formatter.Sanitize(lobby.PalantirDetails.Description))
+                    (!string.IsNullOrWhiteSpace(lobby.PalantirDetails.Description)
                         ? $"> `{lobby.PalantirDetails.Description.Replace("\n", "  ")}`\n"
                         : "") +
                     $"> {link}\n" +
                     (palantirPlayers.Count > 0 ? $"```fix\n{string.Join("\n", palantirPlayers)}```" : "") +
-                    $" {Formatter.Sanitize(string.Join(", ", skribblPlayers))} ";
+                    $" {string.Join(", ", skribblPlayers)} ";
             }).ToList();
     }
 
@@ -303,10 +303,10 @@ public class LobbyMessageUtil
                     .ToList();
 
                 return
-                    $">   **#{index + 1}**  {lobbyEmote}     {lobby.LobbyState.SkribblState.Settings.Language}     **|**     Round {lobby.LobbyState.SkribblState.Round} / {lobby.LobbyState.SkribblState.Settings.Rounds}     **|**     " +
+                    $">   **#{index + 1}**  {lobbyEmote}     {Formatter.Sanitize(lobby.LobbyState.SkribblState.Settings.Language)}     **|**     Round {lobby.LobbyState.SkribblState.Round} / {lobby.LobbyState.SkribblState.Settings.Rounds}     **|**     " +
                     $"{(lobby.LobbyState.SkribblState.OwnerId is not null ? "Custom" : "Public")}     **|**     {lobby.LobbyState.SkribblState.Players.Count} / {lobby.LobbyState.SkribblState.Settings.Players} Players     **|**     Since {Formatter.Timestamp(lobby.LobbyState.TypoSettings.FirstSeen.ToDateTimeOffset())}\n" +
                     (!string.IsNullOrWhiteSpace(lobby.LobbyState.TypoSettings.Description)
-                        ? $"> `{lobby.LobbyState.TypoSettings.Description.Replace("\n", " ~ ")}`\n"
+                        ? $"> `{Formatter.Sanitize(lobby.LobbyState.TypoSettings.Description).Replace("\n", " ~ ")}`\n"
                         : "") +
                     $"> {(lobbyClosedReason is null ? $"[Join Lobby](<{lobby.LobbyLink}>)" : $"`{lobbyClosedReason}`")}\n" +
                     (palantirPlayers.Count > 0 ? $"```fix\n{string.Join("\n", palantirPlayers)}```" : "") +
