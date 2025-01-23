@@ -306,7 +306,7 @@ public class LobbyMessageUtil
                     $">   **#{index + 1}**  {lobbyEmote}     {Formatter.Sanitize(lobby.LobbyState.SkribblState.Settings.Language)}     **|**     Round {lobby.LobbyState.SkribblState.Round} / {lobby.LobbyState.SkribblState.Settings.Rounds}     **|**     " +
                     $"{(lobby.LobbyState.SkribblState.OwnerId is not null ? "Custom" : "Public")}     **|**     {lobby.LobbyState.SkribblState.Players.Count} / {lobby.LobbyState.SkribblState.Settings.Players} Players     **|**     Since {Formatter.Timestamp(lobby.LobbyState.TypoSettings.FirstSeen.ToDateTimeOffset())}\n" +
                     (!string.IsNullOrWhiteSpace(lobby.LobbyState.TypoSettings.Description)
-                        ? $"> `{Formatter.Sanitize(lobby.LobbyState.TypoSettings.Description).Replace("\n", " ~ ")}`\n"
+                        ? $"> `{Formatter.Sanitize(lobby.LobbyState.TypoSettings.Description)[..150].Replace("\n", " ~ ")}`\n"
                         : "") +
                     $"> {(lobbyClosedReason is null ? $"[Join Lobby](<{lobby.LobbyLink}>)" : $"`{lobbyClosedReason}`")}\n" +
                     (palantirPlayers.Count > 0 ? $"```fix\n{string.Join("\n", palantirPlayers)}```" : "") +
