@@ -302,7 +302,7 @@ public class LobbyMessageUtil
                     } {Formatter.Sanitize(p.Name)} {(lobby.LobbyState.SkribblState.DrawerId == p.PlayerId ? "`🖌️`" : "")}")
                     .ToList();
 
-                var description = !string.IsNullOrWhiteSpace(lobby.LobbyState.TypoSettings.Description)
+                var description = string.IsNullOrWhiteSpace(lobby.LobbyState.TypoSettings.Description)
                     ? ""
                     : lobby.LobbyState.TypoSettings.Description;
                 description = Formatter.Sanitize(description.Substring(0, Math.Min(150, description.Length)))
