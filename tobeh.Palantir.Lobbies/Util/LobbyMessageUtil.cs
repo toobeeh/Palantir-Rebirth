@@ -219,14 +219,14 @@ public class LobbyMessageUtil
                     } {Formatter.Sanitize(p.Name)} {(p.Drawing ? "`🖌️`" : "")}").ToList();
 
                 return
-                    $">   **#{index + 1}**  {lobbyEmote}     {lobby.SkribblDetails.Language}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
+                    $">   **#{index + 1}**  {lobbyEmote}     {Formatter.Sanitize(lobby.SkribblDetails.Language)}     **|**     Round {lobby.SkribblDetails.Round}     **|**     " +
                     $"{(lobby.SkribblDetails.Private ? "Private" : "Public")}     **|**     {lobby.SkribblDetails.Players.Count} Players\n" +
-                    (!string.IsNullOrWhiteSpace(lobby.PalantirDetails.Description)
+                    (!string.IsNullOrWhiteSpace(Formatter.Sanitize(lobby.PalantirDetails.Description))
                         ? $"> `{lobby.PalantirDetails.Description.Replace("\n", "  ")}`\n"
                         : "") +
                     $"> {link}\n" +
                     (palantirPlayers.Count > 0 ? $"```fix\n{string.Join("\n", palantirPlayers)}```" : "") +
-                    $" {string.Join(", ", skribblPlayers)} ";
+                    $" {Formatter.Sanitize(string.Join(", ", skribblPlayers))} ";
             }).ToList();
     }
 
