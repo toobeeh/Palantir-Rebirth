@@ -311,7 +311,7 @@ public class LobbyMessageUtil
                 return
                     $">   **#{index + 1}**  {lobbyEmote}     {Formatter.Sanitize(lobby.LobbyState.SkribblState.Settings.Language)}     **|**     Round {lobby.LobbyState.SkribblState.Round} / {lobby.LobbyState.SkribblState.Settings.Rounds}     **|**     " +
                     $"{(lobby.LobbyState.SkribblState.OwnerId is not null ? "Custom" : "Public")}     **|**     {lobby.LobbyState.SkribblState.Players.Count} / {lobby.LobbyState.SkribblState.Settings.Players} Players     **|**     Since {Formatter.Timestamp(lobby.LobbyState.TypoSettings.FirstSeen.ToDateTimeOffset())}\n" +
-                    $"> `{description}` \n" +
+                    (description.Length > 0 ? $"> `{description}` \n" : "") +
                     $"> {(lobbyClosedReason is null ? $"[Join Lobby](<{lobby.LobbyLink}>)" : $"`{lobbyClosedReason}`")}\n" +
                     (palantirPlayers.Count > 0 ? $"```fix\n{string.Join("\n", palantirPlayers)}```" : "") +
                     $" {string.Join(", ", skribblPlayers)} ";
