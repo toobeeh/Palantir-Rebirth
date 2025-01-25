@@ -27,17 +27,22 @@ public class BubbleUpdaterJob(
         var memberLogins = onlineMembers.Select(member => member.Login).ToList();
         var dropRate = await dropsClient.GetCurrentBoostFactorAsync(new Empty());
 
+        var lobbies = await lobbiesClient.GetOnlineLobbyPlayers(new GetOnlinePlayersRequest()).ToListAsync();
+        var lobbyLogins = lobbies.SelectMany(lobby => lobby.Members.Select(member => member.Login)).ToList();
+
+        var tempMerged = memberLogins.Concat(lobbyLogins).Distinct().ToList();
+
         // set currently playing count
-        await discordApiClient.SetStatus(onlineMembers.Select(member => member.Login).Distinct().Count(),
+        await discordApiClient.SetStatus(tempMerged.Count,
             dropRate.Boost);
 
         // set logins to update in role updater
-        memberLogins.ForEach(member => roleUpdateCollector.MarkLoginForUpdate(member));
+        tempMerged.ForEach(roleUpdateCollector.MarkLoginForUpdate);
 
         // increment member bubbles
         await adminClient.IncrementMemberBubblesAsync(new IncrementMemberBubblesRequest
-            { MemberLogins = { memberLogins } });
-        logger.LogInformation("Added Bubbles for {count} members after {time}ms", memberLogins.Count,
+            { MemberLogins = { tempMerged } });
+        logger.LogInformation("Added Bubbles for {count} members after {time}ms", tempMerged.Count,
             sw.ElapsedMilliseconds);
     }
 }
