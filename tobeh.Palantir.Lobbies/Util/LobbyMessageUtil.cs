@@ -273,14 +273,14 @@ public class LobbyMessageUtil
                 if (lobby.LobbyState.TypoSettings.Description.StartsWith("#nojoin"))
                 {
                     lobbyClosedReason =
-                        "Closed Private Game";
+                        "Closed Game";
                 }
                 else if (lobby.LobbyState.TypoSettings.WhitelistAllowedServers)
                 {
                     if (lobby.LobbyState.TypoSettings.AllowedServers.Count == 0)
-                        lobbyClosedReason = "Restricted Private Game";
+                        lobbyClosedReason = "Lobby joining disabled";
                     else if (!lobby.LobbyState.TypoSettings.AllowedServers.Contains(guildId))
-                        lobbyClosedReason = "Server Restricted Private Game";
+                        lobbyClosedReason = "Lobby joining restricted";
                 }
 
                 var lobbyEmote =
