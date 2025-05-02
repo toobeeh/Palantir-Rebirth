@@ -3,6 +3,7 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using tobeh.Valmar;
+using tobeh.Valmar.Client.Util;
 
 namespace tobeh.Palantir.Core.Quartz.DropScheduler;
 
@@ -45,6 +46,11 @@ public class DropSchedulerJob(
         {
             playerCount++;
         }
+
+        // players of typo v27+ lobbies
+        var lobbies = await lobbiesClient.GetOnlineLobbyPlayers(new GetOnlinePlayersRequest())
+            .ToDictionaryAsync(p => p.LobbyId);
+        playerCount += lobbies.Sum(l => l.Value.Members.Count);
 
         // get current active boost factor
         var boostFactor = await dropsClient.GetCurrentBoostFactorAsync(new Empty());
