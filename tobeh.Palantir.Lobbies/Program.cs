@@ -5,8 +5,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using tobeh.Palantir.Lobbies.Discord;
+using tobeh.Palantir.Lobbies.Quartz.BotStatusUpdater;
 using tobeh.Palantir.Lobbies.Quartz.DiscordLobbyUpdater;
-using tobeh.Palantir.Lobbies.Quartz.LobbyLinksUpdater;
 using tobeh.Palantir.Lobbies.Worker;
 using tobeh.Valmar.Client.Util;
 
@@ -40,7 +40,7 @@ class Program
             .AddScoped<WorkerService>()
             .AddQuartzHostedService()
             .AddQuartz(DiscordLobbyUpdaterConfiguration.Configure)
-            .AddQuartz(LobbyLinksUpdaterConfiguration.Configure)
+            .AddQuartz(BotStatusUpdaterConfiguration.Configure)
             .AddSingleton<DiscordBotHostFactory>()
             .AddLogging(loggingBuilder => loggingBuilder
                 .AddConfiguration(builder.Configuration.GetSection("Logging"))

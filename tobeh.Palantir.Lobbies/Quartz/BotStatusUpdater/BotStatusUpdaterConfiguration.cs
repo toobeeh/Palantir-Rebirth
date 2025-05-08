@@ -1,14 +1,14 @@
 using Quartz;
 
-namespace tobeh.Palantir.Lobbies.Quartz.LobbyLinksUpdater;
+namespace tobeh.Palantir.Lobbies.Quartz.BotStatusUpdater;
 
-public static class LobbyLinksUpdaterConfiguration
+public static class BotStatusUpdaterConfiguration
 {
     public static void Configure(IServiceCollectionQuartzConfigurator configurator)
     {
-        var jobId = new JobKey($"Lobby Links Updater");
+        var jobId = new JobKey($"Bot Status Updater");
 
-        configurator.AddJob<LobbyLinksUpdaterJob>(job => job
+        configurator.AddJob<BotStatusUpdaterJob>(job => job
             .WithIdentity(jobId));
 
         configurator.AddTrigger(trigger => trigger

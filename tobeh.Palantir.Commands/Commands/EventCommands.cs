@@ -148,7 +148,6 @@ public class EventCommands(
                       $"This drop will release on {Formatter.Timestamp(group.Drop.ReleaseStart.ToDateTimeOffset(), TimestampFormat.LongDate)}.\nStay tuned!"
             }).ToList();
 
-
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
             .WithAuthor("Viewing your event progress")
