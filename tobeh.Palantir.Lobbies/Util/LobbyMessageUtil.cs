@@ -59,7 +59,7 @@ public class LobbyMessageUtil
 
         await foreach (var message in messages)
         {
-            candidates.Insert(0, message);
+            if (message.Author?.Id == authorId) candidates.Insert(0, message);
         }
 
         if (candidates.Count == limit)
