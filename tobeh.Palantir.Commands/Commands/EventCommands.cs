@@ -280,7 +280,15 @@ public class EventCommands(
                     $"{credits[drop.Id].AvailableCredit} drops available", selectedDrop?.Id == drop.Id))
                 .ToList();
 
+            var maxEventId = events.Keys.Max();
+            var upperBound = selectedEvent.Id < 11 ? 21 : Math.Min(selectedEvent.Id + 10, maxEventId);
+            var lowerBound = (maxEventId - selectedEvent.Id < 21)
+                ? maxEventId - 21
+                : Math.Max(selectedEvent.Id - 10, 1);
+
             var eventOptions = events.Values.OrderByDescending(selectEvent => selectEvent.Id)
+                // filter 20 nearest ids
+                .Where(evt => evt.Id >= lowerBound && evt.Id <= upperBound)
                 .Select(evt =>
                     new DiscordSelectComponentOption(evt.Name + " Event", evt.Id.ToString(), $" ",
                         evt.Id == selectedEvent.Id))
