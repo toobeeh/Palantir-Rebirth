@@ -223,6 +223,7 @@ public class EventCommands(
             return;
         }
 
+        await context.DeferResponseAsync();
         var events = await eventsClient.GetAllEvents(new Empty()).ToDictionaryAsync(e => e.Id);
         var selectedEvent = events.MaxBy(kv => kv.Key).Value;
         var credits = await inventoryClient
