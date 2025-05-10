@@ -34,7 +34,7 @@ public static class PalantirPaginationExtension
 
             return new DiscordMessageBuilder()
                 .AddEmbed(pages[page].Build())
-                .AddComponents(prevBtn, infoBtn, nextBtn);
+                .AddActionRowComponent([prevBtn, infoBtn, nextBtn]);
         }
 
         // send first page as response

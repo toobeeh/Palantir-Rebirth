@@ -1,5 +1,4 @@
 using System.Text;
-using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Commands.EventArgs;
@@ -65,19 +64,19 @@ public static class CommandErroredHandler
                     StringBuilder builder = new();
                     if (commonPermissions != default)
                     {
-                        builder.AppendLine(commonPermissions.ToPermissionString());
+                        builder.AppendLine(commonPermissions.ToString("name"));
                     }
 
                     if (botUniquePermissions != default)
                     {
                         builder.Append("**Bot:** ");
-                        builder.AppendLine((permissions.BotPermissions ^ commonPermissions).ToPermissionString());
+                        builder.AppendLine((permissions.BotPermissions ^ commonPermissions).ToString("name"));
                     }
 
                     if (userUniquePermissions != default)
                     {
                         builder.Append("**User:** ");
-                        builder.AppendLine(permissions.UserPermissions.ToPermissionString());
+                        builder.AppendLine(permissions.UserPermissions.ToString("name"));
                     }
 
                     embedBuilder.WithTitle($"You or the bot don't have the required permissions.");

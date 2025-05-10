@@ -29,7 +29,7 @@ public class WebhookCommands(
     /// <param name="name">The name of the image post channel - can be anything</param>
     /// <param name="channel">The channel where the images will be posted</param>
     [Command("add"), RequireGuild, RequireServerHome,
-     RequirePermissions(DiscordPermissions.ManageWebhooks, DiscordPermissions.Administrator)]
+     RequirePermissions([DiscordPermission.ManageWebhooks], [DiscordPermission.Administrator])]
     public async Task AddWebhook(CommandContext context, DiscordChannel channel, [RemainingText] string name)
     {
         logger.LogTrace("AddWebhook(name={name}, channel={channel})", name, channel);
@@ -59,7 +59,7 @@ public class WebhookCommands(
     /// <param name="context"></param>
     /// <param name="name">The name of the image post channel</param>
     [Command("remove"), TextAlias("rm"), RequireGuild, RequireServerHome,
-     RequirePermissions(DiscordPermissions.ManageWebhooks, DiscordPermissions.Administrator)]
+     RequirePermissions([DiscordPermission.ManageWebhooks], [DiscordPermission.Administrator])]
     public async Task RemoveWebhook(CommandContext context, [RemainingText] string name)
     {
         logger.LogTrace("RemoveWebhook(name={name})", name);
@@ -99,7 +99,7 @@ public class WebhookCommands(
     /// </summary>
     /// <param name="context"></param>
     [Command("list"), TextAlias("ls"), RequireGuild, RequireServerHome,
-     RequirePermissions(DiscordPermissions.ManageWebhooks, DiscordPermissions.Administrator)]
+     RequirePermissions([DiscordPermission.ManageWebhooks], [DiscordPermission.Administrator])]
     public async Task ListWebhooks(CommandContext context)
     {
         logger.LogTrace("ListWebhooks()");

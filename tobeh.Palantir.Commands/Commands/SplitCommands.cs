@@ -343,10 +343,10 @@ public class SplitCommands(
                 availableSplits.AvailableSplits + " Splits selected)", disable);
 
             messageBuilder
-                .AddComponents(minusFactor, labelFactor, plusFactor)
-                .AddComponents(minusDur, labelDur, plusDur)
-                .AddComponents(minusCool, labelCool, plusCool)
-                .AddComponents(start);
+                .AddActionRowComponent([minusFactor, labelFactor, plusFactor])
+                .AddActionRowComponent([minusDur, labelDur, plusDur])
+                .AddActionRowComponent([minusCool, labelCool, plusCool])
+                .AddActionRowComponent([start]);
         }
 
         UpdateComponents($"{(boostModify is null ? "Start" : "Upgrade")} Dropboost", false);

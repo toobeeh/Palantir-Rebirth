@@ -31,7 +31,7 @@ public class ServerCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="prefix">The new prefix for text commands on this server</param>
-    [Command("prefix"), TextAlias("pf"), RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    [Command("prefix"), TextAlias("pf"), RequirePermissions([], [DiscordPermission.Administrator])]
     public async Task SetPrefix(CommandContext context, string prefix)
     {
         logger.LogTrace("SetPrefix(prefix={prefix})", prefix);
@@ -63,7 +63,7 @@ public class ServerCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="name">The new name for the LObby Bot. Empty to use the default name.</param>
-    [Command("botname"), TextAlias("bn"), RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    [Command("botname"), TextAlias("bn"), RequirePermissions([], [DiscordPermission.Administrator])]
     public async Task SetBotName(CommandContext context, string? name = null)
     {
         logger.LogTrace("SetBotName(name={name})", name);
@@ -96,7 +96,7 @@ public class ServerCommands(
     /// </summary>
     /// <param name="context"></param>
     /// <param name="channel">The channel where the bot will list lobbies. Leave empty to stop the lobby updates.</param>
-    [Command("lobbies"), TextAlias("ch"), RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+    [Command("lobbies"), TextAlias("ch"), RequirePermissions([], [DiscordPermission.Administrator])]
     public async Task SetLobbyChannel(CommandContext context, DiscordChannel? channel = null)
     {
         logger.LogTrace("SetLobbyChannel(channel={channel})", channel);
@@ -310,7 +310,7 @@ public class ServerCommands(
     /// <param name="userId">The discord ID of the user to ban</param>
     /// <param name="context"></param>
     [Command("ban"), RequirePalantirMember,
-     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+     RequirePermissions([], [DiscordPermission.Administrator])]
     public async Task BanMember(CommandContext context, long userId)
     {
         logger.LogTrace("BanMember(userId={userId})", userId);
@@ -350,7 +350,7 @@ public class ServerCommands(
     /// <param name="context"></param>
     /// <param name="userId">The discord ID of the user to unban</param>
     [Command("unban"), RequirePalantirMember,
-     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+     RequirePermissions([], [DiscordPermission.Administrator])]
     public async Task UnbanMember(CommandContext context, long userId)
     {
         logger.LogTrace("UnbanMember(userId={userId})", userId);
@@ -391,7 +391,7 @@ public class ServerCommands(
     /// <param name="context"></param>
     /// <param name="protectEnabled">Whether to enable lobby link protection</param>
     [Command("useprotection"), TextAlias("up"), RequirePalantirMember,
-     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+     RequirePermissions([], [DiscordPermission.Administrator])]
     public async Task UseLinkProtection(CommandContext context, bool protectEnabled)
     {
         logger.LogTrace("UseLinkProtectionMember(protectEnabled={protectEnabled})", protectEnabled);
@@ -419,7 +419,7 @@ public class ServerCommands(
     /// <param name="context"></param>
     /// <param name="showConnect">Whether to enable server connection link in the lobby message</param>
     [Command("showconnect"), TextAlias("sc"), RequirePalantirMember,
-     RequirePermissions(DiscordPermissions.None, DiscordPermissions.Administrator)]
+     RequirePermissions([], [DiscordPermission.Administrator])]
     public async Task ShowInviteLink(CommandContext context, bool showConnect)
     {
         logger.LogTrace("UseLinkProtectionMember(showConnect={showConnect})", showConnect);

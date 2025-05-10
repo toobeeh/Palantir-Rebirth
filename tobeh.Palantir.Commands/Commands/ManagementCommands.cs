@@ -87,8 +87,8 @@ public class ManagementCommands(
                 },
                 disable || flagNotAllowed);
 
-            msg.AddComponents(flagSelect);
-            msg.AddComponents(flagStateSelect);
+            msg.AddActionRowComponent(flagSelect);
+            msg.AddActionRowComponent(flagStateSelect);
             return msg;
         }
 

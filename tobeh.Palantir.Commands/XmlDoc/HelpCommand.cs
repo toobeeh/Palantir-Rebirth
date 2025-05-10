@@ -116,19 +116,19 @@ namespace tobeh.Palantir.Commands.XmlDoc
                     StringBuilder builder = new();
                     if (commonPermissions != default)
                     {
-                        builder.AppendLine(commonPermissions.ToPermissionString());
+                        builder.AppendLine(commonPermissions.ToString("name"));
                     }
 
                     if (botUniquePermissions != default)
                     {
                         builder.Append("**Bot**: ");
-                        builder.AppendLine((permissions.BotPermissions ^ commonPermissions).ToPermissionString());
+                        builder.AppendLine((permissions.BotPermissions ^ commonPermissions).ToString("name"));
                     }
 
                     if (userUniquePermissions != default)
                     {
                         builder.Append("**User**: ");
-                        builder.AppendLine(permissions.UserPermissions.ToPermissionString());
+                        builder.AppendLine(permissions.UserPermissions.ToString("name"));
                     }
 
                     embed.AddField("Required Permissions", builder.ToString());

@@ -310,10 +310,10 @@ public class EventCommands(
             message.AddEmbed(embed);
 
             message.ClearComponents();
-            message.AddComponents(eventSelect)
-                .AddComponents(dropSelect)
-                .AddComponents(amountSelect)
-                .AddComponents(confirm);
+            message.AddActionRowComponent(eventSelect)
+                .AddActionRowComponent(dropSelect)
+                .AddActionRowComponent(amountSelect)
+                .AddActionRowComponent([confirm]);
 
             return message;
         }

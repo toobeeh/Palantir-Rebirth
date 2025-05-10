@@ -135,7 +135,7 @@ public class AwardCommands(
         var message = new DiscordMessageBuilder().AddEmbed(embed);
         var openBtn = new DiscordButtonComponent(DiscordButtonStyle.Primary, "open", "Open Award Pack", false,
             new DiscordComponentEmoji("✨"));
-        message.AddComponents(openBtn);
+        message.AddActionRowComponent([openBtn]);
 
         await context.RespondAsync(message);
         var sent = await context.GetResponseAsync();

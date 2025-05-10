@@ -138,8 +138,10 @@ public class PatronCommands(
                     $"When you do that, the server can set up a typo home server - you can learn more about that in {"this article".AsTypoLink("https://www.typo.rip/help/lobby-bot", "📑")}.\n\n" +
                     $"If you should change your mind later, you can select another server after seven days.")
             )
-            .AddComponents(new DiscordButtonComponent(DiscordButtonStyle.Success, "select", "Support this server",
-                false, new DiscordComponentEmoji("✨")));
+            .AddActionRowComponent([
+                new DiscordButtonComponent(DiscordButtonStyle.Success, "select", "Support this server",
+                    false, new DiscordComponentEmoji("✨"))
+            ]);
 
         await context.RespondAsync(hintMessage);
         var response = await context.GetResponseAsync() ?? throw new Exception("Could not retrieve response");
@@ -179,8 +181,10 @@ public class PatronCommands(
             .HandleNextInteraction([buttonHandler]);
 
         hintMessage.ClearComponents();
-        hintMessage.AddComponents(new DiscordButtonComponent(DiscordButtonStyle.Success, "select",
-            "Support this server", true, new DiscordComponentEmoji("✨")));
+        hintMessage.AddActionRowComponent([
+            new DiscordButtonComponent(DiscordButtonStyle.Success, "select",
+                "Support this server", true, new DiscordComponentEmoji("✨"))
+        ]);
 
         await response.ModifyAsync(hintMessage);
     }

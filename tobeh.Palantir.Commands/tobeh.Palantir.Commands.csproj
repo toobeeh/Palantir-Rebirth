@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -14,11 +14,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02386"/>
-        <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02386"/>
-        <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02386"/>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.62.0-pre1"/>
-        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.10.0-2.final"/>
+        <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02502"/>
+        <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02502"/>
+        <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02502"/>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.71.0"/>
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0"/>
     </ItemGroup>
 
     <!--toggle between local and nuget imagegen-->
