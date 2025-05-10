@@ -55,21 +55,11 @@ public class LobbyMessageUtil
     {
         const int limit = 10;
         var candidates = new List<DiscordMessage>();
-        var reversedMessages = new List<DiscordMessage>();
         var messages = startMessage is { } id ? channel.GetMessagesBeforeAsync(id) : channel.GetMessagesAsync(limit);
 
         await foreach (var message in messages)
         {
-            reversedMessages.Insert(0, message);
-        }
-
-        foreach (var message in reversedMessages) // reversed messages: new (0) to old
-        {
-            if (message.Author?.Id == authorId)
-            {
-                candidates.Insert(0, message);
-            }
-            else break;
+            candidates.Insert(0, message);
         }
 
         if (candidates.Count == limit)
@@ -106,7 +96,8 @@ public class LobbyMessageUtil
         var messages = splits
             .Select((split, index) => new LobbyMessageSplit(availableMessages.ElementAtOrDefault(index), split))
             .ToList();
-        messages.AddRange(availableMessages.Skip(messages.Count).Select(msg => new LobbyMessageSplit(msg, "_ _")));
+        messages.InsertRange(0,
+            availableMessages.Skip(messages.Count).Select(msg => new LobbyMessageSplit(msg, "_ _")));
 
         return messages;
     }
