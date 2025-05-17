@@ -23,26 +23,22 @@ public class BubbleUpdaterJob(
 
         var sw = new Stopwatch();
         sw.Start();
-        var onlineMembers = await lobbiesClient.GetOnlinePlayers(new Empty()).ToListAsync();
-        var memberLogins = onlineMembers.Select(member => member.Login).ToList();
         var dropRate = await dropsClient.GetCurrentBoostFactorAsync(new Empty());
 
         var lobbies = await lobbiesClient.GetOnlineLobbyPlayers(new GetOnlinePlayersRequest()).ToListAsync();
-        var lobbyLogins = lobbies.SelectMany(lobby => lobby.Members.Select(member => member.Login)).ToList();
-
-        var tempMerged = memberLogins.Concat(lobbyLogins).Distinct().ToList();
+        var lobbyLogins = lobbies.SelectMany(lobby => lobby.Members.Select(member => member.Login)).Distinct().ToList();
 
         // set currently playing count
-        await discordApiClient.SetStatus(tempMerged.Count,
+        await discordApiClient.SetStatus(lobbyLogins.Count,
             dropRate.Boost);
 
         // set logins to update in role updater
-        tempMerged.ForEach(roleUpdateCollector.MarkLoginForUpdate);
+        lobbyLogins.ForEach(roleUpdateCollector.MarkLoginForUpdate);
 
         // increment member bubbles
         await adminClient.IncrementMemberBubblesAsync(new IncrementMemberBubblesRequest
-            { MemberLogins = { tempMerged } });
-        logger.LogInformation("Added Bubbles for {count} members after {time}ms", tempMerged.Count,
+            { MemberLogins = { lobbyLogins } });
+        logger.LogInformation("Added Bubbles for {count} members after {time}ms", lobbyLogins.Count,
             sw.ElapsedMilliseconds);
     }
 }

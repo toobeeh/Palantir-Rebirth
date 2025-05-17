@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using tobeh.Valmar;
@@ -18,7 +17,6 @@ public class OnlineItemsUpdaterJob(
 
         var sw = new Stopwatch();
         sw.Start();
-        var legacyOnlineMembers = await lobbiesClient.GetOnlinePlayers(new Empty()).ToListAsync();
         var lobbies = await lobbiesClient.GetOnlineLobbyPlayers(new GetOnlinePlayersRequest()).ToListAsync();
 
         var memberItems = lobbies.SelectMany<SkribblLobbyTypoMembersMessage, OnlineItemMessage>(lobby =>
@@ -46,80 +44,10 @@ public class OnlineItemsUpdaterJob(
             return [..sprites, ..shifts, ..scenes, ..sceneThemes, ..rewardees];
         }).ToList();
 
-        // get sprite, scene, shift choices (add to onlineMembers data) - write them plus rewardee online items
-        var legacyMemberItems = legacyOnlineMembers.SelectMany(member =>
-        {
-            List<OnlineItemMessage> items = new List<OnlineItemMessage>();
+        await adminClient.SetOnlineItemsAsync(new SetOnlineItemsRequest { Items = { memberItems } });
 
-            foreach (var lobby in member.JoinedLobbies)
-            {
-                // add sprites
-                items.AddRange(member.SpriteSlots
-                    .Select(slot => new OnlineItemMessage
-                    {
-                        ItemType = OnlineItemType.Sprite,
-                        Slot = slot.Slot,
-                        ItemId = slot.SpriteId,
-                        LobbyKey = lobby.Lobby.Key,
-                        LobbyPlayerId = lobby.LobbyPlayerId
-                    }));
-
-                // add sprite shifts
-                items.AddRange(member.SpriteSlots
-                    .Where(slot => slot.ColorShift is not null)
-                    .Select(slot => new OnlineItemMessage
-                    {
-                        ItemType = OnlineItemType.ColorShift,
-                        Slot = slot.Slot,
-                        ItemId = (int)slot.ColorShift!,
-                        LobbyKey = lobby.Lobby.Key,
-                        LobbyPlayerId = lobby.LobbyPlayerId
-                    }));
-
-                // add scene
-                if (member.SceneId is { } sceneValue)
-                {
-                    items.Add(new OnlineItemMessage
-                    {
-                        ItemType = OnlineItemType.Scene,
-                        Slot = 1,
-                        ItemId = sceneValue,
-                        LobbyKey = lobby.Lobby.Key,
-                        LobbyPlayerId = lobby.LobbyPlayerId
-                    });
-
-                    // add scene theme
-                    if (member.SceneShift is { } sceneShiftValue)
-                    {
-                        items.Add(new OnlineItemMessage
-                        {
-                            ItemType = OnlineItemType.SceneTheme,
-                            Slot = sceneValue,
-                            ItemId = sceneShiftValue,
-                            LobbyKey = lobby.Lobby.Key,
-                            LobbyPlayerId = lobby.LobbyPlayerId
-                        });
-                    }
-                }
-
-                // add rewardee
-                items.Add(new OnlineItemMessage
-                {
-                    ItemType = OnlineItemType.Rewardee,
-                    Slot = 1,
-                    ItemId = 1,
-                    LobbyKey = lobby.Lobby.Key,
-                    LobbyPlayerId = lobby.LobbyPlayerId
-                });
-            }
-
-            return items;
-        }).ToList();
-
-        await adminClient.SetOnlineItemsAsync(new SetOnlineItemsRequest { Items = { legacyMemberItems, memberItems } });
-
-        logger.LogInformation("Added {count} items for {memberCount} members after {time}ms", legacyMemberItems.Count,
-            legacyOnlineMembers.Count, sw.ElapsedMilliseconds);
+        logger.LogInformation("Added {count} items for {memberCount} members after {time}ms", memberItems.Count,
+            memberItems.Count, sw.ElapsedMilliseconds);
     }
 
     private static string GenerateLobbyKey(string lobbyId)

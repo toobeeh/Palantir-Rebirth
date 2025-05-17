@@ -40,17 +40,10 @@ public class DropSchedulerJob(
         logger.LogTrace("ScheduleNextDrop()");
 
         // get current player count
-        var playerCount = 0;
-        var onlinePlayersStream = lobbiesClient.GetOnlinePlayers(new Empty()).ResponseStream;
-        while (await onlinePlayersStream.MoveNext())
-        {
-            playerCount++;
-        }
-
-        // players of typo v27+ lobbies
         var lobbies = await lobbiesClient.GetOnlineLobbyPlayers(new GetOnlinePlayersRequest())
             .ToDictionaryAsync(p => p.LobbyId);
-        playerCount += lobbies.Sum(l => l.Value.Members.Count);
+        var playerCount = lobbies.Values.SelectMany(lobby => lobby.Members.Select(member => member.Login)).Distinct()
+            .Count();
 
         // get current active boost factor
         var boostFactor = await dropsClient.GetCurrentBoostFactorAsync(new Empty());
