@@ -162,11 +162,9 @@ public class SplitCommands(
         var boosts = await splitsClient.GetActiveDropboosts(new Empty()).ToListAsync();
         var droprate = await dropsClient.GetCurrentBoostFactorAsync(new Empty());
 
-        var onlinePlayersCount = (await lobbiesClient.GetOnlinePlayers(new Empty()).ToListAsync()).Count;
-        // players of typo v27+ lobbies
         var lobbies = await lobbiesClient.GetOnlineLobbyPlayers(new GetOnlinePlayersRequest())
             .ToDictionaryAsync(p => p.LobbyId);
-        onlinePlayersCount += lobbies.Sum(l => l.Value.Members.Count);
+        var onlinePlayersCount = lobbies.Values.SelectMany(l => l.Members.Select(m => m.Login)).Distinct().Count();
 
         var bounds = await dropsClient.CalculateDropDelayBoundsAsync(new CalculateDelayRequest
         {
