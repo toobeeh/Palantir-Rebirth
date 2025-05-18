@@ -38,13 +38,6 @@ public class DiscordLobbyUpdaterJob(
             var lobbies = await lobbiesClient.GetLobbiesById(new GetLobbiesByIdRequest
                 { LobbyIds = { lobbyMembers.Select(lobby => lobby.LobbyId) } }).ToListAsync();
 
-            var legacyLobbies = await lobbiesClient.GetCurrentLobbies(new Empty()).ToListAsync();
-            var legacyMemberLogins = legacyLobbies.SelectMany(lobby => lobby.Players.Select(player => player.Login));
-
-            var legacyMemberDetails = await
-                membersClient.GetMembersByLogin(new GetMembersByLoginMessage { Logins = { legacyMemberLogins } })
-                    .ToListAsync();
-
             // replace links if proxy enabled
             var proxyLinks = new Dictionary<string, string>();
             if (guildOptions.ProxyLinks)
@@ -57,17 +50,6 @@ public class DiscordLobbyUpdaterJob(
                         GuildId = guildAssignment.GuildOptions.GuildId
                     });
                     proxyLinks[lobby.SkribblState.LobbyId] =
-                        $"https://www.typo.rip/join?token={Uri.EscapeDataString(encryptedLink.Token)}";
-                }
-
-                foreach (var lobby in legacyLobbies)
-                {
-                    var encryptedLink = await lobbiesClient.EncryptLobbyLinkTokenAsync(new PlainLobbyLinkMessage
-                    {
-                        Link = lobby.SkribblDetails.Link,
-                        GuildId = guildAssignment.GuildOptions.GuildId
-                    });
-                    lobby.SkribblDetails.Link =
                         $"https://www.typo.rip/join?token={Uri.EscapeDataString(encryptedLink.Token)}";
                 }
             }
@@ -85,14 +67,9 @@ public class DiscordLobbyUpdaterJob(
             var header =
                 LobbyMessageUtil.BuildHeader(guildOptions.ShowInvite ? guildOptions.Invite : null, activeEvent);
             var lobbyContent = LobbyMessageUtil.BuildLobbies(lobbies, lobbyMembers, proxyLinks, guildOptions.GuildId);
-
-            var legacyLobbyContent =
-                LobbyMessageUtil.BuildLegacyLobbies(legacyLobbies, legacyMemberDetails, guildOptions.GuildId,
-                    guildOptions.Invite);
             var availableMessages = await LobbyMessageUtil.GetMessageCandidatesInChannel(
                 channel, client.CurrentUser.Id);
-            var splits = LobbyMessageUtil.SplitContentToMessages(availableMessages, header,
-                legacyLobbyContent.Concat(lobbyContent).ToList());
+            var splits = LobbyMessageUtil.SplitContentToMessages(availableMessages, header, lobbyContent);
 
             await SendMessageSplits(splits, channel);
 
