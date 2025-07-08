@@ -28,7 +28,11 @@ public class DropSchedulerJob(
 
     private static readonly Counter ScheduledDropTypeCounter = Metrics.CreateCounter(
         "typo_drop_type_counter",
-        "The amount of drops scheduled by event drop id.");
+        "The amount of drops scheduled by event drop id.",
+        new CounterConfiguration
+        {
+            LabelNames = new[] { "event_drop_id" }
+        });
 
     public async Task Execute(IJobExecutionContext context)
     {
