@@ -24,7 +24,7 @@ public class DropSchedulerJob(
 
     private static readonly Gauge DropDelayMaxSecondsGauge = Metrics.CreateGauge(
         "typo_drop_delay_max_seconds",
-        "The min delay in seconds until the next drop is scheduled.");
+        "The max delay in seconds until the next drop is scheduled.");
 
     private static readonly Counter ScheduledDropTypeCounter = Metrics.CreateCounter(
         "typo_drop_type_counter",
@@ -39,12 +39,13 @@ public class DropSchedulerJob(
         {
             delay = await ScheduleNextDrop();
         }
-        catch
+        catch (Exception e)
         {
+            logger.LogError(e, "Failed to schedule next drop");
             delay = 30; // fallback to 30s for next job trigger if calculations failed (grpc error or something)
         }
 
-        var nextJobDelay = delay + 5; // add 2s between each drop (max claim time)
+        var nextJobDelay = delay + 5; // add 2s between each drop (+ max claim time)
         var newTrigger = TriggerBuilder.Create()
             .StartAt(DateTimeOffset.Now.AddSeconds(nextJobDelay))
             .Build();
@@ -95,7 +96,7 @@ public class DropSchedulerJob(
             // no event active
         }
 
-        // calc timeout for dro
+        // calc timeout for drop
         var bounds = await dropsClient.CalculateDropDelayBoundsAsync(new CalculateDelayRequest
         {
             OnlinePlayerCount = playerCount,
