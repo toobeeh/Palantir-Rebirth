@@ -23,7 +23,7 @@ public class DropSchedulerJob(
         "The min delay in seconds until the next drop is scheduled.");
 
     private static readonly Gauge DropDelayMaxSecondsGauge = Metrics.CreateGauge(
-        "typo_drop_delay_min_seconds",
+        "typo_drop_delay_max_seconds",
         "The min delay in seconds until the next drop is scheduled.");
 
     private static readonly Counter ScheduledDropTypeCounter = Metrics.CreateCounter(
