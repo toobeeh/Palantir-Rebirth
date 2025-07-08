@@ -16,11 +16,19 @@ public class DropSchedulerJob(
 {
     private static readonly Gauge DropDelaySecondsGauge = Metrics.CreateGauge(
         "typo_drop_delay_seconds",
-        "The delay in seconds until the next drop is scheduled.",
-        new GaugeConfiguration
-        {
-            LabelNames = new[] { "event_drop_id" }
-        });
+        "The delay in seconds until the next drop is scheduled.");
+
+    private static readonly Gauge DropDelayMinSecondsGauge = Metrics.CreateGauge(
+        "typo_drop_delay_min_seconds",
+        "The min delay in seconds until the next drop is scheduled.");
+
+    private static readonly Gauge DropDelayMaxSecondsGauge = Metrics.CreateGauge(
+        "typo_drop_delay_min_seconds",
+        "The min delay in seconds until the next drop is scheduled.");
+
+    private static readonly Counter ScheduledDropTypeCounter = Metrics.CreateCounter(
+        "typo_drop_type_counter",
+        "The amount of drops scheduled by event drop id.");
 
     public async Task Execute(IJobExecutionContext context)
     {
@@ -105,7 +113,11 @@ public class DropSchedulerJob(
         await dropsClient.ScheduleDropAsync(new ScheduleDropRequest
             { DelaySeconds = randomDelay, EventDropId = eventDropId });
 
-        DropDelaySecondsGauge.WithLabels(eventDropId?.ToString() ?? "0").Set(randomDelay);
+        DropDelaySecondsGauge.Set(randomDelay);
+        DropDelayMinSecondsGauge.Set(bounds.MinDelaySeconds);
+        DropDelayMaxSecondsGauge.Set(bounds.MaxDelaySeconds);
+        ScheduledDropTypeCounter.WithLabels(eventDropId?.ToString() ?? "regular")
+            .Inc();
 
         return randomDelay;
     }

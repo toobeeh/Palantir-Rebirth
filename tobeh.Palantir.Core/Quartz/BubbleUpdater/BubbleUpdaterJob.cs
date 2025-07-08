@@ -22,6 +22,10 @@ public class BubbleUpdaterJob(
         "typo_online_members",
         "The amount of currently online members.");
 
+    private static readonly Gauge BoostFactorGauge = Metrics.CreateGauge(
+        "typo_boost_factor",
+        "The currently active boost factor.");
+
     public async Task Execute(IJobExecutionContext context)
     {
         logger.LogTrace("Execute({context})", context);
@@ -48,5 +52,8 @@ public class BubbleUpdaterJob(
 
         // set online member count gauge
         OnlineMemberCountGauge.Set(lobbyLogins.Count);
+
+        // set boost factor gauge
+        BoostFactorGauge.Set(dropRate.Boost);
     }
 }
