@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Prometheus;
 using Quartz;
 using tobeh.Palantir.Core.Discord;
 using tobeh.Palantir.Core.Patreon;
@@ -27,6 +28,9 @@ public class Program
         var host = CreateHost(args);
         var logger = host.Services.GetRequiredService<ILogger<Program>>();
         logger.LogDebug("Initialized service providers");
+
+        var metricServer = new KestrelMetricServer(port: 9090);
+        metricServer.Start();
 
         await host.RunAsync();
     }

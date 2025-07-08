@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
+using Prometheus;
 using Quartz;
 using tobeh.Palantir.Core.Discord;
 using tobeh.Palantir.Core.Quartz.RoleUpdater;
@@ -17,6 +18,10 @@ public class BubbleUpdaterJob(
     MemberRoleUpdateCollector roleUpdateCollector,
     Lobbies.LobbiesClient lobbiesClient) : IJob
 {
+    private static readonly Gauge OnlineMemberCountGauge = Metrics.CreateGauge(
+        "typo_online_members",
+        "The amount of currently online members.");
+
     public async Task Execute(IJobExecutionContext context)
     {
         logger.LogTrace("Execute({context})", context);
@@ -40,5 +45,8 @@ public class BubbleUpdaterJob(
             { MemberLogins = { lobbyLogins } });
         logger.LogInformation("Added Bubbles for {count} members after {time}ms", lobbyLogins.Count,
             sw.ElapsedMilliseconds);
+
+        // set online member count gauge
+        OnlineMemberCountGauge.Set(lobbyLogins.Count);
     }
 }

@@ -1,6 +1,7 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using Prometheus;
 using Quartz;
 using tobeh.Valmar;
 using tobeh.Valmar.Client.Util;
@@ -13,6 +14,14 @@ public class DropSchedulerJob(
     Drops.DropsClient dropsClient,
     Lobbies.LobbiesClient lobbiesClient) : IJob
 {
+    private static readonly Gauge DropDelaySecondsGauge = Metrics.CreateGauge(
+        "typo_drop_delay_seconds",
+        "The delay in seconds until the next drop is scheduled.",
+        new GaugeConfiguration
+        {
+            LabelNames = new[] { "event_drop_id" }
+        });
+
     public async Task Execute(IJobExecutionContext context)
     {
         logger.LogTrace("Execute({context})", context);
@@ -95,6 +104,8 @@ public class DropSchedulerJob(
             bounds.MinDelaySeconds, bounds.MaxDelaySeconds, randomDelay);
         await dropsClient.ScheduleDropAsync(new ScheduleDropRequest
             { DelaySeconds = randomDelay, EventDropId = eventDropId });
+
+        DropDelaySecondsGauge.WithLabels(eventDropId?.ToString() ?? "0").Set(randomDelay);
 
         return randomDelay;
     }

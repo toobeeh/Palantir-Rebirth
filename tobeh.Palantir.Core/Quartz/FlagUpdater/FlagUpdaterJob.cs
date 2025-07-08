@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
+using Prometheus;
 using Quartz;
 using tobeh.Palantir.Core.Discord;
 using tobeh.Palantir.Core.Patreon;
@@ -18,6 +19,14 @@ public class FlagUpdaterJob(
     MemberRoleUpdateCollector roleUpdateCollector,
     Admin.AdminClient adminClient) : IJob
 {
+    private static readonly Gauge RoleMemberCountGauge = Metrics.CreateGauge(
+        "typo_role_member_count",
+        "The amount of members that have a role.",
+        new GaugeConfiguration
+        {
+            LabelNames = new[] { "role" }
+        });
+
     public async Task Execute(IJobExecutionContext context)
     {
         logger.LogTrace("Execute({context})", context);
@@ -95,5 +104,11 @@ public class FlagUpdaterJob(
         subs.Patrons.ToList().ForEach(roleUpdateCollector.MarkIdForUpdate);
         patronizedMembers.ToList().ForEach(roleUpdateCollector.MarkIdForUpdate);
         subs.Patronizer.ToList().ForEach(roleUpdateCollector.MarkIdForUpdate);
+
+        RoleMemberCountGauge.WithLabels("patron").Set(subs.Patrons.Count + patronizedMembers.Count +
+                                                      subs.Patronizer.Count + temporaryPatronMembers.Count);
+        RoleMemberCountGauge.WithLabels("patronizer").Set(subs.Patronizer.Count);
+        RoleMemberCountGauge.WithLabels("booster").Set(roles.BoostMembers.Count);
+        RoleMemberCountGauge.WithLabels("beta").Set(roles.BetaMembers.Count);
     }
 }
