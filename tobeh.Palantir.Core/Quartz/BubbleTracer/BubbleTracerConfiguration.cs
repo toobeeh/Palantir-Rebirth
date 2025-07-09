@@ -15,8 +15,8 @@ public static class BubbleTracerConfiguration
             .ForJob(jobId)
             .StartNow()
             .WithDailyTimeIntervalSchedule(schedule => schedule
-                .WithIntervalInHours(24)
                 .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(23, 59))
+                .OnEveryDay()
                 .InTimeZone(TimeZoneInfo.Utc)));
     }
 }
