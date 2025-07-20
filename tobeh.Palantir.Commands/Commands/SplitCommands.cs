@@ -197,6 +197,53 @@ public class SplitCommands(
     }
 
     /// <summary>
+    /// Start a new dropboost with smart split distribution.
+    /// If instant cooldown is possible, splits are used for that with highest priority.
+    /// Remaining splits are first put into factor, and the rest into duration.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="startMode">Choose "now" if you want to skip a review of your selected boost</param>
+    /// <exception cref="Exception"></exception>
+    [Command("start"), DefaultGroupCommand, RequirePalantirMember]
+    public async Task StartSmartDropboost(CommandContext context,
+        DropboostStartMode startMode = DropboostStartMode.Check)
+    {
+        logger.LogTrace(
+            "StartDropboost(context, startMode={startMode})", startMode);
+
+        var member = memberContext.Member;
+        var splitsPrices = await splitsClient.GetBoostCostInformationAsync(new Empty());
+        var availableSplits =
+            await splitsClient.GetAvailableSplitsAsync(new GetAvailableSplitsRequest { Login = member.Login });
+
+        var factorSplits = 0;
+        var durationSplits = 0;
+        var cooldownSplits = 0;
+        var remainingSplits = availableSplits.AvailableSplits;
+
+        var requiredSplitsForInstantCooldown = splitsPrices.CooldownSplitCost *
+                                               (7 * 24 / splitsPrices.DefaultCooldownHours);
+
+        // if instant cooldown possible, prefer that
+        if (availableSplits.AvailableSplits >= requiredSplitsForInstantCooldown)
+        {
+            cooldownSplits = requiredSplitsForInstantCooldown;
+            remainingSplits -= cooldownSplits;
+        }
+
+        // give as much factor splits as possible remaining
+        factorSplits = (remainingSplits / splitsPrices.FactorSplitCost) * splitsPrices.FactorSplitCost;
+        remainingSplits -= factorSplits;
+
+        // give as much duration splits as possible remaining
+        durationSplits = (remainingSplits / splitsPrices.DurationSplitCost) * splitsPrices.DurationSplitCost;
+
+        await StartDropboostInteraction(context, member, availableSplits, (uint)factorSplits, (uint)durationSplits,
+            (uint)cooldownSplits,
+            startMode);
+    }
+
+    /// <summary>
     /// Start a new dropboost
     /// </summary>
     /// <param name="context"></param>
