@@ -285,7 +285,7 @@ public class SceneCommands(
             return;
         }
 
-        // check if the credit of the user is sufficient
+        // check if the credit of the user is sufficient during event
         if (scene.EventId is { } eventId)
         {
             var sceneEvent = await eventsClient.GetEventByIdAsync(new GetEventRequest { Id = eventId });
@@ -298,6 +298,15 @@ public class SceneCommands(
 
             if (bubblesCollected < eventScenePrice.Price)
             {
+                if (sceneEvent.EndDate.ToDateTimeOffset() < DateTimeOffset.UtcNow)
+                {
+                    await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
+                        "Event ended",
+                        $"The {sceneEvent.Name} event has ended, so you can no longer collect bubbles to buy the scene {scene.Name} {scene.Id.AsTypoId()}.\n" +
+                        $"FYI: you collected {bubblesCollected} out of {eventScenePrice.Price} required Bubbles during the event!"));
+                    return;
+                }
+
                 await context.RespondAsync(new DiscordEmbedBuilder().WithPalantirErrorPresets(context,
                     "Too few bubbles collected",
                     $"You need to collect {eventScenePrice.Price} Bubbles during the {sceneEvent.Name} event to buy {scene.Name} {scene.Id.AsTypoId()}.\n" +
