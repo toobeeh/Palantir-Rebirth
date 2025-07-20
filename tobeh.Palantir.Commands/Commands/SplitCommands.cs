@@ -222,7 +222,7 @@ public class SplitCommands(
         var remainingSplits = availableSplits.AvailableSplits;
 
         var requiredSplitsForInstantCooldown = splitsPrices.CooldownSplitCost *
-                                               (7 * 24 / splitsPrices.DefaultCooldownHours);
+                                               (7 * 24 / splitsPrices.CooldownIncreaseHours);
 
         // if instant cooldown possible, prefer that
         if (availableSplits.AvailableSplits >= requiredSplitsForInstantCooldown)
