@@ -24,6 +24,7 @@ public class ManagementCommands(
     Sprites.SpritesClient spritesClient,
     Events.EventsClient eventsClient,
     Awards.AwardsClient awardsClient,
+    Scenes.ScenesClient scenesClient,
     Admin.AdminClient adminClient)
 {
     /// <summary>
@@ -160,7 +161,6 @@ public class ManagementCommands(
     /// <param name="sourceUrl">Optional URL of the sprite, if the sprite is not attached</param>
     [Command("newsprite")]
     [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
-    [TextAlias("ns")]
     public async Task AddNewSprite(CommandContext context, string name, uint price, bool rainbow, string? artist = null,
         uint? eventDropId = null, string? sourceUrl = null)
     {
@@ -194,7 +194,7 @@ public class ManagementCommands(
             IsRainbow = rainbow
         });
 
-        await staticFilesClient.AddFileFromBytes(await response.Content.ReadAsByteArrayAsync(), fileName, "gif",
+        await staticFilesClient.WriteFileFromBytes(await response.Content.ReadAsByteArrayAsync(), fileName, "gif",
             eventDropId is null ? FileType.Sprite : FileType.EventSprite);
 
         await context.RespondAsync(new DiscordEmbedBuilder()
@@ -204,6 +204,192 @@ public class ManagementCommands(
             .WithImageUrl(url)
             .WithDescription("This new sprite has been added!\n" +
                              $"You can view it with the command `/sprite view {sprite.Id}`"));
+    }
+
+    /// <summary>
+    /// Update an existing sprite
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="id">The id of the existing sprite</param>
+    /// <param name="name">The new name of the sprite</param>
+    /// <param name="price">The new price in bubbles or event drops</param>
+    /// <param name="rainbow">Whether the sprite is rainbow capable</param>
+    /// <param name="artist">The new artist name of the creator</param>
+    /// <param name="eventDropId">Optional ID of the event drop, if the sprite is part of an event. Cannot be switched between event/regular sprite</param>
+    /// <param name="sourceUrl">Optional URL of the sprite. Can be also attached as file, or not updated at all</param>
+    [Command("updatesprite")]
+    [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
+    public async Task UpdateSprite(CommandContext context, uint id, string name, uint price, bool rainbow,
+        string? artist = null,
+        uint? eventDropId = null, string? sourceUrl = null)
+    {
+        var sprite = await spritesClient.GetSpriteByIdAsync(new GetSpriteRequest { Id = (int)id });
+        var currentFileName = Path.GetFileNameWithoutExtension(new Uri(sprite.Url).LocalPath);
+
+        if ((sprite.EventDropId is not null) != (eventDropId is not null))
+            throw new InvalidOperationException("Cannot add/remove sprite from event. Please request manual change.");
+
+        string? newFileUrl;
+        if (context is TextCommandContext { Message.Attachments.Count: > 0 } ctx)
+        {
+            newFileUrl = ctx.Message.Attachments[0].Url ??
+                         throw new NullReferenceException("Invalid attachment present");
+        }
+        else
+        {
+            newFileUrl = sourceUrl;
+        }
+
+        // update sprite asset if provided, do not update url
+        if (newFileUrl is not null)
+        {
+            var response = await new HttpClient().GetAsync(newFileUrl);
+            if (!response.IsSuccessStatusCode || response.Content.Headers.ContentType?.MediaType != "image/gif")
+                throw new InvalidOperationException("Invalid image");
+
+            await staticFilesClient.WriteFileFromBytes(await response.Content.ReadAsByteArrayAsync(), currentFileName,
+                "gif",
+                eventDropId is null ? FileType.Sprite : FileType.EventSprite, true);
+        }
+
+        var newSprite = await spritesClient.UpdateSpriteAsync(new UpdateSpriteMessage()
+        {
+            Id = sprite.Id,
+            Sprite = new AddSpriteMessage()
+            {
+                Name = name,
+                Artist = artist,
+                EventDropId = (int?)eventDropId,
+                Url = sprite.Url,
+                IsRainbow = rainbow,
+                Cost = (int)price
+            }
+        });
+
+
+        await context.RespondAsync(new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"{newSprite.Id.AsTypoId()} _ _ {newSprite.Name}")
+            .WithAuthor("Sprite update has been shipped!")
+            .WithImageUrl(newSprite.Url)
+            .WithDescription("If the sprite asset has been updated, it can take a while until it is visible.\n" +
+                             $"You can view the sprite with the command `/sprite view {newSprite.Id}`"));
+    }
+
+    /// <summary>
+    /// Add a new scene
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="name">The name of the scene</param>
+    /// <param name="exclusive">Whether the scene can be bought regulary</param>
+    /// <param name="artist">Optional artist name of the creator</param>
+    /// <param name="eventId">Optional ID of the event, if the scene is part of an event</param>
+    /// <param name="sourceUrl">Optional URL of the new scene. Can be also attached as file, or not updated at all</param>
+    [Command("newscene")]
+    [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
+    public async Task AddNewScene(CommandContext context, string name, bool exclusive, string? artist = null,
+        uint? eventId = null, string? sourceUrl = null)
+    {
+        var safeName = Regex.Replace(name, "[^a-zA-Z0-9]", "_");
+        var sceneUrl = $"https://static.typo.rip/scenes/{safeName}.gif";
+
+        string url;
+        if (context is TextCommandContext { Message.Attachments.Count: > 0 } ctx)
+        {
+            url = ctx.Message.Attachments[0].Url ?? throw new NullReferenceException("Invalid attachment present");
+        }
+        else
+        {
+            url = sourceUrl ?? throw new NullReferenceException("No attachment present and no sprite url provided");
+        }
+
+        var response = await new HttpClient().GetAsync(url);
+        if (!response.IsSuccessStatusCode || response.Content.Headers.ContentType?.MediaType != "image/gif")
+            throw new InvalidOperationException("Invalid image");
+
+        var scene = await scenesClient.AddSceneAsync(new SceneSubmissionMessage()
+        {
+            Name = name,
+            Artist = artist,
+            EventId = (int?)eventId,
+            Url = sceneUrl,
+            Exclusive = exclusive
+        });
+
+        await staticFilesClient.WriteFileFromBytes(await response.Content.ReadAsByteArrayAsync(), safeName, "gif",
+            FileType.Scene);
+
+        await context.RespondAsync(new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"{scene.Id.AsTypoId()} _ _ {scene.Name}")
+            .WithAuthor("Looking great!")
+            .WithImageUrl(url)
+            .WithDescription("This new scene has been added!\n" +
+                             $"You can view it with the command `/scene view {scene.Id}`"));
+    }
+
+    /// <summary>
+    /// Update an existing scene
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="id">The id of the existing scene</param>
+    /// <param name="name">The name of the scene</param>
+    /// <param name="exclusive">Whether the scene can be bought regulary</param>
+    /// <param name="artist">Optional artist name of the creator</param>
+    /// <param name="eventId">Optional ID of the event, if the scene is part of an event</param>
+    /// <param name="sourceUrl">Optional URL of the new scene. Can be also attached as file, or not updated at all</param>
+    [Command("updatescene")]
+    [RequirePalantirMember(MemberFlagMessage.ContentModerator)]
+    public async Task UpdateScene(CommandContext context, uint id, string name, bool exclusive, string? artist = null,
+        uint? eventId = null, string? sourceUrl = null)
+    {
+        var scene = await scenesClient.GetSceneByIdAsync(new GetSceneRequest { Id = (int)id });
+        var currentFileName = Path.GetFileNameWithoutExtension(new Uri(scene.Url).LocalPath);
+
+        string? newFileUrl;
+        if (context is TextCommandContext { Message.Attachments.Count: > 0 } ctx)
+        {
+            newFileUrl = ctx.Message.Attachments[0].Url ??
+                         throw new NullReferenceException("Invalid attachment present");
+        }
+        else
+        {
+            newFileUrl = sourceUrl;
+        }
+
+        // update scene asset if provided, do not update url
+        if (newFileUrl is not null)
+        {
+            var response = await new HttpClient().GetAsync(newFileUrl);
+            if (!response.IsSuccessStatusCode || response.Content.Headers.ContentType?.MediaType != "image/gif")
+                throw new InvalidOperationException("Invalid image");
+
+            await staticFilesClient.WriteFileFromBytes(await response.Content.ReadAsByteArrayAsync(), currentFileName,
+                "gif",
+                FileType.Scene, true);
+        }
+
+        var newScene = await scenesClient.UpdateSceneAsync(new UpdateSceneMessage()
+        {
+            Id = scene.Id,
+            Scene = new SceneSubmissionMessage()
+            {
+                Name = name,
+                Artist = artist,
+                EventId = (int?)eventId,
+                Url = scene.Url,
+                Exclusive = exclusive
+            }
+        });
+
+
+        await context.RespondAsync(new DiscordEmbedBuilder()
+            .WithPalantirPresets(context)
+            .WithTitle($"{newScene.Id.AsTypoId()} _ _ {newScene.Name}")
+            .WithAuthor("Scene update has been shipped!")
+            .WithImageUrl(newScene.Url)
+            .WithDescription("If the scene asset has been updated, it can take a while until it is visible.\n" +
+                             $"You can view the scene with the command `/scene view {newScene.Id}`"));
     }
 
     /// <summary>
@@ -286,7 +472,7 @@ public class ManagementCommands(
             EventId = eventId
         });
 
-        await staticFilesClient.AddFileFromBytes(await response.Content.ReadAsByteArrayAsync(), fileName, "gif",
+        await staticFilesClient.WriteFileFromBytes(await response.Content.ReadAsByteArrayAsync(), fileName, "gif",
             FileType.Drop);
 
         await context.RespondAsync(new DiscordEmbedBuilder()
@@ -337,7 +523,7 @@ public class ManagementCommands(
             Description = description
         });
 
-        await staticFilesClient.AddFileFromBytes(await response.Content.ReadAsByteArrayAsync(), safeName, "gif",
+        await staticFilesClient.WriteFileFromBytes(await response.Content.ReadAsByteArrayAsync(), safeName, "gif",
             FileType.Award);
 
         await context.RespondAsync(new DiscordEmbedBuilder()
