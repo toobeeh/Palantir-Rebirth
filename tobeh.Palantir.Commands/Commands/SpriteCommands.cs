@@ -348,8 +348,9 @@ public class SpriteCommands(
         {
             await context.RespondAsync(new DiscordEmbedBuilder()
                 .WithPalantirErrorPresets(context, "Slot not unlocked",
-                    $"You need to unlock more sprite slots to use {sprite?.Name ?? "sprites"} {sprite?.Id.AsTypoId() ?? ""} on slot {slot} ({slotCount.UnlockedSlots} slot(s) available).\n" +
-                    $"For each 1000 drops, you unlock an additional slot.\n" +
+                    $"You need to unlock more sprite slots to use {sprite?.Name ?? "sprites"} {sprite?.Id.AsTypoId() ?? ""} on slot {slot}." +
+                    $"Currently, you have unlocked {slotCount.UnlockedSlots} slot(s).\n" +
+                    $"Additional slots can be unlocked by accumulating Drops, starting at 1000. (Drops until your next slot: {slotCount.DropsUntilNextSlot})\n" +
                     $"{"Patrons".AsTypoLink("https://www.patreon.com/skribbltypo", "🩵")} get one slot on top."));
             return;
         }
