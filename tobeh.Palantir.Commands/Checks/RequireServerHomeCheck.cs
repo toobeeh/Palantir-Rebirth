@@ -28,7 +28,6 @@ public class RequireServerHomeCheck(ServerHomeContext serverContext, Guilds.Guil
                     { GuildId = (long)guildIdValue });
                 serverContext.Server = server;
             }
-            else server = serverContext.Server;
         }
         catch
         {
