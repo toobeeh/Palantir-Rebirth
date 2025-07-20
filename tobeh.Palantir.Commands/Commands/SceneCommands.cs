@@ -88,7 +88,7 @@ public class SceneCommands(
 
         var embed = new DiscordEmbedBuilder()
             .WithPalantirPresets(context)
-            .WithAuthor($"Viewing {userScenes.Count} scenes")
+            .WithAuthor($"Viewing {userScenes.Select(scene => scene.Themes.Count + 1).Sum()} scenes")
             .WithTitle("Scene Inventory");
 
         embed.AddField("Total worth:", $"`🫧` {priceInformation.TotalBubblesSpent} Bubbles");

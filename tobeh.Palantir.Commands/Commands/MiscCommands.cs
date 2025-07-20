@@ -112,7 +112,7 @@ public class MiscCommands(
         var splitsAvailableCount = splitRewards.Where(split => !split.Expired)
             .Sum(reward => reward.ValueOverride ?? reward.Split.Value);
         embed.AddField("Collections",
-            $"```asciidoc\n- {spriteInv.Count} sprites\n- {sceneInv.Scenes.Count(scene => scene.SceneShift is null)} scenes\n- {awardInv.ReceivedAwards.Count} awards\n- {splitsAvailableCount} splits ({splitsTotalCount} total)\n- {spriteSlotCount.UnlockedSlots} slots unlocked\n```",
+            $"```asciidoc\n- {spriteInv.Count} sprites\n- {sceneInv.Scenes.Count} scenes\n- {awardInv.ReceivedAwards.Count} awards\n- {splitsAvailableCount} splits ({splitsTotalCount} total)\n- {spriteSlotCount.UnlockedSlots} slots unlocked\n```",
             true);
 
         // field as spacer
