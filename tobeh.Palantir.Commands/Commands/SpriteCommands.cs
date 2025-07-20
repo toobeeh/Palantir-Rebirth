@@ -46,6 +46,24 @@ public class SpriteCommands(
         var inventory = await inventoryClient.GetSpriteInventory(new GetSpriteInventoryRequest { Login = member.Login })
             .ToListAsync();
 
+        if (inventory.Count == 0)
+        {
+            var embed = new DiscordEmbedBuilder()
+                .WithPalantirPresets(context)
+                .WithAuthor(
+                    $"Viewing sprites 0 of 0 :(")
+                .WithDescription("You don't own any sprites yet! " +
+                                 $"Buy some with `/sprite buy <id>` or visit {"the sprites listing".AsTypoLink("https://www.typo.rip/tools/sprites", "🧾")} to get inspired!")
+                .WithTitle("Sprite Inventory");
+
+            embed.AddField("Total worth:", "`🫧` 0 Bubbles");
+            embed.AddField("Event sprites:", "`🎟️` 0 Sprites collected");
+            embed.AddField("Uniqueness:", "`💎` Buy some sprites to get an uniqueness score!");
+
+            await context.RespondAsync(embed.Build());
+            return;
+        }
+
         // get all sprites, likely more performance than each individually
         var sprites = await spritesClient.GetAllSprites(new Empty()).ToDictionaryAsync(sprite => sprite.Id);
         var ranks = await spritesClient.GetSpriteRanking(new Empty()).ToListAsync();

@@ -43,6 +43,25 @@ public class SceneCommands(
         var inventory =
             await inventoryClient.GetSceneInventoryAsync(new GetSceneInventoryRequest { Login = member.Login });
 
+        if (inventory.Scenes.Count == 0)
+        {
+            var emptyEmbed = new DiscordEmbedBuilder()
+                .WithPalantirPresets(context)
+                .WithAuthor(
+                    $"Viewing scenes 0 of 0 :(")
+                .WithDescription("You don't own any scenes yet! " +
+                                 $"Buy some with `/scene buy <id>` or visit {"the scenes listing".AsTypoLink("https://www.typo.rip/tools/scenes", "🧾")} to get inspired!")
+                .WithTitle("Scene Inventory");
+
+            emptyEmbed.AddField("Total worth:", "`🫧` 0 Bubbles");
+            emptyEmbed.AddField("Event scenes:", "`🎟️` 0 Scenes collected");
+            emptyEmbed.AddField("Uniqueness:",
+                "`💎` Buy some scenes to get an uniqueness score!");
+
+            await context.RespondAsync(emptyEmbed.Build());
+            return;
+        }
+
         // get all scenes, likely more performance than each individually
         var scenes = await scenesClient.GetAllScenes(new Empty()).ToListAsync();
         var sceneThemes = await scenesClient.GetAllSceneThemes(new Empty()).ToListAsync();
