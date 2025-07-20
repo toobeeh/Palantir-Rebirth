@@ -204,7 +204,7 @@ public class SplitCommands(
     /// <param name="context"></param>
     /// <param name="startMode">Choose "now" if you want to skip a review of your selected boost</param>
     /// <exception cref="Exception"></exception>
-    [Command("start"), DefaultGroupCommand, RequirePalantirMember]
+    [Command("smart"), RequirePalantirMember]
     public async Task StartSmartDropboost(CommandContext context,
         DropboostStartMode startMode = DropboostStartMode.Check)
     {
