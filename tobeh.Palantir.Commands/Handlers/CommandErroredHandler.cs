@@ -35,6 +35,12 @@ public static class CommandErroredHandler
                             .Select(c => $"- `/{c.Command}` {c.Description}")));
                 break;
 
+            case RpcException re when re.StatusCode == StatusCode.Unavailable:
+                embedBuilder.WithTitle($"Server maintenance!");
+                embedBuilder.WithDescription(
+                    $"The server is currently undergoing maintenance. Please try again in a few minutes.");
+                break;
+
             case RpcException re:
                 embedBuilder.WithTitle($"Something broke during command execution:");
                 embedBuilder.WithDescription(

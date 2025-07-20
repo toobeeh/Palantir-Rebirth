@@ -1,5 +1,6 @@
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.ContextChecks;
+using Grpc.Core;
 using tobeh.Valmar;
 
 namespace tobeh.Palantir.Commands.Checks;
@@ -24,6 +25,10 @@ public class RequirePalantirMemberCheck(MemberContext memberContext, Members.Mem
                 memberContext.Member = member;
             }
             else member = memberContext.Member;
+        }
+        catch (RpcException e) when (e.StatusCode == StatusCode.Unavailable)
+        {
+            return "**Server maintenance!** Please try again in a few minutes.";
         }
         catch
         {
