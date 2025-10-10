@@ -33,6 +33,7 @@ public class WebhookCommands(
     public async Task AddWebhook(CommandContext context, DiscordChannel channel, [RemainingText] string name)
     {
         logger.LogTrace("AddWebhook(name={name}, channel={channel})", name, channel);
+        context.EnsurePermissions();
 
         var webhook = await channel.CreateWebhookAsync($"Typo Image Post '{name}'");
 
@@ -63,6 +64,7 @@ public class WebhookCommands(
     public async Task RemoveWebhook(CommandContext context, [RemainingText] string name)
     {
         logger.LogTrace("RemoveWebhook(name={name})", name);
+        context.EnsurePermissions();
 
         var imagePosts = await guildsClient
             .GetGuildWebhooks(new GetGuildWebhooksMessage { GuildId = (long)context.Guild!.Id })
@@ -103,6 +105,7 @@ public class WebhookCommands(
     public async Task ListWebhooks(CommandContext context)
     {
         logger.LogTrace("ListWebhooks()");
+        context.EnsurePermissions();
 
         var imagePosts = await guildsClient
             .GetGuildWebhooks(new GetGuildWebhooksMessage { GuildId = (long)context.Guild!.Id })

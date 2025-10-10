@@ -35,6 +35,7 @@ public class ServerCommands(
     public async Task SetPrefix(CommandContext context, string prefix)
     {
         logger.LogTrace("SetPrefix(prefix={prefix})", prefix);
+        context.EnsurePermissions();
 
         if (string.IsNullOrWhiteSpace(prefix))
         {
@@ -67,6 +68,7 @@ public class ServerCommands(
     public async Task SetBotName(CommandContext context, string? name = null)
     {
         logger.LogTrace("SetBotName(name={name})", name);
+        context.EnsurePermissions();
 
         if (name?.Length is 0 or > 20)
         {
@@ -100,6 +102,7 @@ public class ServerCommands(
     public async Task SetLobbyChannel(CommandContext context, DiscordChannel? channel = null)
     {
         logger.LogTrace("SetLobbyChannel(channel={channel})", channel);
+        context.EnsurePermissions();
 
         var currentOptions = serverHomeContext.Server;
 
@@ -314,6 +317,7 @@ public class ServerCommands(
     public async Task BanMember(CommandContext context, long userId)
     {
         logger.LogTrace("BanMember(userId={userId})", userId);
+        context.EnsurePermissions();
 
         var currentOptions = serverHomeContext.Server;
         var bannedMembers = await guildsClient
@@ -354,6 +358,7 @@ public class ServerCommands(
     public async Task UnbanMember(CommandContext context, long userId)
     {
         logger.LogTrace("UnbanMember(userId={userId})", userId);
+        context.EnsurePermissions();
 
         var currentOptions = serverHomeContext.Server;
         var bannedMembers = await guildsClient
@@ -395,6 +400,7 @@ public class ServerCommands(
     public async Task UseLinkProtection(CommandContext context, bool protectEnabled)
     {
         logger.LogTrace("UseLinkProtectionMember(protectEnabled={protectEnabled})", protectEnabled);
+        context.EnsurePermissions();
 
         var currentOptions = serverHomeContext.Server;
 
@@ -423,6 +429,7 @@ public class ServerCommands(
     public async Task ShowInviteLink(CommandContext context, bool showConnect)
     {
         logger.LogTrace("UseLinkProtectionMember(showConnect={showConnect})", showConnect);
+        context.EnsurePermissions();
 
         var currentOptions = serverHomeContext.Server;
 
