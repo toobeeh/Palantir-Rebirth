@@ -177,7 +177,7 @@ public class ServerCommands(
             .AddField("Invite visibility",
                 $"`📨` The server invite link is `{(currentOptions.ShowInvite ? "visible" : "hidden")}`.")
             .AddField("Lobby Link protection",
-                $"`📨` Lobby invite links are `{(currentOptions.ProxyLinks ? "protected" : "public")}`.");
+                $"`🗝️` Lobby invite links are `{(currentOptions.ProxyLinks ? "protected" : "public")}`.");
 
         if (webhooks.Count > 0)
         {
@@ -202,6 +202,29 @@ public class ServerCommands(
                     string.Join("\n",
                         postsWithChannel.Select(post =>
                             $"- `{post.Post.Name}` in {(post.Webhook is null ? "`⚠️ Corrupted`" : $"<#{post.Webhook.ChannelId}>")}")));
+            }
+        }
+
+        if (currentOptions.AnnouncementsWebhook is { } webhook)
+        {
+            IReadOnlyList<DiscordWebhook>? serverWebhooks = null;
+            try
+            {
+                serverWebhooks = await context.Guild!.GetWebhooksAsync();
+            }
+            catch (UnauthorizedException)
+            {
+                embed.AddField("Typo Announcements",
+                    "⚠️ Palantir requires manage webhook permission to manage the announcement channel.");
+            }
+
+            if (serverWebhooks is not null)
+            {
+                var announcementWebhook = serverWebhooks
+                    .FirstOrDefault(hook => hook.Url == webhook);
+
+                embed.AddField("Typo Announcements",
+                    $"`🗝📢` League results and other announcements are published to {(announcementWebhook is null ? "`⚠️ Corrupted`" : $"<#{announcementWebhook.ChannelId}>")}.");
             }
         }
 
@@ -444,6 +467,42 @@ public class ServerCommands(
                 $"The connection link is now {(showConnect ? "visible" : "hidden")}.\n" +
                 $"When the link is invisible, it will not be shown in the lobby message, and connection to the server is only possible through the `/server connect` command.\n" +
                 "This prevents that players with throwaway accounts can join the server and grab lobby links.");
+
+        await context.RespondAsync(embed);
+    }
+
+    /// <summary>
+    /// Sets the channel where to post announcements like league results.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="channel">The channel where the announcements will be posted</param>
+    [Command("announcements"), RequireGuild, RequireServerHome,
+     RequirePermissions([DiscordPermission.ManageWebhooks], [DiscordPermission.Administrator])]
+    public async Task SetAnnouncementsChannel(CommandContext context, DiscordChannel? channel = null)
+    {
+        logger.LogTrace("SetAnnouncementsChannel(channel={channel})", channel);
+        context.EnsurePermissions();
+
+        var currentOptions = serverHomeContext.Server;
+        var webhook = channel is null ? null : await channel.CreateWebhookAsync($"Typo Announcements Channel");
+
+        currentOptions.AnnouncementsWebhook = webhook?.Url;
+        await guildsClient.SetGuildOptionsAsync(currentOptions);
+
+
+        var embed = new DiscordEmbedBuilder()
+            .WithPalantirPresets(context);
+
+        if (webhook is not null)
+        {
+            embed.WithDescription($"Announcements like League evaluations will now appear in {channel?.Mention}.\n" +
+                                  "To unsubscribe, use the command `/server announcements`.");
+        }
+        else
+        {
+            embed.WithDescription($"Announcements are now disabled.\n" +
+                                  "To enable subscribe again, use the command `/server announcements <#channel>`.");
+        }
 
         await context.RespondAsync(embed);
     }
