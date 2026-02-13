@@ -179,6 +179,29 @@ public class ServerCommands(
             .AddField("Lobby Link protection",
                 $"`🗝️` Lobby invite links are `{(currentOptions.ProxyLinks ? "protected" : "public")}`.");
 
+        if (currentOptions.AnnouncementsWebhook is { } webhook)
+        {
+            IReadOnlyList<DiscordWebhook>? serverWebhooks = null;
+            try
+            {
+                serverWebhooks = await context.Guild!.GetWebhooksAsync();
+            }
+            catch (UnauthorizedException)
+            {
+                embed.AddField("Typo Announcements",
+                    "⚠️ Palantir requires manage webhook permission to manage the announcement channel.");
+            }
+
+            if (serverWebhooks is not null)
+            {
+                var announcementWebhook = serverWebhooks
+                    .FirstOrDefault(hook => hook.Url == webhook);
+
+                embed.AddField("Typo Announcements",
+                    $"`📢` League results and other announcements are published to {(announcementWebhook is null ? "`⚠️ Corrupted`" : $"<#{announcementWebhook.ChannelId}>")}.");
+            }
+        }
+
         if (webhooks.Count > 0)
         {
             IReadOnlyList<DiscordWebhook>? serverWebhooks = null;
@@ -202,29 +225,6 @@ public class ServerCommands(
                     string.Join("\n",
                         postsWithChannel.Select(post =>
                             $"- `{post.Post.Name}` in {(post.Webhook is null ? "`⚠️ Corrupted`" : $"<#{post.Webhook.ChannelId}>")}")));
-            }
-        }
-
-        if (currentOptions.AnnouncementsWebhook is { } webhook)
-        {
-            IReadOnlyList<DiscordWebhook>? serverWebhooks = null;
-            try
-            {
-                serverWebhooks = await context.Guild!.GetWebhooksAsync();
-            }
-            catch (UnauthorizedException)
-            {
-                embed.AddField("Typo Announcements",
-                    "⚠️ Palantir requires manage webhook permission to manage the announcement channel.");
-            }
-
-            if (serverWebhooks is not null)
-            {
-                var announcementWebhook = serverWebhooks
-                    .FirstOrDefault(hook => hook.Url == webhook);
-
-                embed.AddField("Typo Announcements",
-                    $"`🗝📢` League results and other announcements are published to {(announcementWebhook is null ? "`⚠️ Corrupted`" : $"<#{announcementWebhook.ChannelId}>")}.");
             }
         }
 
