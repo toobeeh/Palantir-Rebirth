@@ -6,23 +6,26 @@ namespace tobeh.Palantir.Commands.Extensions;
 
 public static class EmbedBuilderExtensions
 {
-    public static DiscordEmbedBuilder WithPalantirPresets(this DiscordEmbedBuilder builder, CommandContext context)
+    public static DiscordEmbedBuilder WithPalantirPresets(this DiscordEmbedBuilder builder, CommandContext? context)
     {
-        var name = context.Member?.DisplayName ?? context.User.Username;
+        var name = context?.Member?.DisplayName ?? context?.User.Username;
 
-        string? akaPalantir;
-        try
+        string? akaPalantir = null;
+        if (context is not null)
         {
-            var memberContext = context.ServiceProvider.GetRequiredService<MemberContext>();
-            akaPalantir = memberContext.Member.Username == name ? null : $" (👤 {memberContext.Member.Username})";
-        }
-        catch
-        {
-            akaPalantir = null;
+            try
+            {
+                var memberContext = context.ServiceProvider.GetRequiredService<MemberContext>();
+                akaPalantir = memberContext.Member.Username == name ? null : $" (👤 {memberContext.Member.Username})";
+            }
+            catch
+            {
+                akaPalantir = null;
+            }
         }
 
         builder.WithColor(DiscordColor.CornflowerBlue);
-        builder.WithFooter($"{name}{akaPalantir}", "https://i.imgur.com/Smt9vsr.png");
+        builder.WithFooter($"{name ?? " "}{akaPalantir}", "https://i.imgur.com/Smt9vsr.png");
         builder.WithTimestamp(DateTimeOffset.Now);
         return builder;
     }

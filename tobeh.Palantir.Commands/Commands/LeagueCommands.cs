@@ -261,11 +261,16 @@ public class LeagueCommands(
                 $"  Ø {"Weight",6} " +
                 $" {"Streak",6} ";
             var rankText = page.Ranks.Select((rnk, index) =>
-                    $"{rankStart + index,3} " +
-                    $" {rnk.Name.Replace("_", "⎽").Replace("*", "*"),22} " +
-                    $" {rnk.Score,7:0.#} " +
-                    $" {season.WeightRanking.First(subrnk => subrnk.UserId == rnk.UserId).AverageWeight * 100,6:0}% " +
-                    $" {season.StreakRanking.First(subrnk => subrnk.UserId == rnk.UserId).MaxStreak,6} ")
+                {
+                    var weight = season.WeightRanking.FirstOrDefault(subrnk => subrnk.UserId == rnk.UserId)
+                        ?.AverageWeight;
+                    var streak = season.StreakRanking.First(subrnk => subrnk.UserId == rnk.UserId).MaxStreak;
+                    return $"{rankStart + index,3} " +
+                           $" {rnk.Name.Replace("_", "⎽").Replace("*", "*"),22} " +
+                           $" {rnk.Score,7:0.#} " +
+                           (weight != null ? $" {weight * 100,6:0}% " : $"{"",9}") +
+                           $" {streak,6} ";
+                })
                 .ToList();
 
             embedBuilder.WithDescription(
@@ -275,5 +280,43 @@ public class LeagueCommands(
         }).ToList();
 
         await context.RespondPalantirPaginationAsync(pages);
+    }
+
+    /// <summary>
+    /// View the league results of a season
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="seasonMonth">The month (1-12) of the season</param>
+    /// <param name="seasonYear">The year (eg 2023) of the season</param>
+    /// <exception cref="Exception"></exception>
+    [Command("rewards"), TextAlias("rw")]
+    public async Task ViewSeasonRewards(CommandContext context, int? seasonMonth = null, int? seasonYear = null)
+    {
+        logger.LogTrace("ViewSeasonRewards(context, {seasonMonth}, {seasonYear})", seasonMonth, seasonYear);
+
+        var currentMonth = seasonMonth ?? DateTimeOffset.UtcNow.Month;
+        var currentYear = seasonYear ?? DateTimeOffset.UtcNow.Year;
+
+        var season = await leaguesClient.EvaluateLeagueSeasonSplitsAsync(new EvaluateSeasonRequest
+        {
+            Month = currentMonth,
+            Year = currentYear
+        });
+
+        var embed = BuildLeagueSplitsEmbed(season, context);
+        await context.RespondAsync(embed);
+    }
+
+    public static DiscordEmbedBuilder BuildLeagueSplitsEmbed(LeagueSeasonSplitEvaluationReply season,
+        CommandContext? context)
+    {
+        var builder = new DiscordEmbedBuilder().WithPalantirPresets(context);
+
+        builder.WithTitle($"{season.SeasonStart.ToDateTimeOffset():MMMM yyyy} Season Rewards");
+        builder.WithAuthor(season.SeasonEnd.ToDateTimeOffset() < DateTimeOffset.Now
+            ? "Viewing the league results of a past season"
+            : "Viewing the provisional league results of this season");
+
+        return builder;
     }
 }

@@ -10,6 +10,7 @@ using tobeh.Palantir.Core.Quartz.BubbleTracer;
 using tobeh.Palantir.Core.Quartz.BubbleUpdater;
 using tobeh.Palantir.Core.Quartz.DropScheduler;
 using tobeh.Palantir.Core.Quartz.FlagUpdater;
+using tobeh.Palantir.Core.Quartz.LeagueEvaluater;
 using tobeh.Palantir.Core.Quartz.OnlineItemsUpdater;
 using tobeh.Palantir.Core.Quartz.RoleUpdater;
 using tobeh.Palantir.Core.Quartz.VolatileDataClearer;
@@ -58,6 +59,7 @@ public class Program
             .AddQuartz(OnlineItemsUpdaterConfiguration.Configure)
             .AddQuartz(FlagUpdaterConfiguration.Configure)
             .AddQuartz(BubbleTracerConfiguration.Configure)
+            .AddQuartz(LeagueEvaluaterConfiguration.Configure)
             .AddQuartz(BubbleUpdaterConfiguration.Configure)
             .AddQuartz(VolatileDataClearerConfiguration.Configure)
             .AddQuartz(DropSchedulerConfiguration.Configure)
