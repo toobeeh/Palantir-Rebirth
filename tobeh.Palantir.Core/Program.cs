@@ -64,7 +64,6 @@ public class Program
             .AddQuartz(VolatileDataClearerConfiguration.Configure)
             .AddQuartz(DropSchedulerConfiguration.Configure)
             .AddQuartz(RoleUpdaterConfiguration.Configure)
-            .AddQuartz(LeagueEvaluaterConfiguration.Configure)
             .AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; })
             .BuildServiceProvider();
 
