@@ -484,7 +484,7 @@ public class ServerCommands(
         context.EnsurePermissions();
 
         var currentOptions = serverHomeContext.Server;
-        var webhook = channel is null ? null : await channel.CreateWebhookAsync($"Typo Announcements Channel");
+        var webhook = channel is null ? null : await channel.CreateWebhookAsync($"Typo Announcements");
 
         currentOptions.AnnouncementsWebhook = webhook?.Url;
         await guildsClient.SetGuildOptionsAsync(currentOptions);

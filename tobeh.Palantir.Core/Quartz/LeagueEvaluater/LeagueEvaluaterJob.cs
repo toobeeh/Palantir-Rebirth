@@ -43,13 +43,13 @@ public class LeagueEvaluaterJob(
         foreach (var result in eval.Evaluation)
         {
             var member = await membersClient.GetMemberByDiscordIdAsync(new() { Id = result.UserId });
-            /*await splitsClient.RewardSplitAsync(new()
+            await splitsClient.RewardSplitAsync(new()
             {
                 RewardeeLogin = member.Login,
                 Comment = result.Comment,
                 SplitId = split.Id,
                 ValueOverride = Convert.ToInt32(result.Splits)
-            });*/
+            });
         }
 
         /* send result message to servers with channel set */

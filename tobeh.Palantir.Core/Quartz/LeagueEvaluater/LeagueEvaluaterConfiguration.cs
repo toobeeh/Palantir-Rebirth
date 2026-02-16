@@ -11,17 +11,11 @@ public static class LeagueEvaluaterConfiguration
         configurator.AddJob<LeagueEvaluaterJob>(job => job
             .WithIdentity(jobId));
 
-        /*configurator.AddTrigger(trigger => trigger
+        configurator.AddTrigger(trigger => trigger
             .ForJob(jobId)
             .StartNow()
             .WithSchedule(
                 CronScheduleBuilder.MonthlyOnDayAndHourAndMinute(1, 0, 1).InTimeZone(TimeZoneInfo.Utc)
-            ));*/
-
-
-        configurator.AddTrigger(trigger => trigger
-            .ForJob(jobId)
-            .StartNow()
-            .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(30).RepeatForever()));
+            ));
     }
 }
