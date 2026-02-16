@@ -1,5 +1,4 @@
 using Quartz;
-using tobeh.Palantir.Core.Quartz.BubbleTracer;
 
 namespace tobeh.Palantir.Core.Quartz.LeagueEvaluater;
 
@@ -9,7 +8,7 @@ public static class LeagueEvaluaterConfiguration
     {
         var jobId = new JobKey($"League Evaluater");
 
-        configurator.AddJob<BubbleTracerJob>(job => job
+        configurator.AddJob<LeagueEvaluaterJob>(job => job
             .WithIdentity(jobId));
 
         /*configurator.AddTrigger(trigger => trigger
