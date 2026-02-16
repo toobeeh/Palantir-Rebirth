@@ -317,6 +317,31 @@ public class LeagueCommands(
             ? "Viewing the league results of a past season"
             : "Viewing the provisional league results of this season");
 
+
+        /*foreach (var chunk in season.Evaluation.Chunk(5))
+        {
+            var content = chunk.Select(member => $"➜ **{member.Name}**: {member.Splits} splits\n`⚡ {member.Comment}`");
+            builder.AddField("_ _",
+                string.Join("\n", content));
+        }*/
+
+        var rankHeader =
+            Formatter.Colorize($" #   {"Name",21}  {"Splits",9} ", AnsiColor.Cyan, AnsiColor.Bold);
+        var rankText = season.Evaluation.Select((rnk, index) =>
+                Formatter.Colorize($"{1 + index,2} " +
+                                   $" {rnk.Name.Replace("_", "⎽").Replace("*", "*"),22} " +
+                                   $" {rnk.Splits,7:0.#} ", AnsiColor.White) +
+                Formatter.Colorize($"\n {"",2} {rnk.Comment,6}", AnsiColor.Black)
+            )
+            .ToList();
+
+
+        builder.WithDescription(
+            "Rewards are given for the `Overall Ranking` (#1-20) and the `Average Weight` & `Drop Count` categories (#1-3).\n" +
+            "The overall leader cannot participate in categories, but receives extra 4 splits (`League Champion`), if leading in all categories.\n" +
+            "You can view all your splits using `/boost inventory`.\n" +
+            $"```ansi\n{rankHeader}\n{string.Join("\n", rankText)}\n```");
+
         return builder;
     }
 }

@@ -1,4 +1,5 @@
 using DSharpPlus;
+using DSharpPlus.Entities;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using Quartz;
@@ -42,27 +43,38 @@ public class LeagueEvaluaterJob(
         foreach (var result in eval.Evaluation)
         {
             var member = await membersClient.GetMemberByDiscordIdAsync(new() { Id = result.UserId });
-            await splitsClient.RewardSplitAsync(new()
+            /*await splitsClient.RewardSplitAsync(new()
             {
                 RewardeeLogin = member.Login,
                 Comment = result.Comment,
                 SplitId = split.Id,
                 ValueOverride = Convert.ToInt32(result.Splits)
-            });
+            });*/
         }
 
-        /* send result message */
+        /* send result message to servers with channel set */
         var homeServers = await guildsClient.GetValidGuilds(new Empty()).ToListAsync();
 
         var client = new DiscordWebhookClient();
+        var embed = LeagueCommands.BuildLeagueSplitsEmbed(eval, null);
+        var webhook = new DiscordWebhookBuilder().AddEmbed(embed);
         foreach (var homeServer in homeServers)
         {
             var options = await guildsClient.GetGuildOptionsByIdAsync(new GetGuildOptionsByIdMessage
                 { GuildId = homeServer.GuildId });
             if (options.AnnouncementsWebhook is { } webhookUrl)
             {
-                var guildWebhook = await client.AddWebhookAsync(new Uri(webhookUrl));
-                var embed = LeagueCommands.BuildLeagueSplitsEmbed(eval, null);
+                try
+                {
+                    var guildWebhook = await client.AddWebhookAsync(new Uri(webhookUrl));
+                    await guildWebhook.ExecuteAsync(webhook);
+                }
+                catch (Exception e)
+                {
+                    logger.LogError(e,
+                        "Failed to send league splits announcement to guild {GuildId} with webhook {WebhookUrl}",
+                        homeServer.GuildId, webhookUrl);
+                }
             }
         }
     }
